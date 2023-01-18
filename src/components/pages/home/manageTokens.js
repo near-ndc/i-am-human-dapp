@@ -86,26 +86,25 @@ export const ManageVerifiedHuman = () => {
   );
 
   const mintTokens = async (metadata = {}) => {
-    toast.success("Minted is under progress !");
-    // try {
-    //   setIsButtonLoading((d) => ({ ...d, mint: true }));
-    //   await wallet.callMethod({
-    //     contractId: 'community-sbt-1.i-am-human.testnet',
-    //     method: "sbt_mint",
-    //     args: {
-    //       receiver: input,
-    //       metadata: metadata,
-    //     },
-    //   });
-    //   checkTokens({ hideMessage: true });
-    //   toast.success("Minted SBT successfully !");
-    // } catch (e) {
-    //   console.log(e);
-    //   toast.error("An error occured while minting");
-    // } finally {
-    //   setMintModalOpen(false);
-    //   setIsButtonLoading((d) => ({ ...d, mint: false }));
-    // }
+    try {
+      setIsButtonLoading((d) => ({ ...d, mint: true }));
+      await wallet.callMethod({
+        contractId: 'community-sbt-1.i-am-human.testnet',
+        method: "sbt_mint",
+        args: {
+          receiver: input,
+          metadata: metadata,
+        },
+      });
+      checkTokens({ hideMessage: true });
+      toast.success("Minted SBT successfully !");
+    } catch (e) {
+      console.log(e);
+      toast.error("An error occured while minting");
+    } finally {
+      setMintModalOpen(false);
+      setIsButtonLoading((d) => ({ ...d, mint: false }));
+    }
   };
 
   const revokeTokens = async () => {

@@ -38,12 +38,14 @@ export const Home = () => {
         isOpen={isDonatePanelOpen}
         closeModal={() => setIsDonatePanelOpen(false)}
       />
-      <button
-        onClick={() => setIsDonatePanelOpen(true)}
-        className="bg-blue-600 text-white rounded shadow-lg font-medium w-[fit-content] text-xs p-4 absolute bottom-2 right-2"
-      >
-        Donate to this awesome initiative
-      </button>
+      <div className="w-screen text-center py-4">
+        <button
+          onClick={() => setIsDonatePanelOpen(true)}
+          className="bg-blue-600 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-xs p-4 md:absolute md:bottom-2 md:right-2"
+        >
+          Donate to this awesome initiative
+        </button>
+      </div>
     </>
   );
 };

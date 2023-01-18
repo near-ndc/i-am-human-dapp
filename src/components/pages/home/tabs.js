@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { GiToken } from "react-icons/gi";
 
 import { ManageAdmin } from "./manageAdmin";
@@ -7,7 +7,7 @@ import { CheckSbtTokenStatus } from "./myOwnSbt";
 import { Gooddollar } from "./Gooddollar";
 
 export const Tabs = ({ isAdmin }) => {
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = React.useState("My own SBT");
 
   const tabs = useMemo(
     () => [
@@ -73,13 +73,16 @@ export const Tabs = ({ isAdmin }) => {
     [isAdmin, activeTab]
   );
 
+  const [isdone, setIsDone] = useState(false);
+
   useEffect(() => {
-    if (window.location.href.includes("login")) {
-      setActiveTab(
-        tabs.findIndex((item) => item.name === "Login With Gooddollar")
-      );
+    if (window.location.href.includes("login") && !isdone) {
+      setActiveTab(() => {
+        setIsDone(true);
+        return "Login With Gooddollar";
+      });
     }
-  }, [isAdmin, tabs]);
+  }, [isAdmin, tabs, isdone]);
 
   return (
     <>
@@ -88,9 +91,9 @@ export const Tabs = ({ isAdmin }) => {
           {tabs.map((item, index) => (
             <div key={item.name} className="mr-2">
               <button
-                onClick={() => setActiveTab(index)}
+                onClick={() => setActiveTab(item.name)}
                 className={`p-4 rounded-t-lg w-60 border-b-2 border-transparent ${
-                  activeTab === index
+                  activeTab === item.name
                     ? "border-blue-600 text-blue-600"
                     : "border-gray-400 text-gray-400"
                 }`}
@@ -106,10 +109,10 @@ export const Tabs = ({ isAdmin }) => {
       </div>
       {isAdmin ? (
         <>
-          {activeTab === 0 && <ManageAdmin />}
-          {activeTab === 1 && <ManageVerifiedHuman />}
-          {activeTab === 2 && <CheckSbtTokenStatus />}
-          {activeTab === 3 && <Gooddollar />}
+          {activeTab === "Manage Council Members" && <ManageAdmin />}
+          {activeTab === "Manage SBT / Verified" && <ManageVerifiedHuman />}
+          {activeTab === "My own SBT" && <CheckSbtTokenStatus />}
+          {activeTab === "Login With Gooddollar" && <Gooddollar />}
         </>
       ) : (
         <CheckSbtTokenStatus />
