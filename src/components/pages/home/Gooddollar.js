@@ -39,7 +39,7 @@ export const Gooddollar = () => {
           </div>
         </>
       ) : (
-        <>
+        <div className="flex items-center space-x-2">
           <LoginButton
             onLoginCallback={async (data) => {
               console.log(data);
@@ -52,13 +52,16 @@ export const Gooddollar = () => {
                 console.log(e);
               }
             }}
-            className="text-white text-lg p-4 my-10 bg-blue-600 rounded-lg"
+            className="text-white text-lg p-4 my-10 bg-blue-600 rounded"
             gooddollarlink={gooddollarLink}
             rdu="gasdasd"
           >
             Loggin With GOODDOLLAR
           </LoginButton>
-        </>
+          <button disabled={false} className="bg-gray-400 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-sm p-5">
+            Mint FaceSBT
+          </button>
+        </div>
       )}
       <div className="p-4 shadow rounded-lg w-full md:w-[60%] w-full">
         <p className="text-sm italic">
@@ -67,7 +70,7 @@ export const Gooddollar = () => {
           “hash” of your face for comparison with other users. If you have an
           account with GoodDollar then you will be able to mint a ‘verified
           unique’ SBT here. If you don’t yet have an account, please sign up for
-          one first at www.gooddollar.org. {' '}
+          one first at www.gooddollar.org.{" "}
           <span className="font-semibold">
             This feature doesn't work in phone
           </span>
