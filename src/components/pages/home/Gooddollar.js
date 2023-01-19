@@ -7,8 +7,8 @@ import {
 
 export const Gooddollar = () => {
   const gooddollarLink = createLoginLink({
-    v: "Google",
-    web: "https://gooddollar.netlify.app/",
+    v: "I-AM-HUMAN-DAPP",
+    web: "https://i-am-human.dapp/",
     id: "0x09D2011Ca5781CA70810F6d82837648132762F9a",
     r: ["mobile", "location", "email", "name"],
     rdu: window.location.href,
@@ -27,15 +27,23 @@ export const Gooddollar = () => {
             <p>Mobile Number : {gooddollarData?.mobile?.value}</p>
             <p>Location : {gooddollarData?.location?.value}</p>
             <p>Email : {gooddollarData?.email?.value}</p>
-            <button
-              onClick={() => {
-                setGooddollarData(null);
-                window.location.href = window.location.origin;
-              }}
-              className="text-white text-lg p-4 my-10 bg-blue-600 rounded-lg"
-            >
-              Logout
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => {
+                  setGooddollarData(null);
+                  window.location.href = window.location.origin;
+                }}
+                className="text-white text-lg p-4 my-10 bg-blue-600 rounded"
+              >
+                Logout
+              </button>
+              <button
+                disabled={false}
+                className="bg-blue-600 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-sm p-5"
+              >
+                Mint FaceSBT
+              </button>
+            </div>
           </div>
         </>
       ) : (
@@ -58,7 +66,10 @@ export const Gooddollar = () => {
           >
             Loggin With GOODDOLLAR
           </LoginButton>
-          <button disabled={false} className="bg-gray-400 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-sm p-5">
+          <button
+            disabled={false}
+            className="bg-gray-400 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-sm p-5"
+          >
             Mint FaceSBT
           </button>
         </div>
