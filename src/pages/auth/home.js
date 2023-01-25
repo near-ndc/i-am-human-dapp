@@ -41,7 +41,7 @@ export const Home = () => {
       <div className="w-screen text-center py-4">
         <button
           onClick={() => setIsDonatePanelOpen(true)}
-          className="bg-blue-600 text-white rounded shadow-lg mx-auto font-medium w-[fit-content] text-xs p-4 md:absolute md:bottom-2 md:right-2"
+          className="bg-black text-white rounded shadow-lg tracking-wide mx-auto font-medium w-[fit-content] text-xs p-3 md:absolute md:bottom-2 md:right-2"
         >
           Donate to this awesome initiative
         </button>

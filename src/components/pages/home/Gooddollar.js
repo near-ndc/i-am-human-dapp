@@ -4,6 +4,8 @@ import {
   parseLoginResponse,
   LoginButton,
 } from "@gooddollar/goodlogin-sdk";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 export const Gooddollar = () => {
   const gooddollarLink = createLoginLink({
@@ -15,10 +17,157 @@ export const Gooddollar = () => {
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
 
+  const { values, handleSubmit, handleBlur, handleChange, setValues } =
+    useFormik({
+      initialValues: {
+        name: "",
+        email: "",
+        phone: "",
+        gDollarAccount: "",
+        status: "",
+      },
+    });
+
+  const handleValues = (key) => ({
+    value: values[key],
+    disabled: true,
+    onChange: handleChange(key),
+    onBlur: handleBlur(key),
+  });
+
   return (
-    <div className="p-2">
-      <p className="text-3xl font-semibold">Login with Gooddollar</p>
-      {gooddollarData ? (
+    <div className="p-2 pt-5 w-full">
+      <p className="text-3xl font-semibold">Get Verified and Apply</p>
+      <p className="md:w-[70%] text-sm font-light italic mt-2">
+        Experimental feature. GoodDollar is a web3 protocol which whitelists its
+        users with a simple face scan. Images are not stored, only a “hash” of
+        your face for comparison with other users.
+      </p>
+      <div className="md:w-[70%]">
+        <p className="text-3xl font-semibold mt-5">
+          Step 1: Sign up and get face-verified with GoodDollar
+        </p>
+        <p className="text-sm font-light italic mt-2">
+          In this step you will be asked to create an account by signing up with
+          GoodDollar. Once you have access to their wallet you need to click the
+          “Claim” button in the center of the screen, and follow the prompts to
+          scan your face . If you are already a GoodDollar claimer you can skip
+          this step. Note: We recommend using a smartphone for this step. This
+          may be geo-blocked for certain countries.
+        </p>
+        <button
+          onClick={() => {
+            window.open("https://wallet.gooddollar.org", "_blank");
+          }}
+          className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+        >
+          Sign up with G$
+        </button>
+      </div>
+      <div className="md:w-[70%] mt-14">
+        <p className="text-3xl font-semibold ">
+          Step 2: Authorize NDC to access your GD profile
+        </p>
+        <p className="text-sm font-light italic mt-2">
+          Log in again, this time authorizing us to verify that you were
+          whitelisted and therefore also verified as a unique human. Note: This
+          feature doesn’t work on phones yet, and is also geo-blocked for
+          certain countries.
+        </p>
+
+        <LoginButton
+          onLoginCallback={async (data) => {
+            console.log(data);
+            try {
+              if (data.error) return alert("Login request denied !");
+              parseLoginResponse(data).then((d) => {
+                setGooddollarData(d);
+                setValues({
+                  name: d?.fullName?.value,
+                  email: d?.email?.value,
+                  phone: d?.mobile?.value,
+                  gDollarAccount: d?.walletAddress?.value,
+                  status: d?.isAddressWhitelisted?.value
+                    ? "Whitelisted"
+                    : "Not Whitelisted",
+                });
+              });
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+          className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+          gooddollarlink={gooddollarLink}
+          rdu="gasdasd"
+        >
+          Authorize G$
+        </LoginButton>
+      </div>
+      {console.log(values)}
+      <div className="mt-14">
+        <p className="text-3xl font-semibold ">
+          Step 3: Apply for a Community SBT
+        </p>
+        <p className="md:w-[70%] text-sm font-light italic mt-2">
+          Once you passed step 1 and 2 your information will be populated here
+          and you will be able to apply for a Community SBT.
+        </p>
+        <form
+          disabled={false}
+          className="font-light tracking-wider md:w-[70%] space-y-2 mt-3 mb-16"
+        >
+          <div className="flex items-center justify-between">
+            <p>Name:</p>
+            <input
+              className="w-[88%] bg-gray-100 p-1 rounded px-3"
+              placeholder="Name"
+              {...handleValues("name")}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <p>Email:</p>
+            <input
+              className="w-[88%] bg-gray-100 p-1 rounded px-3"
+              placeholder="Email"
+              {...handleValues("email")}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <p>Phone:</p>
+            <input
+              className="w-[88%] bg-gray-100 p-1 rounded px-3"
+              placeholder="Phone"
+              {...handleValues("phone")}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <p>G$ Account:</p>
+            <input
+              className="w-[88%] bg-gray-100 p-1 rounded px-3"
+              placeholder="Account Address"
+              {...handleValues("gDollarAccount")}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <p>Status:</p>
+            <input
+              className="w-[88%] bg-gray-100 p-1 rounded px-3"
+              placeholder="Status"
+              {...handleValues("status")}
+            />
+          </div>
+          <button
+            onClick={() => {
+              toast.info("This feature is yet to be implemented.");
+            }}
+            type="button"
+            className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+          >
+            Apply for SBT
+          </button>
+        </form>
+      </div>
+      {/* {gooddollarData ? (
         <>
           <div>
             <p>Congrates you're now verified with gooddollar</p>
@@ -73,7 +222,7 @@ export const Gooddollar = () => {
             Mint FaceSBT
           </button>
         </div>
-      )}
+      )} */}
       <div className="p-4 shadow rounded-lg w-full md:w-[60%] w-full">
         <p className="text-sm italic">
           Experimental feature. GoodDollar is a web3 protocol which whitelists
