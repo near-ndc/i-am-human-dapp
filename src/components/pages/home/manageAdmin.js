@@ -48,7 +48,6 @@ export const ManageAdmin = () => {
           args: { metadata: {}, admins: [walletAddress] },
         });
         toast.success("Added admin successfully");
-        console.log(res);
       } catch (e) {
         toast.error(e.message);
       } finally {
@@ -75,7 +74,6 @@ export const ManageAdmin = () => {
           args: { metadata: {}, admins: [walletAddress] },
         });
         toast.success("Removed admin successfully");
-        console.log(res);
       } catch (e) {
         toast.error(e.message);
       } finally {

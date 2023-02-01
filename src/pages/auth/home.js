@@ -13,7 +13,6 @@ export const Home = () => {
   const checkAdminStatus = useCallback(async () => {
     try {
       const data = await checkAdmin(wallet.accountId);
-      console.log(data);
       if (data) {
         setIsAdmin(true);
       } else {
@@ -41,7 +40,7 @@ export const Home = () => {
       <div className="w-screen text-center py-4">
         <button
           onClick={() => setIsDonatePanelOpen(true)}
-          className="bg-black text-white rounded shadow-lg tracking-wide mx-auto font-medium w-[fit-content] text-xs p-3 md:absolute md:bottom-2 md:right-2"
+          className="bg-black text-white rounded shadow-lg tracking-wide mx-auto font-medium w-[fit-content] text-xs p-3 md:fixed md:bottom-2 md:right-2"
         >
           Donate to this awesome initiative
         </button>

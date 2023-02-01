@@ -65,7 +65,6 @@ export const ManageVerifiedHuman = () => {
           tokenData: data,
           initialized: true,
         });
-        console.log(data);
         if (!hideMessage) {
           const isExpired = Date.now() > data?.[0]?.metadata.expires_at * 1000;
           if (data.length === 1 && !isExpired) {
@@ -126,7 +125,6 @@ export const ManageVerifiedHuman = () => {
 
   const renewTokens = async (metadata = {}) => {
     try {
-      console.log(metadata);
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
         contractId: 'community-sbt-1.i-am-human.testnet',

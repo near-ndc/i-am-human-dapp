@@ -16,6 +16,7 @@ export const Gooddollar = () => {
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
+  const [editableFields, setEditableFields] = React.useState({});
 
   const { values, handleSubmit, handleBlur, handleChange, setValues } =
     useFormik({
@@ -30,7 +31,7 @@ export const Gooddollar = () => {
 
   const handleValues = (key) => ({
     value: values[key],
-    disabled: true,
+    disabled: Boolean(editableFields?.[key]),
     onChange: handleChange(key),
     onBlur: handleBlur(key),
   });
@@ -77,11 +78,20 @@ export const Gooddollar = () => {
 
         <LoginButton
           onLoginCallback={async (data) => {
-            console.log(data);
             try {
               if (data.error) return alert("Login request denied !");
               parseLoginResponse(data).then((d) => {
                 setGooddollarData(d);
+                if (Boolean(d?.email?.value) === false) {
+                  setEditableFields((d) => ({ ...d, email: false }));
+                } else {
+                  setEditableFields((d) => ({ ...d, email: true }));
+                }
+                if (Boolean(d?.mobile?.value) === false) {
+                  setEditableFields((d) => ({ ...d, mobile: false }));
+                } else {
+                  setEditableFields((d) => ({ ...d, mobile: true }));
+                }
                 setValues({
                   name: d?.fullName?.value,
                   email: d?.email?.value,
@@ -103,7 +113,6 @@ export const Gooddollar = () => {
           Authorize G$
         </LoginButton>
       </div>
-      {console.log(values)}
       <div className="mt-14">
         <p className="text-3xl font-semibold ">
           Step 3: Apply for a Community SBT
@@ -137,6 +146,7 @@ export const Gooddollar = () => {
             <input
               className="w-[88%] bg-gray-100 p-1 rounded px-3"
               placeholder="Phone"
+              type="number"
               {...handleValues("phone")}
             />
           </div>

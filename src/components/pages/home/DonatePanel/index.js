@@ -41,7 +41,6 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
         "ubitest.testnet", // receiver account
         "100000000000000" // amount in yoctoNEAR
       );
-      console.log(result);
     } catch (e) {
       toast.error(e.message);
     } finally {
