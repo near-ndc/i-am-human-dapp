@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { GiToken } from "react-icons/gi";
 
 import { ManageAdmin } from "./manageAdmin";
-import { ManageVerifiedHuman } from "./manageTokens";
+import { ManageTokens } from "./manageTokens";
 import { CheckSbtTokenStatus } from "./myOwnSbt";
 import { Gooddollar } from "./Gooddollar";
 
@@ -110,7 +110,7 @@ export const Tabs = ({ isAdmin }) => {
       {isAdmin ? (
         <>
           {activeTab === "Manage Council Members" && <ManageAdmin />}
-          {activeTab === "Manage SBT / Verified" && <ManageVerifiedHuman />}
+          {activeTab === "Manage SBT / Verified" && <ManageTokens />}
           {activeTab === "My own SBT" && <CheckSbtTokenStatus />}
           {activeTab === "Login With Gooddollar" && <Gooddollar />}
         </>

@@ -16,12 +16,12 @@ export const CheckSbtTokenStatus = () => {
     try {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
-        contractId:'community-sbt-1.i-am-human.testnet',
+        contractId: "community-sbt-1.i-am-human.testnet",
         method: "sbt_supply_by_owner",
         args: { account: wallet.accountId },
       });
       const data2 = await wallet.viewMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: "community-sbt-1.i-am-human.testnet",
         method: "sbt_by_owner",
         args: { account: wallet.accountId },
       });
@@ -47,57 +47,32 @@ export const CheckSbtTokenStatus = () => {
         {fetchloading ? (
           <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
         ) : (
-          <p>
-            <span className="font-medium">SBT Tokens you own</span>:{" "}
-            {tokenSupply}
-          </p>
-        )}
-      </div>
-      <div className="mb-2">
-        {tokenData && (
-          <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
-            <p
-              className={`${
-                isExpired ? "text-red-500" : "text-green-600"
-              } font-semibold text-lg mb-2`}
-            >
-              {isExpired ? "Expired Tokens" : "Valid Token"}
-            </p>
-            <p>TokenId : {tokenData.token_id}</p>
+          <>
             <p>
-              Issued At :{" "}
-              {tokenData.metadata.issued_at
-                ? dayjs(tokenData.metadata.issued_at * 1000).format(
-                    "DD MMMM YYYY"
-                  )
-                : "null"}
+              <span className="font-medium">SBT Tokens you own</span>:{" "}
+              {tokenSupply}
             </p>
-            <p>
-              Expires at :{" "}
-              {dayjs(tokenData.metadata.expires_at * 1000).format(
-                "DD MMMM YYYY"
-              )}
-            </p>
-            <p>
-              {Date.now() > tokenData.metadata.expires_at * 1000
-                ? "Days Since Expiration"
-                : "Days until expiration"}{" "}
-              :{" "}
-              {Math.abs(
-                dayjs(tokenData.metadata.expires_at * 1000).diff(
-                  Date.now(),
-                  "days"
-                )
-              )}
-            </p>
-          </div>
+            {tokenData && (
+              <>
+                <p
+                  className={`${
+                    isExpired ? "text-red-500" : "text-green-600"
+                  } font-light mb-2`}
+                >
+                  {isExpired
+                    ? "You have expired tokens"
+                    : "You have a valid Token"}
+                </p>
+              </>
+            )}
+          </>
         )}
       </div>
       <button
         type="button"
         disabled={isButtonDisabled}
         onClick={() => setIsModalOpen(true)}
-        className={`text-white focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none ${
+        className={`text-white mt-4 focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none ${
           isButtonDisabled ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-800"
         } `}
       >

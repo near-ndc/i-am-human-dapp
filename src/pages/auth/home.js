@@ -1,31 +1,15 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 
 import { Header } from "../../components/common/header";
 import { Tabs } from "../../components/pages/home/tabs";
 import { wallet } from "../../index";
 import { DonatePanel } from "../../components/pages/home/DonatePanel";
-import { checkAdmin } from "../../utils/utilityFunctions";
+import { useAdmin } from "../../utils/useAdmin";
 
 export const Home = () => {
-  const [isAdmin, setIsAdmin] = useState(null);
-  const [isDonatePanelOpen, setIsDonatePanelOpen] = useState(false);
+  const [isAdmin] = useAdmin({ address: wallet.accountId });
 
-  const checkAdminStatus = useCallback(async () => {
-    try {
-      const data = await checkAdmin(wallet.accountId);
-      if (data) {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-    } catch {
-      setIsAdmin(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    checkAdminStatus();
-  }, [checkAdminStatus]);
+  const [isDonatePanelOpen, setIsDonatePanelOpen] = useState(false)
 
   return (
     <>

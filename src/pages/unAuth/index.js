@@ -1,7 +1,9 @@
 /* This example requires Tailwind CSS v3.0+ */
 import { Header } from "../../components/common/header";
 import { wallet } from "../../index";
+import { useAdmin } from "../../utils/useAdmin";
 import HumanOnNDC from "./humansonndc.png";
+import { IsSignedInLanding } from "./IsSignedInLanding";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -10,48 +12,54 @@ const navigation = [
   { name: "Company", href: "#" },
 ];
 
-export const Landing = () => {
+export const Landing = ({ isSignedIn }) => {
+  const isAdmin = useAdmin({ address: wallet?.accountId ?? "" });
   return (
     <div className="isolate bg-white">
-      <Header />
+      <Header isAdmin={isAdmin} />
       <main>
         <div className="relative px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
+          <div
+            className={`mx-auto max-w-3xl ${
+              isSignedIn ? "" : "pt-20 pb-32 sm:pt-48 sm:pb-40"
+            }`}
+          >
             <div>
-              <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-                {/* <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-xs leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                  <span className="text-gray-600">
-                    {" "}
-                    <a href="#" className="font-semibold text-indigo-600">
-                      <span className="absolute inset-0" aria-hidden="true" />
-                      Read more <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </span>
-                </div> */}
-              </div>
+              <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
               <div>
-                <img src={HumanOnNDC} alt="humans on ndc" className="mx-auto h-[210px] w-[350px] object-cover" />
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-                  I-AM-HUMAN-DAPP is a web3 project based on NEAR WALLET that
-                  allows you to connect with your wallet and control your DAO's
-                  and control access rights to vote in NDC. This is the very
-                  first iteration, more functionality to come soon.
-                  I-AM-HUMAN-DAPP is a portal for a group of admins to manage
-                  the initial verification of humans for the Near Digital
-                  Collective
-                </p>
-                <div className="mt-8 flex gap-x-4 sm:justify-center">
-                  <button
-                    onClick={() => wallet.signIn()}
-                    type="button"
-                    className="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700"
-                  >
-                    Connect Your Wallet{" "}
-                    <span className="text-indigo-200" aria-hidden="true">
-                      &rarr;
-                    </span>
-                  </button>
-                  {/* <a
+                <img
+                  src={HumanOnNDC}
+                  alt="humans on ndc"
+                  className={`mx-auto ${
+                    isSignedIn ? "hidden" : "h-[210px] w-[350px]"
+                  }  object-cover`}
+                />
+                {isSignedIn ? (
+                  <IsSignedInLanding />
+                ) : (
+                  <>
+                    <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
+                      I-AM-HUMAN-DAPP is a web3 project based on NEAR WALLET
+                      that allows you to connect with your wallet and control
+                      your DAO's and control access rights to vote in NDC. This
+                      is the very first iteration, more functionality to come
+                      soon. I-AM-HUMAN-DAPP is a portal for a group of admins to
+                      manage the initial verification of humans for the Near
+                      Digital Collective
+                    </p>
+
+                    <div className="mt-8 flex gap-x-4 sm:justify-center">
+                      <button
+                        onClick={() => wallet.signIn()}
+                        type="button"
+                        className="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700"
+                      >
+                        Connect Your Wallet{" "}
+                        <span className="text-indigo-200" aria-hidden="true">
+                          &rarr;
+                        </span>
+                      </button>
+                      {/* <a
                     href="#"
                     className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 text-gray-900 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
                   >
@@ -60,7 +68,9 @@ export const Landing = () => {
                       &rarr;
                     </span>
                   </a> */}
-                </div>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
                 <svg

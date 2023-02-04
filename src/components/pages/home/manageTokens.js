@@ -6,7 +6,7 @@ import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
 
-export const ManageVerifiedHuman = () => {
+export const ManageTokens = () => {
   const [input, setInput] = React.useState("");
   const [validatingAddress, setValidatingAddress] = React.useState(false);
   const [isButtonLoading, setIsButtonLoading] = React.useState({

@@ -4,16 +4,16 @@ import { ToastContainer } from "react-toastify";
 
 import { Landing } from "./pages/unAuth/index";
 import { Home } from "./pages/auth/home";
+import { useAdmin } from "./utils/useAdmin";
+import { wallet } from "./index";
 
 export function App({ isSignedIn }) {
-  if (!isSignedIn) {
-    // Sign-in flow will reload the page later
-    return <Landing />;
-  }
+  const [isUserAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
 
   return (
     <>
-      <Home />
+      {(!isSignedIn || isUserAdmin) && <Landing isSignedIn={isSignedIn} />}
+      {/* <Home /> */}
       <ToastContainer
         position="top-right"
         autoClose={3500}

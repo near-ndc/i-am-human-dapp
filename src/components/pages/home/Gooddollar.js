@@ -6,6 +6,11 @@ import {
 } from "@gooddollar/goodlogin-sdk";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { isPossiblePhoneNumber } from "libphonenumber-js";
+import { CircleSpinner } from "react-spinners-kit";
+import { wallet } from "../../..";
+import { supabase } from "../../../utils/supabase";
 
 export const Gooddollar = () => {
   const gooddollarLink = createLoginLink({
@@ -16,9 +21,14 @@ export const Gooddollar = () => {
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
-  const [editableFields, setEditableFields] = React.useState({});
+  const [editableFields, setEditableFields] = React.useState({
+    name: true,
+    gDollarAccount: true,
+    status: true,
+  });
+  const [submitting, setSubmitting] = React.useState(null);
 
-  const { values, handleSubmit, handleBlur, handleChange, setValues } =
+  const { values, handleSubmit, handleBlur, handleChange, setValues, errors } =
     useFormik({
       initialValues: {
         name: "",
@@ -27,24 +37,72 @@ export const Gooddollar = () => {
         gDollarAccount: "",
         status: "",
       },
+      validationSchema: Yup.object().shape({
+        email: Yup.string().email("Invalid email").required("Required"),
+      }),
+      onSubmit: async (data) => {
+        setSubmitting(true);
+        const objectToSet = {
+          email: data.email,
+          phone: data.phone,
+          wallet_identifier: wallet.accountId,
+          name: data.name,
+          g$_address: data.gDollarAccount,
+          is_whitelisted: data.status === "Whitelisted",
+          status: "Application Submitted",
+        };
+        try {
+          const { error } = await supabase.from("users").insert(objectToSet);
+          if (error) {
+            throw new Error("");
+          } else {
+            toast.success("Applied for community SBT successfully");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          }
+        } catch {
+          toast.error(
+            "An error occured while submitting your details , please try again"
+          );
+        } finally {
+          setSubmitting(false);
+        }
+      },
+      validate: (values) => {
+        const errors = {};
+        if (values.phone) {
+          if (!isPossiblePhoneNumber(values.phone)) {
+            errors.phone =
+              "Invalid phone number, please provide the phone number with valid country code";
+          }
+        } else {
+          errors.phone = "Phone Number Required";
+        }
+        return errors;
+      },
     });
 
   const handleValues = (key) => ({
     value: values[key],
-    disabled: Boolean(editableFields?.[key]),
+    disabled: editableFields?.[key],
     onChange: handleChange(key),
     onBlur: handleBlur(key),
   });
 
+  const submit = (values) => {
+    console.log(values);
+  };
+
   return (
     <div className="p-2 pt-5 w-full">
       <p className="text-3xl font-semibold">Get Verified and Apply</p>
-      <p className="md:w-[70%] text-sm font-light italic mt-2">
+      <p className="w-full text-sm font-light italic mt-2">
         Experimental feature. GoodDollar is a web3 protocol which whitelists its
         users with a simple face scan. Images are not stored, only a “hash” of
         your face for comparison with other users.
       </p>
-      <div className="md:w-[70%]">
+      <div className="w-full">
         <p className="text-3xl font-semibold mt-5">
           Step 1: Sign up and get face-verified with GoodDollar
         </p>
@@ -65,7 +123,7 @@ export const Gooddollar = () => {
           Sign up with G$
         </button>
       </div>
-      <div className="md:w-[70%] mt-14">
+      <div className="w-full mt-14">
         <p className="text-3xl font-semibold ">
           Step 2: Authorize NDC to access your GD profile
         </p>
@@ -82,16 +140,15 @@ export const Gooddollar = () => {
               if (data.error) return alert("Login request denied !");
               parseLoginResponse(data).then((d) => {
                 setGooddollarData(d);
-                if (Boolean(d?.email?.value) === false) {
-                  setEditableFields((d) => ({ ...d, email: false }));
-                } else {
-                  setEditableFields((d) => ({ ...d, email: true }));
-                }
-                if (Boolean(d?.mobile?.value) === false) {
-                  setEditableFields((d) => ({ ...d, mobile: false }));
-                } else {
-                  setEditableFields((d) => ({ ...d, mobile: true }));
-                }
+                console.log(d);
+                setEditableFields((d) => ({
+                  ...d,
+                  email: !Boolean(d?.email?.value),
+                }));
+                setEditableFields((d) => ({
+                  ...d,
+                  mobile: !Boolean(d?.mobile?.value),
+                }));
                 setValues({
                   name: d?.fullName?.value,
                   email: d?.email?.value,
@@ -117,16 +174,16 @@ export const Gooddollar = () => {
         <p className="text-3xl font-semibold ">
           Step 3: Apply for a Community SBT
         </p>
-        <p className="md:w-[70%] text-sm font-light italic mt-2">
+        <p className="w-full text-sm font-light italic mt-2">
           Once you passed step 1 and 2 your information will be populated here
           and you will be able to apply for a Community SBT.
         </p>
         <form
-          disabled={false}
-          className="font-light tracking-wider md:w-[70%] space-y-2 mt-3 mb-16"
+          onSubmit={(e) => handleSubmit(e)}
+          className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
         >
           <div className="flex items-center justify-between">
-            <p>Name:</p>
+            <p className="w-[120px]">Name:</p>
             <input
               className="w-[88%] bg-gray-100 p-1 rounded px-3"
               placeholder="Name"
@@ -134,24 +191,32 @@ export const Gooddollar = () => {
             />
           </div>
           <div className="flex items-center justify-between">
-            <p>Email:</p>
-            <input
-              className="w-[88%] bg-gray-100 p-1 rounded px-3"
-              placeholder="Email"
-              {...handleValues("email")}
-            />
+            <p className="w-[120px]">Email:</p>
+            <div className="w-[88%]">
+              <input
+                className="w-full bg-gray-100 p-1 rounded px-3"
+                placeholder="Email"
+                {...handleValues("email")}
+              />
+              <p>{errors?.email}</p>
+            </div>
           </div>
           <div className="flex items-center justify-between">
-            <p>Phone:</p>
-            <input
-              className="w-[88%] bg-gray-100 p-1 rounded px-3"
-              placeholder="Phone"
-              type="number"
-              {...handleValues("phone")}
-            />
+            <div className="w-[120px]">
+              <p>Mobile:</p>
+              <p className="text-[12px]">With country code</p>
+            </div>
+            <div className="w-[88%]">
+              <input
+                className="w-full bg-gray-100 p-1 rounded px-3"
+                placeholder="Phone"
+                {...handleValues("phone")}
+              />
+              <p className="text-red-600 text-sm">{errors?.phone}</p>
+            </div>
           </div>
           <div className="flex items-center justify-between">
-            <p>G$ Account:</p>
+            <p className="w-[120px]">G$ Account:</p>
             <input
               className="w-[88%] bg-gray-100 p-1 rounded px-3"
               placeholder="Account Address"
@@ -159,7 +224,7 @@ export const Gooddollar = () => {
             />
           </div>
           <div className="flex items-center justify-between">
-            <p>Status:</p>
+            <p className="w-[120px]">Status:</p>
             <input
               className="w-[88%] bg-gray-100 p-1 rounded px-3"
               placeholder="Status"
@@ -167,13 +232,17 @@ export const Gooddollar = () => {
             />
           </div>
           <button
-            onClick={() => {
-              toast.info("This feature is yet to be implemented.");
-            }}
-            type="button"
-            className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+            type="submit"
+            disabled={submitting}
+            className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
           >
-            Apply for SBT
+            {!submitting ? (
+              " Apply for SBT"
+            ) : (
+              <div className="w-[fit-content] mx-auto">
+                <CircleSpinner size={20} />
+              </div>
+            )}
           </button>
         </form>
       </div>
@@ -233,7 +302,7 @@ export const Gooddollar = () => {
           </button>
         </div>
       )} */}
-      <div className="p-4 shadow rounded-lg w-full md:w-[60%] w-full">
+      <div className="p-4 shadow rounded-lg w-full w-full">
         <p className="text-sm italic">
           Experimental feature. GoodDollar is a web3 protocol which whitelists
           its users with a simple face scan. Images are not stored, only a
