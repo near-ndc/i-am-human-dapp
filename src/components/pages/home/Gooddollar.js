@@ -96,7 +96,7 @@ export const Gooddollar = () => {
 
   return (
     <div className="p-2 pt-5 w-full">
-      <p className="text-3xl font-semibold">Get Verified and Apply</p>
+      <p className="text-3xl font-semibold">Get Verified and Apply for Community SBT</p>
       <p className="w-full text-sm font-light italic mt-2">
         Experimental feature. GoodDollar is a web3 protocol which whitelists its
         users with a simple face scan. Images are not stored, only a “hash” of
