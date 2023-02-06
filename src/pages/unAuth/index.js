@@ -2,7 +2,7 @@
 import { Header } from "../../components/common/header";
 import { wallet } from "../../index";
 import { useAdmin } from "../../utils/useAdmin";
-import HumanOnNDC from "./humansonndc.png";
+import HumanOnNDC from "../../images/backLines.png";
 import { IsSignedInLanding } from "./IsSignedInLanding";
 
 const navigation = [
@@ -18,86 +18,149 @@ export const Landing = ({ isSignedIn }) => {
     <div className="isolate bg-white">
       <Header isAdmin={isAdmin} />
       <main>
-        <div className="relative px-6 lg:px-8">
+        <div className={isSignedIn ? "relative px-6 lg:px-8" : ""}>
           <div
-            className={`mx-auto max-w-3xl ${
-              isSignedIn ? "" : "pt-20 pb-32 sm:pt-48 sm:pb-40"
+            className={`${
+              isSignedIn ? "max-w-3xl mx-auto pt-10" : "pb-32 pt-20 sm:pb-40"
             }`}
           >
             <div>
-              <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
-              <div>
+              <div className="md:flex items-center">
                 <img
                   src={HumanOnNDC}
                   alt="humans on ndc"
-                  className={`mx-auto ${
-                    isSignedIn ? "hidden" : "h-[210px] w-[350px]"
-                  }  object-cover`}
+                  className={`${
+                    isSignedIn
+                      ? "hidden"
+                      : "h-[600px] hidden md:block w-[60%] ml-[-10%]"
+                  }`}
                 />
                 {isSignedIn ? (
                   <IsSignedInLanding />
                 ) : (
                   <>
-                    <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-                      I-AM-HUMAN-DAPP is a web3 project based on NEAR WALLET
-                      that allows you to connect with your wallet and control
-                      your DAO's and control access rights to vote in NDC. This
-                      is the very first iteration, more functionality to come
-                      soon. I-AM-HUMAN-DAPP is a portal for a group of admins to
-                      manage the initial verification of humans for the Near
-                      Digital Collective
-                    </p>
-
-                    <div className="mt-8 flex gap-x-4 sm:justify-center">
-                      <button
-                        onClick={() => wallet.signIn()}
-                        type="button"
-                        className="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700"
-                      >
-                        Connect Your Wallet{" "}
-                        <span className="text-indigo-200" aria-hidden="true">
-                          &rarr;
-                        </span>
-                      </button>
-                      {/* <a
-                    href="#"
-                    className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 text-gray-900 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
-                  >
-                    Live demo
-                    <span className="text-gray-400" aria-hidden="true">
-                      &rarr;
-                    </span>
-                  </a> */}
+                    <div classsName="h-[fit-content] mt-[30px] md:mt-0">
+                      <div className="px-10">
+                        <p className="text-3xl">
+                          GET YOUR PROOF OF PERSONHOOD WITH I-AM-HUMAN
+                        </p>
+                        <p className="text-lg leading-8 text-gray-600">
+                          This is your launchpad for several different SBTs,
+                          each of which will identify you as a human. With
+                          enough of them you will have a strong
+                          proof-of-personhood, which can give you access to
+                          vote, to apps, to DAOs and more.
+                        </p>
+                      </div>
                     </div>
                   </>
                 )}
               </div>
-              <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-                <svg
-                  className="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]"
-                  viewBox="0 0 1155 678"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill="url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)"
-                    fillOpacity=".3"
-                    d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z"
+            </div>
+          </div>
+          <div className="relative overflow-hidden pt-16 pb-32">
+            <div
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+                <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
+                  <div>
+                    <div className="mt-6">
+                      <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                        Unique Face Verification
+                      </h2>
+                      <p className="mt-4 text-lg text-gray-500">
+                        We have partenered with Gooddollar for Face
+                        Verification.
+                      </p>
+                      <p className="mt-4 text-lg text-gray-500">
+                        Why? They ensure that each user only creates one
+                        account, without having to rely on traditional KYC
+                      </p>
+                      <div className="mt-6">
+                        <a
+                          href="#"
+                          className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                        >
+                          Get It Now
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8 border-t border-gray-200 pt-6">
+                    <blockquote>
+                      <div>
+                        <p className="text-base text-gray-500">
+                          &ldquo;The NDC App is really a breakthrough in how we
+                          uniqelly identify humans on the web.&rdquo;
+                        </p>
+                      </div>
+                      <footer className="mt-3">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex-shrink-0">
+                            <img
+                              className="h-6 w-6 rounded-full"
+                              src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+                              alt=""
+                            />
+                          </div>
+                          <div className="text-base font-medium text-gray-700">
+                            Marcia Hill, Web3 Specialist
+                          </div>
+                        </div>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+                <div className="mt-12 sm:mt-16 lg:mt-0">
+                  <div className="-mr-48 pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+                    <img
+                      className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                      src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
+                      alt="Inbox user interface"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-24">
+            <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+              <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
+                <div>
+                  <div className="mt-6">
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                      Community Verification
+                    </h2>
+                    <p className="mt-4 text-lg text-gray-500">
+                      Our team will schedule a quick video chat to validate you
+                      in person. Limited edition, max 300.
+                    </p>
+                    <p className="mt-4 text-lg text-gray-500">
+                      Why? We need to create a “seed group” of trusted
+                      individuals to bootstrap the next iteration of Community
+                      SBT. Stay tuned.
+                    </p>
+                    <div className="mt-6">
+                      <a
+                        href="#"
+                        className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                      >
+                        Get It Now
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
+                <div className="-ml-48 pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+                  <img
+                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
+                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
+                    alt="Customer profile user interface"
                   />
-                  <defs>
-                    <linearGradient
-                      id="ecb5b0c9-546c-4772-8c71-4d3f06d544bc"
-                      x1="1155.49"
-                      x2="-78.208"
-                      y1=".177"
-                      y2="474.645"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stopColor="#9089FC" />
-                      <stop offset={1} stopColor="#FF80B5" />
-                    </linearGradient>
-                  </defs>
-                </svg>
+                </div>
               </div>
             </div>
           </div>

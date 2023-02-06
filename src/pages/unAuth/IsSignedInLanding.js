@@ -43,9 +43,16 @@ export const IsSignedInLanding = () => {
       {hasApplied === false && <Gooddollar />}
       {hasApplied === true && (
         <>
-          {userData?.status === "Application Submitted" ? (
+          {userData?.status === "Application Submitted" && (
             <p>Your application for community SBT has been submitted</p>
-          ) : (
+          )}
+          {userData?.status === "Application Processed" && (
+            <p>Your application for community SBT is being processed</p>
+          )}
+          {userData?.status === "Application Denied" && (
+            <p>TO DO</p>
+          )}
+          {userData?.status === "Approved" && (
             <CheckSbtTokenStatus />
           )}
         </>

@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 import { wallet } from "../../index";
+import Logo from '../../images/ndc.png'
 
 export const Header = ({ isAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -30,7 +31,7 @@ export const Header = ({ isAdmin }) => {
           >
             <div className="flex lg:min-w-0 lg:flex-1" aria-label="Global">
               <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
-                <span className="sr-only">Your Company</span>I-am-Human-DAPP
+               <img src={Logo} alt="logo" className="h-[100px] w-[100px] mt-4" />
               </a>
             </div>
             <div className="flex lg:hidden">
@@ -80,9 +81,9 @@ export const Header = ({ isAdmin }) => {
                 onClick={
                   isSignedIn ? () => wallet.signOut() : () => wallet.signIn()
                 }
-                className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20"
+                className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
               >
-                {isSignedIn ? "Sign Out" : "Connect Your Wallet"}
+                {isSignedIn ? "Sign Out" : "Connect Wallet"}
               </button>
             </div>
           </nav>
@@ -91,8 +92,7 @@ export const Header = ({ isAdmin }) => {
               <div className="flex h-9 items-center justify-between">
                 <div className="flex">
                   <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
-                    <span className="sr-only">Your Company</span>
-                    I-am-Human-DAPP
+                  <img src={Logo} alt="logo" className="h-[100px] w-[100px] mt-4" />
                   </a>
                 </div>
                 <div className="flex">
@@ -129,7 +129,7 @@ export const Header = ({ isAdmin }) => {
                       }
                       className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
                     >
-                      {isSignedIn ? "Sign Out" : "Connect Your Wallet"}
+                      {isSignedIn ? "Sign Out" : "Connect Wallet"}
                     </button>
                   </div>
                 </div>
