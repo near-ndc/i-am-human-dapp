@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { SwishSpinner } from "react-spinners-kit";
+import { BackwardIcon } from "@heroicons/react/24/outline";
 
 import { CheckSbtTokenStatus } from "./../../components/pages/home/myOwnSbt";
 import { Gooddollar } from "../../components/pages/home/Gooddollar";
 import { wallet } from "../../index";
 import { supabase } from "../../utils/supabase";
 
-export const IsSignedInLanding = () => {
-  const [hasApplied, setHasApplied] = useState(null);
-  const [userData, setUserData] = useState({});
+export const IsSignedInLanding = ({
+  hasApplied,
+  userData,
+  showGooddollarVerification,
+  setShowGooddollarVerification,
+}) => {
   useEffect(() => {
-    const fetchUserStatus = async () => {
-      const { data } = await supabase
-        .from("users")
-        .select("*")
-        .match({ wallet_identifier: "harrydhillon.testnet" });
-      console.log(data, wallet.accountId);
-      if (data?.[0]) {
-        setUserData(data[0]);
-        setHasApplied(true);
-      } else {
-        setHasApplied(false);
-      }
-    };
-    setTimeout(() => {
-      fetchUserStatus();
-    }, 1500);
-  }, []);
+    if (window.location.href.includes("?login")) {
+      setShowGooddollarVerification(true);
+    }
+  }, [setShowGooddollarVerification]);
   return (
     <>
       {hasApplied === null && (
@@ -40,7 +31,17 @@ export const IsSignedInLanding = () => {
           </p>
         </div>
       )}
-      {hasApplied === false && <Gooddollar />}
+      {hasApplied === false && showGooddollarVerification && (
+        <div className="max-w-6xl mx-auto">
+          <button
+            onClick={() => setShowGooddollarVerification(false)}
+            className="bg-blue-600 p-2 rounded-full text-white"
+          >
+            <BackwardIcon className="w-6 h-6" />
+          </button>
+          <Gooddollar />
+        </div>
+      )}
       {hasApplied === true && (
         <>
           {userData?.status === "Application Submitted" && (
@@ -49,12 +50,8 @@ export const IsSignedInLanding = () => {
           {userData?.status === "Application Processed" && (
             <p>Your application for community SBT is being processed</p>
           )}
-          {userData?.status === "Application Denied" && (
-            <p>TO DO</p>
-          )}
-          {userData?.status === "Approved" && (
-            <CheckSbtTokenStatus />
-          )}
+          {userData?.status === "Application Denied" && <p>TO DO</p>}
+          {userData?.status === "Approved" && <CheckSbtTokenStatus />}
         </>
       )}
     </>
