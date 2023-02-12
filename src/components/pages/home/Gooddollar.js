@@ -48,7 +48,7 @@ export const Gooddollar = () => {
       status: "",
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().email("Invalid email").required("Required"),
+      email: Yup.string().email("Invalid email"),
     }),
     onSubmit: async (data) => {
       setSubmitting(true);
@@ -67,6 +67,7 @@ export const Gooddollar = () => {
           throw new Error("");
         } else {
           toast.success("Applied for community SBT successfully");
+          window.location.href = window.location.origin;
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -81,20 +82,19 @@ export const Gooddollar = () => {
     },
     validate: (values) => {
       const errors = {};
-      if (values.phone) {
-        if (!isPossiblePhoneNumber(values.phone)) {
-          errors.phone =
-            "Invalid phone number, please provide the phone number with valid country code";
-        }
-      } else {
-        errors.phone = "Phone Number Required";
-      }
+      // if (values.phone) {
+      //   if (!isPossiblePhoneNumber(values.phone)) {
+      //     errors.phone =
+      //       "Invalid phone number, please provide the phone number with valid country code";
+      //   }
+      // } else {
+      //   errors.phone = "Phone Number Required";
+      // }
       return errors;
     },
   });
 
   const fvLink = useFVLink();
-  console.log(fvLink);
   const handleValues = (key) => ({
     value: values[key],
     disabled: editableFields?.[key],
@@ -148,9 +148,6 @@ export const Gooddollar = () => {
 
   return (
     <div className="p-2 pt-5 w-full">
-      <p className="text-3xl font-semibold">
-        Get Verified and Apply for Community SBT
-      </p>
       <p className="w-full text-sm font-light italic mt-2">
         Experimental feature. GoodDollar is a web3 protocol which whitelists its
         users with a simple face scan. Images are not stored, only a “hash” of
@@ -282,32 +279,36 @@ export const Gooddollar = () => {
                   {...handleValues("name")}
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">Email:</p>
-                <div className="w-[88%]">
-                  <input
-                    className="w-full bg-gray-100 p-1 rounded px-3"
-                    placeholder="Email"
-                    {...handleValues("email")}
-                  />
-                  <p>{errors?.email}</p>
+              {Boolean(values.email) && (
+                <div className="flex items-center justify-between">
+                  <p className="w-[120px]">Email:</p>
+                  <div className="w-[88%]">
+                    <input
+                      className="w-full bg-gray-100 p-1 rounded px-3"
+                      placeholder="Email"
+                      {...handleValues("email")}
+                    />
+                    <p>{errors?.email}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="w-[120px]">
-                  <p>Mobile:</p>
-                  <p className="text-[12px]">With country code</p>
+              )}
+              {Boolean(values.phone) && (
+                <div className="flex items-center justify-between">
+                  <div className="w-[120px]">
+                    <p>Mobile:</p>
+                    <p className="text-[12px]">With country code</p>
+                  </div>
+                  <div className="w-[88%]">
+                    <PhoneInput
+                      className="w-full bg-gray-100 p-1 rounded px-3"
+                      placeholder="Phone"
+                      value={values.phone}
+                      onChange={(e) => setFieldValue("phone", e)}
+                    />
+                    <p className="text-red-600 text-sm">{errors?.phone}</p>
+                  </div>
                 </div>
-                <div className="w-[88%]">
-                  <PhoneInput
-                    className="w-full bg-gray-100 p-1 rounded px-3"
-                    placeholder="Phone"
-                    value={values.phone}
-                    onChange={(e) => setFieldValue("phone", e)}
-                  />
-                  <p className="text-red-600 text-sm">{errors?.phone}</p>
-                </div>
-              </div>
+              )}
               <div className="flex items-center justify-between">
                 <p className="w-[120px]">G$ Account:</p>
                 <input

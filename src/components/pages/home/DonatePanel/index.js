@@ -84,7 +84,7 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
                   <div>
                     <label
                       htmlFor="donate"
-                      class="block mb-2 text-md font-medium text-gray-900"
+                      className="block mb-2 text-md font-medium text-gray-900"
                     >
                       Amount to donate
                     </label>
@@ -92,7 +92,7 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
                       type="number"
                       id="donate"
                       required
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       placeholder="Amount"
                       value={amountToSend}
                       onChange={({ target: { value } }) =>

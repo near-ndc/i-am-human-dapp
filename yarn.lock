@@ -2557,17 +2557,17 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@headlessui/react@^1.7.5":
+"@headlessui/react@^1.7.10":
   version "1.7.10"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.10.tgz#0971a33843a76f2bf4b801a43f76e3730fe15884"
   integrity sha512-1m66h/5eayTEZVT2PI13/2PG3EVC7a9XalmUtVSC8X76pcyKYMuyX1XAL2RUtCr8WhoMa/KrDEyoeU5v+kSQOw==
   dependencies:
     client-only "^0.0.1"
 
-"@heroicons/react@2.0.14":
-  version "2.0.14"
-  resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.14.tgz#9cc23b8978b1829239250b3d7846cff16c58e9f5"
-  integrity sha512-eFL4if6L7woL1fUvk/jjXx4z9NxVESHHrQnEd2qKVelTFTIr/3VLGWdPb0biia9ZVe26P0JSs/xmOlRNur3SrQ==
+"@heroicons/react@^2.0.15":
+  version "2.0.15"
+  resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.15.tgz#e1fc966350577a1ab0e38211e7b58e4bf8285b49"
+  integrity sha512-CZ2dGWgWG3/z5LEoD5D3MEr1syn45JM/OB2aDpw531Ryecgkz2V7TWQ808P0lva7zP003PVW6WlwbofsYyga3A==
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -5340,7 +5340,7 @@
     crypto-js "^4.1.1"
     elliptic "^6.5.4"
 
-"@usedapp/core@1.*":
+"@usedapp/core@1.*", "@usedapp/core@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-1.2.2.tgz#b74d617421a9c91a9e6d6d29ce115b434aadd426"
   integrity sha512-+YbsFUer5ejQMxwlOJm5/6SAxPdtYMCHaZL1RhKRVPLiliGBGvRKO1ew2eWAkzRtWUnH8fAlBOdukzPVr8tsrg==
@@ -17708,6 +17708,11 @@ react-native@^0.71.0:
     use-sync-external-store "^1.0.0"
     whatwg-fetch "^3.0.0"
     ws "^6.2.2"
+
+react-otp-input@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-otp-input/-/react-otp-input-2.4.0.tgz#0f0a3de1d8c8d564e2e4fbe5d6b7b56e29e3a6e6"
+  integrity sha512-AIgl7u4sS9BTNCxX1xlaS5fPWay/Zml8Ho5LszXZKXrH1C/TiFsTQGmtl13UecQYO3mSF3HUzG2rrDf0sjEFmg==
 
 react-phone-number-input@^3.2.18:
   version "3.2.18"

@@ -4,6 +4,7 @@ import { BackwardIcon } from "@heroicons/react/24/outline";
 
 import { CheckSbtTokenStatus } from "./../../components/pages/home/myOwnSbt";
 import { Gooddollar } from "../../components/pages/home/Gooddollar";
+import { Panel } from "../../components/common/panel";
 import { wallet } from "../../index";
 import { supabase } from "../../utils/supabase";
 
@@ -14,10 +15,12 @@ export const IsSignedInLanding = ({
   setShowGooddollarVerification,
 }) => {
   useEffect(() => {
-    if (window.location.href.includes("?login")) {
+    if (window.location.href.includes("?login") && hasApplied === false) {
       setShowGooddollarVerification(true);
+    } else {
+      setShowGooddollarVerification(false);
     }
-  }, [setShowGooddollarVerification]);
+  }, [setShowGooddollarVerification, hasApplied]);
   return (
     <>
       {hasApplied === null && (
@@ -31,25 +34,17 @@ export const IsSignedInLanding = ({
           </p>
         </div>
       )}
-      {hasApplied === false && showGooddollarVerification && (
-        <div className="max-w-6xl mx-auto">
-          <button
-            onClick={() => setShowGooddollarVerification(false)}
-            className="bg-blue-600 p-2 rounded-full text-white"
-          >
-            <BackwardIcon className="w-6 h-6" />
-          </button>
+      <Panel
+        open={showGooddollarVerification}
+        onClose={() => setShowGooddollarVerification(false)}
+        title="Get Verified and Apply for Community SBT"
+      >
+        <div className="max-w-6xl mx-auto px-2">
           <Gooddollar />
         </div>
-      )}
+      </Panel>
       {hasApplied === true && (
         <>
-          {userData?.status === "Application Submitted" && (
-            <p>Your application for community SBT has been submitted</p>
-          )}
-          {userData?.status === "Application Processed" && (
-            <p>Your application for community SBT is being processed</p>
-          )}
           {userData?.status === "Application Denied" && <p>TO DO</p>}
           {userData?.status === "Approved" && <CheckSbtTokenStatus />}
         </>
