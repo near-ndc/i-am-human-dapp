@@ -86,7 +86,7 @@ export const ApplyCommunityVerify = ({ open, onClose }) => {
         {showStep === 2 && (
           <>
             <p className="text-3xl font-semibold mt-5">Verify Your Phone</p>
-            <VerifyPhoneAndEmail />
+            <VerifyPhoneAndEmail setShowStep={setShowStep} />
           </>
         )}
         {showStep === 3 && (
