@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SwishSpinner } from "react-spinners-kit";
-import { BackwardIcon } from "@heroicons/react/24/outline";
 
 import { CheckSbtTokenStatus } from "./../../components/pages/home/myOwnSbt";
 import { Gooddollar } from "../../components/pages/home/Gooddollar";
 import { Panel } from "../../components/common/panel";
-import { wallet } from "../../index";
-import { supabase } from "../../utils/supabase";
 
 export const IsSignedInLanding = ({
   hasApplied,
