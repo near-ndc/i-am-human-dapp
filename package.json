@@ -31,6 +31,7 @@
     "client-sdk-gooddollar": "^1.0.23",
     "formik": "^2.2.9",
     "libphonenumber-js": "^1.10.19",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "near-api-js": "^0.44.2",
     "patch-package": "^6.4.7",
