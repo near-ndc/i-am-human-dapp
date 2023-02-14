@@ -13,7 +13,7 @@ export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
   const [showEmail, setShowEmail] = React.useState(false);
   const [email, setEmail] = React.useState(true);
 
-  const is_not_email = Boolean(userData?.email);
+  const is_not_email = !Boolean(userData?.email);
 
   const sendOtp = async () => {
     try {
