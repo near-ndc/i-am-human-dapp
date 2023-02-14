@@ -4,9 +4,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 import { wallet } from "../../index";
-import Logo from '../../images/ndc.png'
+import Logo from "../../images/ndc.png";
 
-export const Header = ({ isAdmin }) => {
+export const Header = ({ isAdmin, setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
 
@@ -31,7 +31,14 @@ export const Header = ({ isAdmin }) => {
           >
             <div className="flex lg:min-w-0 lg:flex-1" aria-label="Global">
               <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
-               <img src={Logo} alt="logo" className="h-[100px] w-[100px] mt-4" />
+                <img
+                  src={Logo}
+                  onClick={() => {
+                    setShowAdmin(false);
+                  }}
+                  alt="logo"
+                  className="h-[100px] w-[100px] mt-4"
+                />
               </a>
             </div>
             <div className="flex lg:hidden">
@@ -59,10 +66,13 @@ export const Header = ({ isAdmin }) => {
               {isSignedIn && (
                 <>
                   {isAdmin ? (
-                    <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
+                    <button
+                      onClick={() => setShowAdmin(true)}
+                      className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+                    >
                       <p>Admin Account</p>
                       <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                    </div>
+                    </button>
                   ) : (
                     <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
                       <p>User Account</p>
@@ -92,7 +102,11 @@ export const Header = ({ isAdmin }) => {
               <div className="flex h-9 items-center justify-between">
                 <div className="flex">
                   <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
-                  <img src={Logo} alt="logo" className="h-[100px] w-[100px] mt-4" />
+                    <img
+                      src={Logo}
+                      alt="logo"
+                      className="h-[100px] w-[100px] mt-4"
+                    />
                   </a>
                 </div>
                 <div className="flex">

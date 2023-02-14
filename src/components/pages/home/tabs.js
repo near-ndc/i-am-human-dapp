@@ -58,17 +58,7 @@ export const Tabs = ({ isAdmin }) => {
             <GiToken />
           </div>
         ),
-      },
-      {
-        name: "Login With Gooddollar",
-        icon: (
-          <img
-            alt="gooddollar"
-            className="h-5 w-5 mr-2 rounded-full"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE1Gk1xMuY_r6bWOXVzgjwIHbf_CAYBAJ1gW22uAMSm50HgICijvdUu8oLkoa-xpu-tcI&usqp=CAU"
-          />
-        ),
-      },
+      }
     ],
     [isAdmin, activeTab]
   );

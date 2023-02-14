@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 import { Landing } from "./pages/unAuth/index";
@@ -9,11 +9,19 @@ import { wallet } from "./index";
 
 export function App({ isSignedIn }) {
   const [isUserAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
-
+  const [showAdmin, setShowAdmin] = useState(false);
   return (
     <>
-      {(!isSignedIn || isUserAdmin) && <Landing isSignedIn={isSignedIn} />}
-      {/* <Home /> */}
+      {showAdmin ? (
+        <>
+          <Home setShowAdmin={setShowAdmin} />
+        </>
+      ) : (
+        <>
+          <Landing setShowAdmin={setShowAdmin} isSignedIn={isSignedIn} />
+        </>
+      )}
+
       <ToastContainer
         position="top-right"
         autoClose={3500}

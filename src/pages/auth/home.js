@@ -6,15 +6,15 @@ import { wallet } from "../../index";
 import { DonatePanel } from "../../components/pages/home/DonatePanel";
 import { useAdmin } from "../../utils/useAdmin";
 
-export const Home = () => {
+export const Home = ({ setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet.accountId });
 
-  const [isDonatePanelOpen, setIsDonatePanelOpen] = useState(false)
+  const [isDonatePanelOpen, setIsDonatePanelOpen] = useState(false);
 
   return (
     <>
-      <Header isAdmin={isAdmin} />
-      <div className="px-6">
+      <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
+      <div className="px-6 pt-10">
         <Tabs isAdmin={isAdmin} />
       </div>
       <DonatePanel

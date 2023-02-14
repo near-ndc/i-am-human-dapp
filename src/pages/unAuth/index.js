@@ -9,7 +9,7 @@ import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
 import { ApplyCommunityVerify } from "../../components/pages/home/applyCommunityVerify";
 
-export const Landing = ({ isSignedIn }) => {
+export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const isAdmin = useAdmin({ address: wallet?.accountId ?? "" });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
@@ -38,7 +38,7 @@ export const Landing = ({ isSignedIn }) => {
   }, [isSignedIn]);
   return (
     <div className="isolate bg-white">
-      <Header isAdmin={isAdmin} />
+      <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
       <main>
         <div className={""}>
           <div className={"pb-32 pt-20 sm:pb-40"}>
@@ -92,6 +92,7 @@ export const Landing = ({ isSignedIn }) => {
             )}
             <ApplyCommunityVerify
               open={showCommunityVerification}
+              userData={userData}
               onClose={() => setShowCommunityVerification(false)}
             />
             <div className="relative overflow-hidden">

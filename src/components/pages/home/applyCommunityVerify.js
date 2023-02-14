@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { VerifyPhoneAndEmail } from "./applyCommunityVerify/verifyPhoneAndEmail";
 import { Panel } from "../../common/panel";
 
-export const ApplyCommunityVerify = ({ open, onClose }) => {
+export const ApplyCommunityVerify = ({ open, onClose,userData }) => {
   const steps = {
     0: "5%",
     1: "10%",
     2: "50%",
     3: "100%",
   };
-  const [showStep, setShowStep] = useState(0);
+  const [showStep, setShowStep] = useState(3);
   return (
     <Panel
       open={open}
@@ -85,8 +85,7 @@ export const ApplyCommunityVerify = ({ open, onClose }) => {
         )}
         {showStep === 2 && (
           <>
-            <p className="text-3xl font-semibold mt-5">Verify Your Phone</p>
-            <VerifyPhoneAndEmail setShowStep={setShowStep} />
+            <VerifyPhoneAndEmail userData={userData} setShowStep={setShowStep} />
           </>
         )}
         {showStep === 3 && (
