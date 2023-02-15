@@ -4,7 +4,11 @@ import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import OtpInput from "react-otp-input";
 
-export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
+export const VerifyPhoneAndEmail = ({
+  setShowStep,
+  userData,
+  setTelegramData,
+}) => {
   const [value, setValue] = React.useState("+1");
   const [otpSent, setOtpSent] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -22,10 +26,17 @@ export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
         phone: value,
       });
       setOtpSent(true);
-      toast.success("Otp sent successfully");
+      // toast.success("Otp sent successfully");
     } catch {
-      toast.error("Otp sent failed");
+      // toast.error("Otp sent failed");
     } finally {
+      if (is_not_email) {
+        setShowEmail(true);
+      } else {
+        setShowStep(3);
+        setTelegramData({ phone: value });
+      }
+
       setLoading(false);
     }
   };
@@ -58,9 +69,13 @@ export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
         email,
       });
       setEmailSent(true);
-      toast.success("Otp sent successfully");
+      // toast.success("Otp sent successfully");
     } catch {
-      toast.error("Otp sent failed");
+      setShowStep(3);
+
+      setTelegramData({ phone: value, email });
+
+      // toast.error("Otp sent failed");
     } finally {
       setLoading(false);
     }
@@ -73,12 +88,12 @@ export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
     return false;
   }
 
-  const VerifyButton = ({ onClick, buttonLoading, props }) => (
+  const VerifyButton = ({ onClick, buttonLoading, ...rest }) => (
     <button
       onClick={onClick}
       type="button"
       className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-40 py-2 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      {...props}
+      {...rest}
     >
       {buttonLoading ? (
         <div className="w-[fit-content] mx-auto">
@@ -168,8 +183,8 @@ export const VerifyPhoneAndEmail = ({ setShowStep, userData }) => {
   }
 
   return (
-    <div className="bg-gray-100 p-3 rounded">
-      <p className="text-xs text-red-500">Verify Phone Number</p>
+    <div className="bg-gray-100 p-3 rounded mt-2">
+      <p>Verify Phone Number</p>
       {otpSent ? (
         <>
           <p className="mb-2">Enter otp sent to your mobile : {value}</p>

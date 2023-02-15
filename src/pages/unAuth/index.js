@@ -185,7 +185,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   <div>
                     <div className="mt-6">
                       <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                        Community Verification
+                        OG SBT Application
                       </h2>
                       <p className="mt-4 text-lg text-gray-500">
                         Our team will schedule a quick video chat to validate
@@ -197,24 +197,37 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         SBT. Stay tuned.
                       </p>
                       <div className="mt-6">
-                        <button
-                          onClick={() => {
-                            if (isSignedIn) {
-                              if (Boolean(userData?.email)) {
-                                setShowCommunityVerification(true);
+                        {Boolean(userData?.og_sbt_application) ? (
+                          <>
+                            {userData?.og_sbt_application === "Application Submitted" && (
+                              <div>
+                                <p>
+                                  Your application for OG SBT has been
+                                  submitted
+                                </p>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              if (isSignedIn) {
+                                if (Boolean(userData?.email)) {
+                                  setShowCommunityVerification(true);
+                                } else {
+                                  toast.error(
+                                    "You need to apply for unique face verification before you apply for OG SBT verification"
+                                  );
+                                }
                               } else {
-                                toast.error(
-                                  "You need to apply for unique face verification before you apply for community verification"
-                                );
+                                wallet.signIn();
                               }
-                            } else {
-                              wallet.signIn();
-                            }
-                          }}
-                          className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                        >
-                          Get It Now
-                        </button>
+                            }}
+                            className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          >
+                            Get It Now
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
