@@ -199,11 +199,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                       <div className="mt-6">
                         {Boolean(userData?.og_sbt_application) ? (
                           <>
-                            {userData?.og_sbt_application === "Application Submitted" && (
+                            {userData?.og_sbt_application ===
+                              "Application Submitted" && (
                               <div>
                                 <p>
-                                  Your application for OG SBT has been
-                                  submitted
+                                  Your application for OG SBT has been submitted
                                 </p>
                               </div>
                             )}
@@ -212,13 +212,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           <button
                             onClick={() => {
                               if (isSignedIn) {
-                                if (Boolean(userData?.email)) {
-                                  setShowCommunityVerification(true);
-                                } else {
-                                  toast.error(
-                                    "You need to apply for unique face verification before you apply for OG SBT verification"
-                                  );
-                                }
+                                setShowCommunityVerification(true);
                               } else {
                                 wallet.signIn();
                               }

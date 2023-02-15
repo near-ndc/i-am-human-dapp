@@ -279,7 +279,7 @@ export const Gooddollar = () => {
                   {...handleValues("name")}
                 />
               </div>
-              {Boolean(values.email) && (
+              {Boolean(values?.email) && (
                 <div className="flex items-center justify-between">
                   <p className="w-[120px]">Email:</p>
                   <div className="w-[88%]">
@@ -292,7 +292,7 @@ export const Gooddollar = () => {
                   </div>
                 </div>
               )}
-              {Boolean(values.phone) && (
+              {Boolean(values?.phone) && (
                 <div className="flex items-center justify-between">
                   <div className="w-[120px]">
                     <p>Mobile:</p>
@@ -303,6 +303,7 @@ export const Gooddollar = () => {
                       className="w-full bg-gray-100 p-1 rounded px-3"
                       placeholder="Phone"
                       value={values.phone}
+                      disabled
                       onChange={(e) => setFieldValue("phone", e)}
                     />
                     <p className="text-red-600 text-sm">{errors?.phone}</p>
