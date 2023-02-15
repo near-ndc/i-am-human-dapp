@@ -20,6 +20,8 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     phone: "",
   });
 
+  const [acceptedAgreement, setAcceptedAgreement] = useState(false);
+
   const apply = async () => {
     setLoading(true);
     const updateData = {
@@ -98,7 +100,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             </p>
             <button
               onClick={() => {
-                window.open("https://web.telegram.org/k/", "_blank");
+                window.open("https://telegram.org/", "_blank");
               }}
               className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 mb-3"
             >
@@ -131,20 +133,33 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
           <>
             <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
             <div className="bg-gray-100 p-3 rounded">
-              <p className="text-lg">
-                - To qualify for an OG SBT you need to have a human-readable
-                account created in 2022 or earlier.
-                <br /> - Either apply here by submitting your phone number that
-                you use for your Telegram account. Or by meeting up with one of
-                our Stewards in real life or on a video call. If you don't know
-                who we are then you can find us in the NDC Technical Working
-                Group on Telegram.
-              </p>
+              <p className="text-lg">GDPR Agreement</p>
+              <div className="relative flex items-start">
+                <div className="flex h-5 items-center">
+                  <input
+                    id="candidates"
+                    aria-describedby="candidates-description"
+                    name="candidates"
+                    checked={acceptedAgreement}
+                    onChange={() => setAcceptedAgreement(!acceptedAgreement)}
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                </div>
+                <div className="ml-3 text-sm">
+                  <label htmlFor="candidates" className="text-gray-700">
+                    I consent to recive communication by telegram. I understand
+                    that I may opt out at anytime using the unsubscribe link on
+                    the settings page{" "}
+                  </label>
+                </div>
+              </div>
               <div className="ml-auto w-[fit-content] text-center space-x-2">
                 <button
                   onClick={apply}
                   type="button"
-                  className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-28 py-2 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  disabled={!acceptedAgreement}
+                  className={`inline-flex items-center rounded border border-transparent ${acceptedAgreement?'bg-indigo-600 hover:bg-indigo-700 ':"bg-gray-500"} w-28 py-2 text-xs font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                 >
                   {loading && (
                     <div className="w-[fit-content] mx-auto">
@@ -176,6 +191,17 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             </div>
           </>
         )}
+        <div className="p-4 shadow rounded-lg w-full w-full mt-4">
+          <p className="text-base">
+            - To qualify for an OG SBT you need to have a human-readable account
+            created in 2022 or earlier.
+            <br /> - Either apply here by submitting your phone number that you
+            use for your Telegram account. Or by meeting up with one of our
+            Stewards in real life or on a video call. If you don't know who we
+            are then you can find us in the NDC Technical Working Group on
+            Telegram.
+          </p>
+        </div>
       </div>
     </Panel>
   );

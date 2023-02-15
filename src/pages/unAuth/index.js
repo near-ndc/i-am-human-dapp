@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { ApplyCommunityVerify } from "../../components/pages/home/applyCommunityVerify";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
-  const isAdmin = useAdmin({ address: wallet?.accountId ?? "" });
+  const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
   const [showGooddollarVerification, setShowGooddollarVerification] =

@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-toastify";
 
 import { wallet } from "../../index";
 import Logo from "../../images/ndc.png";
+import { supabase } from "../../utils/supabase";
 
 export const Header = ({ isAdmin, setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -62,7 +64,22 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
                 </a>
               ))} */}
             </div>
-            <div className="hidden lg:flex lg:min-w-0 lg:flex-1 space-x-4 lg:justify-end">
+            <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
+              <button
+                onClick={async () => {
+                  await supabase
+                    .from("users")
+                    .delete()
+                    .match({ wallet_identifier: wallet.accountId });
+                  toast.info("Your account info has been reset");
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2500);
+                }}
+                className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+              >
+                <p>Reset Account</p>
+              </button>
               {isSignedIn && (
                 <>
                   {isAdmin ? (
@@ -134,6 +151,29 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
                     ))} */}
                   </div>
                   <div className="py-6">
+                    {isSignedIn && (
+                      <>
+                        {isAdmin ? (
+                          <button
+                            onClick={() => setShowAdmin(true)}
+                            className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2"
+                          >
+                            <p>Admin Account</p>
+                            <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                          </button>
+                        ) : (
+                          <div className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2">
+                            <p>User Account</p>
+                            <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {wallet.accountId && (
+                      <div className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">
+                        {wallet.accountId}
+                      </div>
+                    )}
                     <button
                       type="button"
                       onClick={
