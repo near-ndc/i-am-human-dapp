@@ -65,23 +65,23 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
               ))} */}
             </div>
             <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
-              <button
-                onClick={async () => {
-                  await supabase
-                    .from("users")
-                    .delete()
-                    .match({ wallet_identifier: wallet.accountId });
-                  toast.info("Your account info has been reset");
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 2500);
-                }}
-                className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
-              >
-                <p>Reset Account</p>
-              </button>
               {isSignedIn && (
                 <>
+                  <button
+                    onClick={async () => {
+                      await supabase
+                        .from("users")
+                        .delete()
+                        .match({ wallet_identifier: wallet.accountId });
+                      toast.info("Your account info has been reset");
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2500);
+                    }}
+                    className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+                  >
+                    <p>Reset Account</p>
+                  </button>
                   {isAdmin ? (
                     <button
                       onClick={() => setShowAdmin(true)}
