@@ -212,7 +212,13 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           <button
                             onClick={() => {
                               if (isSignedIn) {
-                                setShowCommunityVerification(true);
+                                if (Object.keys(userData ?? {}).length !== 0) {
+                                  setShowCommunityVerification(true);
+                                } else {
+                                  toast.error(
+                                    "Face verification is required in order to get OG SBT"
+                                  );
+                                }
                               } else {
                                 wallet.signIn();
                               }

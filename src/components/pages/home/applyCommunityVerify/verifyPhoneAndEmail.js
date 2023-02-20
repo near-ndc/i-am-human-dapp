@@ -10,33 +10,31 @@ export const VerifyPhoneAndEmail = ({
   setTelegramData,
 }) => {
   const [value, setValue] = React.useState("+1");
-  const [otpSent, setOtpSent] = React.useState(false);
+  const [email, setEmail] = React.useState(true);
+
   const [loading, setLoading] = React.useState(false);
   const [otp, setOtp] = React.useState("");
+
+  const [otpSent, setOtpSent] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
   const [showEmail, setShowEmail] = React.useState(false);
-  const [email, setEmail] = React.useState(true);
 
   const is_not_email = !Boolean(userData?.email);
 
   const sendOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3001/send_otp", {
+      await axios.post("http://localhost:3000/send_otp", {
         phone: value,
       });
       setOtpSent(true);
-      // toast.success("Otp sent successfully");
-    } catch {
-      // toast.error("Otp sent failed");
-    } finally {
-      if (is_not_email) {
-        setShowEmail(true);
-      } else {
-        setShowStep(3);
-        setTelegramData({ phone: value });
-      }
 
+      setTelegramData({ phone: value });
+
+      toast.success("Otp sent successfully");
+    } catch {
+      toast.error("Otp sent failed");
+    } finally {
       setLoading(false);
     }
   };
@@ -44,20 +42,23 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3001/verify_otp", {
+      const data = await axios.post("http://localhost:3000/verify_otp", {
         phone: value,
         otp,
       });
-      setOtpSent(true);
+      if (data.data?.error) {
+        throw new Error(data.data?.error);
+      }
       toast.success("Otp verified");
-    } catch {
-      toast.error("Otp verification failed");
-    } finally {
       if (is_not_email) {
-        setShowEmail(true);
+        setShowStep(3);
       } else {
         setShowStep(3);
       }
+    } catch (e) {
+      toast.error(e.message ? e.message : "Otp verification failed");
+    } finally {
+      setOtp("");
       setLoading(false);
     }
   };
@@ -65,18 +66,36 @@ export const VerifyPhoneAndEmail = ({
   const sendEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3001/send_email_otp", {
+      await axios.post("http://localhost:3000/send_email_otp", {
         email,
       });
       setEmailSent(true);
-      // toast.success("Otp sent successfully");
-    } catch {
-      setShowStep(3);
-
       setTelegramData({ phone: value, email });
-
-      // toast.error("Otp sent failed");
+      toast.success("Otp sent successfully");
+    } catch {
+      toast.error("Otp sent failed");
     } finally {
+      setLoading(false);
+    }
+  };
+
+  //verify email otp
+  const verifyEmailOtp = async () => {
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:3000/verify_email_otp", {
+        phone: value,
+        otp,
+      });
+      toast.success("Otp verified");
+    } catch {
+      toast.error("Otp verification failed");
+    } finally {
+      if (is_not_email) {
+        setShowStep(3);
+      } else {
+        setShowStep(3);
+      }
       setLoading(false);
     }
   };
@@ -137,7 +156,7 @@ export const VerifyPhoneAndEmail = ({
             />
             <div className="ml-auto w-[fit-content] text-center space-x-2">
               <VerifyButton
-                onClick={verifyOtp}
+                onClick={verifyEmailOtp}
                 disabled={otp.length !== 6}
                 buttonLoading={loading}
               />
