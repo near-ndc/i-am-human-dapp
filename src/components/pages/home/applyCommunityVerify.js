@@ -35,7 +35,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     try {
       const { error } = await supabase
         .from("users")
-        .upsert(updateData)
+        .update(updateData)
         .match({ wallet_identifier: wallet.accountId });
       if (error) {
         throw new Error("");

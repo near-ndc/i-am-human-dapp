@@ -62,7 +62,9 @@ export const Gooddollar = () => {
         status: "Application Submitted",
       };
       try {
-        const { error } = await supabase.from("users").insert(objectToSet);
+        const { error } = await supabase
+          .from("users")
+          .insert(objectToSet)
         if (error) {
           throw new Error("");
         } else {
