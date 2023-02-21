@@ -24,7 +24,7 @@ export const VerifyPhoneAndEmail = ({
   const sendOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/send_otp", {
+      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_otp", {
         phone: value,
       });
       setOtpSent(true);
@@ -42,7 +42,7 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      const data = await axios.post("http://localhost:3000/verify_otp", {
+      const data = await axios.post("https://api-ophc7vkxsq-uc.a.run.app/verify_otp", {
         phone: value,
         otp,
       });
@@ -66,7 +66,7 @@ export const VerifyPhoneAndEmail = ({
   const sendEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/send_email_otp", {
+      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_email_otp", {
         email,
       });
       setEmailSent(true);
@@ -83,7 +83,7 @@ export const VerifyPhoneAndEmail = ({
   const verifyEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/verify_email_otp", {
+      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/verify_email_otp", {
         phone: value,
         otp,
       });

@@ -26,7 +26,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           .match({ wallet_identifier: wallet.accountId });
         if (data?.[0]) {
           setUserData(data[0]);
-          setHasApplied(true);
+          if (data?.[0]?.["g$_address"]) {
+            setHasApplied(true);
+          } else {
+            setHasApplied(false);
+          }
         } else {
           setHasApplied(false);
         }
@@ -212,13 +216,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           <button
                             onClick={() => {
                               if (isSignedIn) {
-                                if (Object.keys(userData ?? {}).length !== 0) {
-                                  setShowCommunityVerification(true);
-                                } else {
-                                  toast.error(
-                                    "Face verification is required in order to get OG SBT"
-                                  );
-                                }
+                                setShowCommunityVerification(true);
                               } else {
                                 wallet.signIn();
                               }

@@ -27,6 +27,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     const updateData = {
       telegram_number: telegramData.phone,
       og_sbt_application: "Application Submitted",
+      wallet_identifier: wallet.accountId
     };
     if (!Boolean(userData?.email)) {
       updateData.email = telegramData.email;
@@ -34,7 +35,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     try {
       const { error } = await supabase
         .from("users")
-        .update(updateData)
+        .upsert(updateData)
         .match({ wallet_identifier: wallet.accountId });
       if (error) {
         throw new Error("");

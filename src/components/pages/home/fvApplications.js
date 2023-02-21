@@ -16,7 +16,6 @@ export function FVSBTApplicationsTable() {
         throw new Error("");
       }
       setAllApplications(data ?? []);
-      toast.success("Fetched all applications successfully");
     } catch {
       toast.error("An error occured while fetching applications");
     } finally {
@@ -180,20 +179,17 @@ export function FVSBTApplicationsTable() {
                       {person.status}
                     </td>
                     <td className="relative space-x-4 whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-3">
-                      <a
-                        href="#"
+                      <button
                         className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
                       >
                         MINT FV SBT
                         <span className="sr-only">, {person.name}</span>
-                      </a>
-                      <a
-                        href="#"
+                      </button>
+                      <button
                         className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
                       >
                         REJECT APPLICATION
-                        <span className="sr-only">, {person.name}</span>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}
