@@ -196,7 +196,7 @@ export function OgSBTApplicationsTable() {
                               await supabase
                                 .from("users")
                                 .update({ og_sbt_application: "Approved" })
-                                .match({ wallet_identifier: wallet.accountId });
+                                .match({ wallet_identifier: person.wallet_identifier });
                               fetchUserApplications();
                             }}
                             className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
@@ -208,7 +208,7 @@ export function OgSBTApplicationsTable() {
                               await supabase
                                 .from("users")
                                 .update({ og_sbt_application: "Rejected" })
-                                .match({ wallet_identifier: wallet.accountId });
+                                .match({ wallet_identifier: person.wallet_identifier });
                               fetchUserApplications();
                             }}
                             className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
@@ -234,7 +234,7 @@ export function OgSBTApplicationsTable() {
                             await supabase
                               .from("users")
                               .update({ og_sbt_application: "Approved" })
-                              .match({ wallet_identifier: wallet.accountId });
+                              .match({ wallet_identifier:person.wallet_identifier });
                             fetchUserApplications();
                           }}
                           className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
