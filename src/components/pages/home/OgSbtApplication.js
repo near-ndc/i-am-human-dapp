@@ -1,12 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "../../../utils/supabase";
 import { GrFormAdd } from "react-icons/gr";
 import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { wallet } from "../../..";
+import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
 
 export function OgSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(undefined);
 
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
@@ -32,9 +36,11 @@ export function OgSBTApplicationsTable() {
 
   const applicationStatus = ["Application Submitted", "Approved", "Rejected"];
   const [selectedStatus, setSelectedStatus] = useState(applicationStatus);
-  const filteredApplications = allApplications.filter((item) =>
-    selectedStatus.includes(item.og_sbt_application)
-  );
+  const filteredApplications = useMemo(() => {
+    return allApplications?.filter((item) =>
+      (selectedStatus ?? "")?.includes(item?.og_sbt_application)
+    );
+  }, [allApplications, selectedStatus]);
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -44,7 +50,10 @@ export function OgSBTApplicationsTable() {
             <h1 className="text-xl font-medium text-gray-900">
               Og Sbt Applications
             </h1>
-            <button onClick={fetchUserApplications} className="bg-indigo-100 rounded-full p-2 text-sm">
+            <button
+              onClick={fetchUserApplications}
+              className="bg-indigo-100 rounded-full p-2 text-sm"
+            >
               <AiOutlineSync className={loading ? "animate-spin" : ""} />
             </button>
           </div>
@@ -179,19 +188,60 @@ export function OgSBTApplicationsTable() {
                       {person.og_sbt_application}
                     </td>
                     <td className="relative space-x-4 whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-3">
-                      <button
-                        href="#"
-                        className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
-                      >
-                        MINT OG SBT
-                        <span className="sr-only">, {person.name}</span>
-                      </button>
-                      <button
-                        href="#"
-                        className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
-                      >
-                        REJECT APPLICATION
-                      </button>
+                      {person.og_sbt_application ===
+                        "Application Submitted" && (
+                        <>
+                          <button
+                            onClick={async () => {
+                              await supabase
+                                .from("users")
+                                .update({ og_sbt_application: "Approved" })
+                                .match({ wallet_identifier: wallet.accountId });
+                              fetchUserApplications();
+                            }}
+                            className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
+                          >
+                            MINT OG SBT
+                          </button>
+                          <button
+                            onClick={async () => {
+                              await supabase
+                                .from("users")
+                                .update({ og_sbt_application: "Rejected" })
+                                .match({ wallet_identifier: wallet.accountId });
+                              fetchUserApplications();
+                            }}
+                            className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
+                          >
+                            REJECT APPLICATION
+                          </button>
+                        </>
+                      )}
+                      {person.og_sbt_application === "Approved" && (
+                        <button
+                          onClick={async () => {
+                            setSelectedUser(person);
+                            setOpen(true);
+                          }}
+                          className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
+                        >
+                          Show SBT Details
+                        </button>
+                      )}
+                      {person.og_sbt_application === "Rejected" && (
+                        <button
+                          onClick={async () => {
+                            await supabase
+                              .from("users")
+                              .update({ og_sbt_application: "Approved" })
+                              .match({ wallet_identifier: wallet.accountId });
+                            fetchUserApplications();
+                          }}
+                          className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
+                        >
+                          MINT OG SBT
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -200,6 +250,11 @@ export function OgSBTApplicationsTable() {
           </div>
         </div>
       </div>
+      <ShowSbtDetails
+        open={open}
+        selectedUser={selectedUser}
+        setOpen={setOpen}
+      />
     </div>
   );
 }
