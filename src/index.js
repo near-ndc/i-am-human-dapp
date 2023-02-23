@@ -1,6 +1,6 @@
 // React
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,16 +12,17 @@ const CONTRACT_ADDRESS = 'community-sbt-1.i-am-human.testnet';
 // Having the key enables to call non-payable methods without interrupting the user to sign
 export const wallet = new Wallet({ createAccessKeyFor: CONTRACT_ADDRESS });
 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
 // Setup on page load
 window.onload = async () => {
   const isSignedIn = await wallet.startUp();
 
-  ReactDOM.render(
+  root.render(
     <App
       isSignedIn={isSignedIn}
       contractId={CONTRACT_ADDRESS}
       wallet={wallet}
-    />,
-    document.getElementById("root")
+    />
   );
 };
