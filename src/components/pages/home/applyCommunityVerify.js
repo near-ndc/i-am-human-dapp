@@ -27,16 +27,30 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     const updateData = {
       telegram_number: telegramData.phone,
       og_sbt_application: "Application Submitted",
-      wallet_identifier: wallet.accountId
+      wallet_identifier: wallet.accountId,
     };
     if (!Boolean(userData?.email)) {
       updateData.email = telegramData.email;
     }
     try {
-      const { error } = await supabase
+      let error = null;
+      const { data } = await supabase
         .from("users")
-        .update(updateData)
+        .select("*")
         .match({ wallet_identifier: wallet.accountId });
+      if (data[0]) {
+        const { error:appError } = await supabase
+          .from("users")
+          .update(updateData)
+          .match({ wallet_identifier: wallet.accountId });
+        error = appError;
+      } else {
+        const { error:appError } = await supabase
+          .from("users")
+          .insert(updateData)
+          .match({ wallet_identifier: wallet.accountId });
+        error = appError;
+      }
       if (error) {
         throw new Error("");
       } else {
@@ -134,6 +148,9 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
           <>
             <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
             <div className="bg-gray-100 p-3 rounded">
+              <p className="mb-3">
+                Send your Near account as a Telegram DM to @KazanderDad
+              </p>
               <p className="text-lg">GDPR Agreement</p>
               <div className="relative flex items-start">
                 <div className="flex h-5 items-center">
@@ -160,7 +177,11 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                   onClick={apply}
                   type="button"
                   disabled={!acceptedAgreement}
-                  className={`inline-flex items-center rounded border border-transparent ${acceptedAgreement?'bg-indigo-600 hover:bg-indigo-700 ':"bg-gray-500"} w-28 py-2 text-xs font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                  className={`inline-flex items-center rounded border border-transparent ${
+                    acceptedAgreement
+                      ? "bg-indigo-600 hover:bg-indigo-700 "
+                      : "bg-gray-500"
+                  } w-28 py-2 text-xs font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                 >
                   {loading && (
                     <div className="w-[fit-content] mx-auto">
@@ -194,13 +215,14 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
         )}
         <div className="p-4 shadow rounded-lg w-full w-full mt-4">
           <p className="text-base">
-            - To qualify for an OG SBT you need to have a human-readable account
-            created in 2022 or earlier.
-            <br /> - Either apply here by submitting your phone number that you
-            use for your Telegram account. Or by meeting up with one of our
-            Stewards in real life or on a video call. If you don't know who we
-            are then you can find us in the NDC Technical Working Group on
-            Telegram.
+            To qualify for an OG SBT you need to have an implicit
+            (human-readable) account created in 2022 or earlier.
+            <br /> - Apply here by submitting the phone number that you use for
+            your Telegram account, and also sending us a DM from Telegram with
+            your NEAR Account <br /> - You can also meet up with one of our
+            Stewards - either in real life or on a video call - and ask for the
+            OG SBT <br /> - Find us with the i-am-human t-shirts at ETH Denver.
+            Or in the NDC Technical Working Group on Telegram.
           </p>
         </div>
       </div>

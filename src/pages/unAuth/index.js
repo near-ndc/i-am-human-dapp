@@ -207,7 +207,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               "Application Submitted" && (
                               <div>
                                 <p>
-                                  Your application for OG SBT has been submitted
+                                  You've applied. Our team will schedule a quick
+                                  video chat to validate you in person
                                 </p>
                               </div>
                             )}

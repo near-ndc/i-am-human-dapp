@@ -62,9 +62,23 @@ export const Gooddollar = () => {
         status: "Application Submitted",
       };
       try {
-        const { error } = await supabase
+        let error = null;
+        const { data } = await supabase
           .from("users")
-          .insert(objectToSet)
+          .select("*")
+          .match({ wallet_identifier: wallet.accountId });
+        if (data[0]) {
+          const { error: appError } = await supabase
+            .from("users")
+            .update(objectToSet)
+            .match({ wallet_identifier: wallet.accountId });
+          error = appError;
+        } else {
+          const { error: appError } = await supabase
+            .from("users")
+            .insert(objectToSet);
+          error = appError;
+        }
         if (error) {
           throw new Error("");
         } else {

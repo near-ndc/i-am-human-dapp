@@ -173,10 +173,10 @@ export function OgSBTApplicationsTable() {
                     className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
                   >
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                      {person.name}
+                      {person.name ?? "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.email}
+                      {person.email ?? "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
@@ -196,7 +196,9 @@ export function OgSBTApplicationsTable() {
                               await supabase
                                 .from("users")
                                 .update({ og_sbt_application: "Approved" })
-                                .match({ wallet_identifier: person.wallet_identifier });
+                                .match({
+                                  wallet_identifier: person.wallet_identifier,
+                                });
                               fetchUserApplications();
                             }}
                             className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
@@ -208,7 +210,9 @@ export function OgSBTApplicationsTable() {
                               await supabase
                                 .from("users")
                                 .update({ og_sbt_application: "Rejected" })
-                                .match({ wallet_identifier: person.wallet_identifier });
+                                .match({
+                                  wallet_identifier: person.wallet_identifier,
+                                });
                               fetchUserApplications();
                             }}
                             className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
@@ -234,7 +238,9 @@ export function OgSBTApplicationsTable() {
                             await supabase
                               .from("users")
                               .update({ og_sbt_application: "Approved" })
-                              .match({ wallet_identifier:person.wallet_identifier });
+                              .match({
+                                wallet_identifier: person.wallet_identifier,
+                              });
                             fetchUserApplications();
                           }}
                           className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"

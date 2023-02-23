@@ -206,7 +206,7 @@ export const VerifyPhoneAndEmail = ({
       <p>Verify Phone Number</p>
       {otpSent ? (
         <>
-          <p className="mb-2">Enter otp sent to your mobile : {value}</p>
+          <p className="mb-2">Enter verification code sent to your mobile : {value}</p>
           <OtpInput
             value={otp}
             onChange={setOtp}
