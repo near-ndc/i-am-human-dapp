@@ -123,7 +123,7 @@ export const Gooddollar = () => {
   useEffect(() => {
     if (window.location.href.includes("?login")) {
       // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
-      window.history.replaceState({}, '', window.location.href.replace('%253D', '='));
+      // window.history.replaceState({}, '', window.location.href.replace('%253D', '='));
       setShowStep(2);
     }
   }, []);
