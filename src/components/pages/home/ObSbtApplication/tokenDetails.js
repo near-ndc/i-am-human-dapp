@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 import { wallet } from "../../../../index";
 
@@ -43,21 +44,46 @@ export const SbtTokenStatus = ({ wallet_address }) => {
           <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
         ) : (
           <>
-            <p>
-              <span className="font-medium">SBT Tokens owned</span>:{" "}
-              {tokenSupply}
-            </p>
             {tokenData && (
               <>
-                <p
-                  className={`${
-                    isExpired ? "text-red-500" : "text-green-600"
-                  } font-light mb-2`}
-                >
-                  {isExpired
-                    ? "Expired tokens"
-                    : "Valid Token"}
-                </p>
+                <div className="mb-2">
+                  <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
+                    <p
+                      className={`${
+                        isExpired ? "text-red-500" : "text-green-600"
+                      } font-semibold mb-2`}
+                    >
+                      {isExpired ? "Expired Tokens" : "Valid Token"}
+                    </p>
+                    <p>Token Id : {tokenData.token_id}</p>
+                    <p>
+                      Issued At :{" "}
+                      {tokenData.metadata.issued_at
+                        ? dayjs(tokenData.metadata.issued_at * 1000).format(
+                            "DD MMMM YYYY"
+                          )
+                        : "null"}
+                    </p>
+                    <p>
+                      Expires at :{" "}
+                      {dayjs(tokenData.metadata.expires_at * 1000).format(
+                        "DD MMMM YYYY"
+                      )}
+                    </p>
+                    <p>
+                      {Date.now() > tokenData.metadata.expires_at * 1000
+                        ? "Days Since Expiration"
+                        : "Days until expiration"}{" "}
+                      :{" "}
+                      {Math.abs(
+                        dayjs(tokenData.metadata.expires_at * 1000).diff(
+                          Date.now(),
+                          "days"
+                        )
+                      )}
+                    </p>
+                  </div>
+                </div>
               </>
             )}
           </>

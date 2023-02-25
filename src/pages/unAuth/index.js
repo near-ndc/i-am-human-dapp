@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v3.0+ */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header } from "../../components/common/header";
 import { wallet } from "../../index";
 import { useAdmin } from "../../utils/useAdmin";
@@ -13,6 +13,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
+  const ref = useRef();
   const [showGooddollarVerification, setShowGooddollarVerification] =
     useState(false);
   const [showCommunityVerification, setShowCommunityVerification] =
@@ -71,7 +72,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 </>
               </div>
             </div>
-            <div className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center">
+            <button
+              onClick={() => {
+                ref?.current?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center"
+            >
               <svg
                 className="w-6 h-6 text-violet-500"
                 fill="none"
@@ -83,7 +89,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               >
                 <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
-            </div>
+            </button>
           </div>
           <>
             {isSignedIn && (
@@ -207,8 +213,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               "Application Submitted" && (
                               <div>
                                 <p>
-                                  You've applied. Our team will schedule a quick
-                                  video chat to validate you in person
+                                  You've applied. Once we receive your Telegram
+                                  message confirming your Near account your SBT
+                                  will be approved and show up here.
                                 </p>
                               </div>
                             )}
@@ -233,6 +240,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 </div>
               </div>
             </div>
+            <div ref={ref} id="bottom" />
           </>
         </div>
       </main>

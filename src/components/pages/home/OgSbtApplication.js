@@ -193,13 +193,27 @@ export function OgSBTApplicationsTable() {
                         <>
                           <button
                             onClick={async () => {
-                              await supabase
-                                .from("users")
-                                .update({ og_sbt_application: "Approved" })
-                                .match({
-                                  wallet_identifier: person.wallet_identifier,
+                              try {
+                                await supabase
+                                  .from("users")
+                                  .update({ og_sbt_application: "Approved" })
+                                  .match({
+                                    wallet_identifier: person.wallet_identifier,
+                                  });
+                                await wallet.callMethod({
+                                  contractId:
+                                    "community-sbt-1.i-am-human.testnet",
+                                  method: "sbt_mint",
+                                  args: {
+                                    receiver: person.wallet_identifier,
+                                  },
                                 });
-                              fetchUserApplications();
+                                toast.success("Successfully minted tokers")
+                              } catch {
+                                toast.error("An error occurred while minting tokens")
+                              } finally {
+                                fetchUserApplications();
+                              }
                             }}
                             className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
                           >

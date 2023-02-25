@@ -188,6 +188,7 @@ export function FVSBTApplicationsTable() {
                       <button
                         className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
                       >
+                      
                         REJECT APPLICATION
                       </button>
                     </td>
