@@ -12,8 +12,11 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { CircleSpinner } from "react-spinners-kit";
 import { wallet } from "../../..";
-import { supabase } from "../../../utils/supabase";
 import "react-phone-number-input/style.css";
+import { verifyUser } from '../../../services/api';
+
+import getConfig from '../../../config';
+const config = getConfig();
 
 export const Gooddollar = () => {
   const gooddollarLink = createLoginLink({
@@ -24,6 +27,7 @@ export const Gooddollar = () => {
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
+  const [rawGoodDollarData, setRawGoodDollarData] = React.useState(null);
   const [editableFields, setEditableFields] = React.useState({
     name: true,
     gDollarAccount: true,
@@ -51,49 +55,37 @@ export const Gooddollar = () => {
       email: Yup.string().email("Invalid email"),
     }),
     onSubmit: async (data) => {
+      // here need to clear url and remove all unnecessary data from url for near wallet redirect
+      window.history.replaceState({}, '', window.location.origin);
       setSubmitting(true);
-      const objectToSet = {
-        email: data.email,
-        phone: data.phone,
-        wallet_identifier: wallet.accountId,
-        name: data.name,
-        g$_address: data.gDollarAccount,
-        is_whitelisted: data.status === "Whitelisted",
-        status: "Application Submitted",
+      const {sig, ...rawData} = rawGoodDollarData
+
+      const sendObj = {
+        m: JSON.stringify(rawData),
+        c: wallet.accountId,
+        sig: rawGoodDollarData.sig
       };
+
       try {
-        let error = null;
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .match({ wallet_identifier: wallet.accountId });
-        if (data[0]) {
-          const { error: appError } = await supabase
-            .from("users")
-            .update(objectToSet)
-            .match({ wallet_identifier: wallet.accountId });
-          error = appError;
-        } else {
-          const { error: appError } = await supabase
-            .from("users")
-            .insert(objectToSet);
-          error = appError;
-        }
-        if (error) {
-          throw new Error("");
-        } else {
-          toast.success("Applied for community SBT successfully");
-          window.location.href = window.location.origin;
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        }
-      } catch {
+        const result = await verifyUser(sendObj)
+        // remove ed25519: from start string
+        const trimmedSig = result.sig.slice(8, result.sig.length);
+        // normalize string
+        let updatedSig  = trimmedSig + '='.repeat((4 - trimmedSig.length % 4) % 4)
+
+        await wallet.callMethod({
+          contractId: config.CONTRACT_ID,
+          method: "sbt_mint",
+          args: {
+            claim_b64: result.m,
+            claim_sig: updatedSig
+          },
+        });
+      } catch(e) {
+        console.log('Error', e)
         toast.error(
           "An error occured while submitting your details , please try again"
         );
-      } finally {
-        setSubmitting(false);
       }
     },
     validate: (values) => {
@@ -132,6 +124,7 @@ export const Gooddollar = () => {
     try {
       if (data.error) return alert("Login request denied !");
       parseLoginResponse(data).then((d) => {
+        setRawGoodDollarData(data);
         setGooddollarData(d);
         setEditableFields((d) => ({
           ...d,
