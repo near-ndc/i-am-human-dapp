@@ -118,7 +118,7 @@ export const VerifyPhoneAndEmail = ({
         <div className="w-[fit-content] mx-auto">
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-gray-200 animate-spin fill-white"
+            className="w-4 h-4 text-gray-200 animate-spin fill-white"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ export const VerifyPhoneAndEmail = ({
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       ) : (
         <p className="mx-auto w-[fit-content]">Verify</p>
@@ -167,7 +167,7 @@ export const VerifyPhoneAndEmail = ({
             <div>
               <label
                 for="email"
-                class="block mb-2 ml-1 text-sm font-medium text-gray-900"
+                className="block mb-2 ml-1 text-sm font-medium text-gray-900"
               >
                 Email
               </label>
@@ -178,7 +178,7 @@ export const VerifyPhoneAndEmail = ({
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Email"
                 required
               />

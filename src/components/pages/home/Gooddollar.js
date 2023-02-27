@@ -13,9 +13,9 @@ import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { CircleSpinner } from "react-spinners-kit";
 import { wallet } from "../../..";
 import "react-phone-number-input/style.css";
-import { verifyUser } from '../../../services/api';
+import { verifyUser } from "../../../services/api";
 
-import getConfig from '../../../config';
+import getConfig from "../../../config";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -56,33 +56,34 @@ export const Gooddollar = () => {
     }),
     onSubmit: async (data) => {
       // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, '', window.location.origin);
+      window.history.replaceState({}, "", window.location.origin);
       setSubmitting(true);
-      const {sig, ...rawData} = rawGoodDollarData
+      const { sig, ...rawData } = rawGoodDollarData;
 
       const sendObj = {
         m: JSON.stringify(rawData),
         c: wallet.accountId,
-        sig: rawGoodDollarData.sig
+        sig: rawGoodDollarData.sig,
       };
 
       try {
-        const result = await verifyUser(sendObj)
+        const result = await verifyUser(sendObj);
         // remove ed25519: from start string
         const trimmedSig = result.sig.slice(8, result.sig.length);
         // normalize string
-        let updatedSig  = trimmedSig + '='.repeat((4 - trimmedSig.length % 4) % 4)
+        let updatedSig =
+          trimmedSig + "=".repeat((4 - (trimmedSig.length % 4)) % 4);
 
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
           method: "sbt_mint",
           args: {
             claim_b64: result.m,
-            claim_sig: updatedSig
+            claim_sig: updatedSig,
           },
         });
-      } catch(e) {
-        console.log('Error', e)
+      } catch (e) {
+        console.log("Error", e);
         toast.error(
           "An error occured while submitting your details , please try again"
         );
@@ -337,19 +338,52 @@ export const Gooddollar = () => {
                   {...handleValues("status")}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
-              >
-                {!submitting ? (
-                  " Apply for SBT"
-                ) : (
-                  <div className="w-[fit-content] mx-auto">
-                    <CircleSpinner size={20} />
-                  </div>
-                )}
-              </button>
+              {values.status === "Whitelisted" ? (
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+                >
+                  {!submitting ? (
+                    " Apply for SBT"
+                  ) : (
+                    <div className="w-[fit-content] mx-auto">
+                      <CircleSpinner size={20} />
+                    </div>
+                  )}
+                </button>
+              ) : (
+                <div className="text-right w-[fit-content] ml-auto space-y-5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.open("https://wallet.gooddollar.org", "_blank");
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Did you set up GoodDollar wallet and make your first claim ?
+                  </button>
+
+                  <p>
+                    You'll need to claim once before you can apply for face
+                    vertification SBT{" "}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.replaceState(
+                        {},
+                        "",
+                        window.location.origin
+                      );
+                      setShowStep(2);
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Claimed GoodDollar ? Authorize Login Again !
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         )}

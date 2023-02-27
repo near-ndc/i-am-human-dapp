@@ -2370,31 +2370,13 @@
     truffle-flattener "^1.4.4"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodlogin-sdk@^1.1.15":
-  version "1.1.23"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodlogin-sdk/-/goodlogin-sdk-1.1.23.tgz#50c36172b19dc31af6c2a6043fe1a3ba325da317"
-  integrity sha512-LigMMExfcrH9NEF04dFo5gF2KjGJjED5LtRxTu4Fbxhv7GbzZB0aoZEqgYEFySlo4ysFGXUh3G5kWpOfeJaESA==
+"@gooddollar/goodlogin-sdk@1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodlogin-sdk/-/goodlogin-sdk-1.1.15.tgz#a9f7330e4d46aee956807c2c581fea2963aa03c0"
+  integrity sha512-dcWoElGjhJlGVOmz9qJI+vs8Z7uzsEB+4dWxmdRfs0ijwT9sKQ75pJl/xz41euv9D9bmR5lPk/EVXtinipdP3g==
   dependencies:
-    "@gooddollar/goodprotocol" "1.0.27"
+    "@gooddollar/goodprotocol" "^1.0.20"
     web3 "^1.7.4"
-
-"@gooddollar/goodprotocol@1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.27.tgz#e2c2c74a8530b5843468c2150718aafc1405f14f"
-  integrity sha512-7TO86E7HSojCEdvRGMA2clYD+mU/hTFdZSxoiz2HCJLO6A+SJ7itbskYzShUjr8gRGk/2HdNUaT31Zg+kjNnTg==
-  dependencies:
-    "@gooddollar/goodcontracts" "^2.6.2"
-    "@jsier/retrier" "^1.2.4"
-    "@openzeppelin/contracts" "^4.5.0"
-    "@openzeppelin/contracts-upgradeable" "^4.3.2"
-    "@typechain/hardhat" "^6.1.2"
-    async-promise-pool "^1.0.4"
-    ethers-multicall "^0.2.1"
-    openzeppelin-solidity "^4.3.2"
-    patch-package latest
-    press-any-key "^0.1.1"
-    truffle-plugin-verify "^0.5.11"
-    truffle-source-verify "^0.0.6"
 
 "@gooddollar/goodprotocol@1.0.30-beta.3":
   version "1.0.30-beta.3"
@@ -2415,7 +2397,7 @@
     truffle-plugin-verify "^0.6.1"
     truffle-source-verify "^0.0.6"
 
-"@gooddollar/goodprotocol@^1.0.17", "@gooddollar/goodprotocol@^1.0.30-beta.3":
+"@gooddollar/goodprotocol@^1.0.17", "@gooddollar/goodprotocol@^1.0.20", "@gooddollar/goodprotocol@^1.0.30-beta.3":
   version "1.0.30"
   resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.30.tgz#0698de9371134ce5770205bea3c2343a35e1e088"
   integrity sha512-xV68M+omUF1vDHWq1GsPa87aT67tgl+zVNiqXK2nQFtB1mx4bFAFqeVWRiAcVWH188PA/uwEadzohrklQ3HWWQ==
@@ -10568,7 +10550,7 @@ ethereumjs-wallet@^0.6.0:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
-ethers-multicall@^0.2.1, ethers-multicall@^0.2.3:
+ethers-multicall@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/ethers-multicall/-/ethers-multicall-0.2.3.tgz#872b5ad7d6b5d4d7f2960c33bf36bd46d034ac41"
   integrity sha512-RaWQuLy+HzeKOibptlc9RZ6j7bT1H6VnkdAKTHiLx2t/lpyfS2ckXHdQhhRbCaXNc1iu6CgoisgMejxKHg84tg==

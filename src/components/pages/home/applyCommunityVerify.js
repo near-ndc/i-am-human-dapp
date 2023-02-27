@@ -187,7 +187,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                     <div className="w-[fit-content] mx-auto">
                       <svg
                         aria-hidden="true"
-                        class="w-4 h-4 text-gray-200 animate-spin fill-white"
+                        className="w-4 h-4 text-gray-200 animate-spin fill-white"
                         viewBox="0 0 100 101"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +201,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                           fill="currentFill"
                         />
                       </svg>
-                      <span class="sr-only">Loading...</span>
+                      <span className="sr-only">Loading...</span>
                     </div>
                   )}
 

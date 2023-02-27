@@ -56,7 +56,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 />
 
                 <>
-                  <div classsName="h-[fit-content] mt-[30px] md:mt-0">
+                  <div className="h-[fit-content] mt-[30px] md:mt-0">
                     <div className="px-10">
                       <p className="text-3xl font-semibold">
                         GET YOUR PROOF OF PERSONHOOD WITH I-AM-HUMAN
