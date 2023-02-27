@@ -9,12 +9,12 @@ export default function getConfig(env = defaultEnv) {
       };
     case 'testnet':
       return {
-        API_URL: 'http://localhost:3001',
+        API_URL: 'http://34.107.7.48:80',
         CONTRACT_ID: 'gooddollar-v1.i-am-human.testnet'
       };
     default:
       return {
-        API_URL: 'http://localhost:3001',
+        API_URL: 'http://34.107.7.48:80',
         CONTRACT_ID: 'gooddollar-v1.i-am-human.testnet'
       };
   }
