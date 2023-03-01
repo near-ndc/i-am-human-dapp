@@ -57,7 +57,7 @@ export const ManageTokens = () => {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
           contractId: 'community-sbt-1.i-am-human.testnet',
-          method: "sbt_by_owner",
+          method: "nft_tokens_for_owner",
           args: { account: input },
         });
         setTokens({
