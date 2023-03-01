@@ -206,11 +206,17 @@ export function OgSBTApplicationsTable() {
                                   method: "sbt_mint",
                                   args: {
                                     receiver: person.wallet_identifier,
+                                    metadata: {
+                                      ttl: "",
+                                      memo: "",
+                                    },
                                   },
                                 });
-                                toast.success("Successfully minted tokers")
+                                toast.success("Successfully minted tokers");
                               } catch {
-                                toast.error("An error occurred while minting tokens")
+                                toast.error(
+                                  "An error occurred while minting tokens"
+                                );
                               } finally {
                                 fetchUserApplications();
                               }

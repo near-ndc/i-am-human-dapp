@@ -36,7 +36,7 @@ export const SbtTokenStatus = ({ wallet_address }) => {
   useEffect(() => {
     checkSBTTokens();
   }, [checkSBTTokens]);
-  const isExpired = Date.now() > tokenData?.metadata?.expires_at * 1000;
+  const isExpired = Date.now() > tokenData?.metadata?.expires_at;
 
   return (
     <div className="p-2">
@@ -60,24 +60,24 @@ export const SbtTokenStatus = ({ wallet_address }) => {
                     <p>
                       Issued At :{" "}
                       {tokenData.metadata.issued_at
-                        ? dayjs(tokenData.metadata.issued_at * 1000).format(
+                        ? dayjs(tokenData.metadata.issued_at).format(
                             "DD MMMM YYYY"
                           )
                         : "null"}
                     </p>
                     <p>
                       Expires at :{" "}
-                      {dayjs(tokenData.metadata.expires_at * 1000).format(
+                      {dayjs(tokenData.metadata.expires_at).format(
                         "DD MMMM YYYY"
                       )}
                     </p>
                     <p>
-                      {Date.now() > tokenData.metadata.expires_at * 1000
+                      {Date.now() > tokenData.metadata.expires_at
                         ? "Days Since Expiration"
                         : "Days until expiration"}{" "}
                       :{" "}
                       {Math.abs(
-                        dayjs(tokenData.metadata.expires_at * 1000).diff(
+                        dayjs(tokenData.metadata.expires_at).diff(
                           Date.now(),
                           "days"
                         )

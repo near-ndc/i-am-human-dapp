@@ -66,7 +66,7 @@ export const ManageTokens = () => {
           initialized: true,
         });
         if (!hideMessage) {
-          const isExpired = Date.now() > data?.[0]?.metadata.expires_at * 1000;
+          const isExpired = Date.now() > data?.[0]?.metadata.expires_at;
           if (data.length === 1 && !isExpired) {
             toast.success("SBT is valid");
           } else if (data.length === 1 && isExpired) {
@@ -164,7 +164,7 @@ export const ManageTokens = () => {
   const revokeButtonProps = buttonProps(sbtTokens === 1);
 
   const isExpired =
-    Date.now() > tokens?.tokenData?.[0]?.metadata.expires_at * 1000;
+    Date.now() > tokens?.tokenData?.[0]?.metadata.expires_at;
 
   return (
     <div className="p-2">
@@ -209,24 +209,24 @@ export const ManageTokens = () => {
               <p>
                 Issued At :{" "}
                 {tokens.tokenData[0].metadata.issued_at
-                  ? dayjs(tokens.tokenData[0].metadata.issued_at * 1000).format(
+                  ? dayjs(tokens.tokenData[0].metadata.issued_at).format(
                       "DD MMMM YYYY"
                     )
                   : "null"}
               </p>
               <p>
                 Expires at :{" "}
-                {dayjs(tokens.tokenData[0].metadata.expires_at * 1000).format(
+                {dayjs(tokens.tokenData[0].metadata.expires_at).format(
                   "DD MMMM YYYY"
                 )}
               </p>
               <p>
-                {Date.now() > tokens.tokenData[0].metadata.expires_at * 1000
+                {Date.now() > tokens.tokenData[0].metadata.expires_at
                   ? "Days Since Expiration"
                   : "Days until expiration"}{" "}
                 :{" "}
                 {Math.abs(
-                  dayjs(tokens.tokenData[0].metadata.expires_at * 1000).diff(
+                  dayjs(tokens.tokenData[0].metadata.expires_at).diff(
                     Date.now(),
                     "days"
                   )

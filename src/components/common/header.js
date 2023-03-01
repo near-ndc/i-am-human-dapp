@@ -67,6 +67,9 @@ export const Header = ({ setShowAdmin }) => {
               ))} */}
             </div>
             <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
+              {/* <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                Docs
+              </div> */}
               {isSignedIn && (
                 <>
                   <button

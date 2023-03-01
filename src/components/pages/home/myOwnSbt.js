@@ -39,7 +39,7 @@ export const CheckSbtTokenStatus = () => {
   useEffect(() => {
     checkSBTTokens();
   }, [checkSBTTokens]);
-  const isExpired = Date.now() > tokenData?.metadata?.expires_at * 1000;
+  const isExpired = Date.now() > tokenData?.metadata?.expires_at;
 
   return (
     <div className="p-2">
