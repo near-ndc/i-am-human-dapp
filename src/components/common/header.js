@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 import { wallet } from "../../index";
 import Logo from "../../images/ndc.png";
 import { supabase } from "../../utils/supabase";
+import { useAdmin } from "../../utils/useAdmin";
 
-export const Header = ({ isAdmin, setShowAdmin }) => {
+export const Header = ({ setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
+  const [isAdmin] = useAdmin({ address: wallet.accountId });
 
   useEffect(() => {
     wallet

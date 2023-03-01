@@ -193,6 +193,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
                 <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-8 lg:px-0">
                   <div>
+                    {/* Show OG SBT */}
+                    {/*Milliseconds to nanoseconds*/}
+
                     <div className="mt-6">
                       <h2 className="text-3xl font-bold tracking-tight text-gray-900">
                         OG SBT Application
