@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   createLoginLink,
   parseLoginResponse,
@@ -127,7 +127,6 @@ export const Gooddollar = () => {
     },
   });
 
-  const fvLink = useFVLink();
   const handleValues = (key) => ({
     value: values[key],
     disabled: editableFields?.[key],
@@ -137,6 +136,56 @@ export const Gooddollar = () => {
 
   const [showStep, setShowStep] = useState(0);
 
+  const gooddollarLoginCb = useCallback(
+    async (data) => {
+      try {
+        console.log(data);
+        if (data.error) return alert("Login request denied !");
+        parseLoginResponse(data).then((d) => {
+          setRawGoodDollarData(data);
+          setGooddollarData(d);
+          setEditableFields((d) => ({
+            ...d,
+            email: !Boolean(d?.email?.value),
+          }));
+          setEditableFields((d) => ({
+            ...d,
+            mobile: !Boolean(d?.mobile?.value),
+          }));
+          setValues({
+            name: d?.fullName?.value,
+            email: d?.email?.value,
+            phone: d?.mobile?.value,
+            gDollarAccount: d?.walletAddress?.value,
+            status: d?.isAddressWhitelisted?.value
+              ? "Whitelisted"
+              : "Not Whitelisted",
+          });
+          setShowStep(3);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [setValues]
+  );
+
+  useEffect(() => {
+    if (window.location.href.includes("?login=")) {
+      const loginURI = window.location.href.split("=");
+      const buffer = Buffer.from(
+        decodeURIComponent(loginURI[1]),
+        "base64"
+      ).toString("ascii");
+      console.log(buffer.slice(0, buffer.length - 1));
+      if (buffer[buffer.length - 1] !== "}") {
+        gooddollarLoginCb(JSON.parse(buffer.slice(0, buffer.length - 1)));
+      } else {
+        gooddollarLoginCb(JSON.parse(buffer));
+      }
+    }
+  }, [gooddollarLoginCb]);
+
   useEffect(() => {
     if (window.location.href.includes("?login")) {
       // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
@@ -144,36 +193,6 @@ export const Gooddollar = () => {
       setShowStep(2);
     }
   }, []);
-
-  const gooddollarLoginCb = async (data) => {
-    try {
-      if (data.error) return alert("Login request denied !");
-      parseLoginResponse(data).then((d) => {
-        setRawGoodDollarData(data);
-        setGooddollarData(d);
-        setEditableFields((d) => ({
-          ...d,
-          email: !Boolean(d?.email?.value),
-        }));
-        setEditableFields((d) => ({
-          ...d,
-          mobile: !Boolean(d?.mobile?.value),
-        }));
-        setValues({
-          name: d?.fullName?.value,
-          email: d?.email?.value,
-          phone: d?.mobile?.value,
-          gDollarAccount: d?.walletAddress?.value,
-          status: d?.isAddressWhitelisted?.value
-            ? "Whitelisted"
-            : "Not Whitelisted",
-        });
-        setShowStep(3);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const steps = {
     0: "5%",
@@ -285,15 +304,18 @@ export const Gooddollar = () => {
               This feature doesn’t work on phones yet, and is also geo-blocked
               for certain countries.
             </p>
-
-            <LoginButton
-              onLoginCallback={gooddollarLoginCb}
-              className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-              gooddollarlink={gooddollarLink}
-              rdu="gasdasd"
-            >
-              Authorize G$
-            </LoginButton>
+            {window.location.href.includes("?login=") ? (
+              <></>
+            ) : (
+              <LoginButton
+                onLoginCallback={gooddollarLoginCb}
+                className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                gooddollarlink={gooddollarLink}
+                rdu="gasdasd"
+              >
+                Authorize G$
+              </LoginButton>
+            )}
           </div>
         )}
         {showStep === 3 && (

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@gooddollar/goodlogin-sdk": "1.1.15",
-    "@gooddollar/web3sdk-v2": "^0.1.61",
+    "@gooddollar/web3sdk-v2": "^0.1.78",
     "@headlessui/react": "^1.7.10",
     "@heroicons/react": "^2.0.15",
     "@near-wallet-selector/core": "^7.0.0",
