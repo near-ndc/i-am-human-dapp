@@ -67,7 +67,7 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
             <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
               {isSignedIn && (
                 <>
-                  <button
+                  {/* <button
                     onClick={async () => {
                       await supabase
                         .from("users")
@@ -81,7 +81,7 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
                     className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
                   >
                     <p>Reset Account</p>
-                  </button>
+                  </button> */}
                   {isAdmin ? (
                     <button
                       onClick={() => setShowAdmin(true)}

@@ -10,8 +10,9 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {
     0: "5%",
     1: "10%",
-    2: "50%",
-    3: "100%",
+    2: "35%",
+    3: "60%",
+    4: "100%",
   };
   const [showStep, setShowStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -39,13 +40,13 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
         .select("*")
         .match({ wallet_identifier: wallet.accountId });
       if (data[0]) {
-        const { error:appError } = await supabase
+        const { error: appError } = await supabase
           .from("users")
           .update(updateData)
           .match({ wallet_identifier: wallet.accountId });
         error = appError;
       } else {
-        const { error:appError } = await supabase
+        const { error: appError } = await supabase
           .from("users")
           .insert(updateData)
           .match({ wallet_identifier: wallet.accountId });
@@ -76,14 +77,17 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             style={{ width: steps[showStep] }}
           />
         </div>
-        <div className="mt-2 hidden grid-cols-3 text-sm font-medium text-gray-600 sm:grid">
+        <div className="mt-2 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
           <div className={showStep >= 0 && "text-indigo-600"}>
             Create a telegram account
           </div>
           <div className={`${showStep > 1 && "text-indigo-600"} text-center`}>
             Authorize Phone Number
           </div>
-          <div className={`${showStep > 2 && "text-indigo-600"} text-right`}>
+          <div className={`${showStep > 2 && "text-indigo-600"} text-center`}>
+            Send a telegram message
+          </div>
+          <div className={`${showStep > 3 && "text-indigo-600"} text-right`}>
             Apply for OG SBT
           </div>
         </div>
@@ -149,8 +153,36 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
             <div className="bg-gray-100 p-3 rounded">
               <p className="mb-3">
-                Send your Near account as a Telegram DM to @KazanderDad
+                Send your Near account as a Telegram DM to{" "}
+                <a
+                  href="https://t.me/iamhumanapp"
+                  target="_blank"
+                  className="underline text-indigo-600"
+                  rel="noreferrer"
+                >
+                  @iamhumanapp
+                </a>
               </p>
+              <div className="ml-auto w-[fit-content] text-center space-x-2">
+                <button
+                  onClick={() => {
+                    setShowStep(4);
+                  }}
+                  type="button"
+                  className={`inline-flex items-center rounded border border-transparent bg-indigo-600 hover:bg-indigo-700 px-5 py-2 text-xs font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                >
+                  <p className="mx-auto w-[fit-content]">
+                    Yes I have sent a message on telegram
+                  </p>
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        {showStep === 4 && (
+          <>
+            <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
+            <div className="bg-gray-100 p-3 rounded"> 
               <p className="text-lg">GDPR Agreement</p>
               <div className="relative flex items-start">
                 <div className="flex h-5 items-center">

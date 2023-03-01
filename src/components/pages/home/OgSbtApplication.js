@@ -173,10 +173,10 @@ export function OgSBTApplicationsTable() {
                     className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
                   >
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                      {person.name ?? "N/A"}
+                      {person?.name ?? "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.email ?? "N/A"}
+                      {person?.email ?? "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
