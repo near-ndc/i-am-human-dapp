@@ -16,6 +16,7 @@ import "react-phone-number-input/style.css";
 import { verifyUser } from "../../../services/api";
 
 import getConfig from "../../../config";
+import { supabase } from "../../../utils/supabase";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -65,9 +66,32 @@ export const Gooddollar = () => {
         c: wallet.accountId,
         sig: rawGoodDollarData.sig,
       };
-
+      let error = null;
+      let updateData = {
+        wallet_identifier: wallet.accountId,
+        name: data.name,
+        g$_address: data.gDollarAccount,
+        status: "Approved",
+        ...(data?.email ? { email: data?.email } : { phone: data?.phone }),
+        ...(data?.phone ? { phone: data?.phone } : { email: data?.email }),
+      };
       try {
         const result = await verifyUser(sendObj);
+        const { data } = await supabase
+          .from("users")
+          .select("*")
+          .match({ wallet_identifier: wallet.accountId });
+        if (data[0]) {
+          const { error: appError } = await supabase
+            .from("users")
+            .update(updateData)
+            .match({ wallet_identifier: wallet.accountId });
+        } else {
+          const { error: appError } = await supabase
+            .from("users")
+            .insert(updateData)
+            .match({ wallet_identifier: wallet.accountId });
+        }
         // remove ed25519: from start string
         const trimmedSig = result.sig.slice(8, result.sig.length);
         // normalize string
