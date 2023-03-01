@@ -42,8 +42,8 @@ export const IsSignedInLanding = ({
       </Panel>
       {hasApplied === true && (
         <>
-          {userData?.status === "Application Denied" && <p>TO DO</p>}
-          {userData?.status === "Approved" && <CheckSbtTokenStatus />}
+          {/* {userData?.status === "Application Denied" && <p>TO DO</p>} */}
+          {/* {userData?.status === "Approved" && <CheckSbtTokenStatus />} */}
         </>
       )}
     </>
