@@ -8,11 +8,23 @@ import '@near-wallet-selector/modal-ui/styles.css';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import LedgerIconUrl from '@near-wallet-selector/ledger/assets/ledger-icon.png';
 import MyNearIconUrl from '@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png';
+import meteorIconUrl from "@near-wallet-selector/meteor-wallet/assets/meteor-icon.png";
 
 // wallet selector options
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupLedger } from '@near-wallet-selector/ledger';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+import { setupNearWallet } from "@near-wallet-selector/near-wallet";
+import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
+import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
+
+const nearWallet = setupNearWallet({
+  walletUrl: "https://wallet.near.org",
+  iconUrl: nearWalletIconUrl
+});
+const meteorWallet = setupMeteorWallet({
+  iconUrl: meteorIconUrl
+});
 
 const THIRTY_TGAS = '30000000000000';
 const NO_DEPOSIT = '0';
@@ -24,20 +36,20 @@ export class Wallet {
   network;
   createAccessKeyFor;
 
-  constructor({ createAccessKeyFor = undefined, network = 'testnet' }) {
+  constructor({ createAccessKeyFor = undefined, network = 'mainnet' }) {
     // Login to a wallet passing a contractId will create a local
     // key, so the user skips signing non-payable transactions.
     // Omitting the accountId will result in the user being
     // asked to sign all transactions.
     this.createAccessKeyFor = createAccessKeyFor
-    this.network = 'testnet'
+    this.network = 'mainnet'
   }
 
   // To be called when the website loads
   async startUp() {
     this.walletSelector = await setupWalletSelector({
       network: this.network,
-      modules: [setupMyNearWallet({ iconUrl: MyNearIconUrl }),
+      modules: [nearWallet,meteorWallet,setupMyNearWallet({ iconUrl: MyNearIconUrl }),
       setupLedger({ iconUrl: LedgerIconUrl })],
     });
 

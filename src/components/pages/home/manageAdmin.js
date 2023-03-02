@@ -31,7 +31,7 @@ export const ManageAdmin = () => {
     if (walletAddress === "") {
       return true;
     }
-    const testnet = ".testnet";
+    const testnet = ".near";
     const dots = countDots(walletAddress);
     if (walletAddress.endsWith(testnet) && dots === 1) {
       return true;
@@ -43,7 +43,7 @@ export const ManageAdmin = () => {
       setButtonLoading(true);
       try {
         const res = await wallet.callMethod({
-          contractId: 'community-sbt-1.i-am-human.testnet',
+          contractId: 'og-sbt.i-am-human.near',
           method: "add_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -69,7 +69,7 @@ export const ManageAdmin = () => {
       setButtonLoading(true);
       try {
         const res = await wallet.callMethod({
-          contractId: 'community-sbt-1.i-am-human.testnet',
+          contractId: 'og-sbt.i-am-human.near',
           method: "remove_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });

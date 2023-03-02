@@ -72,14 +72,14 @@ export const Header = ({ setShowAdmin }) => {
               </div> */}
               {isSignedIn && (
                 <>
-                  <button
+                  {/* <button
                     onClick={async () => {
                       await supabase
                         .from("users")
                         .delete()
                         .match({ wallet_identifier: wallet.accountId });
                       await wallet.callMethod({
-                        contractId: "community-sbt-1.i-am-human.testnet",
+                        contractId: "og-sbt.i-am-human.near",
                         method: "revoke_for",
                         args: { accounts: [wallet.accountId], metadata: {} },
                       });
@@ -91,7 +91,7 @@ export const Header = ({ setShowAdmin }) => {
                     className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
                   >
                     <p>Reset Account</p>
-                  </button>
+                  </button> */}
                   {isAdmin ? (
                     <button
                       onClick={() => setShowAdmin(true)}

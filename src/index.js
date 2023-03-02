@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // NEAR
 import { Wallet } from "./utils/near-wallet";
-const CONTRACT_ADDRESS = 'community-sbt-1.i-am-human.testnet';
+const CONTRACT_ADDRESS = 'og-sbt.i-am-human.near';
 
 // When creating the wallet you can optionally ask to create an access key
 // Having the key enables to call non-payable methods without interrupting the user to sign

@@ -13,7 +13,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     try {
       setLoading(true);
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: 'og-sbt.i-am-human.near',
         method: "sbt_transfer",
         args: { receiver: transferTo },
       });
@@ -41,7 +41,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     if (transferTo === "") {
       return false;
     }
-    const testnet = ".testnet";
+    const testnet = ".near";
     const dots = countDots(transferTo);
     if (transferTo.endsWith(testnet) && dots === 1) {
       return true;
@@ -110,7 +110,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                   </div>
                   {!isStringValidated && transferTo !== "" && (
                     <p className="my-2 text-red-600 text-xs">
-                      Provided addresss should be a valid one with only .testnet
+                      Provided addresss should be a valid one with only .near
                       at the end and containing only 1 (.)
                     </p>
                   )}

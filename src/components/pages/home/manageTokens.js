@@ -39,7 +39,7 @@ export const ManageTokens = () => {
     if (input === "") {
       return true;
     }
-    const testnet = ".testnet";
+    const testnet = ".near";
     const dots = countDots(input);
     if (input.endsWith(testnet) && dots === 1) {
       return true;
@@ -56,7 +56,7 @@ export const ManageTokens = () => {
       try {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
-          contractId: 'community-sbt-1.i-am-human.testnet',
+          contractId: 'og-sbt.i-am-human.near',
           method: "nft_tokens_for_owner",
           args: { account: input },
         });
@@ -88,7 +88,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: 'og-sbt.i-am-human.near',
         method: "sbt_mint",
         args: {
           receiver: input,
@@ -110,7 +110,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: 'og-sbt.i-am-human.near',
         method: "revoke_for",
         args: { accounts: [input], metadata: {} },
       });
@@ -127,7 +127,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: 'og-sbt.i-am-human.near',
         method: "sbt_renew",
         args: {
           tokens: [tokens.tokenData[0].token_id],

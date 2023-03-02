@@ -92,18 +92,12 @@ export const Gooddollar = () => {
             .insert(updateData)
             .match({ wallet_identifier: wallet.accountId });
         }
-        // remove ed25519: from start string
-        const trimmedSig = result.sig.slice(8, result.sig.length);
-        // normalize string
-        let updatedSig =
-          trimmedSig + "=".repeat((4 - (trimmedSig.length % 4)) % 4);
-
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
           method: "sbt_mint",
           args: {
             claim_b64: result.m,
-            claim_sig: updatedSig,
+            claim_sig: result.sig,
           },
         });
       } catch (e) {
@@ -152,14 +146,15 @@ export const Gooddollar = () => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
+          const isVerified =
+            d?.isAddressWhitelisted?.isVerified ||
+            d?.isAddressWhitelisted?.value;
           setValues({
             name: d?.fullName?.value,
             email: d?.email?.value,
             phone: d?.mobile?.value,
             gDollarAccount: d?.walletAddress?.value,
-            status: d?.isAddressWhitelisted?.value
-              ? "Whitelisted"
-              : "Not Whitelisted",
+            status: isVerified ? "Whitelisted" : "Not Whitelisted",
           });
           setShowStep(3);
         });
@@ -172,12 +167,11 @@ export const Gooddollar = () => {
 
   useEffect(() => {
     if (window.location.href.includes("?login=")) {
-      const loginURI = window.location.href.split("=");
+      const loginURI = window?.location?.href.split("=");
       const buffer = Buffer.from(
         decodeURIComponent(loginURI[1]),
         "base64"
       ).toString("ascii");
-      console.log(buffer.slice(0, buffer.length - 1));
       if (buffer[buffer.length - 1] !== "}") {
         gooddollarLoginCb(JSON.parse(buffer.slice(0, buffer.length - 1)));
       } else {
@@ -239,18 +233,18 @@ export const Gooddollar = () => {
             <p className="text-xl">Do you own a gooddollar account ?</p>
             <div className="ml-auto w-[fit-content] text-center space-x-2">
               <button
-                onClick={() => setShowStep(1)}
-                type="button"
-                className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                <p className="mx-auto w-[fit-content]">No</p>
-              </button>
-              <button
                 onClick={() => setShowStep(2)}
                 type="button"
                 className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <p className="mx-auto w-[fit-content]">Yes</p>
+              </button>
+              <button
+                onClick={() => setShowStep(1)}
+                type="button"
+                className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <p className="mx-auto w-[fit-content]">No</p>
               </button>
             </div>
           </div>
@@ -325,65 +319,79 @@ export const Gooddollar = () => {
               Once you passed step 1 and 2 your information will be populated
               here and you will be able to apply for a Community SBT.
             </p>
+
             <form
               onSubmit={(e) => handleSubmit(e)}
               className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
             >
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">Name:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Name"
-                  {...handleValues("name")}
-                />
-              </div>
-              {Boolean(values?.email) && (
-                <div className="flex items-center justify-between">
-                  <p className="w-[120px]">Email:</p>
-                  <div className="w-[88%]">
+              {values.status === "Whitelisted" ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">Name:</p>
                     <input
-                      className="w-full bg-gray-100 p-1 rounded px-3"
-                      placeholder="Email"
-                      {...handleValues("email")}
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Name"
+                      {...handleValues("name")}
                     />
-                    <p>{errors?.email}</p>
                   </div>
-                </div>
-              )}
-              {Boolean(values?.phone) && (
-                <div className="flex items-center justify-between">
-                  <div className="w-[120px]">
-                    <p>Mobile:</p>
-                    <p className="text-[12px]">With country code</p>
-                  </div>
-                  <div className="w-[88%]">
-                    <PhoneInput
-                      className="w-full bg-gray-100 p-1 rounded px-3"
-                      placeholder="Phone"
-                      value={values.phone}
-                      disabled
-                      onChange={(e) => setFieldValue("phone", e)}
+                  {Boolean(values?.email) && (
+                    <div className="flex items-center justify-between">
+                      <p className="w-[120px]">Email:</p>
+                      <div className="w-[88%]">
+                        <input
+                          className="w-full bg-gray-100 p-1 rounded px-3"
+                          placeholder="Email"
+                          {...handleValues("email")}
+                        />
+                        <p>{errors?.email}</p>
+                      </div>
+                    </div>
+                  )}
+                  {Boolean(values?.phone) && (
+                    <div className="flex items-center justify-between">
+                      <div className="w-[120px]">
+                        <p>Mobile:</p>
+                        <p className="text-[12px]">With country code</p>
+                      </div>
+                      <div className="w-[88%]">
+                        <PhoneInput
+                          className="w-full bg-gray-100 p-1 rounded px-3"
+                          placeholder="Phone"
+                          value={values.phone}
+                          disabled
+                          onChange={(e) => setFieldValue("phone", e)}
+                        />
+                        <p className="text-red-600 text-sm">{errors?.phone}</p>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">G$ Account:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Account Address"
+                      {...handleValues("gDollarAccount")}
                     />
-                    <p className="text-red-600 text-sm">{errors?.phone}</p>
                   </div>
-                </div>
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">Status:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Status"
+                      {...handleValues("status")}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Oops! It looks like you are not whitelisted. Usually this
+                    would happen if you created a GoodDollar account but didn’t
+                    complete the face verification flow.
+                  </p>
+                </>
               )}
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">G$ Account:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Account Address"
-                  {...handleValues("gDollarAccount")}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">Status:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Status"
-                  {...handleValues("status")}
-                />
-              </div>
+
               {values.status === "Whitelisted" ? (
                 <button
                   type="submit"
@@ -442,9 +450,6 @@ export const Gooddollar = () => {
           account with GoodDollar then you will be able to mint a ‘verified
           unique’ SBT here. If you don’t yet have an account, please sign up for
           one first at www.gooddollar.org.{" "}
-          <span className="font-semibold">
-            This feature doesn't work in phone
-          </span>
         </p>
       </div>
     </div>

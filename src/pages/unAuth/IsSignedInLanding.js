@@ -12,7 +12,7 @@ export const IsSignedInLanding = ({
   setShowGooddollarVerification,
 }) => {
   useEffect(() => {
-    if (window.location.href.includes("?login") && hasApplied === false) {
+    if (window.location.href.includes("?login")) {
       setShowGooddollarVerification(true);
     } else {
       setShowGooddollarVerification(false);

@@ -163,6 +163,12 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                   @iamhumanapp
                 </a>
               </p>
+              <p>
+                Tell us, in as few words as possible:
+                <br /> - Your NEAR Account (e.g. "myname.near")
+                <br /> - Why you are an OG (e.g. "I work at Pagoda")
+                <br /> - Which leader can validate you (e.g. "Illya knows me")
+              </p>
               <div className="ml-auto w-[fit-content] text-center space-x-2">
                 <button
                   onClick={() => {
@@ -182,7 +188,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
         {showStep === 4 && (
           <>
             <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
-            <div className="bg-gray-100 p-3 rounded"> 
+            <div className="bg-gray-100 p-3 rounded">
               <p className="text-lg">GDPR Agreement</p>
               <div className="relative flex items-start">
                 <div className="flex h-5 items-center">
