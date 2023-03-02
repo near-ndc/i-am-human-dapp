@@ -4,18 +4,21 @@ export default function getConfig(env = defaultEnv) {
   switch (env) {
     case 'mainnet':
       return {
-        API_URL: '',
-        CONTRACT_ID: ''
+        network: 'mainnet',
+        API_URL: 'https://back.justfortestinc.site',
+        CONTRACT_ID: 'gooddollar-v1.i-am-human.near'
       };
     case 'testnet':
       return {
-        API_URL: 'http://34.107.7.48:80',
+        network: 'testnet',
+        API_URL: 'https://back.justfortestinc.site',
         CONTRACT_ID: 'gooddollar-v1.i-am-human.testnet'
       };
     default:
       return {
-        API_URL: 'http://34.107.7.48:80',
-        CONTRACT_ID: 'gooddollar-v1.i-am-human.testnet'
+        network: 'testnet',
+        API_URL: 'https://back.justfortestinc.site',
+        CONTRACT_ID: 'gooddollar-v1.i-am-human.near'
       };
   }
 }
