@@ -68,17 +68,13 @@ export const Gooddollar = () => {
 
       try {
         const result = await verifyUser(sendObj)
-        // remove ed25519: from start string
-        const trimmedSig = result.sig.slice(8, result.sig.length);
-        // normalize string
-        let updatedSig  = trimmedSig + '='.repeat((4 - trimmedSig.length % 4) % 4)
 
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
           method: "sbt_mint",
           args: {
             claim_b64: result.m,
-            claim_sig: updatedSig
+            claim_sig: result.sig
           },
         });
       } catch(e) {
