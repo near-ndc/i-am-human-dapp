@@ -4,7 +4,6 @@ import {
   parseLoginResponse,
   LoginButton,
 } from "@gooddollar/goodlogin-sdk";
-import { useFVLink } from "@gooddollar/web3sdk-v2";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -15,8 +14,9 @@ import { wallet } from "../../..";
 import "react-phone-number-input/style.css";
 import { verifyUser } from "../../../services/api";
 
-import getConfig from "../../../config";
 import { supabase } from "../../../utils/supabase";
+
+import getConfig from '../../../config';
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -57,9 +57,9 @@ export const Gooddollar = () => {
     }),
     onSubmit: async (data) => {
       // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, "", window.location.origin);
+      window.history.replaceState({}, '', window.location.origin);
       setSubmitting(true);
-      const { sig, ...rawData } = rawGoodDollarData;
+      const {sig, ...rawData} = rawGoodDollarData
 
       const sendObj = {
         m: JSON.stringify(rawData),
@@ -76,6 +76,7 @@ export const Gooddollar = () => {
         ...(data?.email ? { email: data?.email } : { phone: data?.phone }),
         ...(data?.phone ? { phone: data?.phone } : { email: data?.email }),
       };
+
       try {
         const result = await verifyUser(sendObj);
         const { data } = await supabase
@@ -188,6 +189,7 @@ export const Gooddollar = () => {
       setShowStep(2);
     }
   }, []);
+
 
   const steps = {
     0: "5%",

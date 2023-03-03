@@ -8,7 +8,6 @@ import { useAdmin } from "./utils/useAdmin";
 import { wallet } from "./index";
 
 export function App({ isSignedIn }) {
-  console.log('render app');
   const [isUserAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
   const [showAdmin, setShowAdmin] = useState(false);
   return (
