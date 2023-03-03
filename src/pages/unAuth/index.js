@@ -122,7 +122,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
       <main>
         <div className={""}>
-          <div className={"pb-20"}>
+          <div className={"pb-20 mt-5"}>
             <div>
               <div className="md:flex items-center">
                 <img
