@@ -34,7 +34,7 @@ export const Gooddollar = () => {
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = React.useState(null);
+  const [submitting, setSubmitting] = React.useState(false);
 
   const {
     values,
@@ -66,6 +66,7 @@ export const Gooddollar = () => {
         c: wallet.accountId,
         sig: rawGoodDollarData.sig,
       };
+      console.log(sendObj)
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
@@ -133,7 +134,6 @@ export const Gooddollar = () => {
   const gooddollarLoginCb = useCallback(
     async (data) => {
       try {
-        console.log(data);
         if (data.error) return alert("Login request denied !");
         parseLoginResponse(data).then((d) => {
           setRawGoodDollarData(data);
@@ -173,7 +173,8 @@ export const Gooddollar = () => {
         "base64"
       ).toString("ascii");
       if (buffer[buffer.length - 1] !== "}") {
-        gooddollarLoginCb(JSON.parse(buffer.slice(0, buffer.length - 1)));
+        let lastIndex = buffer.lastIndexOf("}");
+        gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
       } else {
         gooddollarLoginCb(JSON.parse(buffer));
       }

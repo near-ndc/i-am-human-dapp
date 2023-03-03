@@ -66,8 +66,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
-        console.log(data2);
         setFvTokenData(data2?.[0] ?? null);
+        if (!data2?.[0] && localStorage.getItem("openFv")) {
+          setShowGooddollarVerification(true);
+          localStorage.removeItem("openFv");
+        }
         setFvTokenSupply(parseInt(data));
       } catch {
         toast.error("An error occured while fetching token supply");
@@ -92,7 +95,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
-        console.log(data2);
+        if (!data2?.[0] && localStorage.getItem("openOG")) {
+          setShowCommunityVerification(true);
+          localStorage.removeItem("openOG");
+        }
         setTokenData(data2?.[0] ?? null);
         setTokenSupply(parseInt(data));
       } catch {
@@ -116,7 +122,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
       <main>
         <div className={""}>
-          <div className={"pb-32 pt-20 sm:pb-40"}>
+          <div className={"pb-20"}>
             <div>
               <div className="md:flex items-center">
                 <img
@@ -188,9 +194,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             />
             <div className="relative overflow-hidden">
               <div aria-hidden="true" />
-              <div className="my-12">
+              <div className="mb-12">
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-8 lg:px-0">
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
                     <div>
                       {/* Show OG SBT */}
 
@@ -309,6 +315,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                     setShowCommunityVerification(true);
                                   } else {
                                     wallet.signIn();
+                                    localStorage.setItem("openOG", "true");
                                   }
                                 }}
                                 className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -366,6 +373,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   setShowGooddollarVerification(true);
                                 } else {
                                   wallet.signIn();
+                                  localStorage.setItem("openFv", "true");
                                 }
                               }}
                               className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
