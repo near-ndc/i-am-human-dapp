@@ -188,7 +188,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               />
             )}
             <ApplyCommunityVerify
-              open={showCommunityVerification}
+              open={true}
               userData={userData}
               onClose={() => setShowCommunityVerification(false)}
             />

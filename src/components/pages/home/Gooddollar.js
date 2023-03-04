@@ -13,10 +13,11 @@ import { CircleSpinner } from "react-spinners-kit";
 import { wallet } from "../../..";
 import "react-phone-number-input/style.css";
 import { verifyUser } from "../../../services/api";
+import { useUniqueGUser } from "../../../utils/uniqueUser";
 
 import { supabase } from "../../../utils/supabase";
 
-import getConfig from '../../../config';
+import getConfig from "../../../config";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -57,16 +58,16 @@ export const Gooddollar = () => {
     }),
     onSubmit: async (data) => {
       // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, '', window.location.origin);
+      window.history.replaceState({}, "", window.location.origin);
       setSubmitting(true);
-      const {sig, ...rawData} = rawGoodDollarData
+      const { sig, ...rawData } = rawGoodDollarData;
 
       const sendObj = {
         m: JSON.stringify(rawData),
         c: wallet.accountId,
         sig: rawGoodDollarData.sig,
       };
-      console.log(sendObj)
+      console.log(sendObj);
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
@@ -190,13 +191,17 @@ export const Gooddollar = () => {
     }
   }, []);
 
-
   const steps = {
     0: "5%",
     1: "10%",
     2: "50%",
     3: "100%",
   };
+
+  const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
+    gAddress: "0x9599D39638d1223Ab39e480A0303335e0bdbA70c",
+  });
+
 
   return (
     <div className="p-2 pt-5 w-full">
@@ -396,19 +401,52 @@ export const Gooddollar = () => {
               )}
 
               {values.status === "Whitelisted" ? (
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
-                >
-                  {!submitting ? (
-                    " Apply for SBT"
+                <>
+                  {isGLoading ? (
+                    <>
+                      <button className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right">
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      </button>
+                    </>
+                  ) : isExistingGUser ? (
+                    <>
+                      <p>
+                        This Gooddollar account is already registered with us ,
+                        apply with a different account
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.history.replaceState(
+                            {},
+                            "",
+                            window.location.origin
+                          );
+                          setShowStep(2);
+                        }}
+                        className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                      >
+                        Authorize with a different account
+                      </button>
+                    </>
                   ) : (
-                    <div className="w-[fit-content] mx-auto">
-                      <CircleSpinner size={20} />
-                    </div>
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+                    >
+                      {!submitting ? (
+                        " Apply for SBT"
+                      ) : (
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      )}
+                    </button>
                   )}
-                </button>
+                </>
               ) : (
                 <div className="text-right w-[fit-content] ml-auto space-y-5">
                   <button

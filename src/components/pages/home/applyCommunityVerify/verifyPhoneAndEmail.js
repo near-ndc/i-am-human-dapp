@@ -3,6 +3,7 @@ import axios from "axios";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import OtpInput from "react-otp-input";
+import { checkUniquePhone } from "../../../../utils/uniqueUser";
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
@@ -23,15 +24,20 @@ export const VerifyPhoneAndEmail = ({
 
   const sendOtp = async () => {
     try {
-      setLoading(true);
-      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_otp", {
-        phone: value,
-      });
-      setOtpSent(true);
+      const is_unique = await checkUniquePhone({ no: value });
+      if (!is_unique) {
+        setLoading(true);
+        await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_otp", {
+          phone: value,
+        });
+        setOtpSent(true);
 
-      setTelegramData({ phone: value });
+        setTelegramData({ phone: value });
 
-      toast.success("Otp sent successfully");
+        toast.success("Otp sent successfully");
+      } else {
+        toast.error("This telegram phone number has already been registered");
+      }
     } catch {
       toast.error("Otp sent failed");
     } finally {
@@ -42,10 +48,13 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      const data = await axios.post("https://api-ophc7vkxsq-uc.a.run.app/verify_otp", {
-        phone: value,
-        otp,
-      });
+      const data = await axios.post(
+        "https://api-ophc7vkxsq-uc.a.run.app/verify_otp",
+        {
+          phone: value,
+          otp,
+        }
+      );
       if (data.data?.error) {
         throw new Error(data.data?.error);
       }
@@ -206,7 +215,9 @@ export const VerifyPhoneAndEmail = ({
       <p>Verify Phone Number</p>
       {otpSent ? (
         <>
-          <p className="mb-2">Enter verification code sent to your mobile : {value}</p>
+          <p className="mb-2">
+            Enter verification code sent to your mobile : {value}
+          </p>
           <OtpInput
             value={otp}
             onChange={setOtp}
