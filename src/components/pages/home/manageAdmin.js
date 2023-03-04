@@ -43,7 +43,7 @@ export const ManageAdmin = () => {
       setButtonLoading(true);
       try {
         const res = await wallet.callMethod({
-          contractId: 'og-sbt.i-am-human.near',
+          contractId: 'community-sbt-1.i-am-human.testnet',
           method: "add_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -69,7 +69,7 @@ export const ManageAdmin = () => {
       setButtonLoading(true);
       try {
         const res = await wallet.callMethod({
-          contractId: 'og-sbt.i-am-human.near',
+          contractId: 'community-sbt-1.i-am-human.testnet',
           method: "remove_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });

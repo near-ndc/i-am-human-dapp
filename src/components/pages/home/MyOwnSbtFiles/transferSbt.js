@@ -13,7 +13,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     try {
       setLoading(true);
       await wallet.callMethod({
-        contractId: 'og-sbt.i-am-human.near',
+        contractId: 'community-sbt-1.i-am-human.testnet',
         method: "sbt_transfer",
         args: { receiver: transferTo },
       });

@@ -202,7 +202,7 @@ export function OgSBTApplicationsTable() {
                                   });
                                 await wallet.callMethod({
                                   contractId:
-                                    "og-sbt.i-am-human.near",
+                                    "community-sbt-1.i-am-human.testnet",
                                   method: "sbt_mint",
                                   args: {
                                     receiver: person.wallet_identifier,

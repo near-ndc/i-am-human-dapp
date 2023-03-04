@@ -100,7 +100,7 @@ export const Header = ({ setShowAdmin }) => {
                             .delete()
                             .match({ wallet_identifier: wallet.accountId });
                           await wallet.callMethod({
-                            contractId: "og-sbt.i-am-human.near",
+                            contractId: "community-sbt-1.i-am-human.testnet",
                             method: "revoke_for",
                             args: {
                               accounts: [wallet.accountId],
@@ -108,7 +108,7 @@ export const Header = ({ setShowAdmin }) => {
                             },
                           });
                           await wallet.callMethod({
-                            contractId: "gooddollar-v1.i-am-human.near",
+                            contractId: "gooddollar-v1.i-am-human.testnet",
                             method: "sbt_remove",
                             args: {
                               accounts: [wallet.accountId],

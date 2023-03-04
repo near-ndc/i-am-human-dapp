@@ -56,7 +56,7 @@ export const ManageTokens = () => {
       try {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
-          contractId: 'og-sbt.i-am-human.near',
+          contractId: 'community-sbt-1.i-am-human.testnet',
           method: "nft_tokens_for_owner",
           args: { account: input },
         });
@@ -88,7 +88,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt.i-am-human.near',
+        contractId: 'community-sbt-1.i-am-human.testnet',
         method: "sbt_mint",
         args: {
           receiver: input,
@@ -110,7 +110,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt.i-am-human.near',
+        contractId: 'community-sbt-1.i-am-human.testnet',
         method: "revoke_for",
         args: { accounts: [input], metadata: {} },
       });
@@ -127,7 +127,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt.i-am-human.near',
+        contractId: 'community-sbt-1.i-am-human.testnet',
         method: "sbt_renew",
         args: {
           tokens: [tokens.tokenData[0].token_id],
