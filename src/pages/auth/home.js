@@ -17,10 +17,10 @@ export const Home = ({ setShowAdmin }) => {
       <div className="px-6 pt-10">
         <Tabs isAdmin={isAdmin} />
       </div>
-      <DonatePanel
+      {/* <DonatePanel
         isOpen={isDonatePanelOpen}
         closeModal={() => setIsDonatePanelOpen(false)}
-      />
+      /> */}
       <div className="w-screen text-center py-4">
         <button
           onClick={() => setIsDonatePanelOpen(true)}

@@ -31,7 +31,7 @@ export const ManageAdmin = () => {
     if (walletAddress === "") {
       return true;
     }
-    const testnet = ".testnet";
+    const testnet = ".near";
     const dots = countDots(walletAddress);
     if (walletAddress.endsWith(testnet) && dots === 1) {
       return true;

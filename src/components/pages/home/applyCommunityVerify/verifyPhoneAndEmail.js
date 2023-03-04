@@ -3,6 +3,7 @@ import axios from "axios";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import OtpInput from "react-otp-input";
+import { checkUniquePhone } from "../../../../utils/uniqueUser";
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
@@ -10,33 +11,36 @@ export const VerifyPhoneAndEmail = ({
   setTelegramData,
 }) => {
   const [value, setValue] = React.useState("+1");
-  const [otpSent, setOtpSent] = React.useState(false);
+  const [email, setEmail] = React.useState(true);
+
   const [loading, setLoading] = React.useState(false);
   const [otp, setOtp] = React.useState("");
+
+  const [otpSent, setOtpSent] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
   const [showEmail, setShowEmail] = React.useState(false);
-  const [email, setEmail] = React.useState(true);
 
   const is_not_email = !Boolean(userData?.email);
 
   const sendOtp = async () => {
     try {
-      setLoading(true);
-      await axios.post("http://localhost:3001/send_otp", {
-        phone: value,
-      });
-      setOtpSent(true);
-      // toast.success("Otp sent successfully");
-    } catch {
-      // toast.error("Otp sent failed");
-    } finally {
-      if (is_not_email) {
-        setShowEmail(true);
-      } else {
-        setShowStep(3);
-        setTelegramData({ phone: value });
-      }
+      const is_unique = await checkUniquePhone({ no: value });
+      if (!is_unique) {
+        setLoading(true);
+        await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_otp", {
+          phone: value,
+        });
+        setOtpSent(true);
 
+        setTelegramData({ phone: value });
+
+        toast.success("Otp sent successfully");
+      } else {
+        toast.error("This telegram phone number has already been registered");
+      }
+    } catch {
+      toast.error("Otp sent failed");
+    } finally {
       setLoading(false);
     }
   };
@@ -44,20 +48,26 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3001/verify_otp", {
-        phone: value,
-        otp,
-      });
-      setOtpSent(true);
+      const data = await axios.post(
+        "https://api-ophc7vkxsq-uc.a.run.app/verify_otp",
+        {
+          phone: value,
+          otp,
+        }
+      );
+      if (data.data?.error) {
+        throw new Error(data.data?.error);
+      }
       toast.success("Otp verified");
-    } catch {
-      toast.error("Otp verification failed");
-    } finally {
       if (is_not_email) {
-        setShowEmail(true);
+        setShowStep(3);
       } else {
         setShowStep(3);
       }
+    } catch (e) {
+      toast.error(e.message ? e.message : "Otp verification failed");
+    } finally {
+      setOtp("");
       setLoading(false);
     }
   };
@@ -65,18 +75,36 @@ export const VerifyPhoneAndEmail = ({
   const sendEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:3001/send_email_otp", {
+      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_email_otp", {
         email,
       });
       setEmailSent(true);
-      // toast.success("Otp sent successfully");
-    } catch {
-      setShowStep(3);
-
       setTelegramData({ phone: value, email });
-
-      // toast.error("Otp sent failed");
+      toast.success("Otp sent successfully");
+    } catch {
+      toast.error("Otp sent failed");
     } finally {
+      setLoading(false);
+    }
+  };
+
+  //verify email otp
+  const verifyEmailOtp = async () => {
+    try {
+      setLoading(true);
+      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/verify_email_otp", {
+        phone: value,
+        otp,
+      });
+      toast.success("Otp verified");
+    } catch {
+      toast.error("Otp verification failed");
+    } finally {
+      if (is_not_email) {
+        setShowStep(3);
+      } else {
+        setShowStep(3);
+      }
       setLoading(false);
     }
   };
@@ -99,7 +127,7 @@ export const VerifyPhoneAndEmail = ({
         <div className="w-[fit-content] mx-auto">
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-gray-200 animate-spin fill-white"
+            className="w-4 h-4 text-gray-200 animate-spin fill-white"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +141,7 @@ export const VerifyPhoneAndEmail = ({
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       ) : (
         <p className="mx-auto w-[fit-content]">Verify</p>
@@ -137,7 +165,7 @@ export const VerifyPhoneAndEmail = ({
             />
             <div className="ml-auto w-[fit-content] text-center space-x-2">
               <VerifyButton
-                onClick={verifyOtp}
+                onClick={verifyEmailOtp}
                 disabled={otp.length !== 6}
                 buttonLoading={loading}
               />
@@ -148,7 +176,7 @@ export const VerifyPhoneAndEmail = ({
             <div>
               <label
                 for="email"
-                class="block mb-2 ml-1 text-sm font-medium text-gray-900"
+                className="block mb-2 ml-1 text-sm font-medium text-gray-900"
               >
                 Email
               </label>
@@ -159,7 +187,7 @@ export const VerifyPhoneAndEmail = ({
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Email"
                 required
               />
@@ -187,7 +215,9 @@ export const VerifyPhoneAndEmail = ({
       <p>Verify Phone Number</p>
       {otpSent ? (
         <>
-          <p className="mb-2">Enter otp sent to your mobile : {value}</p>
+          <p className="mb-2">
+            Enter verification code sent to your mobile : {value}
+          </p>
           <OtpInput
             value={otp}
             onChange={setOtp}

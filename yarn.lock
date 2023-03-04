@@ -2370,52 +2370,15 @@
     truffle-flattener "^1.4.4"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodlogin-sdk@^1.1.15":
-  version "1.1.23"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodlogin-sdk/-/goodlogin-sdk-1.1.23.tgz#50c36172b19dc31af6c2a6043fe1a3ba325da317"
-  integrity sha512-LigMMExfcrH9NEF04dFo5gF2KjGJjED5LtRxTu4Fbxhv7GbzZB0aoZEqgYEFySlo4ysFGXUh3G5kWpOfeJaESA==
+"@gooddollar/goodlogin-sdk@1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodlogin-sdk/-/goodlogin-sdk-1.1.15.tgz#a9f7330e4d46aee956807c2c581fea2963aa03c0"
+  integrity sha512-dcWoElGjhJlGVOmz9qJI+vs8Z7uzsEB+4dWxmdRfs0ijwT9sKQ75pJl/xz41euv9D9bmR5lPk/EVXtinipdP3g==
   dependencies:
-    "@gooddollar/goodprotocol" "1.0.27"
+    "@gooddollar/goodprotocol" "^1.0.20"
     web3 "^1.7.4"
 
-"@gooddollar/goodprotocol@1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.27.tgz#e2c2c74a8530b5843468c2150718aafc1405f14f"
-  integrity sha512-7TO86E7HSojCEdvRGMA2clYD+mU/hTFdZSxoiz2HCJLO6A+SJ7itbskYzShUjr8gRGk/2HdNUaT31Zg+kjNnTg==
-  dependencies:
-    "@gooddollar/goodcontracts" "^2.6.2"
-    "@jsier/retrier" "^1.2.4"
-    "@openzeppelin/contracts" "^4.5.0"
-    "@openzeppelin/contracts-upgradeable" "^4.3.2"
-    "@typechain/hardhat" "^6.1.2"
-    async-promise-pool "^1.0.4"
-    ethers-multicall "^0.2.1"
-    openzeppelin-solidity "^4.3.2"
-    patch-package latest
-    press-any-key "^0.1.1"
-    truffle-plugin-verify "^0.5.11"
-    truffle-source-verify "^0.0.6"
-
-"@gooddollar/goodprotocol@1.0.30-beta.3":
-  version "1.0.30-beta.3"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.30-beta.3.tgz#5e9a1739b23186bd19badc6f37a509ea4e7a8b12"
-  integrity sha512-sYX88hG4Tq2S6vJN+aUlEk1sPIDHtAPKdi4CEwtYFLmeU2pd3jOTDVTBBnptxL6imsKpzrEAl72NpcoK3ZKJqA==
-  dependencies:
-    "@gooddollar/goodcontracts" "^2.6.6"
-    "@jsier/retrier" "^1.2.4"
-    "@openzeppelin/contracts" "^4.8.0"
-    "@openzeppelin/contracts-upgradeable" "^4.8.0"
-    "@superfluid-finance/ethereum-contracts" "^1.4.3"
-    "@superfluid-finance/sdk-core" "^0.5.8"
-    "@typechain/hardhat" "^6.1.2"
-    async-promise-pool "^1.0.4"
-    openzeppelin-solidity "^4.3.2"
-    patch-package latest
-    press-any-key "^0.1.1"
-    truffle-plugin-verify "^0.6.1"
-    truffle-source-verify "^0.0.6"
-
-"@gooddollar/goodprotocol@^1.0.17", "@gooddollar/goodprotocol@^1.0.30-beta.3":
+"@gooddollar/goodprotocol@^1.0.17", "@gooddollar/goodprotocol@^1.0.20", "@gooddollar/goodprotocol@^1.0.30-beta.3":
   version "1.0.30"
   resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.30.tgz#0698de9371134ce5770205bea3c2343a35e1e088"
   integrity sha512-xV68M+omUF1vDHWq1GsPa87aT67tgl+zVNiqXK2nQFtB1mx4bFAFqeVWRiAcVWH188PA/uwEadzohrklQ3HWWQ==
@@ -2432,27 +2395,53 @@
     truffle-plugin-verify "^0.5.11"
     truffle-source-verify "^0.0.6"
 
-"@gooddollar/web3sdk-v2@^0.1.61":
-  version "0.1.61"
-  resolved "https://registry.yarnpkg.com/@gooddollar/web3sdk-v2/-/web3sdk-v2-0.1.61.tgz#26becc73fbadf4a51e073d204235ca333c930e74"
-  integrity sha512-I1BX1q3EAtjl20VV5K2cKZr1sYWu4fyR5ebg+NOSLwhHAeZTOzEjxmz8EUyjtE5vlFNxK3YG85LjKAO1bqNNKg==
+"@gooddollar/goodprotocol@^2.0.1":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-2.0.2.tgz#d69efe7370805b1e3c295628a8a9914399a77a2e"
+  integrity sha512-4x0C1H9uWm1cpyonu2HSxbwqhaSAFq0n7tsp6nmYrNM1bwkW/CSAm0IoNPULhhISXrpl2v+0uN88OdEA2/tHMw==
+  dependencies:
+    "@gooddollar/goodcontracts" "^2.6.6"
+    "@jsier/retrier" "^1.2.4"
+    "@openzeppelin/contracts" "^4.8.0"
+    "@openzeppelin/contracts-upgradeable" "^4.8.0"
+    "@superfluid-finance/ethereum-contracts" "^1.4.3"
+    "@superfluid-finance/sdk-core" "^0.5.8"
+    "@typechain/hardhat" "^6.1.2"
+    async-promise-pool "^1.0.4"
+    openzeppelin-solidity "^4.3.2"
+    patch-package latest
+    press-any-key "^0.1.1"
+    truffle-plugin-verify "^0.6.1"
+    truffle-source-verify "^0.0.6"
+
+"@gooddollar/web3sdk-v2@^0.1.78":
+  version "0.1.78"
+  resolved "https://registry.yarnpkg.com/@gooddollar/web3sdk-v2/-/web3sdk-v2-0.1.78.tgz#8b10d87b2c9a32db0f58d8d31e7c38b8670b6041"
+  integrity sha512-hjaQLkTuFABGO6Mblyjhdn2wIf5NODagp+70xQ76vh8h5Qoy3ltx8gnBHhwb0H54vPhxVjxPzStX5LyhCsq/0A==
   dependencies:
     "@amplitude/analytics-browser" "^1.6.4"
     "@amplitude/analytics-react-native" "^0.7.0"
     "@gooddollar/bridge-app" "^1.2.9"
     "@gooddollar/bridge-contracts" "^1.0.13"
-    "@gooddollar/goodprotocol" "1.0.30-beta.3"
+    "@gooddollar/goodprotocol" "^2.0.1"
     "@react-native-firebase/analytics" "^16.4.6"
     "@sentry/browser" "7.16.0"
     "@sentry/react-native" "^4.8.0"
     "@solana/web3.js" "^1.72.0"
-    "@usedapp/core" "1.*"
+    "@walletconnect/client" "^1.8.0"
+    "@walletconnect/qrcode-modal" "^1.8.0"
+    "@web3-onboard/coinbase" "^2.2.0"
+    "@web3-onboard/injected-wallets" "^2.4.0"
     "@web3-onboard/torus" "^2.2.1"
+    "@web3-onboard/walletconnect" "^2.2.2"
     "@web3auth/base" "^4.0.0"
     "@web3auth/core" "^4.0.0"
     "@web3auth/openlogin-adapter" "^4.1.0"
     "@web3auth/torus-wallet-connector-plugin" "^4.0.0"
     eventemitter3 "^4.0.7"
+    mixpanel-browser "^2.45.0"
+    mixpanel-react-native "^2.1.0"
+    posthog-react-native "^2.4.0"
     react-native-indicative "^0.2.1"
     react-native-restart "^0.0.24"
     react-use-promise "^0.5.0"
@@ -3054,6 +3043,13 @@
   dependencies:
     rxjs "^7.5.7"
 
+"@near-wallet-selector/core@7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/core/-/core-7.9.0.tgz#33dcfa589983d5aa10f0590e181e2f1e538c044d"
+  integrity sha512-VbHNdO1yRILsgjrX3Qxg5C3oJZpC3f1PjHLY0h37FXRBTIyVEycMl+8qVaBHck5j8FIOJMfyS9d6tC+TKRp7Og==
+  dependencies:
+    rxjs "^7.8.0"
+
 "@near-wallet-selector/ledger@^7.0.0":
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/@near-wallet-selector/ledger/-/ledger-7.7.0.tgz#6e96a3df82e7ae8b094aac8ad4c0feb419f58db1"
@@ -3075,14 +3071,14 @@
     "@near-wallet-selector/wallet-utils" "7.7.0"
     is-mobile "^3.1.1"
 
-"@near-wallet-selector/meteor-wallet@^7.0.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/meteor-wallet/-/meteor-wallet-7.7.0.tgz#7115ffd91def63901a98e4a31ca0873c395c2d6a"
-  integrity sha512-0qpwDU/KUirB8xeF++/K1lVV0o+iVQVk9uwSIdTdeYz3ZEbGAKdF1Ph+5EG475pqn+j+1DTJFXakgpsnJuubfA==
+"@near-wallet-selector/meteor-wallet@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/meteor-wallet/-/meteor-wallet-7.9.0.tgz#92b76dcf4878e75f642460d091cc4913ec845126"
+  integrity sha512-IpIPQRSLrqhE3tCq33JdwHc2Y+MPOQ87zcQCw4/g7L4CO1+kH8ig0N6nQ1GTtZi6T0fswaYnbyVeNUbmkP5CSw==
   dependencies:
     "@meteorwallet/sdk" "^0.6.0"
-    "@near-wallet-selector/core" "7.7.0"
-    "@near-wallet-selector/wallet-utils" "7.7.0"
+    "@near-wallet-selector/core" "7.9.0"
+    "@near-wallet-selector/wallet-utils" "7.9.0"
 
 "@near-wallet-selector/modal-ui@^7.0.0":
   version "7.7.0"
@@ -3095,7 +3091,15 @@
     react "18.2.0"
     react-dom "18.2.0"
 
-"@near-wallet-selector/my-near-wallet@7.7.0", "@near-wallet-selector/my-near-wallet@^7.0.0":
+"@near-wallet-selector/my-near-wallet@7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/my-near-wallet/-/my-near-wallet-7.9.0.tgz#dc6ffbb310a894c1c67ff1bce4feb05c909155ee"
+  integrity sha512-JZk8SCaig9HQ/gvTOPSVaMVUilfrmMHD8dPrXruZr/gN1pLKyZGJDY35MVuF1weXiECnweJkl5zjumGnPgV2wQ==
+  dependencies:
+    "@near-wallet-selector/core" "7.9.0"
+    "@near-wallet-selector/wallet-utils" "7.9.0"
+
+"@near-wallet-selector/my-near-wallet@^7.0.0":
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/@near-wallet-selector/my-near-wallet/-/my-near-wallet-7.7.0.tgz#8c17316f44b8f41e9853eaab00545929ba0a7c17"
   integrity sha512-4JVVcrb15SwQM1E4GXxmnCaoQJpAoaF0ciMQjHInfejJE/NZVxx+rdBPSgDTA1oU+sPzxuySXhot2wsZrq5Jrw==
@@ -3103,13 +3107,13 @@
     "@near-wallet-selector/core" "7.7.0"
     "@near-wallet-selector/wallet-utils" "7.7.0"
 
-"@near-wallet-selector/near-wallet@^7.0.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/near-wallet/-/near-wallet-7.7.0.tgz#3bc173218b9a030a4d41bfb9e18abbb8e4c3ce27"
-  integrity sha512-fHhpXsaMM/yyK40JOaEvEhNtwBA6MyvGyTN9WbBDxucT4x9/dqxQ+lZRH4BGjDyvRsp18RNZB3Y+kZxxQ+c56A==
+"@near-wallet-selector/near-wallet@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/near-wallet/-/near-wallet-7.9.0.tgz#ad018a73a7a3658191fdec210a5231de4108fb79"
+  integrity sha512-P4/q2MOYQCCu9AjxUgCAoM/+mtuq4GiBPfK9MphOw2b850MtgIcPviLMRkMjqMozHsQa2gKV1ZKkkvj2SypXMQ==
   dependencies:
-    "@near-wallet-selector/core" "7.7.0"
-    "@near-wallet-selector/my-near-wallet" "7.7.0"
+    "@near-wallet-selector/core" "7.9.0"
+    "@near-wallet-selector/my-near-wallet" "7.9.0"
 
 "@near-wallet-selector/nightly-connect@^7.0.0":
   version "7.7.0"
@@ -3153,6 +3157,14 @@
   integrity sha512-ii13LSdNyrFjzsxyq6SDto+Ep+I77URtzYHztpjJxGqxAJqLhGSFrKP2YLtpt0pvPfvvxz2qXk2xIS/1LrWQHQ==
   dependencies:
     "@near-wallet-selector/core" "7.7.0"
+    bn.js "^5.2.0"
+
+"@near-wallet-selector/wallet-utils@7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/wallet-utils/-/wallet-utils-7.9.0.tgz#a2f8f3ce8c942cecda68e8b1a73d997794d088a1"
+  integrity sha512-vJW2TzkyRmgVRbT6U7FWzJOboNT1r9EqmKgXVsjpTYu0JgMhAyFwGAI51+jOYY/mjmkUW+tdrdJV/tGz9j91wg==
+  dependencies:
+    "@near-wallet-selector/core" "7.9.0"
     bn.js "^5.2.0"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
@@ -5340,7 +5352,7 @@
     crypto-js "^4.1.1"
     elliptic "^6.5.4"
 
-"@usedapp/core@1.*", "@usedapp/core@^1.2.2":
+"@usedapp/core@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-1.2.2.tgz#b74d617421a9c91a9e6d6d29ce115b434aadd426"
   integrity sha512-+YbsFUer5ejQMxwlOJm5/6SAxPdtYMCHaZL1RhKRVPLiliGBGvRKO1ew2eWAkzRtWUnH8fAlBOdukzPVr8tsrg==
@@ -5363,7 +5375,7 @@
     "@walletconnect/window-metadata" "1.0.0"
     detect-browser "5.2.0"
 
-"@walletconnect/client@^1.7.1":
+"@walletconnect/client@^1.7.1", "@walletconnect/client@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/client/-/client-1.8.0.tgz#6f46b5499c7c861c651ff1ebe5da5b66225ca696"
   integrity sha512-svyBQ14NHx6Cs2j4TpkQaBI/2AF4+LXz64FojTjMtV4VMMhl81jSO1vNeg+yYhQzvjcGH/GpSwixjyCW0xFBOQ==
@@ -5536,7 +5548,7 @@
     safe-json-utils "^1.1.1"
     window-getters "^1.0.1"
 
-"@walletconnect/qrcode-modal@^1.7.1":
+"@walletconnect/qrcode-modal@^1.7.1", "@walletconnect/qrcode-modal@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/qrcode-modal/-/qrcode-modal-1.8.0.tgz#ddd6f5c9b7ee52c16adf9aacec2a3eac4994caea"
   integrity sha512-BueaFefaAi8mawE45eUtztg3ZFbsAH4DDXh1UNwdUlsvFMjqcYzLUG0xZvDd6z2eOpbgDg2N3bl6gF0KONj1dg==
@@ -5770,6 +5782,15 @@
     rxjs "^7.5.5"
     svelte "^3.49.0"
     svelte-i18n "^3.3.13"
+
+"@web3-onboard/injected-wallets@^2.4.0":
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@web3-onboard/injected-wallets/-/injected-wallets-2.8.1.tgz#106ff2ebbf8ff15397c2430ed8880f95b13b8c7e"
+  integrity sha512-8iEhBfAO5M7e0nYIqQPGTHTQvQug/usO4L/Qg47yhQ32Y9vHJDee3STA1T3kQZkGF6B0e43LzjyQ4MMpgHI6tQ==
+  dependencies:
+    "@web3-onboard/common" "^2.2.3"
+    joi "^17.6.1"
+    lodash.uniqby "^4.7.0"
 
 "@web3-onboard/injected-wallets@^2.6.2":
   version "2.6.2"
@@ -10568,7 +10589,7 @@ ethereumjs-wallet@^0.6.0:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
-ethers-multicall@^0.2.1, ethers-multicall@^0.2.3:
+ethers-multicall@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/ethers-multicall/-/ethers-multicall-0.2.3.tgz#872b5ad7d6b5d4d7f2960c33bf36bd46d034ac41"
   integrity sha512-RaWQuLy+HzeKOibptlc9RZ6j7bT1H6VnkdAKTHiLx2t/lpyfS2ckXHdQhhRbCaXNc1iu6CgoisgMejxKHg84tg==
@@ -15095,6 +15116,16 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
+mixpanel-browser@^2.45.0:
+  version "2.45.0"
+  resolved "https://registry.yarnpkg.com/mixpanel-browser/-/mixpanel-browser-2.45.0.tgz#a2973be5b66e6d2799ef95a1e55b8ad8eede57e8"
+  integrity sha512-PQ1DaTk68yyYtLA0iejmzPA9iNDhT4uIZpqZjRTw7HWpYfl123fydHb2laKanaKjm8YDmrGGz3+xZ4Q6joogyg==
+
+mixpanel-react-native@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mixpanel-react-native/-/mixpanel-react-native-2.1.0.tgz#aa2add25e998556f8d4fbcdc00f48820c9f734da"
+  integrity sha512-nzN7kscl1m89Dqj7W+9TGweeEgG1bXO+PJvtfi7dGnMILS8OTurjUIeQyv35WEgwpsej8wFANXvIrxPIdlG1Sw==
+
 mkdirp-classic@^0.5.2:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz#fa10c9115cc6d8865be221ba47ee9bed78601113"
@@ -16958,6 +16989,11 @@ postcss@^8.3.5, postcss@^8.4.18, postcss@^8.4.19, postcss@^8.4.4:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+posthog-react-native@^2.4.0:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/posthog-react-native/-/posthog-react-native-2.5.2.tgz#dcbbd6490376a238e77993d92c5ddd38a5f152d0"
+  integrity sha512-HYwFivdvsKNq/MSnoGXq+O1Ym4iLsb759TlgigU0Ya6Ctho0wdy+niQhb+yfS7quq+nSNg35vDj+L8Wg2DGa3g==
+
 pouchdb-abstract-mapreduce@7.3.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/pouchdb-abstract-mapreduce/-/pouchdb-abstract-mapreduce-7.3.1.tgz#96ff4a0f41cbe273f3f52fde003b719005a2093c"
@@ -18404,7 +18440,7 @@ rxjs@6, rxjs@^6.4.0, rxjs@^6.6.3:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.5.2, rxjs@^7.5.5, rxjs@^7.5.7:
+rxjs@^7.5.2, rxjs@^7.5.5, rxjs@^7.5.7, rxjs@^7.8.0:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
   integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==

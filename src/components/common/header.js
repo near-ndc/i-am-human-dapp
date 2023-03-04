@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 import { wallet } from "../../index";
 import Logo from "../../images/ndc.png";
 import { supabase } from "../../utils/supabase";
+import { useAdmin } from "../../utils/useAdmin";
 
-export const Header = ({ isAdmin, setShowAdmin }) => {
+export const Header = ({ setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
+  const [isAdmin] = useAdmin({ address: wallet.accountId });
 
   useEffect(() => {
     wallet
@@ -44,14 +46,26 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
               </a>
             </div>
             <div className="flex lg:hidden">
-              <button
-                type="button"
-                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(true)}
-              >
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              {isSignedIn ? (
+                <>
+                  <button
+                    type="button"
+                    className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                    onClick={() => setMobileMenuOpen(true)}
+                  >
+                    <span className="sr-only">Open main menu</span>
+                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => wallet.signIn()}
+                  className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
+                >
+                  Connect Wallet
+                </button>
+              )}
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
               {/* {navigation.map((item) => (
@@ -65,31 +79,52 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
               ))} */}
             </div>
             <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
-              <button
-                onClick={async () => {
-                  await supabase
-                    .from("users")
-                    .delete()
-                    .match({ wallet_identifier: wallet.accountId });
-                  toast.info("Your account info has been reset");
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 2500);
-                }}
-                className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
-              >
-                <p>Reset Account</p>
-              </button>
+              {/* <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                Docs
+              </div> */}
               {isSignedIn && (
                 <>
                   {isAdmin ? (
-                    <button
-                      onClick={() => setShowAdmin(true)}
-                      className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
-                    >
-                      <p>Admin Account</p>
-                      <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setShowAdmin(true)}
+                        className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+                      >
+                        <p>Admin Console</p>
+                        <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                      </button>
+                      <button
+                        onClick={async () => {
+                          await supabase
+                            .from("users")
+                            .delete()
+                            .match({ wallet_identifier: wallet.accountId });
+                          await wallet.callMethod({
+                            contractId: "community-sbt-1.i-am-human.testnet",
+                            method: "revoke_for",
+                            args: {
+                              accounts: [wallet.accountId],
+                              metadata: {},
+                            },
+                          });
+                          await wallet.callMethod({
+                            contractId: "gooddollar-v1.i-am-human.testnet",
+                            method: "sbt_remove",
+                            args: {
+                              accounts: [wallet.accountId],
+                              metadata: {},
+                            },
+                          });
+                          toast.info("Your account info has been reset");
+                          setTimeout(() => {
+                            window.location.reload();
+                          }, 2500);
+                        }}
+                        className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+                      >
+                        <p>Reset Account</p>
+                      </button>
+                    </>
                   ) : (
                     <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
                       <p>User Account</p>
@@ -158,7 +193,7 @@ export const Header = ({ isAdmin, setShowAdmin }) => {
                             onClick={() => setShowAdmin(true)}
                             className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2"
                           >
-                            <p>Admin Account</p>
+                            <p>Admin Console</p>
                             <CheckCircleIcon className="h-4 w-4 text-green-600" />
                           </button>
                         ) : (

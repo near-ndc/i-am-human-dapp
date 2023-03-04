@@ -17,14 +17,15 @@ export const CheckSbtTokenStatus = () => {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
         contractId: "community-sbt-1.i-am-human.testnet",
-        method: "sbt_supply_by_owner",
+        method: "nft_supply_for_owner",
         args: { account: wallet.accountId },
       });
       const data2 = await wallet.viewMethod({
         contractId: "community-sbt-1.i-am-human.testnet",
-        method: "sbt_by_owner",
+        method: "nft_tokens_for_owner",
         args: { account: wallet.accountId },
       });
+      console.log( data2);
       setTokenData(data2?.[0] ?? null);
       setTokenSupply(parseInt(data));
     } catch {
@@ -38,7 +39,7 @@ export const CheckSbtTokenStatus = () => {
   useEffect(() => {
     checkSBTTokens();
   }, [checkSBTTokens]);
-  const isExpired = Date.now() > tokenData?.metadata?.expires_at * 1000;
+  const isExpired = Date.now() > tokenData?.metadata?.expires_at;
 
   return (
     <div className="p-2">

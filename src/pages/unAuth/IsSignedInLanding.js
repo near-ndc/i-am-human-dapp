@@ -12,10 +12,8 @@ export const IsSignedInLanding = ({
   setShowGooddollarVerification,
 }) => {
   useEffect(() => {
-    if (window.location.href.includes("?login") && hasApplied === false) {
+    if (window.location.href.includes("?login")) {
       setShowGooddollarVerification(true);
-    } else {
-      setShowGooddollarVerification(false);
     }
   }, [setShowGooddollarVerification, hasApplied]);
   return (
@@ -42,8 +40,8 @@ export const IsSignedInLanding = ({
       </Panel>
       {hasApplied === true && (
         <>
-          {userData?.status === "Application Denied" && <p>TO DO</p>}
-          {userData?.status === "Approved" && <CheckSbtTokenStatus />}
+          {/* {userData?.status === "Application Denied" && <p>TO DO</p>} */}
+          {/* {userData?.status === "Approved" && <CheckSbtTokenStatus />} */}
         </>
       )}
     </>

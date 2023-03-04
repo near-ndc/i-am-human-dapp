@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   createLoginLink,
   parseLoginResponse,
   LoginButton,
 } from "@gooddollar/goodlogin-sdk";
-import { useFVLink } from "@gooddollar/web3sdk-v2";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -13,9 +12,12 @@ import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { CircleSpinner } from "react-spinners-kit";
 import { wallet } from "../../..";
 import "react-phone-number-input/style.css";
-import { verifyUser } from '../../../services/api';
+import { verifyUser } from "../../../services/api";
+import { useUniqueGUser } from "../../../utils/uniqueUser";
 
-import getConfig from '../../../config';
+import { supabase } from "../../../utils/supabase";
+
+import getConfig from "../../../config";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -33,7 +35,7 @@ export const Gooddollar = () => {
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = React.useState(null);
+  const [submitting, setSubmitting] = React.useState(false);
 
   const {
     values,
@@ -56,29 +58,53 @@ export const Gooddollar = () => {
     }),
     onSubmit: async (data) => {
       // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, '', window.location.origin);
+      window.history.replaceState({}, "", window.location.origin);
       setSubmitting(true);
-      const {sig, ...rawData} = rawGoodDollarData
+      const { sig, ...rawData } = rawGoodDollarData;
 
       const sendObj = {
         m: JSON.stringify(rawData),
         c: wallet.accountId,
-        sig: rawGoodDollarData.sig
+        sig: rawGoodDollarData.sig,
+      };
+      console.log(sendObj);
+      let error = null;
+      let updateData = {
+        wallet_identifier: wallet.accountId,
+        name: data.name,
+        g$_address: data.gDollarAccount,
+        status: "Approved",
+        ...(data?.email ? { email: data?.email } : { phone: data?.phone }),
+        ...(data?.phone ? { phone: data?.phone } : { email: data?.email }),
       };
 
       try {
-        const result = await verifyUser(sendObj)
-
+        const result = await verifyUser(sendObj);
+        const { data } = await supabase
+          .from("users")
+          .select("*")
+          .match({ wallet_identifier: wallet.accountId });
+        if (data[0]) {
+          const { error: appError } = await supabase
+            .from("users")
+            .update(updateData)
+            .match({ wallet_identifier: wallet.accountId });
+        } else {
+          const { error: appError } = await supabase
+            .from("users")
+            .insert(updateData)
+            .match({ wallet_identifier: wallet.accountId });
+        }
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
           method: "sbt_mint",
           args: {
             claim_b64: result.m,
-            claim_sig: result.sig
+            claim_sig: result.sig,
           },
         });
-      } catch(e) {
-        console.log('Error', e)
+      } catch (e) {
+        console.log("Error", e);
         toast.error(
           "An error occured while submitting your details , please try again"
         );
@@ -98,7 +124,6 @@ export const Gooddollar = () => {
     },
   });
 
-  const fvLink = useFVLink();
   const handleValues = (key) => ({
     value: values[key],
     disabled: editableFields?.[key],
@@ -108,6 +133,56 @@ export const Gooddollar = () => {
 
   const [showStep, setShowStep] = useState(0);
 
+  const gooddollarLoginCb = useCallback(
+    async (data) => {
+      try {
+        if (data.error) return alert("Login request denied !");
+        parseLoginResponse(data).then((d) => {
+          setRawGoodDollarData(data);
+          setGooddollarData(d);
+          setEditableFields((d) => ({
+            ...d,
+            email: !Boolean(d?.email?.value),
+          }));
+          setEditableFields((d) => ({
+            ...d,
+            mobile: !Boolean(d?.mobile?.value),
+          }));
+          const isVerified =
+            d?.isAddressWhitelisted?.isVerified ||
+            d?.isAddressWhitelisted?.value;
+          setValues({
+            name: d?.fullName?.value,
+            email: d?.email?.value,
+            phone: d?.mobile?.value,
+            gDollarAccount: d?.walletAddress?.value,
+            status: isVerified ? "Whitelisted" : "Not Whitelisted",
+          });
+          setShowStep(3);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [setValues]
+  );
+
+  useEffect(() => {
+    if (window.location.href.includes("?login=")) {
+      const loginURI = window?.location?.href.split("=");
+      const buffer = Buffer.from(
+        decodeURIComponent(loginURI[1]),
+        "base64"
+      ).toString("ascii");
+      if (buffer[buffer.length - 1] !== "}") {
+        let lastIndex = buffer.lastIndexOf("}");
+        gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
+      } else {
+        gooddollarLoginCb(JSON.parse(buffer));
+      }
+    }
+  }, [gooddollarLoginCb]);
+
   useEffect(() => {
     if (window.location.href.includes("?login")) {
       // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
@@ -116,42 +191,17 @@ export const Gooddollar = () => {
     }
   }, []);
 
-  const gooddollarLoginCb = async (data) => {
-    try {
-      if (data.error) return alert("Login request denied !");
-      parseLoginResponse(data).then((d) => {
-        setRawGoodDollarData(data);
-        setGooddollarData(d);
-        setEditableFields((d) => ({
-          ...d,
-          email: !Boolean(d?.email?.value),
-        }));
-        setEditableFields((d) => ({
-          ...d,
-          mobile: !Boolean(d?.mobile?.value),
-        }));
-        setValues({
-          name: d?.fullName?.value,
-          email: d?.email?.value,
-          phone: d?.mobile?.value,
-          gDollarAccount: d?.walletAddress?.value,
-          status: d?.isAddressWhitelisted?.value
-            ? "Whitelisted"
-            : "Not Whitelisted",
-        });
-        setShowStep(3);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const steps = {
     0: "5%",
     1: "10%",
     2: "50%",
     3: "100%",
   };
+
+  const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
+    gAddress: "0x9599D39638d1223Ab39e480A0303335e0bdbA70c",
+  });
+
 
   return (
     <div className="p-2 pt-5 w-full">
@@ -191,18 +241,18 @@ export const Gooddollar = () => {
             <p className="text-xl">Do you own a gooddollar account ?</p>
             <div className="ml-auto w-[fit-content] text-center space-x-2">
               <button
-                onClick={() => setShowStep(1)}
-                type="button"
-                className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                <p className="mx-auto w-[fit-content]">No</p>
-              </button>
-              <button
                 onClick={() => setShowStep(2)}
                 type="button"
                 className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <p className="mx-auto w-[fit-content]">Yes</p>
+              </button>
+              <button
+                onClick={() => setShowStep(1)}
+                type="button"
+                className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-20 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <p className="mx-auto w-[fit-content]">No</p>
               </button>
             </div>
           </div>
@@ -256,15 +306,18 @@ export const Gooddollar = () => {
               This feature doesn’t work on phones yet, and is also geo-blocked
               for certain countries.
             </p>
-
-            <LoginButton
-              onLoginCallback={gooddollarLoginCb}
-              className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-              gooddollarlink={gooddollarLink}
-              rdu="gasdasd"
-            >
-              Authorize G$
-            </LoginButton>
+            {window.location.href.includes("?login=") ? (
+              <></>
+            ) : (
+              <LoginButton
+                onLoginCallback={gooddollarLoginCb}
+                className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                gooddollarlink={gooddollarLink}
+                rdu="gasdasd"
+              >
+                Authorize G$
+              </LoginButton>
+            )}
           </div>
         )}
         {showStep === 3 && (
@@ -274,78 +327,158 @@ export const Gooddollar = () => {
               Once you passed step 1 and 2 your information will be populated
               here and you will be able to apply for a Community SBT.
             </p>
+
             <form
               onSubmit={(e) => handleSubmit(e)}
               className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
             >
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">Name:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Name"
-                  {...handleValues("name")}
-                />
-              </div>
-              {Boolean(values?.email) && (
-                <div className="flex items-center justify-between">
-                  <p className="w-[120px]">Email:</p>
-                  <div className="w-[88%]">
+              {values.status === "Whitelisted" ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">Name:</p>
                     <input
-                      className="w-full bg-gray-100 p-1 rounded px-3"
-                      placeholder="Email"
-                      {...handleValues("email")}
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Name"
+                      {...handleValues("name")}
                     />
-                    <p>{errors?.email}</p>
                   </div>
+                  {Boolean(values?.email) && (
+                    <div className="flex items-center justify-between">
+                      <p className="w-[120px]">Email:</p>
+                      <div className="w-[88%]">
+                        <input
+                          className="w-full bg-gray-100 p-1 rounded px-3"
+                          placeholder="Email"
+                          {...handleValues("email")}
+                        />
+                        <p>{errors?.email}</p>
+                      </div>
+                    </div>
+                  )}
+                  {Boolean(values?.phone) && (
+                    <div className="flex items-center justify-between">
+                      <div className="w-[120px]">
+                        <p>Mobile:</p>
+                        <p className="text-[12px]">With country code</p>
+                      </div>
+                      <div className="w-[88%]">
+                        <PhoneInput
+                          className="w-full bg-gray-100 p-1 rounded px-3"
+                          placeholder="Phone"
+                          value={values.phone}
+                          disabled
+                          onChange={(e) => setFieldValue("phone", e)}
+                        />
+                        <p className="text-red-600 text-sm">{errors?.phone}</p>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">G$ Account:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Account Address"
+                      {...handleValues("gDollarAccount")}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">Status:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Status"
+                      {...handleValues("status")}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Oops! It looks like you are not whitelisted. Usually this
+                    would happen if you created a GoodDollar account but didn’t
+                    complete the face verification flow.
+                  </p>
+                </>
+              )}
+
+              {values.status === "Whitelisted" ? (
+                <>
+                  {isGLoading ? (
+                    <>
+                      <button className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right">
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      </button>
+                    </>
+                  ) : isExistingGUser ? (
+                    <>
+                      <p>
+                        This Gooddollar account is already registered with us ,
+                        apply with a different account
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.history.replaceState(
+                            {},
+                            "",
+                            window.location.origin
+                          );
+                          setShowStep(2);
+                        }}
+                        className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                      >
+                        Authorize with a different account
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+                    >
+                      {!submitting ? (
+                        " Apply for SBT"
+                      ) : (
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      )}
+                    </button>
+                  )}
+                </>
+              ) : (
+                <div className="text-right w-[fit-content] ml-auto space-y-5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.open("https://wallet.gooddollar.org", "_blank");
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Did you set up GoodDollar wallet and make your first claim ?
+                  </button>
+
+                  <p>
+                    You'll need to claim once before you can apply for face
+                    vertification SBT{" "}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.replaceState(
+                        {},
+                        "",
+                        window.location.origin
+                      );
+                      setShowStep(2);
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Claimed GoodDollar ? Authorize Login Again !
+                  </button>
                 </div>
               )}
-              {Boolean(values?.phone) && (
-                <div className="flex items-center justify-between">
-                  <div className="w-[120px]">
-                    <p>Mobile:</p>
-                    <p className="text-[12px]">With country code</p>
-                  </div>
-                  <div className="w-[88%]">
-                    <PhoneInput
-                      className="w-full bg-gray-100 p-1 rounded px-3"
-                      placeholder="Phone"
-                      value={values.phone}
-                      disabled
-                      onChange={(e) => setFieldValue("phone", e)}
-                    />
-                    <p className="text-red-600 text-sm">{errors?.phone}</p>
-                  </div>
-                </div>
-              )}
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">G$ Account:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Account Address"
-                  {...handleValues("gDollarAccount")}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="w-[120px]">Status:</p>
-                <input
-                  className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                  placeholder="Status"
-                  {...handleValues("status")}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
-              >
-                {!submitting ? (
-                  " Apply for SBT"
-                ) : (
-                  <div className="w-[fit-content] mx-auto">
-                    <CircleSpinner size={20} />
-                  </div>
-                )}
-              </button>
             </form>
           </div>
         )}
@@ -358,9 +491,6 @@ export const Gooddollar = () => {
           account with GoodDollar then you will be able to mint a ‘verified
           unique’ SBT here. If you don’t yet have an account, please sign up for
           one first at www.gooddollar.org.{" "}
-          <span className="font-semibold">
-            This feature doesn't work in phone
-          </span>
         </p>
       </div>
     </div>
