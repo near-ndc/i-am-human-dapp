@@ -128,7 +128,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 <img
                   src={HumanOnNDC}
                   alt="humans on ndc"
-                  className={`h-[600px] hidden md:block w-[60%] ml-[-10%]`}
+                  className={`h-[600px] object-cover hidden md:block w-[60%] ml-[-10%]`}
                 />
 
                 <>
