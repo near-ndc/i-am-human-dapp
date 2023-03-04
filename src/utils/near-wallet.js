@@ -17,6 +17,18 @@ import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
+import { setupSender } from "@near-wallet-selector/sender";
+import senderIconUrl from "@near-wallet-selector/sender/assets/sender-icon.png";
+import { setupHereWallet } from "@near-wallet-selector/here-wallet";
+import HereWalletIconUrl from "@near-wallet-selector/here-wallet/assets/here-wallet-icon.png";
+
+const sender = setupSender({
+  iconUrl: senderIconUrl
+});
+
+const hereWallet = setupHereWallet({ 
+  iconUrl: HereWalletIconUrl 
+});
 
 const nearWallet = setupNearWallet({
   walletUrl: "https://wallet.near.org",
@@ -50,7 +62,7 @@ export class Wallet {
     this.walletSelector = await setupWalletSelector({
       network: this.network,
       modules: [nearWallet,meteorWallet,setupMyNearWallet({ iconUrl: MyNearIconUrl }),
-      setupLedger({ iconUrl: LedgerIconUrl })],
+      setupLedger({ iconUrl: LedgerIconUrl }),sender,hereWallet],
     });
 
     const isSignedIn = this.walletSelector.isSignedIn();

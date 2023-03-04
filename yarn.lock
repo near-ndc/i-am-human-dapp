@@ -2553,6 +2553,14 @@
   dependencies:
     client-only "^0.0.1"
 
+"@here-wallet/core@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@here-wallet/core/-/core-1.4.0.tgz#e1c1347f387dd518723cd3c43504fb679efbf016"
+  integrity sha512-+dMfir1RZQGzSOLtABa25T+WhmXTXce0AV+a+cfOQ5iLW45UrtXF5DXfHdWyWFDoRNt3rUYgyfOTQGeWTffQjw==
+  dependencies:
+    sha1 "^1.1.1"
+    uuid4 "2.0.3"
+
 "@heroicons/react@^2.0.15":
   version "2.0.15"
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.15.tgz#e1fc966350577a1ab0e38211e7b58e4bf8285b49"
@@ -3050,6 +3058,15 @@
   dependencies:
     rxjs "^7.8.0"
 
+"@near-wallet-selector/here-wallet@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/here-wallet/-/here-wallet-7.9.0.tgz#da97ed9c62b0f26b8dc63adf78757040e3fb8234"
+  integrity sha512-h/2MQ/KMVakhSHgeIo9N/soEWyIpkMbUoGymxuGT6tcrt7zPeVNbXnPqs1QJQOghqITbttwzCoXWiNfmaF8ZcQ==
+  dependencies:
+    "@here-wallet/core" "^1.4.0"
+    "@near-wallet-selector/core" "7.9.0"
+    bn.js "^5.2.0"
+
 "@near-wallet-selector/ledger@^7.0.0":
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/@near-wallet-selector/ledger/-/ledger-7.7.0.tgz#6e96a3df82e7ae8b094aac8ad4c0feb419f58db1"
@@ -3133,12 +3150,12 @@
     "@near-wallet-selector/wallet-utils" "7.7.0"
     is-mobile "^3.1.1"
 
-"@near-wallet-selector/sender@^7.0.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/sender/-/sender-7.7.0.tgz#7facdbec1705ca142e70adbdae1b89426f7efcf1"
-  integrity sha512-f74y8N720KY57fQKAmh1w550xmy3J5ro5ofGGiqAMZGd0f3zxtGb+N3nlQWIq0sfzw+7eNebi31LjdcWahoAwA==
+"@near-wallet-selector/sender@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/sender/-/sender-7.9.0.tgz#aa7fadf84f7d7f4cf05477b8e31eaed27981f648"
+  integrity sha512-xSEvGluB/SRLFrYGVmfzWqGrCg5412RiJ+21ysFZJh93V0Vfy/5fryBEQuHQmjjTDE//6E1402Eshd3QIhUEtQ==
   dependencies:
-    "@near-wallet-selector/core" "7.7.0"
+    "@near-wallet-selector/core" "7.9.0"
     is-mobile "^3.1.1"
 
 "@near-wallet-selector/wallet-connect@^7.0.0":
@@ -7925,6 +7942,11 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
+"charenc@>= 0.0.1":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+  integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
+
 check-error@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
@@ -8681,6 +8703,11 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+"crypt@>= 0.0.1":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
 
 crypto-addr-codec@^0.1.7:
   version "0.1.7"
@@ -18795,6 +18822,14 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+sha1@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/sha1/-/sha1-1.1.1.tgz#addaa7a93168f393f19eb2b15091618e2700f848"
+  integrity sha512-dZBS6OrMjtgVkopB1Gmo4RQCDKiZsqcpAQpkV/aaj+FCrCg8r4I4qMkDPQjBgLIxlmu9k4nUbWq6ohXahOneYA==
+  dependencies:
+    charenc ">= 0.0.1"
+    crypt ">= 0.0.1"
+
 sha3@^2.1.1:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/sha3/-/sha3-2.1.4.tgz#000fac0fe7c2feac1f48a25e7a31b52a6492cc8f"
@@ -20657,6 +20692,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid4@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-2.0.3.tgz#241e5dfe1704a79c52e2aa40e7e581a5e7b01ab4"
+  integrity sha512-CTpAkEVXMNJl2ojgtpLXHgz23dh8z81u6/HEPiQFOvBc/c2pde6TVHmH4uwY0d/GLF3tb7+VDAj4+2eJaQSdZQ==
 
 uuid@2.0.1:
   version "2.0.1"
