@@ -188,7 +188,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               />
             )}
             <ApplyCommunityVerify
-              open={true}
+              open={showCommunityVerification}
               userData={userData}
               onClose={() => setShowCommunityVerification(false)}
             />
@@ -304,6 +304,17 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                       Telegram message confirming your Near
                                       account your SBT will be approved and show
                                       up here.
+                                    </p>
+                                    <p className="mb-3">
+                                      Send your Near account as a Telegram DM to{" "}
+                                      <a
+                                        href="https://t.me/iamhumanapp"
+                                        target="_blank"
+                                        className="underline text-indigo-600"
+                                        rel="noreferrer"
+                                      >
+                                        @iamhumanapp
+                                      </a>
                                     </p>
                                   </div>
                                 )}
