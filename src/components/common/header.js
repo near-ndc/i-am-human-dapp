@@ -93,7 +93,7 @@ export const Header = ({ setShowAdmin }) => {
                         <p>Admin Console</p>
                         <CheckCircleIcon className="h-4 w-4 text-green-600" />
                       </button>
-                      <button
+                      {/* <button
                         onClick={async () => {
                           await supabase
                             .from("users")
@@ -123,7 +123,7 @@ export const Header = ({ setShowAdmin }) => {
                         className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
                       >
                         <p>Reset Account</p>
-                      </button>
+                      </button> */}
                     </>
                   ) : (
                     <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">

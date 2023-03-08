@@ -36,11 +36,10 @@ export function OgSBTApplicationsTable() {
 
   const applicationStatus = ["Application Submitted", "Approved", "Rejected"];
   const [selectedStatus, setSelectedStatus] = useState(applicationStatus);
-  const filteredApplications = useMemo(() => {
-    return allApplications?.filter((item) =>
-      (selectedStatus ?? "")?.includes(item?.og_sbt_application)
-    );
-  }, [allApplications, selectedStatus]);
+  const filteredApplications = [...allApplications]?.filter((item) =>
+    selectedStatus?.includes(item?.og_sbt_application)
+  );
+
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -169,7 +168,7 @@ export function OgSBTApplicationsTable() {
                 )}
                 {filteredApplications.map((person, personIdx) => (
                   <tr
-                    key={person.email}
+                    key={person.wallet_identifier}
                     className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
                   >
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
@@ -196,13 +195,15 @@ export function OgSBTApplicationsTable() {
                               try {
                                 await supabase
                                   .from("users")
-                                  .update({ og_sbt_application: "Approved" })
+                                  .update({
+                                    og_sbt_application: "Approved",
+                                    og_sbt_approved_by: wallet.accountId,
+                                  })
                                   .match({
                                     wallet_identifier: person.wallet_identifier,
                                   });
                                 await wallet.callMethod({
-                                  contractId:
-                                    "og-sbt.i-am-human.near",
+                                  contractId: "og-sbt.i-am-human.near",
                                   method: "sbt_mint",
                                   args: {
                                     receiver: person.wallet_identifier,
@@ -229,7 +230,9 @@ export function OgSBTApplicationsTable() {
                             onClick={async () => {
                               await supabase
                                 .from("users")
-                                .update({ og_sbt_application: "Rejected" })
+                                .update({
+                                  og_sbt_application: "Rejected",
+                                })
                                 .match({
                                   wallet_identifier: person.wallet_identifier,
                                 });
