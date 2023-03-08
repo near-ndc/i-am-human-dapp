@@ -3,6 +3,8 @@ import { supabase } from "../../../utils/supabase";
 import { GrFormAdd } from "react-icons/gr";
 import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { super_admins } from "../../../utils/super-admins";
+import { wallet } from "../../../index";
 
 export function FVSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
@@ -32,6 +34,7 @@ export function FVSBTApplicationsTable() {
   const filteredApplications = allApplications.filter((item) =>
     selectedStatus.includes(item.status)
   );
+  const is_super_admin = super_admins.includes(wallet.accountId);
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -118,24 +121,28 @@ export function FVSBTApplicationsTable() {
                   >
                     Name
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
-                    Email
-                  </th>
+                  {is_super_admin && (
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
+                    >
+                      Email
+                    </th>
+                  )}
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
                   >
                     Wallet Address
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
-                    Mobile Number
-                  </th>
+                  {is_super_admin && (
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
+                    >
+                      Mobile Number
+                    </th>
+                  )}
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
@@ -166,26 +173,32 @@ export function FVSBTApplicationsTable() {
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
                       {person?.name ?? "NULL"}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person?.email ?? "NULL"}
-                    </td>
+                    {is_super_admin && (
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {person?.email ?? "NULL"}
+                      </td>
+                    )}
+
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person?.phone ?? "NULL"}
-                    </td>
+                    {is_super_admin && (
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {person?.phone ?? "NULL"}
+                      </td>
+                    )}
+
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.status}
                     </td>
                     <td className="relative space-x-4 whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-3">
-                      <button className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded">
+                      {/* <button className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded">
                         MINT FV SBT
                         <span className="sr-only">, {person.name}</span>
                       </button>
                       <button className="text-red-600 p-2 hover:bg-red-100 transition-all rounded">
                         REJECT APPLICATION
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}

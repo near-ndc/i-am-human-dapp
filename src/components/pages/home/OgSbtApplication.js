@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { wallet } from "../../..";
 import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
 import { log_event } from "../../../utils/utilityFunctions";
+import { super_admins } from "../../../utils/super-admins";
 
 export function OgSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
@@ -40,6 +41,8 @@ export function OgSBTApplicationsTable() {
   const filteredApplications = [...allApplications]?.filter((item) =>
     selectedStatus?.includes(item?.og_sbt_application)
   );
+
+  const is_super_admin = super_admins.includes(wallet.accountId);
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -126,24 +129,28 @@ export function OgSBTApplicationsTable() {
                   >
                     Name
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
-                    Email
-                  </th>
+                  {is_super_admin && (
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
+                    >
+                      Email
+                    </th>
+                  )}
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
                   >
                     Wallet Address
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
-                    Telegram Number
-                  </th>
+                  {is_super_admin && (
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
+                    >
+                      Telegram Number
+                    </th>
+                  )}
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
@@ -174,15 +181,20 @@ export function OgSBTApplicationsTable() {
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
                       {person?.name ?? "N/A"}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person?.email ?? "N/A"}
-                    </td>
+                    {is_super_admin && (
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {person?.email ?? "N/A"}
+                      </td>
+                    )}
+
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.telegram_number}
-                    </td>
+                    {is_super_admin && (
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {person.telegram_number}
+                      </td>
+                    )}
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.og_sbt_application}
                     </td>
