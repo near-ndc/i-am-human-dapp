@@ -4,6 +4,7 @@ import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import OtpInput from "react-otp-input";
 import { checkUniquePhone } from "../../../../utils/uniqueUser";
+import { log_event } from "../../../../utils/utilityFunctions";
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
@@ -24,6 +25,7 @@ export const VerifyPhoneAndEmail = ({
 
   const sendOtp = async () => {
     try {
+
       const is_unique = await checkUniquePhone({ no: value });
       if (!is_unique) {
         setLoading(true);
@@ -31,6 +33,7 @@ export const VerifyPhoneAndEmail = ({
           phone: value,
         });
         setOtpSent(true);
+        log_event({ event_log: `OTP sent for phone : ${value}` });
 
         setTelegramData({ phone: value });
 
@@ -58,6 +61,7 @@ export const VerifyPhoneAndEmail = ({
       if (data.data?.error) {
         throw new Error(data.data?.error);
       }
+      log_event({ event_log: `OTP verified for phone : ${value}` });
       toast.success("Otp verified");
       if (is_not_email) {
         setShowStep(3);

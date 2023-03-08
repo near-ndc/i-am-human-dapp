@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
+import { log_event } from "../../../utils/utilityFunctions";
 
 export const ManageTokens = () => {
   const [input, setInput] = React.useState("");
@@ -95,6 +96,10 @@ export const ManageTokens = () => {
           metadata: metadata,
         },
       });
+      log_event({
+        event_log: `${wallet.accountId} minted OG SBT tokens for ${input}`,
+        effected_wallet: input,
+      });
       checkTokens({ hideMessage: true });
       toast.success("Minted SBT successfully !");
     } catch (e) {
@@ -113,6 +118,10 @@ export const ManageTokens = () => {
         contractId: 'og-sbt.i-am-human.near',
         method: "revoke_for",
         args: { accounts: [input], metadata: {} },
+      });
+      log_event({
+        event_log: `${wallet.accountId} revoked OG SBT tokens for ${input}`,
+        effected_wallet: input,
       });
       toast.success("Revoked SBT successfully !");
       await checkTokens({ hideMessage: true });
@@ -134,6 +143,10 @@ export const ManageTokens = () => {
           metadata,
           ttl: metadata.ttl ? parseInt(metadata.ttl) : 60,
         },
+      });
+      log_event({
+        event_log: `${wallet.accountId} renewed OG SBT tokens for ${input}`,
+        effected_wallet: input,
       });
       toast.success("Renewed SBT successfully !");
       await checkTokens({ hideMessage: true });
@@ -245,7 +258,7 @@ export const ManageTokens = () => {
       )} */}
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .testnet at the end
+          Provided addresss should be a valid one with only .near at the end
           and containing only 1 (.)
         </p>
       )}

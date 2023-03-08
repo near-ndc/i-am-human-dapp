@@ -97,7 +97,7 @@ export const MintAndRenewTokenModal = ({
                           for="ttl"
                           className="block mb-2 text-md font-medium text-gray-900"
                         >
-                          Valid For How Many Days ? (Optional override))
+                          Valid For How Many Days ? (Optional override)
                         </label>
                         <input
                           type="number"

@@ -5,6 +5,7 @@ import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { wallet } from "../../..";
 import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
+import { log_event } from "../../../utils/utilityFunctions";
 
 export function OgSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
@@ -39,7 +40,6 @@ export function OgSBTApplicationsTable() {
   const filteredApplications = [...allApplications]?.filter((item) =>
     selectedStatus?.includes(item?.og_sbt_application)
   );
-
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -213,6 +213,10 @@ export function OgSBTApplicationsTable() {
                                     },
                                   },
                                 });
+                                log_event({
+                                  event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
+                                  effected_wallet: person.wallet_identifier,
+                                });
                                 toast.success("Successfully minted tokers");
                               } catch {
                                 toast.error(
@@ -236,6 +240,11 @@ export function OgSBTApplicationsTable() {
                                 .match({
                                   wallet_identifier: person.wallet_identifier,
                                 });
+
+                              log_event({
+                                event_log: `${wallet.accountId} rejected OG SBT for ${person.wallet_identifier}`,
+                                effected_wallet: person.wallet_identifier,
+                              });
                               fetchUserApplications();
                             }}
                             className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
@@ -260,10 +269,28 @@ export function OgSBTApplicationsTable() {
                           onClick={async () => {
                             await supabase
                               .from("users")
-                              .update({ og_sbt_application: "Approved" })
+                              .update({
+                                og_sbt_application: "Approved",
+                                og_sbt_approved_by: wallet.accountId,
+                              })
                               .match({
                                 wallet_identifier: person.wallet_identifier,
                               });
+                            await wallet.callMethod({
+                              contractId: "og-sbt.i-am-human.near",
+                              method: "sbt_mint",
+                              args: {
+                                receiver: person.wallet_identifier,
+                                metadata: {
+                                  ttl: "",
+                                  memo: "",
+                                },
+                              },
+                            });
+                            log_event({
+                              event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
+                              effected_wallet: person.wallet_identifier,
+                            });
                             fetchUserApplications();
                           }}
                           className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"

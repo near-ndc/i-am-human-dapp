@@ -10,6 +10,7 @@ import { IsSignedInLanding } from "./IsSignedInLanding";
 import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
 import { ApplyCommunityVerify } from "../../components/pages/home/applyCommunityVerify";
+import { log_event } from "../../utils/utilityFunctions";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
@@ -323,6 +324,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               <button
                                 onClick={() => {
                                   if (isSignedIn) {
+                                    log_event({
+                                      event_log:
+                                        "Started OG SBT verification flow",
+                                    });
                                     setShowCommunityVerification(true);
                                   } else {
                                     wallet.signIn();
@@ -381,6 +386,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   window.location.origin
                                 );
                                 if (isSignedIn) {
+                                  log_event({
+                                    event_log:
+                                      "Started FV SBT verification flow",
+                                  });
                                   setShowGooddollarVerification(true);
                                 } else {
                                   wallet.signIn();

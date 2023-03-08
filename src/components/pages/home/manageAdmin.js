@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
-import { checkAdmin } from "../../../utils/utilityFunctions";
+import { checkAdmin, log_event } from "../../../utils/utilityFunctions";
 import { AdminConfirmation } from "./ManageAdmin/adminConfirmation";
 
 export const ManageAdmin = () => {
@@ -41,9 +41,13 @@ export const ManageAdmin = () => {
   const addToAdmins = async () => {
     if (walletAddress) {
       setButtonLoading(true);
+      log_event({
+        event_log: `${walletAddress} added to admins`,
+        effected_wallet: walletAddress,
+      });
       try {
         const res = await wallet.callMethod({
-          contractId: 'og-sbt.i-am-human.near',
+          contractId: "og-sbt.i-am-human.near",
           method: "add_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -68,8 +72,12 @@ export const ManageAdmin = () => {
     if (walletAddress) {
       setButtonLoading(true);
       try {
+        log_event({
+          event_log: `${walletAddress} removed from admins`,
+          effected_wallet: walletAddress,
+        });
         const res = await wallet.callMethod({
-          contractId: 'og-sbt.i-am-human.near',
+          contractId: "og-sbt.i-am-human.near",
           method: "remove_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -148,23 +156,27 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .testnet at the end
-          and containing only 1 (.)
+          Provided addresss should be a valid one with only .near at the end and
+          containing only 1 (.)
         </p>
       )}
       {adminStatus?.status === "isAdmin" && (
         <div className="mb-2 w-[210px]">
-          <div >
-            <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">{walletAddress} is an admin</p>
+          <div>
+            <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
+              {walletAddress} is an admin
+            </p>
           </div>
         </div>
       )}
       {adminStatus?.status === "notAdmin" && (
         <div className="mb-2 w-[210px]">
-        <div >
-          <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">{walletAddress} is not an admin</p>
+          <div>
+            <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
+              {walletAddress} is not an admin
+            </p>
+          </div>
         </div>
-      </div>
       )}
       <div className="flex items-center space-x-1">
         {adminStatus.status === null ? (

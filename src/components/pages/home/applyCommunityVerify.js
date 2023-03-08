@@ -5,6 +5,7 @@ import { VerifyPhoneAndEmail } from "./applyCommunityVerify/verifyPhoneAndEmail"
 import { Panel } from "../../common/panel";
 import { wallet } from "../../../index";
 import { toast } from "react-toastify";
+import { log_event } from "../../../utils/utilityFunctions";
 
 export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {
@@ -55,6 +56,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
       if (error) {
         throw new Error("");
       } else {
+        log_event({ event_log: "Applied for OG SBT" });
         onClose?.();
         toast.success("Applied for community SBT");
         setTimeout(() => {

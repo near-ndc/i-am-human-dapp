@@ -18,6 +18,7 @@ import { useUniqueGUser } from "../../../utils/uniqueUser";
 import { supabase } from "../../../utils/supabase";
 
 import getConfig from "../../../config";
+import { log_event } from "../../../utils/utilityFunctions";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -103,6 +104,7 @@ export const Gooddollar = () => {
             claim_sig: result.sig,
           },
         });
+        log_event({ event_log:"Applied for OG SBT"})
       } catch (e) {
         console.log("Error", e);
         toast.error(
@@ -176,6 +178,7 @@ export const Gooddollar = () => {
       ).toString("ascii");
       if (buffer[buffer.length - 1] !== "}") {
         let lastIndex = buffer.lastIndexOf("}");
+        log_event({ event_log: "Gooddollar Authorization done" });
         gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
       } else {
         gooddollarLoginCb(JSON.parse(buffer));
@@ -201,7 +204,6 @@ export const Gooddollar = () => {
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
     gAddress: "0x9599D39638d1223Ab39e480A0303335e0bdbA70c",
   });
-
 
   return (
     <div className="p-2 pt-5 w-full">
@@ -309,14 +311,21 @@ export const Gooddollar = () => {
             {window.location.href.includes("?login=") ? (
               <></>
             ) : (
-              <LoginButton
-                onLoginCallback={gooddollarLoginCb}
-                className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                gooddollarlink={gooddollarLink}
-                rdu="gasdasd"
+              <div
+                className="w-[fit-content]"
+                onClick={() => {
+                  log_event({ event_log: "Gooddollar authorization started" });
+                }}
               >
-                Authorize G$
-              </LoginButton>
+                <LoginButton
+                  onLoginCallback={gooddollarLoginCb}
+                  className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  gooddollarlink={gooddollarLink}
+                  rdu="gasdasd"
+                >
+                  Authorize G$
+                </LoginButton>
+              </div>
             )}
           </div>
         )}
@@ -434,6 +443,11 @@ export const Gooddollar = () => {
                   ) : (
                     <button
                       type="submit"
+                      onClick={() => {
+                        log_event({
+                          event_log: "Started Application flow for gooddollar",
+                        });
+                      }}
                       disabled={submitting}
                       className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
                     >
