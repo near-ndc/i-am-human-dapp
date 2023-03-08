@@ -4,9 +4,6 @@ import { ToastContainer } from "react-toastify";
 
 import { Landing } from "./pages/unAuth/index";
 import { Home } from "./pages/auth/home";
-import { useAdmin } from "./utils/useAdmin";
-import { wallet } from "./index";
-
 //hard code 3 near address to show additional data
 
 export function App({ isSignedIn }) {
