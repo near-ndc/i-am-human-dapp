@@ -13,7 +13,7 @@ export function FVSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from("users").select("*");
+      const { data, error } = await supabase.select("users");
       if (error) {
         throw new Error("");
       }

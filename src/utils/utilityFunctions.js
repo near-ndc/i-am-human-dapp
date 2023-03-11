@@ -11,11 +11,12 @@ export const checkAdmin = (walletAddress) => {
 
 export const log_event = async ({ event_log, effected_wallet }) => {
   const additional_data = effected_wallet ? { effected_wallet } : {};
-  const { error } = await supabase.from("events").insert({
+  const { error } = await supabase.insert("events", {
     event_log,
     wallet_identifier: wallet.accountId,
-    ...additional_data
+    ...additional_data,
   });
+
   if (error) {
     throw new Error(error?.message);
   }

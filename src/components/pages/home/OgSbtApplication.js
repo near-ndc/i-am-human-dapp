@@ -17,15 +17,15 @@ export function OgSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("users")
-        .select("*")
-        .neq("og_sbt_application", "NULL");
+      const { error, data } = await supabase.select("users");
       if (error) {
         throw new Error("");
       }
-      setAllApplications(data ?? []);
-    } catch {
+      setAllApplications(
+        data?.filter((item) => item.og_sbt_application !== null) ?? []
+      );
+    } catch (e) {
+      console.log(e);
       toast.error("An error occured while fetching applications");
     } finally {
       setLoading(false);
@@ -205,15 +205,16 @@ export function OgSBTApplicationsTable() {
                           <button
                             onClick={async () => {
                               try {
-                                await supabase
-                                  .from("users")
-                                  .update({
+                                await supabase.update(
+                                  "users",
+                                  {
                                     og_sbt_application: "Approved",
                                     og_sbt_approved_by: wallet.accountId,
-                                  })
-                                  .match({
+                                  },
+                                  {
                                     wallet_identifier: person.wallet_identifier,
-                                  });
+                                  }
+                                );
                                 await wallet.callMethod({
                                   contractId: "og-sbt.i-am-human.near",
                                   method: "sbt_mint",
@@ -244,15 +245,15 @@ export function OgSBTApplicationsTable() {
                           </button>
                           <button
                             onClick={async () => {
-                              await supabase
-                                .from("users")
-                                .update({
+                              await supabase.update(
+                                "users",
+                                {
                                   og_sbt_application: "Rejected",
-                                })
-                                .match({
+                                },
+                                {
                                   wallet_identifier: person.wallet_identifier,
-                                });
-
+                                }
+                              );
                               log_event({
                                 event_log: `${wallet.accountId} rejected OG SBT for ${person.wallet_identifier}`,
                                 effected_wallet: person.wallet_identifier,
@@ -279,15 +280,16 @@ export function OgSBTApplicationsTable() {
                       {person.og_sbt_application === "Rejected" && (
                         <button
                           onClick={async () => {
-                            await supabase
-                              .from("users")
-                              .update({
+                            await supabase.update(
+                              "users",
+                              {
                                 og_sbt_application: "Approved",
                                 og_sbt_approved_by: wallet.accountId,
-                              })
-                              .match({
+                              },
+                              {
                                 wallet_identifier: person.wallet_identifier,
-                              });
+                              }
+                            );
                             await wallet.callMethod({
                               contractId: "og-sbt.i-am-human.near",
                               method: "sbt_mint",

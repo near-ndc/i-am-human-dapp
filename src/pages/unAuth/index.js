@@ -24,10 +24,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   useEffect(() => {
     if (isSignedIn) {
       const fetchUserStatus = async () => {
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .match({ wallet_identifier: wallet.accountId });
+        const { data } = await supabase.select("users", {
+          wallet_identifier: wallet.accountId,
+        });
         if (data?.[0]) {
           setUserData(data[0]);
           if (data?.[0]?.["g$_address"]) {

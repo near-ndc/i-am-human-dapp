@@ -36,21 +36,17 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     }
     try {
       let error = null;
-      const { data } = await supabase
-        .from("users")
-        .select("*")
-        .match({ wallet_identifier: wallet.accountId });
+      const { data } = await supabase.select("users", {
+        wallet_identifier: wallet.accountId,
+      });
+
       if (data[0]) {
-        const { error: appError } = await supabase
-          .from("users")
-          .update(updateData)
-          .match({ wallet_identifier: wallet.accountId });
+        const { error: appError } = await supabase.update("users", updateData, {
+          wallet_identifier: wallet.accountId,
+        });
         error = appError;
       } else {
-        const { error: appError } = await supabase
-          .from("users")
-          .insert(updateData)
-          .match({ wallet_identifier: wallet.accountId });
+        const { error: appError } = await supabase.insert("users", updateData);
         error = appError;
       }
       if (error) {

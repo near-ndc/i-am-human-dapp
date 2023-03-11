@@ -81,20 +81,21 @@ export const Gooddollar = () => {
 
       try {
         const result = await verifyUser(sendObj);
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .match({ wallet_identifier: wallet.accountId });
+        const { data } = await supabase.select("users", {
+          wallet_identifier: wallet.accountId,
+        });
+
         if (data[0]) {
-          const { error: appError } = await supabase
-            .from("users")
-            .update(updateData)
-            .match({ wallet_identifier: wallet.accountId });
+          const { error: appError } = await supabase.update(
+            "users",
+            updateData,
+            { wallet_identifier: wallet.accountId }
+          );
         } else {
-          const { error: appError } = await supabase
-            .from("users")
-            .insert(updateData)
-            .match({ wallet_identifier: wallet.accountId });
+          const { error: appError } = await supabase.insert(
+            "users",
+            updateData
+          );
         }
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
@@ -104,7 +105,7 @@ export const Gooddollar = () => {
             claim_sig: result.sig,
           },
         });
-        log_event({ event_log:"Applied for OG SBT"})
+        log_event({ event_log: "Applied for OG SBT" });
       } catch (e) {
         console.log("Error", e);
         toast.error(
@@ -202,7 +203,7 @@ export const Gooddollar = () => {
   };
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
-    gAddress: "0x9599D39638d1223Ab39e480A0303335e0bdbA70c",
+    gAddress: values.gDollarAccount,
   });
 
   return (
