@@ -1,5 +1,5 @@
 import axios from "axios";
-const api_link = "http://localhost:3001";
+const api_link = "https://dev-ophc7vkxsq-uc.a.run.app";
 export const supabase = {
   select: async (table, match) => {
     const { data } = await axios.post(`${api_link}/select`, { table, match });
