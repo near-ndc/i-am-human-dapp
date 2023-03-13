@@ -86,12 +86,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "og-sbt.i-am-human.near",
+          contractId: "community-sbt-1.i-am-human.testnet",
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "og-sbt.i-am-human.near",
+          contractId: "community-sbt-1.i-am-human.testnet",
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
