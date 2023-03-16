@@ -9,7 +9,8 @@ import HumanOnNDC from "../../images/backLines.png";
 import { IsSignedInLanding } from "./IsSignedInLanding";
 import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
-import { ApplyCommunityVerify } from "../../components/pages/home/applyCommunityVerify";
+import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
+import { KycDao } from "../../components/pages/landing/kycDao";
 import { log_event } from "../../utils/utilityFunctions";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
@@ -488,6 +489,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   </div>
                 </div>
               </div>
+              <KycDao />
             </div>
 
             <div ref={ref} id="bottom" />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../../../utils/supabase";
 
-import { VerifyPhoneAndEmail } from "./applyCommunityVerify/verifyPhoneAndEmail";
+import { VerifyPhoneAndEmail } from "../home/applyCommunityVerify/verifyPhoneAndEmail";
 import { Panel } from "../../common/panel";
 import { wallet } from "../../../index";
 import { toast } from "react-toastify";

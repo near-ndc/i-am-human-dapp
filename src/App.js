@@ -20,7 +20,7 @@ export function App({ isSignedIn }) {
           <Landing setShowAdmin={setShowAdmin} isSignedIn={isSignedIn} />
         </>
       )}
-      <div className="w-[fit-content] mx-auto pb-10">
+      {/* <div className="w-[fit-content] mx-auto pb-10">
         <a
           href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
           target="_blank"
@@ -31,7 +31,7 @@ export function App({ isSignedIn }) {
             Give us your valuable feedback
           </span>
         </a>
-      </div>
+      </div> */}
 
       <ToastContainer
         position="top-right"

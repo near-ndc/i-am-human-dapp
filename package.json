@@ -8,6 +8,7 @@
     "@gooddollar/web3sdk-v2": "^0.1.78",
     "@headlessui/react": "^1.7.10",
     "@heroicons/react": "^2.0.15",
+    "@kycdao/widget": "0.5.8",
     "@near-wallet-selector/core": "^7.0.0",
     "@near-wallet-selector/here-wallet": "^7.9.0",
     "@near-wallet-selector/ledger": "^7.0.0",
