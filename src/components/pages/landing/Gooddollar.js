@@ -26,7 +26,7 @@ export const Gooddollar = () => {
     v: "I-AM-HUMAN-DAPP",
     web: "https://i-am-human.dapp/",
     id: "0x09D2011Ca5781CA70810F6d82837648132762F9a",
-    r: ["mobile", "location", "email", "name"],
+    r: ["name"],
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
@@ -49,8 +49,6 @@ export const Gooddollar = () => {
   } = useFormik({
     initialValues: {
       name: "",
-      email: "",
-      phone: "",
       gDollarAccount: "",
       status: "",
     },
@@ -74,9 +72,7 @@ export const Gooddollar = () => {
         wallet_identifier: wallet.accountId,
         name: data.name,
         g$_address: data.gDollarAccount,
-        status: "Approved",
-        ...(data?.email ? { email: data?.email } : { phone: data?.phone }),
-        ...(data?.phone ? { phone: data?.phone } : { email: data?.email }),
+        status: "Approved"
       };
 
       try {
@@ -156,8 +152,6 @@ export const Gooddollar = () => {
             d?.isAddressWhitelisted?.value;
           setValues({
             name: d?.fullName?.value,
-            email: d?.email?.value,
-            phone: d?.mobile?.value,
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? "Whitelisted" : "Not Whitelisted",
           });
@@ -352,37 +346,6 @@ export const Gooddollar = () => {
                       {...handleValues("name")}
                     />
                   </div>
-                  {Boolean(values?.email) && (
-                    <div className="flex items-center justify-between">
-                      <p className="w-[120px]">Email:</p>
-                      <div className="w-[88%]">
-                        <input
-                          className="w-full bg-gray-100 p-1 rounded px-3"
-                          placeholder="Email"
-                          {...handleValues("email")}
-                        />
-                        <p>{errors?.email}</p>
-                      </div>
-                    </div>
-                  )}
-                  {Boolean(values?.phone) && (
-                    <div className="flex items-center justify-between">
-                      <div className="w-[120px]">
-                        <p>Mobile:</p>
-                        <p className="text-[12px]">With country code</p>
-                      </div>
-                      <div className="w-[88%]">
-                        <PhoneInput
-                          className="w-full bg-gray-100 p-1 rounded px-3"
-                          placeholder="Phone"
-                          value={values.phone}
-                          disabled
-                          onChange={(e) => setFieldValue("phone", e)}
-                        />
-                        <p className="text-red-600 text-sm">{errors?.phone}</p>
-                      </div>
-                    </div>
-                  )}
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">G$ Account:</p>
                     <input
