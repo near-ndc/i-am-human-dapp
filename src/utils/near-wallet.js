@@ -31,7 +31,6 @@ const hereWallet = setupHereWallet({
 });
 
 const nearWallet = setupNearWallet({
-  walletUrl: "https://wallet.near.org",
   iconUrl: nearWalletIconUrl
 });
 const meteorWallet = setupMeteorWallet({

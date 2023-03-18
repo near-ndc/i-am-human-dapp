@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { wallet } from "../../..";
 import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
 import { log_event } from "../../../utils/utilityFunctions";
-import { super_admins } from "../../../utils/super-admins";
+import { super_admins, useSuperAdmin } from "../../../utils/super-admins";
 
 export function OgSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
@@ -42,7 +42,8 @@ export function OgSBTApplicationsTable() {
     selectedStatus?.includes(item?.og_sbt_application)
   );
 
-  const is_super_admin = super_admins.includes(wallet.accountId);
+  const { isSuperAdmin:is_super_admin } = useSuperAdmin();
+  console.log(is_super_admin, "is_super_admin");
 
   return (
     <div className="px-6 lg:px-8 mt-4">
@@ -129,14 +130,6 @@ export function OgSBTApplicationsTable() {
                   >
                     Name
                   </th>
-                  {is_super_admin && (
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                    >
-                      Email
-                    </th>
-                  )}
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
@@ -181,12 +174,6 @@ export function OgSBTApplicationsTable() {
                     <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
                       {person?.name ?? "N/A"}
                     </td>
-                    {is_super_admin && (
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person?.email ?? "N/A"}
-                      </td>
-                    )}
-
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
                     </td>
@@ -216,7 +203,7 @@ export function OgSBTApplicationsTable() {
                                   }
                                 );
                                 await wallet.callMethod({
-                                  contractId: "community-sbt-1.i-am-human.testnet",
+                                  contractId: "og-sbt-1.i-am-human.testnet",
                                   method: "sbt_mint",
                                   args: {
                                     receiver: person.wallet_identifier,
@@ -291,7 +278,7 @@ export function OgSBTApplicationsTable() {
                               }
                             );
                             await wallet.callMethod({
-                              contractId: "community-sbt-1.i-am-human.testnet",
+                              contractId: "og-sbt-1.i-am-human.testnet",
                               method: "sbt_mint",
                               args: {
                                 receiver: person.wallet_identifier,

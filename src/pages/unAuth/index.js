@@ -58,12 +58,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.near",
+          contractId: "gooddollar-v1.i-am-human.testnet",
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.near",
+          contractId: "gooddollar-v1.i-am-human.testnet",
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
@@ -73,7 +73,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           localStorage.removeItem("openFv");
         }
         setFvTokenSupply(parseInt(data));
-      } catch {
+      } catch (e){
+        console.log(e)
         toast.error("An error occured while fetching token supply");
         setFvFetchLoading(false);
       } finally {
@@ -87,12 +88,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "community-sbt-1.i-am-human.testnet",
+          contractId: "og-sbt-1.i-am-human.testnet",
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "community-sbt-1.i-am-human.testnet",
+          contractId: "og-sbt-1.i-am-human.testnet",
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
@@ -102,7 +103,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         }
         setTokenData(data2?.[0] ?? null);
         setTokenSupply(parseInt(data));
-      } catch {
+      } catch (e){
+        console.log(e)
         toast.error("An error occured while fetching token supply");
         setFetchLoading(false);
       } finally {
