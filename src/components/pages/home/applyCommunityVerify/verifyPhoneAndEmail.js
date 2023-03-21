@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import OtpInput from "react-otp-input";
 import { checkUniquePhone } from "../../../../utils/uniqueUser";
 import { log_event } from "../../../../utils/utilityFunctions";
+import { api_link } from "../../../../utils/supabase";
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
@@ -29,7 +30,7 @@ export const VerifyPhoneAndEmail = ({
       const is_unique = await checkUniquePhone({ no: value });
       if (!is_unique) {
         setLoading(true);
-        await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_otp", {
+        await axios.post(`${api_link}/send_otp`, {
           phone: value,
         });
         setOtpSent(true);
@@ -52,7 +53,7 @@ export const VerifyPhoneAndEmail = ({
     try {
       setLoading(true);
       const data = await axios.post(
-        "https://api-ophc7vkxsq-uc.a.run.app/verify_otp",
+        `${api_link}/verify_otp`,
         {
           phone: value,
           otp,
@@ -79,7 +80,7 @@ export const VerifyPhoneAndEmail = ({
   const sendEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/send_email_otp", {
+      await axios.post(`${api_link}/send_email_otp`, {
         email,
       });
       setEmailSent(true);
@@ -96,7 +97,7 @@ export const VerifyPhoneAndEmail = ({
   const verifyEmailOtp = async () => {
     try {
       setLoading(true);
-      await axios.post("https://api-ophc7vkxsq-uc.a.run.app/verify_email_otp", {
+      await axios.post(`${api_link}/verify_email_otp`, {
         phone: value,
         otp,
       });

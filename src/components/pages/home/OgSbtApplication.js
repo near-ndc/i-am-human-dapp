@@ -43,7 +43,6 @@ export function OgSBTApplicationsTable() {
   );
 
   const { isSuperAdmin:is_super_admin } = useSuperAdmin();
-  console.log(is_super_admin, "is_super_admin");
 
   return (
     <div className="px-6 lg:px-8 mt-4">

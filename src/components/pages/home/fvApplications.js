@@ -3,8 +3,6 @@ import { supabase } from "../../../utils/supabase";
 import { GrFormAdd } from "react-icons/gr";
 import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { super_admins } from "../../../utils/super-admins";
-import { wallet } from "../../../index";
 
 export function FVSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
