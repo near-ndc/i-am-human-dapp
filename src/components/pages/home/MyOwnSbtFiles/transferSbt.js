@@ -41,7 +41,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     if (transferTo === "") {
       return false;
     }
-    const testnet = ".near";
+    const testnet = ".testnet";
     const dots = countDots(transferTo);
     if (transferTo.endsWith(testnet) && dots === 1) {
       return true;
@@ -110,7 +110,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                   </div>
                   {!isStringValidated && transferTo !== "" && (
                     <p className="my-2 text-red-600 text-xs">
-                      Provided addresss should be a valid one with only .near
+                      Provided addresss should be a valid one with only .testnet
                       at the end and containing only 1 (.)
                     </p>
                   )}

@@ -40,7 +40,7 @@ export const ManageTokens = () => {
     if (input === "") {
       return true;
     }
-    const testnet = ".near";
+    const testnet = ".testnet";
     const dots = countDots(input);
     if (input.endsWith(testnet) && dots === 1) {
       return true;
@@ -258,7 +258,7 @@ export const ManageTokens = () => {
       )} */}
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .near at the end
+          Provided addresss should be a valid one with only .testnet at the end
           and containing only 1 (.)
         </p>
       )}

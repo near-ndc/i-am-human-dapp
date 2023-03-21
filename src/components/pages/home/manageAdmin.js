@@ -31,7 +31,7 @@ export const ManageAdmin = () => {
     if (walletAddress === "") {
       return true;
     }
-    const testnet = ".near";
+    const testnet = ".testnet";
     const dots = countDots(walletAddress);
     if (walletAddress.endsWith(testnet) && dots === 1) {
       return true;
@@ -156,7 +156,7 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .near at the end and
+          Provided addresss should be a valid one with only .testnet at the end and
           containing only 1 (.)
         </p>
       )}
