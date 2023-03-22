@@ -105,28 +105,6 @@ export function ShowSbtDetails({ open, setOpen, selectedUser }) {
                               htmlFor="project-name"
                               className="block text-sm font-medium text-gray-900"
                             >
-                              Email
-                            </label>
-                          </div>
-                          <div>{selectedUser?.email ?? "N/A"}</div>
-                        </div>
-                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <div>
-                            <label
-                              htmlFor="project-name"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Phone
-                            </label>
-                          </div>
-                          <div>{selectedUser?.phone ?? "N/A"}</div>
-                        </div>
-                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <div>
-                            <label
-                              htmlFor="project-name"
-                              className="block text-sm font-medium text-gray-900"
-                            >
                               Wallet Address
                             </label>
                           </div>
