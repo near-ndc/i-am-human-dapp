@@ -396,7 +396,7 @@ export function OgSBTApplicationsTable() {
                     {is_super_admin && (
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <HideShowNumber
-                          wallet={wallet.accountId}
+                          wallet={person.wallet_identifier}
                           telegram_number={person.telegram_number}
                         />
                       </td>
