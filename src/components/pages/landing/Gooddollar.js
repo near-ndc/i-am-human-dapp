@@ -70,7 +70,6 @@ export const Gooddollar = () => {
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
-        name: data.name,
         g$_address: data.gDollarAccount,
         status: "Approved"
       };
@@ -151,7 +150,6 @@ export const Gooddollar = () => {
             d?.isAddressWhitelisted?.isVerified ||
             d?.isAddressWhitelisted?.value;
           setValues({
-            name: d?.fullName?.value,
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? "Whitelisted" : "Not Whitelisted",
           });
@@ -338,14 +336,6 @@ export const Gooddollar = () => {
             >
               {values.status === "Whitelisted" ? (
                 <>
-                  <div className="flex items-center justify-between">
-                    <p className="w-[120px]">Name:</p>
-                    <input
-                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                      placeholder="Name"
-                      {...handleValues("name")}
-                    />
-                  </div>
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">G$ Account:</p>
                     <input
