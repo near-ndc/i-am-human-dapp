@@ -240,7 +240,6 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                       <span className="sr-only">Loading...</span>
                     </div>
                   )}
-
                   <p className="mx-auto w-[fit-content]">
                     {loading ? "Applying" : "Apply"}
                   </p>
