@@ -6,6 +6,8 @@ import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
 import { checkAdmin, log_event } from "../../../utils/utilityFunctions";
 import { AdminConfirmation } from "./ManageAdmin/adminConfirmation";
+import {addressToVerify} from './../../../utils/addressToVerify'
+import { near_contract } from "../../../utils/contract-addresses";
 
 export const ManageAdmin = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -31,7 +33,7 @@ export const ManageAdmin = () => {
     if (walletAddress === "") {
       return true;
     }
-    const testnet = ".testnet";
+    const testnet = addressToVerify;
     const dots = countDots(walletAddress);
     if (walletAddress.endsWith(testnet) && dots === 1) {
       return true;
@@ -47,7 +49,7 @@ export const ManageAdmin = () => {
       });
       try {
         const res = await wallet.callMethod({
-          contractId: "og-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "add_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -77,7 +79,7 @@ export const ManageAdmin = () => {
           effected_wallet: walletAddress,
         });
         const res = await wallet.callMethod({
-          contractId: "og-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "remove_admins",
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -156,7 +158,7 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .testnet at the end and
+          Provided addresss should be a valid one with only {addressToVerify} at the end and
           containing only 1 (.)
         </p>
       )}

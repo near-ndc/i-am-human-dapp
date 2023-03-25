@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 
 import { wallet } from "../../../../index";
+import { near_contract } from "../../../../utils/contract-addresses";
 
 export const SbtTokenStatus = ({ wallet_address }) => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -13,13 +14,13 @@ export const SbtTokenStatus = ({ wallet_address }) => {
     try {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
-        contractId: "og-sbt-1.i-am-human.testnet",
+        contractId: near_contract,
         method: "nft_supply_for_owner",
         args: { account: wallet_address },
       });
       console.log(data);
       const data2 = await wallet.viewMethod({
-        contractId: "og-sbt-1.i-am-human.testnet",
+        contractId: near_contract,
         method: "nft_tokens_for_owner",
         args: { account: wallet_address },
       });

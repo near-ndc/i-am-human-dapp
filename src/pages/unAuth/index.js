@@ -11,6 +11,7 @@ import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
 import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
 import { log_event } from "../../utils/utilityFunctions";
+import { gooddollar_contract, near_contract } from "../../utils/contract-addresses";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
@@ -57,12 +58,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.testnet",
+          contractId: gooddollar_contract,
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.testnet",
+          contractId: gooddollar_contract,
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
@@ -87,12 +88,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "og-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "og-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });

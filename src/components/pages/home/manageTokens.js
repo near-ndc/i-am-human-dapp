@@ -6,6 +6,7 @@ import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
 import { log_event } from "../../../utils/utilityFunctions";
+import { near_contract } from "../../../utils/contract-addresses";
 
 export const ManageTokens = () => {
   const [input, setInput] = React.useState("");
@@ -57,7 +58,7 @@ export const ManageTokens = () => {
       try {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
-          contractId: 'og-sbt-1.i-am-human.testnet',
+          contractId: near_contract,
           method: "nft_tokens_for_owner",
           args: { account: input },
         });
@@ -89,7 +90,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "sbt_mint",
         args: {
           receiver: input,
@@ -115,7 +116,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "revoke_for",
         args: { accounts: [input], metadata: {} },
       });
@@ -136,7 +137,7 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
-        contractId: 'og-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "sbt_renew",
         args: {
           tokens: [tokens.tokenData[0].token_id],
