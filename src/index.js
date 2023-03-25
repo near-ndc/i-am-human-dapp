@@ -9,7 +9,6 @@ import { Provider, ErrorBoundary } from "@rollbar/react"; // Provider imports 'r
 import { Wallet } from "./utils/near-wallet";
 import { near_contract } from "./utils/contract-addresses";
 const CONTRACT_ADDRESS = near_contract;
-
 const rollbarConfig = {
   accessToken: "31e514c3334a42728684b0638472dd32",
   environment: "testenv",
