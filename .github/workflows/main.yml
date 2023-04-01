@@ -14,21 +14,21 @@ on:
 jobs:
   build:
    name: Build and Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
-        with:
-          node-version: "16"
-          cache: "yarn"
-      - name: Check Yarn version
-        run: yarn --version
-      - name: Install dependencies
-        run: yarn install
-      - name: Build packages
-        run: yarn build
-      - name: Run tests
-        run: yarn tests
+   runs-on: ubuntu-latest
+   steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v2-beta
+      with:
+      node-version: "16"
+      cache: "yarn"
+    - name: Check Yarn version
+      run: yarn --version
+    - name: Install dependencies
+      run: yarn install
+    - name: Build packages
+      run: yarn build
+    - name: Run tests
+      run: yarn tests
 
