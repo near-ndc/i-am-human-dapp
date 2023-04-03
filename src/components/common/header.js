@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
 
 import { wallet } from "../../index";
 import Logo from "../../images/ndc.png";

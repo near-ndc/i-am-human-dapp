@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import dayjs from "dayjs";
 
 import { wallet } from "../../../index";
 import { TransferSBT } from "./MyOwnSbtFiles/transferSbt";

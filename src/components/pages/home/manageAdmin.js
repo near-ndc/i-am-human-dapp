@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";

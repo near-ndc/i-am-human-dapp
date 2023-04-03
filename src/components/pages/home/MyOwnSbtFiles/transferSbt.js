@@ -5,7 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { wallet } from "../../../../index";
 import { toast } from "react-toastify";
 import { ButtonLoader } from "../../../common/buttonLoader";
-import { address, addressToVerify } from "../../../../utils/addressToVerify";
+import {  addressToVerify } from "../../../../utils/addressToVerify";
 import { near_contract } from "../../../../utils/contract-addresses";
 
 export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {

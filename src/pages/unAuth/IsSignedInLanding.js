@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { SwishSpinner } from "react-spinners-kit";
 
-import { CheckSbtTokenStatus } from "./../../components/pages/home/myOwnSbt";
 import { Gooddollar } from "../../components/pages/landing/Gooddollar";
 import { Panel } from "../../components/common/panel";
 
