@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { supabase } from "../../../utils/supabase";
+import { api_link, supabase } from "../../../utils/supabase";
 
-import { VerifyPhoneAndEmail } from "./applyCommunityVerify/verifyPhoneAndEmail";
+import { VerifyPhoneAndEmail } from "../home/applyCommunityVerify/verifyPhoneAndEmail";
 import { Panel } from "../../common/panel";
 import { wallet } from "../../../index";
 import { toast } from "react-toastify";
+import { log_event } from "../../../utils/utilityFunctions";
+import axios from "axios";
 
 export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {
@@ -35,26 +37,27 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     }
     try {
       let error = null;
-      const { data } = await supabase
-        .from("users")
-        .select("*")
-        .match({ wallet_identifier: wallet.accountId });
+      const { data } = await supabase.select("users", {
+        wallet_identifier: wallet.accountId,
+      });
+
       if (data[0]) {
-        const { error: appError } = await supabase
-          .from("users")
-          .update(updateData)
-          .match({ wallet_identifier: wallet.accountId });
+        const { error: appError } = await supabase.update("users", updateData, {
+          wallet_identifier: wallet.accountId,
+        });
         error = appError;
       } else {
-        const { error: appError } = await supabase
-          .from("users")
-          .insert(updateData)
-          .match({ wallet_identifier: wallet.accountId });
+        const { error: appError } = await supabase.insert("users", updateData);
         error = appError;
       }
+      await axios.post(`${api_link}/encrypt-pii-number`, {
+        wallet: wallet.accountId,
+        number: telegramData.phone,
+      });
       if (error) {
         throw new Error("");
       } else {
+        log_event({ event_log: "Applied for OG SBT" });
         onClose?.();
         toast.success("Applied for community SBT");
         setTimeout(() => {
@@ -242,7 +245,6 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                       <span className="sr-only">Loading...</span>
                     </div>
                   )}
-
                   <p className="mx-auto w-[fit-content]">
                     {loading ? "Applying" : "Apply"}
                   </p>

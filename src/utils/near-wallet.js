@@ -17,9 +17,20 @@ import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
+import { setupSender } from "@near-wallet-selector/sender";
+import senderIconUrl from "@near-wallet-selector/sender/assets/sender-icon.png";
+import { setupHereWallet } from "@near-wallet-selector/here-wallet";
+import HereWalletIconUrl from "@near-wallet-selector/here-wallet/assets/here-wallet-icon.png";
+
+const sender = setupSender({
+  iconUrl: senderIconUrl
+});
+
+const hereWallet = setupHereWallet({ 
+  iconUrl: HereWalletIconUrl 
+});
 
 const nearWallet = setupNearWallet({
-  walletUrl: "https://wallet.near.org",
   iconUrl: nearWalletIconUrl
 });
 const meteorWallet = setupMeteorWallet({
@@ -36,13 +47,13 @@ export class Wallet {
   network;
   createAccessKeyFor;
 
-  constructor({ createAccessKeyFor = undefined, network = 'mainnet' }) {
+  constructor({ createAccessKeyFor = undefined, network = 'testnet' }) {
     // Login to a wallet passing a contractId will create a local
     // key, so the user skips signing non-payable transactions.
     // Omitting the accountId will result in the user being
     // asked to sign all transactions.
     this.createAccessKeyFor = createAccessKeyFor
-    this.network = 'mainnet'
+    this.network = 'testnet'
   }
 
   // To be called when the website loads
@@ -50,7 +61,7 @@ export class Wallet {
     this.walletSelector = await setupWalletSelector({
       network: this.network,
       modules: [nearWallet,meteorWallet,setupMyNearWallet({ iconUrl: MyNearIconUrl }),
-      setupLedger({ iconUrl: LedgerIconUrl })],
+      setupLedger({ iconUrl: LedgerIconUrl }),sender,hereWallet],
     });
 
     const isSignedIn = this.walletSelector.isSignedIn();

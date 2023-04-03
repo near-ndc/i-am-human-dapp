@@ -5,6 +5,8 @@ import dayjs from "dayjs";
 import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
 import { wallet } from "../../../index";
 import { ButtonLoader } from "../../common/buttonLoader";
+import { log_event } from "../../../utils/utilityFunctions";
+import { near_contract } from "../../../utils/contract-addresses";
 
 export const ManageTokens = () => {
   const [input, setInput] = React.useState("");
@@ -39,7 +41,7 @@ export const ManageTokens = () => {
     if (input === "") {
       return true;
     }
-    const testnet = ".near";
+    const testnet = ".testnet";
     const dots = countDots(input);
     if (input.endsWith(testnet) && dots === 1) {
       return true;
@@ -56,7 +58,7 @@ export const ManageTokens = () => {
       try {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
-          contractId: 'community-sbt-1.i-am-human.testnet',
+          contractId: near_contract,
           method: "nft_tokens_for_owner",
           args: { account: input },
         });
@@ -88,12 +90,16 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "sbt_mint",
         args: {
           receiver: input,
           metadata: metadata,
         },
+      });
+      log_event({
+        event_log: `${wallet.accountId} minted OG SBT tokens for ${input}`,
+        effected_wallet: input,
       });
       checkTokens({ hideMessage: true });
       toast.success("Minted SBT successfully !");
@@ -110,9 +116,13 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "revoke_for",
         args: { accounts: [input], metadata: {} },
+      });
+      log_event({
+        event_log: `${wallet.accountId} revoked OG SBT tokens for ${input}`,
+        effected_wallet: input,
       });
       toast.success("Revoked SBT successfully !");
       await checkTokens({ hideMessage: true });
@@ -127,13 +137,17 @@ export const ManageTokens = () => {
     try {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "sbt_renew",
         args: {
           tokens: [tokens.tokenData[0].token_id],
           metadata,
           ttl: metadata.ttl ? parseInt(metadata.ttl) : 60,
         },
+      });
+      log_event({
+        event_log: `${wallet.accountId} renewed OG SBT tokens for ${input}`,
+        effected_wallet: input,
       });
       toast.success("Renewed SBT successfully !");
       await checkTokens({ hideMessage: true });

@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 
 import { wallet } from "../../index";
 import Logo from "../../images/ndc.png";
-import { supabase } from "../../utils/supabase";
 import { useAdmin } from "../../utils/useAdmin";
 
 export const Header = ({ setShowAdmin }) => {
@@ -92,37 +91,6 @@ export const Header = ({ setShowAdmin }) => {
                       >
                         <p>Admin Console</p>
                         <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                      </button>
-                      <button
-                        onClick={async () => {
-                          await supabase
-                            .from("users")
-                            .delete()
-                            .match({ wallet_identifier: wallet.accountId });
-                          await wallet.callMethod({
-                            contractId: "community-sbt-1.i-am-human.testnet",
-                            method: "revoke_for",
-                            args: {
-                              accounts: [wallet.accountId],
-                              metadata: {},
-                            },
-                          });
-                          await wallet.callMethod({
-                            contractId: "gooddollar-v1.i-am-human.testnet",
-                            method: "sbt_remove",
-                            args: {
-                              accounts: [wallet.accountId],
-                              metadata: {},
-                            },
-                          });
-                          toast.info("Your account info has been reset");
-                          setTimeout(() => {
-                            window.location.reload();
-                          }, 2500);
-                        }}
-                        className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
-                      >
-                        <p>Reset Account</p>
                       </button>
                     </>
                   ) : (

@@ -8,11 +8,7 @@ export const useUniqueGUser = ({ gAddress }) => {
   const fetchUserFromDB = useCallback(async (address) => {
     setLoading(true);
     try {
-      const { data } = await supabase
-        .from("users")
-        .select("*")
-        .match({ g$_address: address });
-      console.log(data);
+      const { data } = await supabase.select("users", { g$_address: address });
       if (data?.[0]) {
         setIsExistingGUser(true);
       } else {
@@ -32,10 +28,7 @@ export const useUniqueGUser = ({ gAddress }) => {
 };
 
 export const checkUniquePhone = async ({ no }) => {
-  const { data } = await supabase
-    .from("users")
-    .select("*")
-    .match({ telegram_number: no });
+  const { data } = await supabase.select("users", { telegram_number: no });
   if (data?.[0]) {
     return true;
   } else {

@@ -9,7 +9,9 @@ import HumanOnNDC from "../../images/backLines.png";
 import { IsSignedInLanding } from "./IsSignedInLanding";
 import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
-import { ApplyCommunityVerify } from "../../components/pages/home/applyCommunityVerify";
+import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
+import { log_event } from "../../utils/utilityFunctions";
+import { gooddollar_contract, near_contract } from "../../utils/contract-addresses";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
@@ -23,10 +25,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   useEffect(() => {
     if (isSignedIn) {
       const fetchUserStatus = async () => {
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .match({ wallet_identifier: wallet.accountId });
+        const { data } = await supabase.select("users", {
+          wallet_identifier: wallet.accountId,
+        });
         if (data?.[0]) {
           setUserData(data[0]);
           if (data?.[0]?.["g$_address"]) {
@@ -57,12 +58,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.testnet",
+          contractId: gooddollar_contract,
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "gooddollar-v1.i-am-human.testnet",
+          contractId: gooddollar_contract,
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
@@ -72,7 +73,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           localStorage.removeItem("openFv");
         }
         setFvTokenSupply(parseInt(data));
-      } catch {
+      } catch (e){
+        console.log(e)
         toast.error("An error occured while fetching token supply");
         setFvFetchLoading(false);
       } finally {
@@ -86,12 +88,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: "community-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "nft_supply_for_owner",
           args: { account: wallet.accountId },
         });
         const data2 = await wallet.viewMethod({
-          contractId: "community-sbt-1.i-am-human.testnet",
+          contractId: near_contract,
           method: "nft_tokens_for_owner",
           args: { account: wallet.accountId },
         });
@@ -101,7 +103,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         }
         setTokenData(data2?.[0] ?? null);
         setTokenSupply(parseInt(data));
-      } catch {
+      } catch (e){
+        console.log(e)
         toast.error("An error occured while fetching token supply");
         setFetchLoading(false);
       } finally {
@@ -323,6 +326,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               <button
                                 onClick={() => {
                                   if (isSignedIn) {
+                                    log_event({
+                                      event_log:
+                                        "Started OG SBT verification flow",
+                                    });
                                     setShowCommunityVerification(true);
                                   } else {
                                     wallet.signIn();
@@ -381,6 +388,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   window.location.origin
                                 );
                                 if (isSignedIn) {
+                                  log_event({
+                                    event_log:
+                                      "Started FV SBT verification flow",
+                                  });
                                   setShowGooddollarVerification(true);
                                 } else {
                                   wallet.signIn();
@@ -480,8 +491,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   </div>
                 </div>
               </div>
+              {/* <KycDao /> */}
             </div>
-
             <div ref={ref} id="bottom" />
           </>
         </div>

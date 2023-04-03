@@ -18,6 +18,7 @@ import { useUniqueGUser } from "../../../utils/uniqueUser";
 import { supabase } from "../../../utils/supabase";
 
 import getConfig from "../../../config";
+import { log_event } from "../../../utils/utilityFunctions";
 const config = getConfig();
 
 export const Gooddollar = () => {
@@ -25,7 +26,7 @@ export const Gooddollar = () => {
     v: "I-AM-HUMAN-DAPP",
     web: "https://i-am-human.dapp/",
     id: "0x09D2011Ca5781CA70810F6d82837648132762F9a",
-    r: ["mobile", "location", "email", "name"],
+    r: ["name"],
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
@@ -48,8 +49,6 @@ export const Gooddollar = () => {
   } = useFormik({
     initialValues: {
       name: "",
-      email: "",
-      phone: "",
       gDollarAccount: "",
       status: "",
     },
@@ -71,29 +70,27 @@ export const Gooddollar = () => {
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
-        name: data.name,
         g$_address: data.gDollarAccount,
-        status: "Approved",
-        ...(data?.email ? { email: data?.email } : { phone: data?.phone }),
-        ...(data?.phone ? { phone: data?.phone } : { email: data?.email }),
+        status: "Approved"
       };
 
       try {
         const result = await verifyUser(sendObj);
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .match({ wallet_identifier: wallet.accountId });
+        const { data } = await supabase.select("users", {
+          wallet_identifier: wallet.accountId,
+        });
+
         if (data[0]) {
-          const { error: appError } = await supabase
-            .from("users")
-            .update(updateData)
-            .match({ wallet_identifier: wallet.accountId });
+          const { error: appError } = await supabase.update(
+            "users",
+            updateData,
+            { wallet_identifier: wallet.accountId }
+          );
         } else {
-          const { error: appError } = await supabase
-            .from("users")
-            .insert(updateData)
-            .match({ wallet_identifier: wallet.accountId });
+          const { error: appError } = await supabase.insert(
+            "users",
+            updateData
+          );
         }
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
@@ -103,6 +100,7 @@ export const Gooddollar = () => {
             claim_sig: result.sig,
           },
         });
+        log_event({ event_log: "Applied for OG SBT" });
       } catch (e) {
         console.log("Error", e);
         toast.error(
@@ -152,9 +150,6 @@ export const Gooddollar = () => {
             d?.isAddressWhitelisted?.isVerified ||
             d?.isAddressWhitelisted?.value;
           setValues({
-            name: d?.fullName?.value,
-            email: d?.email?.value,
-            phone: d?.mobile?.value,
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? "Whitelisted" : "Not Whitelisted",
           });
@@ -176,6 +171,7 @@ export const Gooddollar = () => {
       ).toString("ascii");
       if (buffer[buffer.length - 1] !== "}") {
         let lastIndex = buffer.lastIndexOf("}");
+        log_event({ event_log: "Gooddollar Authorization done" });
         gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
       } else {
         gooddollarLoginCb(JSON.parse(buffer));
@@ -199,9 +195,8 @@ export const Gooddollar = () => {
   };
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
-    gAddress: "0x9599D39638d1223Ab39e480A0303335e0bdbA70c",
+    gAddress: values.gDollarAccount,
   });
-
 
   return (
     <div className="p-2 pt-5 w-full">
@@ -309,14 +304,21 @@ export const Gooddollar = () => {
             {window.location.href.includes("?login=") ? (
               <></>
             ) : (
-              <LoginButton
-                onLoginCallback={gooddollarLoginCb}
-                className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                gooddollarlink={gooddollarLink}
-                rdu="gasdasd"
+              <div
+                className="w-[fit-content]"
+                onClick={() => {
+                  log_event({ event_log: "Gooddollar authorization started" });
+                }}
               >
-                Authorize G$
-              </LoginButton>
+                <LoginButton
+                  onLoginCallback={gooddollarLoginCb}
+                  className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  gooddollarlink={gooddollarLink}
+                  rdu="gasdasd"
+                >
+                  Authorize G$
+                </LoginButton>
+              </div>
             )}
           </div>
         )}
@@ -334,45 +336,6 @@ export const Gooddollar = () => {
             >
               {values.status === "Whitelisted" ? (
                 <>
-                  <div className="flex items-center justify-between">
-                    <p className="w-[120px]">Name:</p>
-                    <input
-                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                      placeholder="Name"
-                      {...handleValues("name")}
-                    />
-                  </div>
-                  {Boolean(values?.email) && (
-                    <div className="flex items-center justify-between">
-                      <p className="w-[120px]">Email:</p>
-                      <div className="w-[88%]">
-                        <input
-                          className="w-full bg-gray-100 p-1 rounded px-3"
-                          placeholder="Email"
-                          {...handleValues("email")}
-                        />
-                        <p>{errors?.email}</p>
-                      </div>
-                    </div>
-                  )}
-                  {Boolean(values?.phone) && (
-                    <div className="flex items-center justify-between">
-                      <div className="w-[120px]">
-                        <p>Mobile:</p>
-                        <p className="text-[12px]">With country code</p>
-                      </div>
-                      <div className="w-[88%]">
-                        <PhoneInput
-                          className="w-full bg-gray-100 p-1 rounded px-3"
-                          placeholder="Phone"
-                          value={values.phone}
-                          disabled
-                          onChange={(e) => setFieldValue("phone", e)}
-                        />
-                        <p className="text-red-600 text-sm">{errors?.phone}</p>
-                      </div>
-                    </div>
-                  )}
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">G$ Account:</p>
                     <input
@@ -434,6 +397,11 @@ export const Gooddollar = () => {
                   ) : (
                     <button
                       type="submit"
+                      onClick={() => {
+                        log_event({
+                          event_log: "Started Application flow for gooddollar",
+                        });
+                      }}
                       disabled={submitting}
                       className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
                     >

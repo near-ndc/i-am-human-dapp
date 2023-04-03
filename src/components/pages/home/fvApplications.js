@@ -11,7 +11,7 @@ export function FVSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from("users").select("*");
+      const { data, error } = await supabase.select("users");
       if (error) {
         throw new Error("");
       }
@@ -114,18 +114,6 @@ export function FVSBTApplicationsTable() {
                 <tr>
                   <th
                     scope="col"
-                    className="py-3.5 pl-6 pr-3 text-left text-sm font-medium text-gray-900 sm:pl-3"
-                  >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
-                    Email
-                  </th>
-                  <th
-                    scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
                   >
                     Wallet Address
@@ -134,19 +122,7 @@ export function FVSBTApplicationsTable() {
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
                   >
-                    Mobile Number
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-medium text-gray-900"
-                  >
                     Application Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-sm font-medium text-gray-900"
-                  >
-                    Actions
                   </th>
                 </tr>
               </thead>
@@ -160,37 +136,14 @@ export function FVSBTApplicationsTable() {
                 )}
                 {filteredApplications.map((person, personIdx) => (
                   <tr
-                    key={person.email}
+                    key={person.wallet_identifier}
                     className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
                   >
-                    <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                      {person?.name ?? "NULL"}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person?.email ?? "NULL"}
-                    </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person?.phone ?? "NULL"}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.status}
-                    </td>
-                    <td className="relative space-x-4 whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-3">
-                      <button
-                        className="text-indigo-600 p-2 hover:bg-indigo-100 transition-all rounded"
-                      >
-                        MINT FV SBT
-                        <span className="sr-only">, {person.name}</span>
-                      </button>
-                      <button
-                        className="text-red-600 p-2 hover:bg-red-100 transition-all rounded"
-                      >
-                      
-                        REJECT APPLICATION
-                      </button>
                     </td>
                   </tr>
                 ))}

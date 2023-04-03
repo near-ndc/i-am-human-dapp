@@ -5,6 +5,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { wallet } from "../../../../index";
 import { toast } from "react-toastify";
 import { ButtonLoader } from "../../../common/buttonLoader";
+import { address, addressToVerify } from "../../../../utils/addressToVerify";
+import { near_contract } from "../../../../utils/contract-addresses";
 
 export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     try {
       setLoading(true);
       await wallet.callMethod({
-        contractId: 'community-sbt-1.i-am-human.testnet',
+        contractId: near_contract,
         method: "sbt_transfer",
         args: { receiver: transferTo },
       });
@@ -41,7 +43,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     if (transferTo === "") {
       return false;
     }
-    const testnet = ".near";
+    const testnet = addressToVerify;
     const dots = countDots(transferTo);
     if (transferTo.endsWith(testnet) && dots === 1) {
       return true;
@@ -110,7 +112,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                   </div>
                   {!isStringValidated && transferTo !== "" && (
                     <p className="my-2 text-red-600 text-xs">
-                      Provided addresss should be a valid one with only .near
+                      Provided addresss should be a valid one with only {addressToVerify}
                       at the end and containing only 1 (.)
                     </p>
                   )}
