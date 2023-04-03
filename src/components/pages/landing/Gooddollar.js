@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   createLoginLink,
   parseLoginResponse,
   LoginButton,
-} from "@gooddollar/goodlogin-sdk";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import "react-phone-number-input/style.css";
-import { CircleSpinner } from "react-spinners-kit";
-import { wallet } from "../../..";
-import "react-phone-number-input/style.css";
-import { verifyUser } from "../../../services/api";
-import { useUniqueGUser } from "../../../utils/uniqueUser";
+} from '@gooddollar/goodlogin-sdk';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import 'react-phone-number-input/style.css';
+import { CircleSpinner } from 'react-spinners-kit';
+import { wallet } from '../../..';
+import 'react-phone-number-input/style.css';
+import { verifyUser } from '../../../services/api';
+import { useUniqueGUser } from '../../../utils/uniqueUser';
 
-import { supabase } from "../../../utils/supabase";
+import { supabase } from '../../../utils/supabase';
 
-import getConfig from "../../../config";
-import { log_event } from "../../../utils/utilityFunctions";
+import getConfig from '../../../config';
+import { log_event } from '../../../utils/utilityFunctions';
 const config = getConfig();
 
 export const Gooddollar = () => {
   const gooddollarLink = createLoginLink({
-    v: "I-AM-HUMAN-DAPP",
-    web: "https://i-am-human.dapp/",
-    id: "0x09D2011Ca5781CA70810F6d82837648132762F9a",
-    r: ["name"],
+    v: 'I-AM-HUMAN-DAPP',
+    web: 'https://i-am-human.dapp/',
+    id: '0x09D2011Ca5781CA70810F6d82837648132762F9a',
+    r: ['name'],
     rdu: window.location.href,
   });
   const [gooddollarData, setGooddollarData] = React.useState(null);
@@ -47,16 +47,16 @@ export const Gooddollar = () => {
     setFieldValue,
   } = useFormik({
     initialValues: {
-      name: "",
-      gDollarAccount: "",
-      status: "",
+      name: '',
+      gDollarAccount: '',
+      status: '',
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().email("Invalid email"),
+      email: Yup.string().email('Invalid email'),
     }),
     onSubmit: async (data) => {
       // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, "", window.location.origin);
+      window.history.replaceState({}, '', window.location.origin);
       setSubmitting(true);
       const { sig, ...rawData } = rawGoodDollarData;
 
@@ -70,40 +70,40 @@ export const Gooddollar = () => {
       let updateData = {
         wallet_identifier: wallet.accountId,
         g$_address: data.gDollarAccount,
-        status: "Approved"
+        status: 'Approved',
       };
 
       try {
         const result = await verifyUser(sendObj);
-        const { data } = await supabase.select("users", {
+        const { data } = await supabase.select('users', {
           wallet_identifier: wallet.accountId,
         });
 
         if (data[0]) {
           const { error: appError } = await supabase.update(
-            "users",
+            'users',
             updateData,
             { wallet_identifier: wallet.accountId }
           );
         } else {
           const { error: appError } = await supabase.insert(
-            "users",
+            'users',
             updateData
           );
         }
         await wallet.callMethod({
           contractId: config.CONTRACT_ID,
-          method: "sbt_mint",
+          method: 'sbt_mint',
           args: {
             claim_b64: result.m,
             claim_sig: result.sig,
           },
         });
-        log_event({ event_log: "Applied for OG SBT" });
+        log_event({ event_log: 'Applied for OG SBT' });
       } catch (e) {
-        console.log("Error", e);
+        console.log('Error', e);
         toast.error(
-          "An error occured while submitting your details , please try again"
+          'An error occured while submitting your details , please try again'
         );
       }
     },
@@ -133,7 +133,7 @@ export const Gooddollar = () => {
   const gooddollarLoginCb = useCallback(
     async (data) => {
       try {
-        if (data.error) return alert("Login request denied !");
+        if (data.error) return alert('Login request denied !');
         parseLoginResponse(data).then((d) => {
           setRawGoodDollarData(data);
           setGooddollarData(d);
@@ -150,7 +150,7 @@ export const Gooddollar = () => {
             d?.isAddressWhitelisted?.value;
           setValues({
             gDollarAccount: d?.walletAddress?.value,
-            status: isVerified ? "Whitelisted" : "Not Whitelisted",
+            status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
           });
           setShowStep(3);
         });
@@ -162,15 +162,15 @@ export const Gooddollar = () => {
   );
 
   useEffect(() => {
-    if (window.location.href.includes("?login=")) {
-      const loginURI = window?.location?.href.split("=");
+    if (window.location.href.includes('?login=')) {
+      const loginURI = window?.location?.href.split('=');
       const buffer = Buffer.from(
         decodeURIComponent(loginURI[1]),
-        "base64"
-      ).toString("ascii");
-      if (buffer[buffer.length - 1] !== "}") {
-        let lastIndex = buffer.lastIndexOf("}");
-        log_event({ event_log: "Gooddollar Authorization done" });
+        'base64'
+      ).toString('ascii');
+      if (buffer[buffer.length - 1] !== '}') {
+        let lastIndex = buffer.lastIndexOf('}');
+        log_event({ event_log: 'Gooddollar Authorization done' });
         gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
       } else {
         gooddollarLoginCb(JSON.parse(buffer));
@@ -179,7 +179,7 @@ export const Gooddollar = () => {
   }, [gooddollarLoginCb]);
 
   useEffect(() => {
-    if (window.location.href.includes("?login")) {
+    if (window.location.href.includes('?login')) {
       // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
       // window.history.replaceState({}, '', window.location.href.replace('%253D', '='));
       setShowStep(2);
@@ -187,10 +187,10 @@ export const Gooddollar = () => {
   }, []);
 
   const steps = {
-    0: "5%",
-    1: "10%",
-    2: "50%",
-    3: "100%",
+    0: '5%',
+    1: '10%',
+    2: '50%',
+    3: '100%',
   };
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
@@ -214,16 +214,16 @@ export const Gooddollar = () => {
               />
             </div>
             <div className="mt-2 hidden grid-cols-3 text-sm font-medium text-gray-600 sm:grid">
-              <div className={showStep > 0 && "text-indigo-600"}>
+              <div className={showStep > 0 && 'text-indigo-600'}>
                 Create a gooddollar account
               </div>
               <div
-                className={`${showStep > 1 && "text-indigo-600"} text-center`}
+                className={`${showStep > 1 && 'text-indigo-600'} text-center`}
               >
                 Authorize NDC
               </div>
               <div
-                className={`${showStep > 2 && "text-indigo-600"} text-right`}
+                className={`${showStep > 2 && 'text-indigo-600'} text-right`}
               >
                 Apply For SBT
               </div>
@@ -267,7 +267,7 @@ export const Gooddollar = () => {
             </p>
             <button
               onClick={() => {
-                window.open("https://wallet.gooddollar.org", "_blank");
+                window.open('https://wallet.gooddollar.org', '_blank');
               }}
               className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 mb-3"
             >
@@ -300,13 +300,13 @@ export const Gooddollar = () => {
               This feature doesn’t work on phones yet, and is also geo-blocked
               for certain countries.
             </p>
-            {window.location.href.includes("?login=") ? (
+            {window.location.href.includes('?login=') ? (
               <></>
             ) : (
               <div
                 className="w-[fit-content]"
                 onClick={() => {
-                  log_event({ event_log: "Gooddollar authorization started" });
+                  log_event({ event_log: 'Gooddollar authorization started' });
                 }}
               >
                 <LoginButton
@@ -333,14 +333,14 @@ export const Gooddollar = () => {
               onSubmit={(e) => handleSubmit(e)}
               className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
             >
-              {values.status === "Whitelisted" ? (
+              {values.status === 'Whitelisted' ? (
                 <>
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">G$ Account:</p>
                     <input
                       className="w-[88%] bg-gray-100 p-1 rounded px-3"
                       placeholder="Account Address"
-                      {...handleValues("gDollarAccount")}
+                      {...handleValues('gDollarAccount')}
                     />
                   </div>
                   <div className="flex items-center justify-between">
@@ -348,7 +348,7 @@ export const Gooddollar = () => {
                     <input
                       className="w-[88%] bg-gray-100 p-1 rounded px-3"
                       placeholder="Status"
-                      {...handleValues("status")}
+                      {...handleValues('status')}
                     />
                   </div>
                 </>
@@ -362,7 +362,7 @@ export const Gooddollar = () => {
                 </>
               )}
 
-              {values.status === "Whitelisted" ? (
+              {values.status === 'Whitelisted' ? (
                 <>
                   {isGLoading ? (
                     <>
@@ -383,7 +383,7 @@ export const Gooddollar = () => {
                         onClick={() => {
                           window.history.replaceState(
                             {},
-                            "",
+                            '',
                             window.location.origin
                           );
                           setShowStep(2);
@@ -398,14 +398,14 @@ export const Gooddollar = () => {
                       type="submit"
                       onClick={() => {
                         log_event({
-                          event_log: "Started Application flow for gooddollar",
+                          event_log: 'Started Application flow for gooddollar',
                         });
                       }}
                       disabled={submitting}
                       className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
                     >
                       {!submitting ? (
-                        " Apply for SBT"
+                        ' Apply for SBT'
                       ) : (
                         <div className="w-[fit-content] mx-auto">
                           <CircleSpinner size={20} />
@@ -419,7 +419,7 @@ export const Gooddollar = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      window.open("https://wallet.gooddollar.org", "_blank");
+                      window.open('https://wallet.gooddollar.org', '_blank');
                     }}
                     className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
                   >
@@ -428,14 +428,14 @@ export const Gooddollar = () => {
 
                   <p>
                     You'll need to claim once before you can apply for face
-                    vertification SBT{" "}
+                    vertification SBT{' '}
                   </p>
                   <button
                     type="button"
                     onClick={() => {
                       window.history.replaceState(
                         {},
-                        "",
+                        '',
                         window.location.origin
                       );
                       setShowStep(2);
@@ -457,7 +457,7 @@ export const Gooddollar = () => {
           “hash” of your face for comparison with other users. If you have an
           account with GoodDollar then you will be able to mint a ‘verified
           unique’ SBT here. If you don’t yet have an account, please sign up for
-          one first at www.gooddollar.org.{" "}
+          one first at www.gooddollar.org.{' '}
         </p>
       </div>
     </div>

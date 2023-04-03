@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { SwishSpinner } from "react-spinners-kit";
+import React, { useEffect } from 'react';
+import { SwishSpinner } from 'react-spinners-kit';
 
-import { Gooddollar } from "../../components/pages/landing/Gooddollar";
-import { Panel } from "../../components/common/panel";
+import { Gooddollar } from '../../components/pages/landing/Gooddollar';
+import { Panel } from '../../components/common/panel';
 
 export const IsSignedInLanding = ({
   hasApplied,
@@ -11,7 +11,7 @@ export const IsSignedInLanding = ({
   setShowGooddollarVerification,
 }) => {
   useEffect(() => {
-    if (window.location.href.includes("?login")) {
+    if (window.location.href.includes('?login')) {
       setShowGooddollarVerification(true);
     }
   }, [setShowGooddollarVerification, hasApplied]);
@@ -23,7 +23,7 @@ export const IsSignedInLanding = ({
             <SwishSpinner color="blue" />
           </div>
           <p className="animate text-sm mt-2 text-gray-500">
-            Loading your account details{" "}
+            Loading your account details{' '}
             <span className="animate-pulse">...</span>
           </p>
         </div>

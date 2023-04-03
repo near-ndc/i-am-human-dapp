@@ -1,7 +1,7 @@
-import React from "react";
-import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { ButtonLoader } from "../../../common/buttonLoader";
+import React from 'react';
+import { Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { ButtonLoader } from '../../../common/buttonLoader';
 
 export const AdminConfirmation = ({
   closeModal,
@@ -41,8 +41,8 @@ export const AdminConfirmation = ({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Are you sure you want to {isAddAdmin ? "add" : "remove"}{" "}
-                  {walletAddress} {isAddAdmin ? "to" : "from"} admins ?
+                  Are you sure you want to {isAddAdmin ? 'add' : 'remove'}{' '}
+                  {walletAddress} {isAddAdmin ? 'to' : 'from'} admins ?
                 </Dialog.Title>
                 <div className="mt-4 flex items-center space-x-2">
                   <button
@@ -50,7 +50,7 @@ export const AdminConfirmation = ({
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     onClick={execute}
                   >
-                    {!loading ? "Confirm" : <ButtonLoader />}
+                    {!loading ? 'Confirm' : <ButtonLoader />}
                   </button>
                   {!loading && (
                     <button

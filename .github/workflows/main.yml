@@ -21,16 +21,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: "16"
-          cache: "yarn"
+          node-version: '16'
+          cache: 'yarn'
       - name: Check Yarn version
         run: yarn --version
       - name: Install dependencies
         run: yarn install
       - name: Build packages
-        run: yarn build
+        run: yarn build --no-warnings
       - name: Run test
         run: yarn test
         env:
           CI: false
-          
+      - name: Execute format
+        run: yarn format
+      - name: Execute lint
+        run: yarn lint

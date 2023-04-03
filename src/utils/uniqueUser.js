@@ -1,5 +1,5 @@
-import  { useCallback, useEffect, useState } from "react";
-import { supabase } from "./supabase";
+import { useCallback, useEffect, useState } from 'react';
+import { supabase } from './supabase';
 
 export const useUniqueGUser = ({ gAddress }) => {
   const [isExistingGUser, setIsExistingGUser] = useState(null);
@@ -8,7 +8,7 @@ export const useUniqueGUser = ({ gAddress }) => {
   const fetchUserFromDB = useCallback(async (address) => {
     setLoading(true);
     try {
-      const { data } = await supabase.select("users", { g$_address: address });
+      const { data } = await supabase.select('users', { g$_address: address });
       if (data?.[0]) {
         setIsExistingGUser(true);
       } else {
@@ -28,7 +28,7 @@ export const useUniqueGUser = ({ gAddress }) => {
 };
 
 export const checkUniquePhone = async ({ no }) => {
-  const { data } = await supabase.select("users", { telegram_number: no });
+  const { data } = await supabase.select('users', { telegram_number: no });
   if (data?.[0]) {
     return true;
   } else {

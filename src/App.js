@@ -1,9 +1,9 @@
-import "regenerator-runtime/runtime";
-import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import 'regenerator-runtime/runtime';
+import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
-import { Landing } from "./pages/unAuth/index";
-import { Home } from "./pages/auth/home";
+import { Landing } from './pages/unAuth/index';
+import { Home } from './pages/auth/home';
 //hard code 3 near address to show additional data
 
 export function App({ isSignedIn }) {

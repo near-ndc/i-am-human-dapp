@@ -1,44 +1,44 @@
-import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { SbtTokenStatus } from "./tokenDetails";
+import { Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { SbtTokenStatus } from './tokenDetails';
 
 export function ShowSbtDetails({ open, setOpen, selectedUser }) {
   const team = [
     {
-      name: "Tom Cook",
-      email: "tom.cook@example.com",
-      href: "#",
+      name: 'Tom Cook',
+      email: 'tom.cook@example.com',
+      href: '#',
       imageUrl:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
     {
-      name: "Whitney Francis",
-      email: "whitney.francis@example.com",
-      href: "#",
+      name: 'Whitney Francis',
+      email: 'whitney.francis@example.com',
+      href: '#',
       imageUrl:
-        "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
     {
-      name: "Leonard Krasner",
-      email: "leonard.krasner@example.com",
-      href: "#",
+      name: 'Leonard Krasner',
+      email: 'leonard.krasner@example.com',
+      href: '#',
       imageUrl:
-        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
     {
-      name: "Floyd Miles",
-      email: "floyd.miles@example.com",
-      href: "#",
+      name: 'Floyd Miles',
+      email: 'floyd.miles@example.com',
+      href: '#',
       imageUrl:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
     {
-      name: "Emily Selman",
-      email: "emily.selman@example.com",
-      href: "#",
+      name: 'Emily Selman',
+      email: 'emily.selman@example.com',
+      href: '#',
       imageUrl:
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
   ];
 
@@ -109,7 +109,7 @@ export function ShowSbtDetails({ open, setOpen, selectedUser }) {
                             </label>
                           </div>
                           <div>
-                            {selectedUser?.["wallet_identifier"] ?? "N/A"}
+                            {selectedUser?.['wallet_identifier'] ?? 'N/A'}
                           </div>
                         </div>
                         {/* Project description */}
