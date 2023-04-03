@@ -28,11 +28,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build packages
-        run: yarn build --no-warnings
-      - name: Run test
-        run: yarn test
         env:
           CI: false
+        run: yarn build
+      - name: Run test
+        run: yarn test
       - name: Execute format
         run: yarn format
       - name: Execute lint
