@@ -9,9 +9,13 @@ import HumanOnNDC from "../../images/backLines.png";
 import { IsSignedInLanding } from "./IsSignedInLanding";
 import { supabase } from "../../utils/supabase";
 import { toast } from "react-toastify";
+import { IAmHumanStatus } from "../../components/pages/landing/iAmHumanStatus";
 import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
 import { log_event } from "../../utils/utilityFunctions";
-import { gooddollar_contract, near_contract } from "../../utils/contract-addresses";
+import {
+  gooddollar_contract,
+  near_contract,
+} from "../../utils/contract-addresses";
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
@@ -73,8 +77,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           localStorage.removeItem("openFv");
         }
         setFvTokenSupply(parseInt(data));
-      } catch (e){
-        console.log(e)
+      } catch (e) {
+        console.log(e);
         toast.error("An error occured while fetching token supply");
         setFvFetchLoading(false);
       } finally {
@@ -103,8 +107,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         }
         setTokenData(data2?.[0] ?? null);
         setTokenSupply(parseInt(data));
-      } catch (e){
-        console.log(e)
+      } catch (e) {
+        console.log(e);
         toast.error("An error occured while fetching token supply");
         setFetchLoading(false);
       } finally {
@@ -489,6 +493,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                       </blockquote>
                     </div>
                   </div>
+                  <IAmHumanStatus />
                 </div>
               </div>
               {/* <KycDao /> */}
