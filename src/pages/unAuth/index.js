@@ -4,18 +4,18 @@ import { Header } from '../../components/common/header';
 import { wallet } from '../../index';
 import dayjs from 'dayjs';
 
-import { useAdmin } from "../../utils/useAdmin";
-import HumanOnNDC from "../../images/backLines.png";
-import { IsSignedInLanding } from "./IsSignedInLanding";
-import { supabase } from "../../utils/supabase";
-import { toast } from "react-toastify";
-import { IAmHumanStatus } from "../../components/pages/landing/iAmHumanStatus";
-import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
-import { log_event } from "../../utils/utilityFunctions";
+import { useAdmin } from '../../utils/useAdmin';
+import HumanOnNDC from '../../images/backLines.png';
+import { IsSignedInLanding } from './IsSignedInLanding';
+import { supabase } from '../../utils/supabase';
+import { toast } from 'react-toastify';
+import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
+import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
+import { log_event } from '../../utils/utilityFunctions';
 import {
   gooddollar_contract,
   near_contract,
-} from "../../utils/contract-addresses";
+} from '../../utils/contract-addresses';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
@@ -79,7 +79,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         setFvTokenSupply(parseInt(data));
       } catch (e) {
         console.log(e);
-        toast.error("An error occured while fetching token supply");
+        toast.error('An error occured while fetching token supply');
         setFvFetchLoading(false);
       } finally {
         setFvFetchLoading(false);

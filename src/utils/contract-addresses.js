@@ -1,3 +1,5 @@
+export const app_contract = 'registry-mock.i-am-human.testnet';
+
 export const near_contract =
   process.env.REACT_APP_ENV === 'dev'
     ? 'og-sbt-1.i-am-human.testnet'
