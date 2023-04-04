@@ -1,0 +1,39 @@
+name: Run package tests on push
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Check Yarn version
+        run: yarn --version
+      - name: Install dependencies
+        run: yarn install
+      - name: Build packages
+        env:
+          CI: false
+        run: yarn build
+      - name: Run test
+        run: yarn test
+      - name: Execute format
+        run: yarn format
+      - name: Execute lint
+        run: yarn lint

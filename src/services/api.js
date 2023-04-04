@@ -7,7 +7,6 @@ export const verifyUser = async (data) => {
     headers: {
       'Content-type': 'application/json',
     },
-    body: JSON.stringify(data)
-  })
-    .then((response) => response.json())
+    body: JSON.stringify(data),
+  }).then((response) => response.json());
 };

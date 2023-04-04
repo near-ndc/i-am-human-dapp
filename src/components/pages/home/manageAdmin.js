@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { wallet } from "../../../index";
-import { ButtonLoader } from "../../common/buttonLoader";
-import { checkAdmin, log_event } from "../../../utils/utilityFunctions";
-import { AdminConfirmation } from "./ManageAdmin/adminConfirmation";
-import {addressToVerify} from './../../../utils/addressToVerify'
-import { near_contract } from "../../../utils/contract-addresses";
+import { wallet } from '../../../index';
+import { ButtonLoader } from '../../common/buttonLoader';
+import { checkAdmin, log_event } from '../../../utils/utilityFunctions';
+import { AdminConfirmation } from './ManageAdmin/adminConfirmation';
+import { addressToVerify } from './../../../utils/addressToVerify';
+import { near_contract } from '../../../utils/contract-addresses';
 
 export const ManageAdmin = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState('');
   const [adminStatus, setAdminStatus] = useState({
     loading: false,
     status: null,
@@ -23,14 +22,14 @@ export const ManageAdmin = () => {
   function countDots(str) {
     let count = 0;
     for (let i = 0; i < str.length; i++) {
-      if (str[i] === ".") {
+      if (str[i] === '.') {
         count++;
       }
     }
     return count;
   }
   const isStringValidated = React.useMemo(() => {
-    if (walletAddress === "") {
+    if (walletAddress === '') {
       return true;
     }
     const testnet = addressToVerify;
@@ -50,14 +49,14 @@ export const ManageAdmin = () => {
       try {
         const res = await wallet.callMethod({
           contractId: near_contract,
-          method: "add_admins",
+          method: 'add_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
-        toast.success("Added admin successfully");
+        toast.success('Added admin successfully');
       } catch (e) {
         toast.error(e.message);
       } finally {
-        setWalletAddress("");
+        setWalletAddress('');
         setAdminStatus({
           loading: false,
           status: null,
@@ -67,7 +66,7 @@ export const ManageAdmin = () => {
       }
     } else {
       setModalOpen({ modalOpen: false, add: null });
-      toast.error("Please provide a wallet address");
+      toast.error('Please provide a wallet address');
     }
   };
   const removeFromAdmins = async () => {
@@ -80,14 +79,14 @@ export const ManageAdmin = () => {
         });
         const res = await wallet.callMethod({
           contractId: near_contract,
-          method: "remove_admins",
+          method: 'remove_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
-        toast.success("Removed admin successfully");
+        toast.success('Removed admin successfully');
       } catch (e) {
         toast.error(e.message);
       } finally {
-        setWalletAddress("");
+        setWalletAddress('');
         setAdminStatus({
           loading: false,
           status: null,
@@ -97,7 +96,7 @@ export const ManageAdmin = () => {
       }
     } else {
       setModalOpen({ modalOpen: false, add: null });
-      toast.error("Please provide a wallet address");
+      toast.error('Please provide a wallet address');
     }
   };
 
@@ -110,14 +109,14 @@ export const ManageAdmin = () => {
 
   const checkAdminStatus = async () => {
     if (walletAddress === wallet.accountId) {
-      return toast.error("Wallet address cannot be your address !");
+      return toast.error('Wallet address cannot be your address !');
     }
     try {
-      setAdminStatus({ loading: true, status: "" });
+      setAdminStatus({ loading: true, status: '' });
       const status = await checkAdmin(walletAddress);
       setAdminStatus({
         loading: false,
-        status: status ? "isAdmin" : "notAdmin",
+        status: status ? 'isAdmin' : 'notAdmin',
       });
       if (status) {
         toast.info(`${walletAddress} is an admin !`, { autoClose: 1000 });
@@ -125,12 +124,12 @@ export const ManageAdmin = () => {
         toast.info(`${walletAddress} is not an admin !`, { autoClose: 1000 });
       }
     } catch {
-      toast.error("An error occured while getting the admin status");
+      toast.error('An error occured while getting the admin status');
     }
   };
 
-  const addButtonDisabled = adminStatus.status !== "notAdmin";
-  const removeButtonDisabled = adminStatus.status !== "isAdmin";
+  const addButtonDisabled = adminStatus.status !== 'notAdmin';
+  const removeButtonDisabled = adminStatus.status !== 'isAdmin';
 
   return (
     <div className="p-2">
@@ -158,11 +157,11 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only {addressToVerify} at the end and
-          containing only 1 (.)
+          Provided addresss should be a valid one with only {addressToVerify} at
+          the end and containing only 1 (.)
         </p>
       )}
-      {adminStatus?.status === "isAdmin" && (
+      {adminStatus?.status === 'isAdmin' && (
         <div className="mb-2 w-[210px]">
           <div>
             <p className="inli ne-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
@@ -171,7 +170,7 @@ export const ManageAdmin = () => {
           </div>
         </div>
       )}
-      {adminStatus?.status === "notAdmin" && (
+      {adminStatus?.status === 'notAdmin' && (
         <div className="mb-2 w-[210px]">
           <div>
             <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
@@ -185,14 +184,14 @@ export const ManageAdmin = () => {
           <button
             type="button"
             onClick={checkAdminStatus}
-            disabled={walletAddress === "" || !isStringValidated}
+            disabled={walletAddress === '' || !isStringValidated}
             className={`text-white w-60  ${
-              walletAddress === "" || !isStringValidated
-                ? "bg-gray-500"
-                : "bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+              walletAddress === '' || !isStringValidated
+                ? 'bg-gray-500'
+                : 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300'
             } font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none`}
           >
-            {adminStatus.loading ? <ButtonLoader /> : " Check Admin Status"}
+            {adminStatus.loading ? <ButtonLoader /> : ' Check Admin Status'}
           </button>
         ) : (
           <>
@@ -204,14 +203,14 @@ export const ManageAdmin = () => {
               disabled={addButtonDisabled || buttonLoading}
               className={`text-white w-60 ${
                 addButtonDisabled
-                  ? "bg-gray-500"
-                  : "bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+                  ? 'bg-gray-500'
+                  : 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300'
               } font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none`}
             >
               {buttonLoading && !addButtonDisabled ? (
                 <ButtonLoader classes="mr-3" />
               ) : (
-                "Add To Admins"
+                'Add To Admins'
               )}
             </button>
             <button
@@ -222,14 +221,14 @@ export const ManageAdmin = () => {
               }}
               className={`text-white w-60 ${
                 removeButtonDisabled
-                  ? "bg-gray-500"
-                  : "bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+                  ? 'bg-gray-500'
+                  : 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300'
               } font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none`}
             >
               {buttonLoading && !removeButtonDisabled ? (
                 <ButtonLoader classes="mr-3" />
               ) : (
-                "Remove from Admins"
+                'Remove from Admins'
               )}
             </button>
             <AdminConfirmation
