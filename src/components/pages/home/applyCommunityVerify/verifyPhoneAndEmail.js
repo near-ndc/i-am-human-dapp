@@ -26,6 +26,7 @@ export const VerifyPhoneAndEmail = ({
 
   const sendOtp = async () => {
     try {
+
       const is_unique = await checkUniquePhone({ no: value });
       if (!is_unique) {
         setLoading(true);
