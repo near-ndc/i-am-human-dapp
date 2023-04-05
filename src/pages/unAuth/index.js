@@ -493,7 +493,10 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                       </blockquote>
                     </div>
                   </div>
-                  <IAmHumanStatus />
+                  <IAmHumanStatus
+                    isSbtToken={Boolean(tokenData)}
+                    isFvToken={Boolean(fvTokenData)}
+                  />
                 </div>
               </div>
               {/* <KycDao /> */}
