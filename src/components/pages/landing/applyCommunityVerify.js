@@ -37,29 +37,17 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     }
     try {
       let error = null;
-<<<<<<< HEAD
       const { data } = await supabase.select('users', {
-=======
-      const { data } = await supabase.select("users", {
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         wallet_identifier: wallet.accountId,
       });
 
       if (data[0]) {
-<<<<<<< HEAD
         const { error: appError } = await supabase.update('users', updateData, {
-=======
-        const { error: appError } = await supabase.update("users", updateData, {
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
           wallet_identifier: wallet.accountId,
         });
         error = appError;
       } else {
-<<<<<<< HEAD
         const { error: appError } = await supabase.insert('users', updateData);
-=======
-        const { error: appError } = await supabase.insert("users", updateData);
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         error = appError;
       }
       await axios.post(`${api_link}/encrypt-pii-number`, {
@@ -69,11 +57,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
       if (error) {
         throw new Error('');
       } else {
-<<<<<<< HEAD
         log_event({ event_log: 'Applied for OG SBT' });
-=======
-        log_event({ event_log: "Applied for OG SBT" });
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         onClose?.();
         toast.success('Applied for community SBT');
         setTimeout(() => {
