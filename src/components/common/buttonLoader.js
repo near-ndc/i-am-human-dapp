@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export const ButtonLoader = ({classes}) => {
+export const ButtonLoader = ({ classes }) => {
   return (
     <svg
       role="status"

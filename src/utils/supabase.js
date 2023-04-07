@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const api_link =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3001"
-    : "https://dev-ophc7vkxsq-uc.a.run.app";
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3001'
+    : 'https://dev-ophc7vkxsq-uc.a.run.app';
 export const supabase = {
   select: async (table, match) => {
     const { data } = await axios.post(`${api_link}/select`, { table, match });
