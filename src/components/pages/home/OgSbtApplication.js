@@ -9,7 +9,10 @@ import { wallet } from '../../..';
 import { ShowSbtDetails } from './ObSbtApplication/showSbtDetails';
 import { log_event } from '../../../utils/utilityFunctions';
 import { useSuperAdmin } from '../../../utils/super-admins';
-import { near_contract } from '../../../utils/contract-addresses';
+import {
+  app_contract,
+  new_sbt_contract,
+} from '../../../utils/contract-addresses';
 
 const HideShowNumber = ({ telegram_number, wallet }) => {
   const [encypted_number, setEncryptedNumber] = useState('');
@@ -117,22 +120,30 @@ const ActionButtons = ({
                   }
                 );
                 await wallet.callMethod({
-                  contractId: near_contract,
+                  contractId: new_sbt_contract,
                   method: 'sbt_mint',
                   args: {
                     receiver: person.wallet_identifier,
-                    metadata: {
-                      ttl: '',
-                      memo: '',
-                    },
                   },
+                  deposit: '8000000000000000000000',
                 });
                 log_event({
                   event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
                   effected_wallet: person.wallet_identifier,
                 });
                 toast.success('Successfully minted tokers');
-              } catch {
+              } catch (e) {
+                await supabase.update(
+                  'users',
+                  {
+                    og_sbt_application: 'Application Submitted',
+                    og_sbt_approved_by: wallet.accountId,
+                  },
+                  {
+                    wallet_identifier: person.wallet_identifier,
+                  }
+                );
+                console.log(e);
                 toast.error('An error occurred while minting tokens');
               } finally {
                 setLoading(false);
@@ -198,13 +209,16 @@ const ActionButtons = ({
                 }
               );
               await wallet.callMethod({
-                contractId: near_contract,
+                contractId: app_contract,
                 method: 'sbt_mint',
                 args: {
-                  receiver: person.wallet_identifier,
-                  metadata: {
-                    ttl: '',
-                    memo: '',
+                  ctr: 'sbt1.i-am-human.testnet',
+                  vector: {
+                    receiver: person.wallet_identifier,
+                    metadata: {
+                      ttl: '',
+                      memo: '',
+                    },
                   },
                 },
               });

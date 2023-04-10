@@ -19,22 +19,13 @@ export const ManageAdmin = () => {
     modalOpen: false,
     add: null,
   });
-  function countDots(str) {
-    let count = 0;
-    for (let i = 0; i < str.length; i++) {
-      if (str[i] === '.') {
-        count++;
-      }
-    }
-    return count;
-  }
+
   const isStringValidated = React.useMemo(() => {
     if (walletAddress === '') {
       return true;
     }
     const testnet = addressToVerify;
-    const dots = countDots(walletAddress);
-    if (walletAddress.endsWith(testnet) && dots === 1) {
+    if (walletAddress.endsWith(testnet)) {
       return true;
     }
     return false;

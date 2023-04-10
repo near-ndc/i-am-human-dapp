@@ -35,7 +35,7 @@ export const Gooddollar = () => {
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(null);
 
   const {
     values,
@@ -98,6 +98,7 @@ export const Gooddollar = () => {
             claim_b64: result.m,
             claim_sig: result.sig,
           },
+          deposit: '8000000000000000000000',
         });
         log_event({ event_log: 'Applied for OG SBT' });
       } catch (e) {
@@ -105,6 +106,8 @@ export const Gooddollar = () => {
         toast.error(
           'An error occured while submitting your details , please try again'
         );
+      } finally {
+        setSubmitting(false);
       }
     },
     validate: (values) => {
@@ -323,10 +326,12 @@ export const Gooddollar = () => {
         )}
         {showStep === 3 && (
           <div className="mt-14">
-            <p className="text-3xl font-semibold ">Apply for a Community SBT</p>
+            <p className="text-3xl font-semibold ">
+              Apply for a Face Verification SBT
+            </p>
             <p className="w-full text-sm font-light italic mt-2">
               Once you passed step 1 and 2 your information will be populated
-              here and you will be able to apply for a Community SBT.
+              here and you will be able to apply for a Face Verification SBT.
             </p>
 
             <form
