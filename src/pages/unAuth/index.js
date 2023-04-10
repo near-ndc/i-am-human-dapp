@@ -13,8 +13,10 @@ import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
 import {
+  app_contract,
   gooddollar_contract,
   near_contract,
+  new_sbt_contract,
 } from '../../utils/contract-addresses';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
@@ -62,16 +64,21 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: gooddollar_contract,
-          method: 'nft_supply_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_supply_by_owner',
+          args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
         const data2 = await wallet.viewMethod({
-          contractId: gooddollar_contract,
-          method: 'nft_tokens_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_tokens_by_owner',
+          args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
-        setFvTokenData(data2?.[0] ?? null);
+        const data3 = await wallet.viewMethod({
+          contractId: app_contract,
+          method: 'sbt',
+          args: { token: data2[0][1][0], ctr: gooddollar_contract },
+        });
+        setFvTokenData(data3);
         if (!data2?.[0] && localStorage.getItem('openFv')) {
           setShowGooddollarVerification(true);
           localStorage.removeItem('openFv');
@@ -92,20 +99,25 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: near_contract,
-          method: 'nft_supply_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_supply_by_owner',
+          args: { account: wallet.accountId, ctr: new_sbt_contract },
         });
         const data2 = await wallet.viewMethod({
-          contractId: near_contract,
-          method: 'nft_tokens_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_tokens_by_owner',
+          args: { account: wallet.accountId, ctr: new_sbt_contract },
+        });
+        const data3 = await wallet.viewMethod({
+          contractId: app_contract,
+          method: 'sbt',
+          args: { token: data2[0][1][0], ctr: new_sbt_contract },
         });
         if (!data2?.[0] && localStorage.getItem('openOG')) {
           setShowCommunityVerification(true);
           localStorage.removeItem('openOG');
         }
-        setTokenData(data2?.[0] ?? null);
+        setTokenData(data3 ?? null);
         setTokenSupply(parseInt(data));
       } catch (e) {
         console.log(e);
@@ -175,9 +187,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <svg
                 className="w-6 h-6 text-violet-500"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -236,7 +248,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                         ? 'Expired Tokens'
                                         : 'Valid Token'}
                                     </p>
-                                    <p>Token Id : {tokenData.token_id}</p>
+                                    <p>Token Id : {tokenData.token}</p>
                                     <p>
                                       Issued At :{' '}
                                       {tokenData.metadata.issued_at
@@ -432,7 +444,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                           ? 'Expired Tokens'
                                           : 'Valid Token'}
                                       </p>
-                                      <p>Token Id : {fvTokenData.token_id}</p>
+                                      <p>Token Id : {fvTokenData.token}</p>
                                       <p>
                                         Issued At :{' '}
                                         {fvTokenData.metadata.issued_at

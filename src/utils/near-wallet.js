@@ -80,6 +80,12 @@ export class Wallet {
     return isSignedIn;
   }
 
+  async account() {
+    const [acc] = await this.wallet.getAccounts();
+    return acc;
+    // return this.wallet;
+  }
+
   // Sign-in method
   signIn() {
     const description = 'Please select a wallet to sign in.';

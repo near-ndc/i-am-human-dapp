@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 
 import { wallet } from '../../../../index';
-import { near_contract } from '../../../../utils/contract-addresses';
+import {
+  app_contract,
+  new_sbt_contract,
+} from '../../../../utils/contract-addresses';
 
 export const SbtTokenStatus = ({ wallet_address }) => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -14,18 +17,21 @@ export const SbtTokenStatus = ({ wallet_address }) => {
     try {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
-        contractId: near_contract,
-        method: 'nft_supply_for_owner',
-        args: { account: wallet_address },
+        contractId: app_contract,
+        method: 'sbt_supply_by_owner',
+        args: { ctr: new_sbt_contract, account: wallet_address },
       });
-      console.log(data);
       const data2 = await wallet.viewMethod({
-        contractId: near_contract,
-        method: 'nft_tokens_for_owner',
-        args: { account: wallet_address },
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: { ctr: new_sbt_contract, account: wallet_address },
       });
-      console.log(data2);
-      setTokenData(data2?.[0] ?? null);
+      const data3 = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt',
+        args: { ctr: new_sbt_contract, token: data2[0][1][0] },
+      });
+      setTokenData(data3 ?? null);
       setTokenSupply(parseInt(data));
     } catch {
       toast.error('An error occured while fetching token supply');
@@ -58,7 +64,7 @@ export const SbtTokenStatus = ({ wallet_address }) => {
                     >
                       {isExpired ? 'Expired Tokens' : 'Valid Token'}
                     </p>
-                    <p>Token Id : {tokenData.token_id}</p>
+                    <p>Token Id : {tokenData.token}</p>
                     <p>
                       Issued At :{' '}
                       {tokenData.metadata.issued_at

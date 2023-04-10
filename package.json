@@ -37,7 +37,7 @@
     "libphonenumber-js": "^1.10.19",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
-    "near-api-js": "^0.44.2",
+    "near-api-js": "^2.0.4",
     "patch-package": "^6.4.7",
     "react": "^18.1.0",
     "react-circular-progressbar": "^2.1.0",
