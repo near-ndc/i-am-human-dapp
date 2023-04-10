@@ -73,12 +73,15 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
-        const data3 = await wallet.viewMethod({
-          contractId: app_contract,
-          method: 'sbt',
-          args: { token: data2[0][1][0], ctr: gooddollar_contract },
-        });
-        setFvTokenData(data3);
+        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
+          const data3 = await wallet.viewMethod({
+            contractId: app_contract,
+            method: 'sbt',
+            args: { token: data2[0][1][0], ctr: gooddollar_contract },
+          });
+          setFvTokenData(data3);
+        }
+
         if (!data2?.[0] && localStorage.getItem('openFv')) {
           setShowGooddollarVerification(true);
           localStorage.removeItem('openFv');
@@ -108,16 +111,18 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, ctr: new_sbt_contract },
         });
-        const data3 = await wallet.viewMethod({
-          contractId: app_contract,
-          method: 'sbt',
-          args: { token: data2[0][1][0], ctr: new_sbt_contract },
-        });
+        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
+          const data3 = await wallet.viewMethod({
+            contractId: app_contract,
+            method: 'sbt',
+            args: { token: data2[0][1][0], ctr: new_sbt_contract },
+          });
+          setTokenData(data3 ?? null);
+        }
         if (!data2?.[0] && localStorage.getItem('openOG')) {
           setShowCommunityVerification(true);
           localStorage.removeItem('openOG');
         }
-        setTokenData(data3 ?? null);
         setTokenSupply(parseInt(data));
       } catch (e) {
         console.log(e);
