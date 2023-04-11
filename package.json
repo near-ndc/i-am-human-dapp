@@ -62,6 +62,7 @@
     "build": "react-app-rewired build",
     "test": "jest",
     "lint": "eslint src --ext .js,.jsx",
+    "format": "prettier --write \"src/**/*.js\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

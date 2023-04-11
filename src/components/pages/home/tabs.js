@@ -1,24 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { GiToken } from "react-icons/gi";
+import React, { useEffect, useMemo, useState } from 'react';
+import { GiToken } from 'react-icons/gi';
 
-import { ManageAdmin } from "./manageAdmin";
-import { ManageTokens } from "./manageTokens";
-import { CheckSbtTokenStatus } from "./myOwnSbt";
-import { OgSBTApplicationsTable } from "./OgSbtApplication";
-import { FVSBTApplicationsTable } from "./fvApplications";
+import { ManageAdmin } from './manageAdmin';
+import { ManageTokens } from './manageTokens';
+import { CheckSbtTokenStatus } from './myOwnSbt';
+import { OgSBTApplicationsTable } from './OgSbtApplication';
+import { FVSBTApplicationsTable } from './fvApplications';
 
 export const Tabs = ({ isAdmin }) => {
-  const [activeTab, setActiveTab] = React.useState("My own SBT");
+  const [activeTab, setActiveTab] = React.useState('My own SBT');
 
   const tabs = useMemo(
     () => [
       {
-        name: "Manage Council Members",
+        name: 'Manage Council Members',
         icon: (
           <svg
             aria-hidden="true"
             className={`mr-2 w-5 h-5 ${
-              activeTab === 0 ? "text-blue-600" : "text-gray-400"
+              activeTab === 0 ? 'text-blue-600' : 'text-gray-400'
             }`}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -33,12 +33,12 @@ export const Tabs = ({ isAdmin }) => {
         ),
       },
       {
-        name: "Manage SBT / Verified",
+        name: 'Manage SBT / Verified',
         icon: (
           <svg
             aria-hidden="true"
             className={`mr-2 w-5 h-5 ${
-              activeTab === 1 ? "text-blue-600" : "text-gray-400"
+              activeTab === 1 ? 'text-blue-600' : 'text-gray-400'
             }`}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -49,7 +49,7 @@ export const Tabs = ({ isAdmin }) => {
         ),
       },
       {
-        name: "My own SBT",
+        name: 'My own SBT',
         icon: (
           <div className="text-xl mr-[8.5px]">
             <GiToken />
@@ -57,7 +57,7 @@ export const Tabs = ({ isAdmin }) => {
         ),
       },
       {
-        name: "OG SBT Applications",
+        name: 'OG SBT Applications',
         icon: (
           <div className="text-xl mr-[8.5px]">
             <GiToken />
@@ -65,7 +65,7 @@ export const Tabs = ({ isAdmin }) => {
         ),
       },
       {
-        name: "FV Applications",
+        name: 'FV Applications',
         icon: (
           <div className="text-xl mr-[8.5px]">
             <GiToken />
@@ -79,10 +79,10 @@ export const Tabs = ({ isAdmin }) => {
   const [isdone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (window.location.href.includes("login") && !isdone) {
+    if (window.location.href.includes('login') && !isdone) {
       setActiveTab(() => {
         setIsDone(true);
-        return "Login With Gooddollar";
+        return 'Login With Gooddollar';
       });
     }
   }, [isAdmin, tabs, isdone]);
@@ -97,8 +97,8 @@ export const Tabs = ({ isAdmin }) => {
                 onClick={() => setActiveTab(item.name)}
                 className={`p-4 rounded-t-lg w-60 border-b-2 border-transparent ${
                   activeTab === item.name
-                    ? "border-blue-600 text-blue-600"
-                    : "border-gray-400 text-gray-400"
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-gray-400 text-gray-400'
                 }`}
               >
                 <div className="inline-flex mx-auto">
@@ -112,12 +112,12 @@ export const Tabs = ({ isAdmin }) => {
       </div>
       {isAdmin ? (
         <>
-          {activeTab === "Manage Council Members" && <ManageAdmin />}
-          {activeTab === "Manage SBT / Verified" && <ManageTokens />}
-          {activeTab === "My own SBT" && <CheckSbtTokenStatus />}
+          {activeTab === 'Manage Council Members' && <ManageAdmin />}
+          {activeTab === 'Manage SBT / Verified' && <ManageTokens />}
+          {activeTab === 'My own SBT' && <CheckSbtTokenStatus />}
 
-          {activeTab === "OG SBT Applications" && <OgSBTApplicationsTable />}
-          {activeTab === "FV Applications" && <FVSBTApplicationsTable />}
+          {activeTab === 'OG SBT Applications' && <OgSBTApplicationsTable />}
+          {activeTab === 'FV Applications' && <FVSBTApplicationsTable />}
         </>
       ) : (
         <CheckSbtTokenStatus />

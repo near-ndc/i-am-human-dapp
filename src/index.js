@@ -1,24 +1,24 @@
 // React
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { App } from "./App";
-import "react-toastify/dist/ReactToastify.css";
-import { Provider, ErrorBoundary } from "@rollbar/react"; // Provider imports 'rollbar'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { App } from './App';
+import 'react-toastify/dist/ReactToastify.css';
+import { Provider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
 
 // NEAR
-import { Wallet } from "./utils/near-wallet";
-const CONTRACT_ADDRESS = "og-sbt-1.i-am-human.testnet";
+import { Wallet } from './utils/near-wallet';
+const CONTRACT_ADDRESS = 'og-sbt-1.i-am-human.testnet';
 
 const rollbarConfig = {
-  accessToken: "31e514c3334a42728684b0638472dd32",
-  environment: "testenv",
+  accessToken: '31e514c3334a42728684b0638472dd32',
+  environment: 'testenv',
 };
 
 // When creating the wallet you can optionally ask to create an access key
 // Having the key enables to call non-payable methods without interrupting the user to sign
 export const wallet = new Wallet({ createAccessKeyFor: CONTRACT_ADDRESS });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Setup on page load
 window.onload = async () => {

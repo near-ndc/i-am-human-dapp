@@ -1,17 +1,17 @@
-import React from "react";
-import * as nearAPI from "near-api-js";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { ButtonLoader } from "../../../common/buttonLoader";
-import { wallet } from "../../../../index";
-import { toast } from "react-toastify";
+import React from 'react';
+import * as nearAPI from 'near-api-js';
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { ButtonLoader } from '../../../common/buttonLoader';
+import { wallet } from '../../../../index';
+import { toast } from 'react-toastify';
 
 const { keyStores } = nearAPI;
 const myKeyStore = new keyStores.BrowserLocalStorageKeyStore();
 
 export const DonatePanel = ({ isOpen, closeModal }) => {
   const [loading, setLoading] = useState();
-  const [amountToSend, setAmountToSend] = useState("10");
+  const [amountToSend, setAmountToSend] = useState('10');
 
   const sendTokens = async (e) => {
     e.preventDefault();
@@ -19,27 +19,27 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
     try {
       const { connect, WalletConnection } = nearAPI;
       const connectionConfig = {
-        networkId: "testnet",
+        networkId: 'testnet',
         keyStore: myKeyStore,
-        nodeUrl: "https://rpc.testnet.near.org",
-        walletUrl: "https://wallet.testnet.near.org",
-        helperUrl: "https://helper.testnet.near.org",
-        explorerUrl: "https://explorer.testnet.near.org",
+        nodeUrl: 'https://rpc.testnet.near.org',
+        walletUrl: 'https://wallet.testnet.near.org',
+        helperUrl: 'https://helper.testnet.near.org',
+        explorerUrl: 'https://explorer.testnet.near.org',
       };
 
       // connect to NEAR
       const nearConnection = await connect(connectionConfig);
       const walletConnection = new WalletConnection(nearConnection);
       walletConnection.requestSignIn(
-        "example-contract.testnet", // contract requesting access
-        "Example App", // optional title
-        "http://YOUR-URL.com/success", // optional redirect URL on success
-        "http://YOUR-URL.com/failure" // optional redirect URL on failure
+        'example-contract.testnet', // contract requesting access
+        'Example App', // optional title
+        'http://YOUR-URL.com/success', // optional redirect URL on success
+        'http://YOUR-URL.com/failure' // optional redirect URL on failure
       );
       const account = await nearConnection.account(wallet.accountId);
       const result = await account.sendMoney(
-        "ubitest.testnet", // receiver account
-        "100000000000000" // amount in yoctoNEAR
+        'ubitest.testnet', // receiver account
+        '100000000000000' // amount in yoctoNEAR
       );
     } catch (e) {
       toast.error(e.message);
@@ -106,7 +106,7 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
                       type="submit"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
-                      {!loading ? "Confirm" : <ButtonLoader />}
+                      {!loading ? 'Confirm' : <ButtonLoader />}
                     </button>
                     {!loading && (
                       <button

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Header } from "../../components/common/header";
-import { Tabs } from "../../components/pages/home/tabs";
-import { wallet } from "../../index";
-import { DonatePanel } from "../../components/pages/home/DonatePanel";
-import { useAdmin } from "../../utils/useAdmin";
+import { Header } from '../../components/common/header';
+import { Tabs } from '../../components/pages/home/tabs';
+import { wallet } from '../../index';
+import { DonatePanel } from '../../components/pages/home/DonatePanel';
+import { useAdmin } from '../../utils/useAdmin';
 
 export const Home = ({ setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet.accountId });
