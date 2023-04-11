@@ -103,14 +103,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, ctr: new_sbt_contract },
         });
-        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
-          const data3 = await wallet.viewMethod({
-            contractId: app_contract,
-            method: 'sbt',
-            args: { token: data2[0][1][0], ctr: new_sbt_contract },
-          });
-          setTokenData(data3 ?? null);
-        }
+        setTokenData(data2?.[0]?.[1]?.[0]);
+
         if (!data2?.[0] && localStorage.getItem('openOG')) {
           setShowCommunityVerification(true);
           localStorage.removeItem('openOG');
