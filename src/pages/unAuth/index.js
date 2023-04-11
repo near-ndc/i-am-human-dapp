@@ -15,7 +15,6 @@ import { log_event } from '../../utils/utilityFunctions';
 import {
   app_contract,
   gooddollar_contract,
-  near_contract,
   new_sbt_contract,
 } from '../../utils/contract-addresses';
 
@@ -73,14 +72,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
-        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
-          const data3 = await wallet.viewMethod({
-            contractId: app_contract,
-            method: 'sbt',
-            args: { token: data2[0][1][0], ctr: gooddollar_contract },
-          });
-          setFvTokenData(data3);
-        }
+        setFvTokenData(data2?.[0]?.[1]?.[0]);
 
         if (!data2?.[0] && localStorage.getItem('openFv')) {
           setShowGooddollarVerification(true);
