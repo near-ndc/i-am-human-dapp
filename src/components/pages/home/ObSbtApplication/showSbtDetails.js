@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { SbtTokenStatus } from './tokenDetails';
@@ -99,28 +99,6 @@ export function ShowSbtDetails({ open, setOpen, selectedUser }) {
                       {/* Divider container */}
                       <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                         {/* Project name */}
-                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <div>
-                            <label
-                              htmlFor="project-name"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Email
-                            </label>
-                          </div>
-                          <div>{selectedUser?.email ?? 'N/A'}</div>
-                        </div>
-                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <div>
-                            <label
-                              htmlFor="project-name"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Phone
-                            </label>
-                          </div>
-                          <div>{selectedUser?.phone ?? 'N/A'}</div>
-                        </div>
                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
                           <div>
                             <label

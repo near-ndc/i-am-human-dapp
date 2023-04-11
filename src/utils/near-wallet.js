@@ -42,12 +42,11 @@ const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector
 export class Wallet {
-  walletSelector;
-  wallet;
-  network;
-  createAccessKeyFor;
-
   constructor({ createAccessKeyFor = undefined, network = 'testnet' }) {
+    this.walletSelector = null;
+    this.wallet = null;
+    this.network = null;
+    this.createAccessKeyFor = null;
     // Login to a wallet passing a contractId will create a local
     // key, so the user skips signing non-payable transactions.
     // Omitting the accountId will result in the user being
@@ -79,6 +78,12 @@ export class Wallet {
     }
 
     return isSignedIn;
+  }
+
+  async account() {
+    const [acc] = await this.wallet.getAccounts();
+    return acc;
+    // return this.wallet;
   }
 
   // Sign-in method

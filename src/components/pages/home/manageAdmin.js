@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 import { wallet } from '../../../index';
 import { ButtonLoader } from '../../common/buttonLoader';
 import { checkAdmin, log_event } from '../../../utils/utilityFunctions';
 import { AdminConfirmation } from './ManageAdmin/adminConfirmation';
+import { addressToVerify } from './../../../utils/addressToVerify';
+import { near_contract } from '../../../utils/contract-addresses';
 
 export const ManageAdmin = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -18,22 +19,12 @@ export const ManageAdmin = () => {
     modalOpen: false,
     add: null,
   });
-  function countDots(str) {
-    let count = 0;
-    for (let i = 0; i < str.length; i++) {
-      if (str[i] === '.') {
-        count++;
-      }
-    }
-    return count;
-  }
   const isStringValidated = React.useMemo(() => {
     if (walletAddress === '') {
       return true;
     }
-    const testnet = '.near';
-    const dots = countDots(walletAddress);
-    if (walletAddress.endsWith(testnet) && dots === 1) {
+    const testnet = addressToVerify;
+    if (walletAddress.endsWith(testnet)) {
       return true;
     }
     return false;
@@ -47,7 +38,7 @@ export const ManageAdmin = () => {
       });
       try {
         const res = await wallet.callMethod({
-          contractId: 'og-sbt-1.i-am-human.testnet',
+          contractId: near_contract,
           method: 'add_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -77,7 +68,7 @@ export const ManageAdmin = () => {
           effected_wallet: walletAddress,
         });
         const res = await wallet.callMethod({
-          contractId: 'og-sbt-1.i-am-human.testnet',
+          contractId: near_contract,
           method: 'remove_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -156,14 +147,14 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .near at the end and
-          containing only 1 (.)
+          Provided addresss should be a valid one with only {addressToVerify} at
+          the end and containing only 1 (.)
         </p>
       )}
       {adminStatus?.status === 'isAdmin' && (
         <div className="mb-2 w-[210px]">
           <div>
-            <p className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
+            <p className="inli ne-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
               {walletAddress} is an admin
             </p>
           </div>

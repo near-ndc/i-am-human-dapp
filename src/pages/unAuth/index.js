@@ -9,9 +9,15 @@ import HumanOnNDC from '../../images/backLines.png';
 import { IsSignedInLanding } from './IsSignedInLanding';
 import { supabase } from '../../utils/supabase';
 import { toast } from 'react-toastify';
+import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
-import { KycDao } from '../../components/pages/landing/kycDao';
 import { log_event } from '../../utils/utilityFunctions';
+import {
+  app_contract,
+  gooddollar_contract,
+  near_contract,
+  new_sbt_contract,
+} from '../../utils/contract-addresses';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
@@ -58,16 +64,24 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: 'gooddollar-v1.i-am-human.testnet',
-          method: 'nft_supply_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_supply_by_owner',
+          args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
         const data2 = await wallet.viewMethod({
-          contractId: 'gooddollar-v1.i-am-human.testnet',
-          method: 'nft_tokens_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_tokens_by_owner',
+          args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
-        setFvTokenData(data2?.[0] ?? null);
+        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
+          const data3 = await wallet.viewMethod({
+            contractId: app_contract,
+            method: 'sbt',
+            args: { token: data2[0][1][0], ctr: gooddollar_contract },
+          });
+          setFvTokenData(data3);
+        }
+
         if (!data2?.[0] && localStorage.getItem('openFv')) {
           setShowGooddollarVerification(true);
           localStorage.removeItem('openFv');
@@ -88,20 +102,27 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: 'og-sbt-1.i-am-human.testnet',
-          method: 'nft_supply_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_supply_by_owner',
+          args: { account: wallet.accountId, ctr: new_sbt_contract },
         });
         const data2 = await wallet.viewMethod({
-          contractId: 'og-sbt-1.i-am-human.testnet',
-          method: 'nft_tokens_for_owner',
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_tokens_by_owner',
+          args: { account: wallet.accountId, ctr: new_sbt_contract },
         });
+        if (typeof data2?.[0]?.[1]?.[0] === 'number') {
+          const data3 = await wallet.viewMethod({
+            contractId: app_contract,
+            method: 'sbt',
+            args: { token: data2[0][1][0], ctr: new_sbt_contract },
+          });
+          setTokenData(data3 ?? null);
+        }
         if (!data2?.[0] && localStorage.getItem('openOG')) {
           setShowCommunityVerification(true);
           localStorage.removeItem('openOG');
         }
-        setTokenData(data2?.[0] ?? null);
         setTokenSupply(parseInt(data));
       } catch (e) {
         console.log(e);
@@ -171,9 +192,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <svg
                 className="w-6 h-6 text-violet-500"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -232,7 +253,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                         ? 'Expired Tokens'
                                         : 'Valid Token'}
                                     </p>
-                                    <p>Token Id : {tokenData.token_id}</p>
+                                    <p>Token Id : {tokenData.token}</p>
                                     <p>
                                       Issued At :{' '}
                                       {tokenData.metadata.issued_at
@@ -428,7 +449,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                           ? 'Expired Tokens'
                                           : 'Valid Token'}
                                       </p>
-                                      <p>Token Id : {fvTokenData.token_id}</p>
+                                      <p>Token Id : {fvTokenData.token}</p>
                                       <p>
                                         Issued At :{' '}
                                         {fvTokenData.metadata.issued_at
@@ -489,11 +510,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                       </blockquote>
                     </div>
                   </div>
+                  <IAmHumanStatus
+                    isSbtToken={Boolean(tokenData)}
+                    isFvToken={Boolean(fvTokenData)}
+                  />
                 </div>
               </div>
-              <KycDao />
+              {/* <KycDao /> */}
             </div>
-
             <div ref={ref} id="bottom" />
           </>
         </div>

@@ -8,7 +8,6 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import 'react-phone-number-input/style.css';
-import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { CircleSpinner } from 'react-spinners-kit';
 import { wallet } from '../../..';
 import 'react-phone-number-input/style.css';
@@ -36,7 +35,7 @@ export const Gooddollar = () => {
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(null);
 
   const {
     values,
@@ -70,7 +69,6 @@ export const Gooddollar = () => {
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
-        name: data.name,
         g$_address: data.gDollarAccount,
         status: 'Approved',
       };
@@ -100,6 +98,7 @@ export const Gooddollar = () => {
             claim_b64: result.m,
             claim_sig: result.sig,
           },
+          deposit: '8000000000000000000000',
         });
         log_event({ event_log: 'Applied for OG SBT' });
       } catch (e) {
@@ -107,6 +106,8 @@ export const Gooddollar = () => {
         toast.error(
           'An error occured while submitting your details , please try again'
         );
+      } finally {
+        setSubmitting(false);
       }
     },
     validate: (values) => {
@@ -151,7 +152,6 @@ export const Gooddollar = () => {
             d?.isAddressWhitelisted?.isVerified ||
             d?.isAddressWhitelisted?.value;
           setValues({
-            name: d?.fullName?.value,
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
           });
@@ -326,10 +326,12 @@ export const Gooddollar = () => {
         )}
         {showStep === 3 && (
           <div className="mt-14">
-            <p className="text-3xl font-semibold ">Apply for a Community SBT</p>
+            <p className="text-3xl font-semibold ">
+              Apply for a Face Verification SBT
+            </p>
             <p className="w-full text-sm font-light italic mt-2">
               Once you passed step 1 and 2 your information will be populated
-              here and you will be able to apply for a Community SBT.
+              here and you will be able to apply for a Face Verification SBT.
             </p>
 
             <form
@@ -338,14 +340,6 @@ export const Gooddollar = () => {
             >
               {values.status === 'Whitelisted' ? (
                 <>
-                  <div className="flex items-center justify-between">
-                    <p className="w-[120px]">Name:</p>
-                    <input
-                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                      placeholder="Name"
-                      {...handleValues('name')}
-                    />
-                  </div>
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">G$ Account:</p>
                     <input

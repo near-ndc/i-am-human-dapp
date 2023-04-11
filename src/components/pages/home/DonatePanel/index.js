@@ -37,7 +37,7 @@ export const DonatePanel = ({ isOpen, closeModal }) => {
         'http://YOUR-URL.com/failure' // optional redirect URL on failure
       );
       const account = await nearConnection.account(wallet.accountId);
-      const result = await account.sendMoney(
+      await account.sendMoney(
         'ubitest.testnet', // receiver account
         '100000000000000' // amount in yoctoNEAR
       );

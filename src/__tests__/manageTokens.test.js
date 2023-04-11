@@ -41,7 +41,7 @@ describe('ManageTokens', () => {
     fireEvent.blur(input);
     expect(
       screen.getByText(
-        /Provided addresss should be a valid one/i
+        /Provided addresss should be a valid one with only .testnet at the end and containing only 1/i
       )
     ).toBeInTheDocument();
   });

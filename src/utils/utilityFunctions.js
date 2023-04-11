@@ -1,9 +1,10 @@
 import { wallet } from '../index';
 import { supabase } from './supabase';
+import { near_contract } from '../utils/contract-addresses';
 
 export const checkAdmin = (walletAddress) => {
   return wallet.viewMethod({
-    contractId: 'og-sbt-1.i-am-human.testnet',
+    contractId: near_contract,
     method: 'is_admin',
     args: { addr: walletAddress },
   });

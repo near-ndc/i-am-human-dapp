@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { supabase } from '../../../utils/supabase';
+import { api_link, supabase } from '../../../utils/supabase';
 
 import { VerifyPhoneAndEmail } from '../home/applyCommunityVerify/verifyPhoneAndEmail';
 import { Panel } from '../../common/panel';
 import { wallet } from '../../../index';
 import { toast } from 'react-toastify';
 import { log_event } from '../../../utils/utilityFunctions';
+import axios from 'axios';
 
 export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {
@@ -49,6 +50,10 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
         const { error: appError } = await supabase.insert('users', updateData);
         error = appError;
       }
+      await axios.post(`${api_link}/encrypt-pii-number`, {
+        wallet: wallet.accountId,
+        number: telegramData.phone,
+      });
       if (error) {
         throw new Error('');
       } else {
@@ -240,7 +245,6 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                       <span className="sr-only">Loading...</span>
                     </div>
                   )}
-
                   <p className="mx-auto w-[fit-content]">
                     {loading ? 'Applying' : 'Apply'}
                   </p>
