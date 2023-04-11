@@ -42,5 +42,6 @@ module.exports = {
   globals: {
     process: 'readonly',
     Buffer: true,
+    global: true,
   },
 };
