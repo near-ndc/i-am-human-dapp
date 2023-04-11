@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "react-icons/ai";
+import React, { Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { AiOutlineClose } from 'react-icons/ai';
 
 export const RecoverModal = ({ input, isButtonEnabled, buttonClass }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -13,7 +13,10 @@ export const RecoverModal = ({ input, isButtonEnabled, buttonClass }) => {
         onClick={() => setIsOpen(true)}
         type="button"
         disabled={true}
-        className={`${buttonClass.replace('bg-blue-700  hover:bg-blue-800','bg-gray-500')} opacity-40`}
+        className={`${buttonClass.replace(
+          'bg-blue-700  hover:bg-blue-800',
+          'bg-gray-500'
+        )} opacity-40`}
       >
         Recover SBT
       </button>

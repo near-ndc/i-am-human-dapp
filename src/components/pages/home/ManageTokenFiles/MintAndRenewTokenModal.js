@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "react-icons/ai";
-import { ButtonLoader } from "../../../common/buttonLoader";
+import React, { Fragment, useState, useEffect } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { ButtonLoader } from '../../../common/buttonLoader';
 
 export const MintAndRenewTokenModal = ({
   input,
@@ -13,15 +13,15 @@ export const MintAndRenewTokenModal = ({
   renewTokens,
 }) => {
   const [mintData, setMintData] = useState({
-    ttl: "",
-    memo: "",
+    ttl: '',
+    memo: '',
   });
 
   useEffect(() => {
     if (!isOpen) {
       setMintData({
-        ttl: "",
-        memo: "",
+        ttl: '',
+        memo: '',
       });
     }
   }, [isOpen]);
@@ -66,8 +66,8 @@ export const MintAndRenewTokenModal = ({
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     {isMint
-                      ? "Mint token to address"
-                      : "Renew token to address"}{" "}
+                      ? 'Mint token to address'
+                      : 'Renew token to address'}{' '}
                     : {input}
                   </Dialog.Title>
                   <div className="mt-2">
@@ -76,7 +76,7 @@ export const MintAndRenewTokenModal = ({
                         for="minting"
                         className="block mb-2 text-md font-medium text-gray-900"
                       >
-                        Reason For {isMint ? "Minting" : "Renewing"}
+                        Reason For {isMint ? 'Minting' : 'Renewing'}
                       </label>
                       <input
                         type="text"
@@ -132,7 +132,7 @@ export const MintAndRenewTokenModal = ({
                             });
                       }}
                     >
-                      {isLoading ? <ButtonLoader /> : isMint ? "Mint" : "Renew"}
+                      {isLoading ? <ButtonLoader /> : isMint ? 'Mint' : 'Renew'}
                     </button>
                   </div>
                 </Dialog.Panel>

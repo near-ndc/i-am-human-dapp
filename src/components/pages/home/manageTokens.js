@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import dayjs from "dayjs";
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
-import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
-import { wallet } from "../../../index";
-import { ButtonLoader } from "../../common/buttonLoader";
-import { log_event } from "../../../utils/utilityFunctions";
+import { RecoverModal, MintAndRenewTokenModal } from './ManageTokenFiles/index';
+import { wallet } from '../../../index';
+import { ButtonLoader } from '../../common/buttonLoader';
+import { log_event } from '../../../utils/utilityFunctions';
 
 export const ManageTokens = () => {
-  const [input, setInput] = React.useState("");
+  const [input, setInput] = React.useState('');
   const [validatingAddress, setValidatingAddress] = React.useState(false);
   const [isButtonLoading, setIsButtonLoading] = React.useState({
     revoke: false,
@@ -29,7 +29,7 @@ export const ManageTokens = () => {
   function countDots(str) {
     let count = 0;
     for (let i = 0; i < str.length; i++) {
-      if (str[i] === ".") {
+      if (str[i] === '.') {
         count++;
       }
     }
@@ -37,10 +37,10 @@ export const ManageTokens = () => {
   }
 
   const isStringValidated = React.useMemo(() => {
-    if (input === "") {
+    if (input === '') {
       return true;
     }
-    const testnet = ".near";
+    const testnet = '.near';
     const dots = countDots(input);
     if (input.endsWith(testnet) && dots === 1) {
       return true;
@@ -58,7 +58,7 @@ export const ManageTokens = () => {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
           contractId: 'og-sbt-1.i-am-human.testnet',
-          method: "nft_tokens_for_owner",
+          method: 'nft_tokens_for_owner',
           args: { account: input },
         });
         setTokens({
@@ -69,15 +69,15 @@ export const ManageTokens = () => {
         if (!hideMessage) {
           const isExpired = Date.now() > data?.[0]?.metadata.expires_at;
           if (data.length === 1 && !isExpired) {
-            toast.success("SBT is valid");
+            toast.success('SBT is valid');
           } else if (data.length === 1 && isExpired) {
-            toast.success("SBT is expired");
+            toast.success('SBT is expired');
           } else if (data.length === 0) {
-            toast.success("No SBT Found");
+            toast.success('No SBT Found');
           }
         }
       } catch {
-        toast.error("An error occured while validating the address");
+        toast.error('An error occured while validating the address');
       } finally {
         setValidatingAddress(false);
       }
@@ -90,7 +90,7 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
         contractId: 'og-sbt-1.i-am-human.testnet',
-        method: "sbt_mint",
+        method: 'sbt_mint',
         args: {
           receiver: input,
           metadata: metadata,
@@ -101,10 +101,10 @@ export const ManageTokens = () => {
         effected_wallet: input,
       });
       checkTokens({ hideMessage: true });
-      toast.success("Minted SBT successfully !");
+      toast.success('Minted SBT successfully !');
     } catch (e) {
       console.log(e);
-      toast.error("An error occured while minting");
+      toast.error('An error occured while minting');
     } finally {
       setMintModalOpen(false);
       setIsButtonLoading((d) => ({ ...d, mint: false }));
@@ -116,17 +116,17 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
         contractId: 'og-sbt-1.i-am-human.testnet',
-        method: "revoke_for",
+        method: 'revoke_for',
         args: { accounts: [input], metadata: {} },
       });
       log_event({
         event_log: `${wallet.accountId} revoked OG SBT tokens for ${input}`,
         effected_wallet: input,
       });
-      toast.success("Revoked SBT successfully !");
+      toast.success('Revoked SBT successfully !');
       await checkTokens({ hideMessage: true });
     } catch (e) {
-      toast.error("An error occured while minting");
+      toast.error('An error occured while minting');
     } finally {
       setIsButtonLoading((d) => ({ ...d, revoke: false }));
     }
@@ -137,7 +137,7 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
         contractId: 'og-sbt-1.i-am-human.testnet',
-        method: "sbt_renew",
+        method: 'sbt_renew',
         args: {
           tokens: [tokens.tokenData[0].token_id],
           metadata,
@@ -148,26 +148,26 @@ export const ManageTokens = () => {
         event_log: `${wallet.accountId} renewed OG SBT tokens for ${input}`,
         effected_wallet: input,
       });
-      toast.success("Renewed SBT successfully !");
+      toast.success('Renewed SBT successfully !');
       await checkTokens({ hideMessage: true });
     } catch (e) {
-      toast.error("An error occured while renewing");
+      toast.error('An error occured while renewing');
     } finally {
       setRenewModalOpen(false);
       setIsButtonLoading((d) => ({ ...d, renew: false }));
     }
   };
 
-  const isButtonEnabled = isStringValidated && input !== "";
+  const isButtonEnabled = isStringValidated && input !== '';
   const buttonClass = `text-white ${
-    isButtonEnabled ? "bg-blue-700  hover:bg-blue-800" : "bg-gray-400"
+    isButtonEnabled ? 'bg-blue-700  hover:bg-blue-800' : 'bg-gray-400'
   } focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 mb-2 focus:outline-none `;
 
   const { initialized, sbtTokens } = tokens;
 
   const buttonProps = (enabled) => ({
     className: `text-white ${
-      enabled ? "bg-blue-700  hover:bg-blue-800" : "bg-gray-400"
+      enabled ? 'bg-blue-700  hover:bg-blue-800' : 'bg-gray-400'
     } focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 mb-2 focus:outline-none`,
     disabled: !enabled,
   });
@@ -176,8 +176,7 @@ export const ManageTokens = () => {
   const renewButtonProps = buttonProps(sbtTokens === 1);
   const revokeButtonProps = buttonProps(sbtTokens === 1);
 
-  const isExpired =
-    Date.now() > tokens?.tokenData?.[0]?.metadata.expires_at;
+  const isExpired = Date.now() > tokens?.tokenData?.[0]?.metadata.expires_at;
 
   return (
     <div className="p-2">
@@ -213,35 +212,35 @@ export const ManageTokens = () => {
             <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
               <p
                 className={`${
-                  isExpired ? "text-red-500" : "text-green-600"
+                  isExpired ? 'text-red-500' : 'text-green-600'
                 } font-semibold text-lg mb-2`}
               >
-                {isExpired ? "Expired Tokens" : "Valid Token"}
+                {isExpired ? 'Expired Tokens' : 'Valid Token'}
               </p>
               <p>Token Id : {tokens.tokenData[0].token_id}</p>
               <p>
-                Issued At :{" "}
+                Issued At :{' '}
                 {tokens.tokenData[0].metadata.issued_at
                   ? dayjs(tokens.tokenData[0].metadata.issued_at).format(
-                      "DD MMMM YYYY"
+                      'DD MMMM YYYY'
                     )
-                  : "null"}
+                  : 'null'}
               </p>
               <p>
-                Expires at :{" "}
+                Expires at :{' '}
                 {dayjs(tokens.tokenData[0].metadata.expires_at).format(
-                  "DD MMMM YYYY"
+                  'DD MMMM YYYY'
                 )}
               </p>
               <p>
                 {Date.now() > tokens.tokenData[0].metadata.expires_at
-                  ? "Days Since Expiration"
-                  : "Days until expiration"}{" "}
-                :{" "}
+                  ? 'Days Since Expiration'
+                  : 'Days until expiration'}{' '}
+                :{' '}
                 {Math.abs(
                   dayjs(tokens.tokenData[0].metadata.expires_at).diff(
                     Date.now(),
-                    "days"
+                    'days'
                   )
                 )}
               </p>
@@ -258,8 +257,8 @@ export const ManageTokens = () => {
       )} */}
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-          Provided addresss should be a valid one with only .near at the end
-          and containing only 1 (.)
+          Provided addresss should be a valid one with only .near at the end and
+          containing only 1 (.)
         </p>
       )}
       <div className="flex items-center space-x-3">
@@ -271,7 +270,7 @@ export const ManageTokens = () => {
             disabled={!isButtonEnabled}
             className={`${buttonClass} w-60`}
           >
-            {validatingAddress ? <ButtonLoader /> : "Check Tokens"}
+            {validatingAddress ? <ButtonLoader /> : 'Check Tokens'}
           </button>
         )}
         {initialized && (
@@ -284,7 +283,7 @@ export const ManageTokens = () => {
               {mintButtonProps.disabled === false && isButtonLoading.mint ? (
                 <ButtonLoader />
               ) : (
-                "Mint SBT"
+                'Mint SBT'
               )}
             </button>
             <button
@@ -295,7 +294,7 @@ export const ManageTokens = () => {
               {renewButtonProps.disabled === false && isButtonLoading.renew ? (
                 <ButtonLoader />
               ) : (
-                "Renew SBT"
+                'Renew SBT'
               )}
             </button>
             <RecoverModal
@@ -308,7 +307,7 @@ export const ManageTokens = () => {
               isButtonLoading.revoke ? (
                 <ButtonLoader />
               ) : (
-                "Revoke SBT"
+                'Revoke SBT'
               )}
             </button>
           </>

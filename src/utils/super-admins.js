@@ -1,12 +1,12 @@
-import axios from "axios";
-import { useState, useEffect, useCallback } from "react";
-import { api_link } from "./supabase";
-import { wallet } from "../index";
+import axios from 'axios';
+import { useState, useEffect, useCallback } from 'react';
+import { api_link } from './supabase';
+import { wallet } from '../index';
 
 export const super_admins = [
-  "harrydhillon.near",
-  "kazanderdad.near",
-  "blaze.near",
+  'harrydhillon.near',
+  'kazanderdad.near',
+  'blaze.near',
 ];
 
 export const useSuperAdmin = () => {
