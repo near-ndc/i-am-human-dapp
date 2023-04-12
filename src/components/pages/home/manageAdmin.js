@@ -19,7 +19,6 @@ export const ManageAdmin = () => {
     modalOpen: false,
     add: null,
   });
-
   const isStringValidated = React.useMemo(() => {
     if (walletAddress === '') {
       return true;

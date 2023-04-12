@@ -60,7 +60,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "jest",
+    "test": "REACT_APP_ENV=dev jest",
     "lint": "eslint src --ext .js,.jsx",
     "format": "prettier --write \"src/**/*.js\"",
     "eject": "react-scripts eject"

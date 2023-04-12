@@ -1,1 +1,2 @@
-module.exports = "test-file-stub";
+// for svg and images
+module.exports = 'test-file-stub';

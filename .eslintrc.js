@@ -36,11 +36,18 @@ module.exports = {
     'react/jsx-key': 'off',
     'no-extra-boolean-cast': 'off',
     'no-useless-escape': 'off',
-
     'react/no-unescaped-entities': 'off',
   },
   globals: {
     process: 'readonly',
     Buffer: true,
   },
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.js'],
+      globals: {
+        global: true,
+      },
+    },
+  ],
 };
