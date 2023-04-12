@@ -36,14 +36,14 @@ export const IAmHumanStatus = ({ isSbtToken, isFvToken, isKycDao = false }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   return (
     <div className="py-3">
-      <p className="text-3xl font-bold">Your Human Status</p>
-      <div className="mx-auto" style={{ width: 400, height: 400 }}>
-        <img src={switchImage()} alt="humanLevel" />
-      </div>
-      <p className="text-lg text-gray-500 mb-2">
+      <p className="text-3xl font-bold mb-2">Result : Your Human Status</p>
+      <p className="text-lg text-gray-500">
         This Image changes based on the level of personhood you have achieved
         inside our app
       </p>
+      <div className="mx-auto" style={{ width: 400, height: 400 }}>
+        <img src={switchImage()} alt="humanLevel" />
+      </div>
       <button
         onClick={() => setIsVideoOpen(true)}
         className="p-2 bg-gray-100 shadow rounded-md text-xs hover:bg-gray-200 transition-all"
