@@ -36,12 +36,6 @@ module.exports = {
     'react/jsx-key': 'off',
     'no-extra-boolean-cast': 'off',
     'no-useless-escape': 'off',
-
     'react/no-unescaped-entities': 'off',
-  },
-  globals: {
-    process: 'readonly',
-    Buffer: true,
-    global: true,
   },
 };
