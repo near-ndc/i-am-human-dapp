@@ -15,6 +15,7 @@ export const IsSignedInLanding = ({
       setShowGooddollarVerification(true);
     }
   }, [setShowGooddollarVerification, hasApplied]);
+
   return (
     <>
       {hasApplied === null && (
@@ -34,7 +35,9 @@ export const IsSignedInLanding = ({
         title="Get Verified and Apply for Community SBT"
       >
         <div className="max-w-6xl mx-auto px-2">
-          <Gooddollar />
+          <Gooddollar
+            setShowGooddollarVerification={setShowGooddollarVerification}
+          />
         </div>
       </Panel>
       {hasApplied === true && (

@@ -20,7 +20,7 @@ import getConfig from '../../../config';
 import { log_event } from '../../../utils/utilityFunctions';
 const config = getConfig();
 
-export const Gooddollar = () => {
+export const Gooddollar = ({ setShowGooddollarVerification }) => {
   const gooddollarLink = createLoginLink({
     v: 'I-AM-HUMAN-DAPP',
     web: 'https://i-am-human.dapp/',
@@ -380,22 +380,16 @@ export const Gooddollar = () => {
                   ) : isExistingGUser ? (
                     <>
                       <p>
-                        This Gooddollar account is already registered with us ,
-                        apply with a different account
+                        This Gooddollar account is already registered with us.
                       </p>
                       <button
                         type="button"
                         onClick={() => {
-                          window.history.replaceState(
-                            {},
-                            '',
-                            window.location.origin
-                          );
-                          setShowStep(2);
+                          setShowGooddollarVerification(false);
                         }}
                         className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
                       >
-                        Authorize with a different account
+                        Ok
                       </button>
                     </>
                   ) : (

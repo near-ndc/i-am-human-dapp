@@ -35,7 +35,7 @@ export const IAmHumanStatus = ({ isSbtToken, isFvToken, isKycDao = false }) => {
 
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   return (
-    <div className="p-4">
+    <div className="py-3">
       <p className="text-2xl font-bold">Your Human Status</p>
       <div className="mx-auto" style={{ width: 400, height: 400 }}>
         <img src={switchImage()} alt="humanLevel" />
