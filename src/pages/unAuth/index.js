@@ -227,7 +227,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <div aria-hidden="true" />
               <div className="mb-12">
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:pb-16 lg:px-0">
+                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
                     <div>
                       <div className="mt-6" ref={fvRef} />
                       <div>
@@ -345,7 +345,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
                     <div>
                       {/* Show OG SBT */}
 
