@@ -134,6 +134,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const isExpired = Date.now() > tokenData?.metadata?.expires_at;
   const isFvExpired = Date.now() > fvTokenData?.metadata?.expires_at;
 
+  const fvRef = useRef();
+
   return (
     <div className="isolate bg-white">
       <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
@@ -149,7 +151,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 />
 
                 <>
-                  <div className="h-[fit-content] mt-[30px] md:mt-0">
+                  <div className="h-[fit-content] mt-[50px] md:mt-0">
                     <div className="px-10">
                       <p className="text-3xl font-semibold">
                         GET YOUR PROOF OF PERSONHOOD WITH I-AM-HUMAN
@@ -160,17 +162,29 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <button
-                        onClick={() => {
-                          window.open(
-                            'https://i-am-human.gitbook.io/i-am-human-docs/',
-                            '_blank'
-                          );
-                        }}
-                        className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Learn More
-                      </button>
+                      <div className="space-x-2">
+                        <button
+                          onClick={() => {
+                            fvRef?.current?.scrollIntoView({
+                              behavior: 'smooth',
+                            });
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                        >
+                          Verify Personhood
+                        </button>
+                        <button
+                          onClick={() => {
+                            window.open(
+                              'https://i-am-human.gitbook.io/i-am-human-docs/',
+                              '_blank'
+                            );
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
+                        >
+                          Learn More
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </>
@@ -178,7 +192,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             </div>
             <button
               onClick={() => {
-                ref?.current?.scrollIntoView({ behavior: 'smooth' });
+                fvRef?.current?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center"
             >
@@ -215,7 +229,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
                   <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:pb-16 lg:px-0">
                     <div>
-                      <div className="mt-6">
+                      <div className="mt-6" ref={fvRef} />
+                      <div>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900">
                           Unique Face Verification
                         </h2>
@@ -232,6 +247,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                             </p>
                           </>
                         )}
+
                         <div className="mt-3">
                           <a
                             className="text-blue-500 underline"
@@ -327,30 +343,6 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           )}
                         </div>
                       </div>
-                    </div>
-                    <div className="mt-8 border-t border-gray-200 pt-6">
-                      <blockquote>
-                        <div>
-                          <p className="text-base text-gray-500">
-                            &ldquo;The NDC App is really a breakthrough in how
-                            we uniqelly identify humans on the web.&rdquo;
-                          </p>
-                        </div>
-                        <footer className="mt-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="h-6 w-6 rounded-full"
-                                src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                alt=""
-                              />
-                            </div>
-                            <div className="text-base font-medium text-gray-700">
-                              Marcia Hill, Web3 Specialist
-                            </div>
-                          </div>
-                        </footer>
-                      </blockquote>
                     </div>
                   </div>
                   <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
@@ -450,7 +442,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           </a>
                         </div>
                         <div className="mt-6">
-                          <button className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700">
+                          <button className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm">
                             Coming Soon (Stay Tuned)
                           </button>
                           {/* {!tokenData &&
@@ -515,7 +507,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
 
               {/* <KycDao /> */}
             </div>
-            <div ref={ref} id="bottom" />
+            {/* <div ref={ref} id="bottom" /> */}
           </>
         </div>
       </main>
