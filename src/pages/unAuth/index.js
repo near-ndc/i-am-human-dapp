@@ -234,7 +234,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900">
                           Unique Face Verification
                         </h2>
-                        {!fvTokenData && (
+                        {!fvTokenData ? (
                           <>
                             {' '}
                             <p className="mt-4 text-lg text-gray-500">
@@ -244,6 +244,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                             <p className="mt-4 text-lg text-gray-500">
                               Why? They ensure that each user only creates one
                               account, without having to rely on traditional KYC
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="mt-4 text-lg text-gray-500">
+                              We have partnered with GoodDollar for Face
+                              Verification. This is your FV token based on your
+                              GoodDollar account.
                             </p>
                           </>
                         )}
@@ -504,6 +512,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   </div>
                 </div>
               </div>
+              <a
+                href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-black bg-yellow-300 focus:outline-none hover:bg-yellow-400 focus:ring-4 focus:outline-none rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 fixed bottom-1 right-1"
+              >
+                Give us your feedback
+              </a>
 
               {/* <KycDao /> */}
             </div>
