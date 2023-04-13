@@ -72,6 +72,13 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, ctr: gooddollar_contract },
         });
+        if (!data2?.[0]?.[1]?.[0]) {
+          await supabase.update(
+            'users',
+            { g$_address: null },
+            { wallet_identifier: wallet.accountId }
+          );
+        }
         setFvTokenData(data2?.[0]?.[1]?.[0]);
 
         if (!data2?.[0] && localStorage.getItem('openFv')) {
@@ -89,35 +96,35 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
     }
   }, [isSignedIn]);
 
+  //commenting this code because there is no SBT functionality inside this release
   const checkSBTTokens = useCallback(async () => {
-    if (isSignedIn) {
-      try {
-        setFetchLoading(true);
-        const data = await wallet.viewMethod({
-          contractId: app_contract,
-          method: 'sbt_supply_by_owner',
-          args: { account: wallet.accountId, ctr: new_sbt_contract },
-        });
-        const data2 = await wallet.viewMethod({
-          contractId: app_contract,
-          method: 'sbt_tokens_by_owner',
-          args: { account: wallet.accountId, ctr: new_sbt_contract },
-        });
-        setTokenData(data2?.[0]?.[1]?.[0]);
-
-        if (!data2?.[0] && localStorage.getItem('openOG')) {
-          setShowCommunityVerification(true);
-          localStorage.removeItem('openOG');
-        }
-        setTokenSupply(parseInt(data));
-      } catch (e) {
-        console.log(e);
-        toast.error('An error occured while fetching token supply');
-        setFetchLoading(false);
-      } finally {
-        setFetchLoading(false);
-      }
-    }
+    // if (isSignedIn) {
+    //   try {
+    //     setFetchLoading(true);
+    //     const data = await wallet.viewMethod({
+    //       contractId: app_contract,
+    //       method: 'sbt_supply_by_owner',
+    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+    //     });
+    //     const data2 = await wallet.viewMethod({
+    //       contractId: app_contract,
+    //       method: 'sbt_tokens_by_owner',
+    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+    //     });
+    //     setTokenData(data2?.[0]?.[1]?.[0]);
+    //     if (!data2?.[0] && localStorage.getItem('openOG')) {
+    //       setShowCommunityVerification(true);
+    //       localStorage.removeItem('openOG');
+    //     }
+    //     setTokenSupply(parseInt(data));
+    //   } catch (e) {
+    //     console.log(e);
+    //     toast.error('An error occured while fetching token supply');
+    //     setFetchLoading(false);
+    //   } finally {
+    //     setFetchLoading(false);
+    //   }
+    // }
   }, [isSignedIn]);
 
   useEffect(() => {
@@ -126,6 +133,8 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   }, [checkSBTTokens, checkFVokens]);
   const isExpired = Date.now() > tokenData?.metadata?.expires_at;
   const isFvExpired = Date.now() > fvTokenData?.metadata?.expires_at;
+
+  const fvRef = useRef();
 
   return (
     <div className="isolate bg-white">
@@ -142,7 +151,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 />
 
                 <>
-                  <div className="h-[fit-content] mt-[30px] md:mt-0">
+                  <div className="h-[fit-content] mt-[50px] md:mt-0">
                     <div className="px-10">
                       <p className="text-3xl font-semibold">
                         GET YOUR PROOF OF PERSONHOOD WITH I-AM-HUMAN
@@ -153,17 +162,29 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <button
-                        onClick={() => {
-                          window.open(
-                            'https://i-am-human.gitbook.io/i-am-human-docs/',
-                            '_blank'
-                          );
-                        }}
-                        className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Learn More
-                      </button>
+                      <div className="space-x-2">
+                        <button
+                          onClick={() => {
+                            fvRef?.current?.scrollIntoView({
+                              behavior: 'smooth',
+                            });
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                        >
+                          Verify My Personhood
+                        </button>
+                        <button
+                          onClick={() => {
+                            window.open(
+                              'https://i-am-human.gitbook.io/i-am-human-docs/',
+                              '_blank'
+                            );
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
+                        >
+                          Learn More
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </>
@@ -171,7 +192,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             </div>
             <button
               onClick={() => {
-                ref?.current?.scrollIntoView({ behavior: 'smooth' });
+                fvRef?.current?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center"
             >
@@ -206,163 +227,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <div aria-hidden="true" />
               <div className="mb-12">
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
                     <div>
-                      {/* Show OG SBT */}
-
-                      <div className="mt-6">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                          {tokenData ? 'OG SBT' : ' OG SBT Application'}
-                        </h2>
-                        {fetchloading ? (
-                          <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
-                        ) : (
-                          <>
-                            {tokenData && (
-                              <>
-                                <p className="mb-2">
-                                  <span className="font-medium">
-                                    SBT Tokens you own
-                                  </span>
-                                  : {tokenSupply}
-                                </p>
-                                <div className="mb-2">
-                                  <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
-                                    <p
-                                      className={`${
-                                        isExpired
-                                          ? 'text-red-500'
-                                          : 'text-green-600'
-                                      } font-semibold mb-2`}
-                                    >
-                                      {isExpired
-                                        ? 'Expired Tokens'
-                                        : 'Valid Token'}
-                                    </p>
-                                    <p>Token Id : {tokenData.token}</p>
-                                    <p>
-                                      Issued At :{' '}
-                                      {tokenData.metadata.issued_at
-                                        ? dayjs(
-                                            tokenData.metadata.issued_at
-                                          ).format('DD MMMM YYYY')
-                                        : 'null'}
-                                    </p>
-                                    <p>
-                                      Expires at :{' '}
-                                      {dayjs(
-                                        tokenData.metadata.expires_at
-                                      ).format('DD MMMM YYYY')}
-                                    </p>
-                                    <p>
-                                      {Date.now() >
-                                      tokenData.metadata.expires_at
-                                        ? 'Days Since Expiration'
-                                        : 'Days until expiration'}{' '}
-                                      :{' '}
-                                      {Math.abs(
-                                        dayjs(
-                                          tokenData.metadata.expires_at
-                                        ).diff(Date.now(), 'days')
-                                      )}
-                                    </p>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                          </>
-                        )}
-                        {!tokenData && (
-                          <>
-                            <p className="mt-4 text-lg text-gray-500">
-                              Are you someone who stands out in the Near
-                              ecosystem? Get the OG SBT. Apply here with your
-                              Telegram account and send us a message explaining
-                              in as few words as possible why you’re an OG.
-                            </p>
-                            <p className="mt-4 text-lg text-gray-500">
-                              Our team will schedule a quick video chat or meet
-                              you at Near Day to validate you in person. Limited
-                              edition, max 300.
-                            </p>
-                            <p className="mt-4 text-lg text-gray-500">
-                              Why? We need to create a “seed group” of trusted
-                              individuals to bootstrap the next iteration of
-                              Community SBT. Stay tuned.
-                            </p>
-                          </>
-                        )}
-                        <div className="mt-3">
-                          <a
-                            className="text-blue-500 underline"
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/community-verification"
-                          >
-                            Learn More
-                          </a>
-                        </div>
-                        <div className="mt-6">
-                          {!tokenData &&
-                            (Boolean(userData?.og_sbt_application) ? (
-                              <>
-                                {userData?.og_sbt_application ===
-                                  'Application Submitted' && (
-                                  <div>
-                                    <p>
-                                      You've applied. Once we receive your
-                                      Telegram message confirming your Near
-                                      account your SBT will be approved and show
-                                      up here.
-                                    </p>
-                                    <p className="mb-3">
-                                      Send your Near account as a Telegram DM to{' '}
-                                      <a
-                                        href="https://t.me/iamhumanapp"
-                                        target="_blank"
-                                        className="underline text-indigo-600"
-                                        rel="noreferrer"
-                                      >
-                                        @iamhumanapp
-                                      </a>
-                                    </p>
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  if (isSignedIn) {
-                                    log_event({
-                                      event_log:
-                                        'Started OG SBT verification flow',
-                                    });
-                                    setShowCommunityVerification(true);
-                                  } else {
-                                    wallet.signIn();
-                                    localStorage.setItem('openOG', 'true');
-                                  }
-                                }}
-                                className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                              >
-                                Get It Now
-                              </button>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:pb-16 lg:px-0">
-                    <div>
-                      <div className="mt-6">
+                      <div className="mt-6" ref={fvRef} />
+                      <div>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900">
                           Unique Face Verification
                         </h2>
-                        {!fvTokenData && (
+                        {!fvTokenData ? (
                           <>
                             {' '}
                             <p className="mt-4 text-lg text-gray-500">
@@ -374,7 +246,16 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               account, without having to rely on traditional KYC
                             </p>
                           </>
+                        ) : (
+                          <>
+                            <p className="mt-4 text-lg text-gray-500">
+                              We have partnered with GoodDollar for Face
+                              Verification. This is your FV token based on your
+                              GoodDollar account.
+                            </p>
+                          </>
                         )}
+
                         <div className="mt-3">
                           <a
                             className="text-blue-500 underline"
@@ -471,40 +352,178 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="mt-8 border-t border-gray-200 pt-6">
-                      <blockquote>
-                        <div>
-                          <p className="text-base text-gray-500">
-                            &ldquo;The NDC App is really a breakthrough in how
-                            we uniqelly identify humans on the web.&rdquo;
-                          </p>
+                  </div>
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
+                    <div>
+                      {/* Show OG SBT */}
+
+                      <div className="mt-6">
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                          {tokenData ? 'OG SBT' : ' OG SBT Application'}
+                        </h2>
+                        {fetchloading ? (
+                          <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
+                        ) : (
+                          <>
+                            {tokenData && (
+                              <>
+                                <p className="mb-2">
+                                  <span className="font-medium">
+                                    SBT Tokens you own
+                                  </span>
+                                  : {tokenSupply}
+                                </p>
+                                <div className="mb-2">
+                                  <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
+                                    <p
+                                      className={`${
+                                        isExpired
+                                          ? 'text-red-500'
+                                          : 'text-green-600'
+                                      } font-semibold mb-2`}
+                                    >
+                                      {isExpired
+                                        ? 'Expired Tokens'
+                                        : 'Valid Token'}
+                                    </p>
+                                    <p>Token Id : {tokenData.token}</p>
+                                    <p>
+                                      Issued At :{' '}
+                                      {tokenData.metadata.issued_at
+                                        ? dayjs(
+                                            tokenData.metadata.issued_at
+                                          ).format('DD MMMM YYYY')
+                                        : 'null'}
+                                    </p>
+                                    <p>
+                                      Expires at :{' '}
+                                      {dayjs(
+                                        tokenData.metadata.expires_at
+                                      ).format('DD MMMM YYYY')}
+                                    </p>
+                                    <p>
+                                      {Date.now() >
+                                      tokenData.metadata.expires_at
+                                        ? 'Days Since Expiration'
+                                        : 'Days until expiration'}{' '}
+                                      :{' '}
+                                      {Math.abs(
+                                        dayjs(
+                                          tokenData.metadata.expires_at
+                                        ).diff(Date.now(), 'days')
+                                      )}
+                                    </p>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </>
+                        )}
+                        {!tokenData && (
+                          <>
+                            <p className="mt-4 text-lg text-gray-500">
+                              Are you someone who stands out in the Near
+                              ecosystem? Get the OG SBT. Apply here with your
+                              Telegram account and send us a message explaining
+                              in as few words as possible why you’re an OG.
+                            </p>
+                            <p className="mt-4 text-lg text-gray-500">
+                              Our team will schedule a quick video chat or meet
+                              you at Near Day to validate you in person. Limited
+                              edition, max 300.
+                            </p>
+                            <p className="mt-4 text-lg text-gray-500">
+                              Why? We need to create a “seed group” of trusted
+                              individuals to bootstrap the next iteration of
+                              Community SBT. Stay tuned.
+                            </p>
+                          </>
+                        )}
+                        <div className="mt-3">
+                          <a
+                            className="text-blue-500 underline"
+                            target="_blank"
+                            rel="noreferrer"
+                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/community-verification"
+                          >
+                            Learn More
+                          </a>
                         </div>
-                        <footer className="mt-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="h-6 w-6 rounded-full"
-                                src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                alt=""
-                              />
-                            </div>
-                            <div className="text-base font-medium text-gray-700">
-                              Marcia Hill, Web3 Specialist
-                            </div>
-                          </div>
-                        </footer>
-                      </blockquote>
+                        <div className="mt-6">
+                          <button className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm">
+                            Coming Soon (Stay Tuned)
+                          </button>
+                          {/* {!tokenData &&
+                            (Boolean(userData?.og_sbt_application) ? (
+                              <>
+                                {userData?.og_sbt_application ===
+                                  'Application Submitted' && (
+                                  <div>
+                                    <p>
+                                      You've applied. Once we receive your
+                                      Telegram message confirming your Near
+                                      account your SBT will be approved and show
+                                      up here.
+                                    </p>
+                                    <p className="mb-3">
+                                      Send your Near account as a Telegram DM to{' '}
+                                      <a
+                                        href="https://t.me/iamhumanapp"
+                                        target="_blank"
+                                        className="underline text-indigo-600"
+                                        rel="noreferrer"
+                                      >
+                                        @iamhumanapp
+                                      </a>
+                                    </p>
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  if (isSignedIn) {
+                                    log_event({
+                                      event_log:
+                                        'Started OG SBT verification flow',
+                                    });
+                                    setShowCommunityVerification(true);
+                                  } else {
+                                    wallet.signIn();
+                                    localStorage.setItem('openOG', 'true');
+                                  }
+                                }}
+                                className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              >
+                                Get It Now
+                              </button>
+                            ))} */}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <IAmHumanStatus
-                    isSbtToken={Boolean(tokenData)}
-                    isFvToken={Boolean(fvTokenData)}
-                  />
+                </div>
+                <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                    <IAmHumanStatus
+                      isSbtToken={Boolean(tokenData)}
+                      isFvToken={Boolean(fvTokenData)}
+                    />
+                  </div>
                 </div>
               </div>
+              <a
+                href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-black bg-yellow-300 focus:outline-none hover:bg-yellow-400 focus:ring-4 focus:outline-none rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 fixed bottom-1 right-1"
+              >
+                Give us your feedback
+              </a>
+
               {/* <KycDao /> */}
             </div>
-            <div ref={ref} id="bottom" />
+            {/* <div ref={ref} id="bottom" /> */}
           </>
         </div>
       </main>
