@@ -3350,7 +3350,7 @@
     bs58 "^5.0.0"
     uuid "^8.3.2"
 
-"@kycdao/kycdao-sdk@^0.6.7":
+"@kycdao/kycdao-sdk@^0.6.12":
   version "0.6.12"
   resolved "https://registry.yarnpkg.com/@kycdao/kycdao-sdk/-/kycdao-sdk-0.6.12.tgz#211b83270ad7a0997f591be5b347d26813bd89ed"
   integrity sha512-LcDSIlwKUVmaLdDjI1iJVERhoBdDSP92SyjFXNxY5PGBhC+c4jw+6ZKcTyIGpQRFR36DMVd1MGuUOWK/Cy1DRg==
@@ -3363,22 +3363,26 @@
     bs58 "^5.0.0"
     persona "^4.7"
 
-"@kycdao/widget@0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.5.8.tgz#3ad3053a4be2529486e263c903f34cf592578574"
-  integrity sha512-Z0Q4W4Wa1AVIslAC85UprkL0TxhWs65PdXJ6hz6O06kG5gFDar7WyM2z9HzIZk4ETN0dAZzRVCILmrIC621bAg==
+"@kycdao/widget@^0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.6.9.tgz#0fff9796f5a18700524f69f71116c94965e9a623"
+  integrity sha512-szwzc8g1ZNwziy1NhzOjTrHN4h5HHKS5ztU4pVp+ogg0Q7v1K8bTvwdnqbOBUAOwjjhryeDjYBJR7kLkQEJKWQ==
   dependencies:
-    "@kycdao/kycdao-sdk" "^0.6.7"
+    "@kycdao/kycdao-sdk" "^0.6.12"
+    agent-base "^6.0.2"
     buffer "^6.0.3"
     clsx "^1.2.1"
-    near-api-js "^1.1.0"
-    persona "^4.7.2"
+    near-api-js "^2.0.4"
+    persona "4.8.0-alpha"
+    react "^18.2.0"
+    react-dom "^18.2.0"
     react-error-boundary "^3.1.4"
-    react-scripts "^5.0.1"
     react-swipeable "^7.0.0"
     react-twitter-embed "^4.0.4"
     rxjs "^7.8.0"
     stream "^0.0.2"
+    stream-browserify "^3.0.0"
+    styled-components "^5.3.6"
 
 "@ledgerhq/devices@6.27.1", "@ledgerhq/devices@^6.27.1":
   version "6.27.1"
@@ -7660,7 +7664,7 @@ aes-js@^3.1.1, aes-js@^3.1.2:
   resolved "https://registry.yarnpkg.com/aes-js/-/aes-js-3.1.2.tgz#db9aabde85d5caabbfc0d4f2a4446960f627146a"
   integrity sha512-e5pEa2kBnBOgR4Y/p20pskXI74UEz7de8ZGVo58asOtvSVG5YAbJeELPZxOmt+Bnz3rX753YKhfIn4X4l1PPRQ==
 
-agent-base@6:
+agent-base@6, agent-base@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
   integrity sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
@@ -8675,13 +8679,13 @@ bignumber.js@^9.0.0, bignumber.js@^9.0.1, bignumber.js@^9.1.0, bignumber.js@^9.1
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.1.tgz#c4df7dc496bd849d4c9464344c1aa74228b4dac6"
   integrity sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==
 
+"bignumber.js@git+https://github.com/debris/bignumber.js#master":
+  version "2.0.7"
+  resolved "git+https://github.com/debris/bignumber.js#c7a38de919ed75e6fb6ba38051986e294b328df9"
+
 "bignumber.js@git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2":
   version "2.0.7"
   resolved "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
-
-"bignumber.js@git+https://github.com/debris/bignumber.js.git#master":
-  version "2.0.7"
-  resolved "git+https://github.com/debris/bignumber.js.git#c7a38de919ed75e6fb6ba38051986e294b328df9"
 
 binary-extensions@^2.0.0:
   version "2.2.0"
@@ -11599,7 +11603,7 @@ eslint-config-prettier@^8.8.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.8.0.tgz#bfda738d412adc917fd7b038857110efe98c9348"
   integrity sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==
 
-eslint-config-react-app@^7.0.0, eslint-config-react-app@^7.0.1:
+eslint-config-react-app@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/eslint-config-react-app/-/eslint-config-react-app-7.0.1.tgz#73ba3929978001c5c86274c017ea57eb5fa644b4"
   integrity sha512-K6rNzvkIeHaTd8m/QEh1Zko0KI7BACWkkneSs6s9cKZC/J27X3eZR6Upt1jkmZ/4FK+XUOPPxMEN7+lbUXfSlA==
@@ -17519,23 +17523,6 @@ near-api-js@^0.45.1:
     text-encoding-utf-8 "^1.0.2"
     tweetnacl "^1.0.1"
 
-near-api-js@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-1.1.0.tgz#907e807f052c1f043c6fbf28f61872de3c02235a"
-  integrity sha512-qYKv1mYsaDZc2uYndhS+ttDhR9+60qFc+ZjD6lWsAxr3ZskMjRwPffDGQZYhC7BRDQMe1HEbk6d5mf+TVm0Lqg==
-  dependencies:
-    bn.js "5.2.1"
-    borsh "^0.7.0"
-    bs58 "^4.0.0"
-    depd "^2.0.0"
-    error-polyfill "^0.1.3"
-    http-errors "^1.7.2"
-    js-sha256 "^0.9.0"
-    mustache "^4.0.0"
-    node-fetch "^2.6.1"
-    text-encoding-utf-8 "^1.0.2"
-    tweetnacl "^1.0.1"
-
 near-api-js@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-2.0.4.tgz#e7e22885bf9091466485c80ee36aea8d476beb27"
@@ -18437,7 +18424,16 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
 
-persona@^4.7, persona@^4.7.2:
+persona@4.8.0-alpha:
+  version "4.8.0-alpha"
+  resolved "https://registry.yarnpkg.com/persona/-/persona-4.8.0-alpha.tgz#0cc15a8c32562bffe913479c87dc4e632be968d6"
+  integrity sha512-02Xnen9+3lNiXiVA3G2jb8R46C9N8VQbpMMLnxsjtSrcteomb8M/PLsohgQpvC+Y5K/d1eluVU12cpMs/tD3zA==
+  dependencies:
+    core-js "^3.0.0"
+    lodash "^4.17.21"
+    qs "^6.7.0"
+
+persona@^4.7:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/persona/-/persona-4.7.2.tgz#91eb9972bf03dd055e9893d84a3d17fcc6e1ee24"
   integrity sha512-mqBFDMYd02kdhYML0l64DuCZSqGg1D4/er/Ejj+UGdW5N2QL2CqtQO/irU6mMJmTA0404xAgM4MwJ6gyjSjzqA==
@@ -19803,7 +19799,7 @@ react-circular-progressbar@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.1.0.tgz#99e5ae499c21de82223b498289e96f66adb8fa3a"
   integrity sha512-xp4THTrod4aLpGy68FX/k1Q3nzrfHUjUe5v6FsdwXBl3YVMwgeXYQKDrku7n/D6qsJA9CuunarAboC2xCiKs1g==
 
-react-dev-utils@^12.0.0, react-dev-utils@^12.0.1:
+react-dev-utils@^12.0.0:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-12.0.1.tgz#ba92edb4a1f379bd46ccd6bcd4e7bc398df33e73"
   integrity sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==
@@ -19851,7 +19847,7 @@ react-dom@16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-dom@18.2.0, react-dom@^18.1.0:
+react-dom@18.2.0, react-dom@^18.1.0, react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -20094,61 +20090,6 @@ react-scripts@5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-scripts@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-5.0.1.tgz#6285dbd65a8ba6e49ca8d651ce30645a6d980003"
-  integrity sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==
-  dependencies:
-    "@babel/core" "^7.16.0"
-    "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
-    "@svgr/webpack" "^5.5.0"
-    babel-jest "^27.4.2"
-    babel-loader "^8.2.3"
-    babel-plugin-named-asset-import "^0.3.8"
-    babel-preset-react-app "^10.0.1"
-    bfj "^7.0.2"
-    browserslist "^4.18.1"
-    camelcase "^6.2.1"
-    case-sensitive-paths-webpack-plugin "^2.4.0"
-    css-loader "^6.5.1"
-    css-minimizer-webpack-plugin "^3.2.0"
-    dotenv "^10.0.0"
-    dotenv-expand "^5.1.0"
-    eslint "^8.3.0"
-    eslint-config-react-app "^7.0.1"
-    eslint-webpack-plugin "^3.1.1"
-    file-loader "^6.2.0"
-    fs-extra "^10.0.0"
-    html-webpack-plugin "^5.5.0"
-    identity-obj-proxy "^3.0.0"
-    jest "^27.4.3"
-    jest-resolve "^27.4.2"
-    jest-watch-typeahead "^1.0.0"
-    mini-css-extract-plugin "^2.4.5"
-    postcss "^8.4.4"
-    postcss-flexbugs-fixes "^5.0.2"
-    postcss-loader "^6.2.1"
-    postcss-normalize "^10.0.1"
-    postcss-preset-env "^7.0.1"
-    prompts "^2.4.2"
-    react-app-polyfill "^3.0.0"
-    react-dev-utils "^12.0.1"
-    react-refresh "^0.11.0"
-    resolve "^1.20.0"
-    resolve-url-loader "^4.0.0"
-    sass-loader "^12.3.0"
-    semver "^7.3.5"
-    source-map-loader "^3.0.0"
-    style-loader "^3.3.1"
-    tailwindcss "^3.0.2"
-    terser-webpack-plugin "^5.2.5"
-    webpack "^5.64.4"
-    webpack-dev-server "^4.6.0"
-    webpack-manifest-plugin "^4.0.2"
-    workbox-webpack-plugin "^6.4.1"
-  optionalDependencies:
-    fsevents "^2.3.2"
-
 react-shallow-renderer@^16.15.0:
   version "16.15.0"
   resolved "https://registry.yarnpkg.com/react-shallow-renderer/-/react-shallow-renderer-16.15.0.tgz#48fb2cf9b23d23cde96708fe5273a7d3446f4457"
@@ -20210,7 +20151,7 @@ react@16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-react@18.2.0, react@^18.1.0:
+react@18.2.0, react@^18.1.0, react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -21986,7 +21927,7 @@ styled-components@^4.4.1:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-styled-components@^5.3.9:
+styled-components@^5.3.6, styled-components@^5.3.9:
   version "5.3.9"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.9.tgz#641af2a8bb89904de708c71b439caa9633e8f0ba"
   integrity sha512-Aj3kb13B75DQBo2oRwRa/APdB5rSmwUfN5exyarpX+x/tlM/rwZA2vVk2vQgVSP6WKaZJHWwiFrzgHt+CLtB4A==

@@ -11,6 +11,7 @@ import { supabase } from '../../utils/supabase';
 import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
+import { KycDao } from '../../components/pages/landing/kycDao';
 import { log_event } from '../../utils/utilityFunctions';
 import {
   app_contract,
@@ -521,7 +522,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 Give us your feedback
               </a>
 
-              {/* <KycDao /> */}
+              <KycDao />
             </div>
             {/* <div ref={ref} id="bottom" /> */}
           </>
