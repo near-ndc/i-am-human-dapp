@@ -65,12 +65,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         const data = await wallet.viewMethod({
           contractId: app_contract,
           method: 'sbt_supply_by_owner',
-          args: { account: wallet.accountId, ctr: gooddollar_contract },
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
         const data2 = await wallet.viewMethod({
           contractId: app_contract,
           method: 'sbt_tokens_by_owner',
-          args: { account: wallet.accountId, ctr: gooddollar_contract },
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
         if (!data2?.[0]?.[1]?.[0]) {
           await supabase.update(

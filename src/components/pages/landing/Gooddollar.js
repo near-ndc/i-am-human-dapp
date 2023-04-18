@@ -18,6 +18,7 @@ import { supabase } from '../../../utils/supabase';
 
 import getConfig from '../../../config';
 import { log_event } from '../../../utils/utilityFunctions';
+import { gooddollar_contract } from '../../../utils/contract-addresses';
 const config = getConfig();
 
 export const Gooddollar = ({ setShowGooddollarVerification }) => {
@@ -92,7 +93,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
           );
         }
         await wallet.callMethod({
-          contractId: config.CONTRACT_ID,
+          contractId: gooddollar_contract,
           method: 'sbt_mint',
           args: {
             claim_b64: result.m,

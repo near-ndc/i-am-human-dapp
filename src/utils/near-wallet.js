@@ -52,7 +52,7 @@ export class Wallet {
     // Omitting the accountId will result in the user being
     // asked to sign all transactions.
     this.createAccessKeyFor = createAccessKeyFor;
-    this.network = 'testnet';
+    this.network = process.env.REACT_APP_ENV === 'dev' ? 'testnet' : 'mainnet';
   }
 
   // To be called when the website loads
