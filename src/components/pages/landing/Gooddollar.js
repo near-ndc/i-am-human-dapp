@@ -80,7 +80,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
           wallet_identifier: wallet.accountId,
         });
 
-        if (data[0]) {
+        if (data?.[0]) {
           const { error: appError } = await supabase.update(
             'users',
             updateData,
@@ -92,6 +92,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             updateData
           );
         }
+        console.log(result);
         await wallet.callMethod({
           contractId: gooddollar_contract,
           method: 'sbt_mint',
