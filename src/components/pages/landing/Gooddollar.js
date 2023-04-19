@@ -140,6 +140,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
       try {
         if (data.error) return alert('Login request denied !');
         parseLoginResponse(data).then((d) => {
+          console.log(d);
           setRawGoodDollarData(data);
           setGooddollarData(d);
           setEditableFields((d) => ({
@@ -150,9 +151,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
-          const isVerified =
-            d?.isAddressWhitelisted?.isVerified ||
-            d?.isAddressWhitelisted?.value;
+          const isVerified = d?.isAddressWhitelisted?.value;
           setValues({
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
