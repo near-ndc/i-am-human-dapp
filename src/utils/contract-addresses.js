@@ -1,6 +1,6 @@
 import { getEnv } from './config';
 
-const environment = process.env.REACT_APP_ENV ?? "prod";
+const environment = process.env.REACT_APP_ENV ?? 'prod';
 const {
   app_contract: appcontract,
   new_sbt_contract: newsbtcontract,
