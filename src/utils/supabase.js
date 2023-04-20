@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { getEnv } from './config';
 
-export const api_link =
-  process.env.REACT_APP_ENV === 'dev'
-    ? 'https://dev-ophc7vkxsq-uc.a.run.app'
-    : 'https://api-ophc7vkxsq-uc.a.run.app';
+const environment = process.env.REACT_APP_ENV;
+const { apiLink } = getEnv(environment);
+export const api_link = apiLink;
 export const supabase = {
   select: async (table, match) => {
     const { data } = await axios.post(`${api_link}/select`, { table, match });

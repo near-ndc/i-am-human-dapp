@@ -140,7 +140,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
       try {
         if (data.error) return alert('Login request denied !');
         parseLoginResponse(data).then((d) => {
-          console.log(d);
           setRawGoodDollarData(data);
           setGooddollarData(d);
           setEditableFields((d) => ({
