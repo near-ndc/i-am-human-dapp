@@ -11,6 +11,7 @@ export const VerifyPhoneAndEmail = ({
   setShowStep,
   userData,
   setTelegramData,
+  showEmailVerification = false,
 }) => {
   const [value, setValue] = React.useState('+1');
   const [email, setEmail] = React.useState(true);
@@ -20,7 +21,7 @@ export const VerifyPhoneAndEmail = ({
 
   const [otpSent, setOtpSent] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
-  const [showEmail, setShowEmail] = React.useState(false);
+  const [showEmail, setShowEmail] = React.useState(showEmailVerification);
 
   const is_not_email = !Boolean(userData?.email);
 
@@ -53,7 +54,7 @@ export const VerifyPhoneAndEmail = ({
       setLoading(true);
       const data = await axios.post(`${api_link}/verify_otp`, {
         phone: value,
-        otp,
+        otp: otp,
       });
       if (data.data?.error) {
         throw new Error(data.data?.error);
@@ -94,7 +95,7 @@ export const VerifyPhoneAndEmail = ({
     try {
       setLoading(true);
       await axios.post(`${api_link}/verify_email_otp`, {
-        phone: value,
+        email: email,
         otp,
       });
       toast.success('Otp verified');
@@ -115,8 +116,9 @@ export const VerifyPhoneAndEmail = ({
     return false;
   }
 
-  const VerifyButton = ({ onClick, buttonLoading, ...rest }) => (
+  const VerifyButton = ({ testId, onClick, buttonLoading, ...rest }) => (
     <button
+      data-testid={testId}
       onClick={onClick}
       type="button"
       className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-40 py-2 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -164,6 +166,7 @@ export const VerifyPhoneAndEmail = ({
             />
             <div className="ml-auto w-[fit-content] text-center space-x-2">
               <VerifyButton
+                testId={'verify-email-otp'}
                 onClick={verifyEmailOtp}
                 disabled={otp.length !== 6}
                 buttonLoading={loading}
@@ -197,6 +200,7 @@ export const VerifyPhoneAndEmail = ({
               )}
               <div className="ml-auto w-[fit-content] mt-2 text-center space-x-2">
                 <VerifyButton
+                  testId="send-email-otp"
                   disabled={!ValidateEmail(email)}
                   onClick={sendEmailOtp}
                   buttonLoading={loading}
@@ -226,6 +230,7 @@ export const VerifyPhoneAndEmail = ({
           />
           <div className="ml-auto w-[fit-content] text-center space-x-2">
             <VerifyButton
+              testId={'verify-phone-otp'}
               onClick={verifyOtp}
               disabled={otp.length !== 6}
               buttonLoading={loading}
@@ -247,6 +252,7 @@ export const VerifyPhoneAndEmail = ({
           )}
           <div className="ml-auto w-[fit-content] text-center space-x-2">
             <VerifyButton
+              testId={'send-phone-otp'}
               onClick={sendOtp}
               disabled={!Boolean(isPossiblePhoneNumber(value ?? ''))}
               buttonLoading={loading}
