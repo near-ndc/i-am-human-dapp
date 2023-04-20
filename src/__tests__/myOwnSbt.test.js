@@ -39,13 +39,13 @@ async function fetchSBTTokens() {
     expect(wallet.viewMethod).toHaveBeenNthCalledWith(1, {
       contractId: app_contract,
       method: 'sbt_supply_by_owner',
-      args: { account: accountID, ctr: new_sbt_contract },
+      args: { account: accountID, issuer: new_sbt_contract },
     });
     // Expect the second method call with good dollar contract
     expect(wallet.viewMethod).toHaveBeenNthCalledWith(2, {
       contractId: app_contract,
       method: 'sbt_supply_by_owner',
-      args: { account: accountID, ctr: gooddollar_contract },
+      args: { account: accountID, issuer: gooddollar_contract },
     });
   });
 }
@@ -56,6 +56,9 @@ class ResizeObserverMock {
   disconnect() {}
 }
 global.ResizeObserver = ResizeObserverMock;
+
+const fvSupply = 50;
+const ogSupply = 50;
 
 describe('Check Sbt Token Status', () => {
   beforeEach(async () => {
@@ -75,19 +78,19 @@ describe('Check Sbt Token Status', () => {
   });
 
   it('renders component with token supply greater than 0', async () => {
-    wallet.viewMethod.mockResolvedValueOnce(50);
-    wallet.viewMethod.mockResolvedValueOnce(50);
+    wallet.viewMethod.mockResolvedValueOnce(ogSupply);
+    wallet.viewMethod.mockResolvedValueOnce(fvSupply);
     render(<CheckSbtTokenStatus />);
     await fetchSBTTokens();
-    expect(screen.getByText(/100/i)).toBeInTheDocument();
+    expect(screen.getByText(fvSupply + ogSupply)).toBeInTheDocument();
     expect(
       screen.getByText('Transfer SBT between my own accounts')
     ).not.toBeDisabled();
   });
 
   it('transfer SBT to another account', async () => {
-    wallet.viewMethod.mockResolvedValueOnce(50);
-    wallet.viewMethod.mockResolvedValueOnce(50);
+    wallet.viewMethod.mockResolvedValueOnce(ogSupply);
+    wallet.viewMethod.mockResolvedValueOnce(fvSupply);
     render(<CheckSbtTokenStatus />);
     await fetchSBTTokens();
     fireEvent.click(
