@@ -18,6 +18,7 @@ import { supabase } from '../../../utils/supabase';
 
 import getConfig from '../../../config';
 import { log_event } from '../../../utils/utilityFunctions';
+import { gooddollar_contract } from '../../../utils/contract-addresses';
 const config = getConfig();
 
 export const Gooddollar = ({ setShowGooddollarVerification }) => {
@@ -79,7 +80,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
           wallet_identifier: wallet.accountId,
         });
 
-        if (data[0]) {
+        if (data?.[0]) {
           const { error: appError } = await supabase.update(
             'users',
             updateData,
@@ -91,8 +92,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             updateData
           );
         }
+        console.log(result);
         await wallet.callMethod({
-          contractId: config.CONTRACT_ID,
+          contractId: gooddollar_contract,
           method: 'sbt_mint',
           args: {
             claim_b64: result.m,
@@ -148,9 +150,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
-          const isVerified =
-            d?.isAddressWhitelisted?.isVerified ||
-            d?.isAddressWhitelisted?.value;
+          const isVerified = d?.isAddressWhitelisted?.value;
           setValues({
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
