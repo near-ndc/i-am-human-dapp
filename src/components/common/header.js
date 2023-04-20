@@ -39,7 +39,7 @@ export const Header = ({ setShowAdmin }) => {
                     setShowAdmin(false);
                   }}
                   alt="logo"
-                  className="h-[100px] w-[100px] mt-4"
+                  className="h-[150px] w-[150px] mt-6"
                 />
               </a>
             </div>
