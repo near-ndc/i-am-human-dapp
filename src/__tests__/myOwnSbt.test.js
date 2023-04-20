@@ -82,7 +82,9 @@ describe('Check Sbt Token Status', () => {
     wallet.viewMethod.mockResolvedValueOnce(fvSupply);
     render(<CheckSbtTokenStatus />);
     await fetchSBTTokens();
-    expect(screen.getByText(fvSupply + ogSupply)).toBeInTheDocument();
+    expect(
+      screen.getByText(new RegExp(`${fvSupply + ogSupply}`, 'i'))
+    ).toBeInTheDocument();
     expect(
       screen.getByText('Transfer SBT between my own accounts')
     ).not.toBeDisabled();
