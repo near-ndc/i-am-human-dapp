@@ -72,10 +72,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           method: 'sbt_tokens_by_owner',
           args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
+        //in order to change supabase data if there are no fv sbt tokens
         if (!data2?.[0]?.[1]?.[0]) {
           await supabase.update(
             'users',
-            { g$_address: null },
+            { g$_address: null, status: null },
             { wallet_identifier: wallet.accountId }
           );
         }
