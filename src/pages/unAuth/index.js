@@ -507,6 +507,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 </div>
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
                   <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                    <KycDao />
+                  </div>
+                </div>
+                <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
                     <IAmHumanStatus
                       isSbtToken={Boolean(tokenData)}
                       isFvToken={Boolean(fvTokenData)}
@@ -522,8 +527,6 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               >
                 Give us your feedback
               </a>
-
-              <KycDao />
             </div>
             {/* <div ref={ref} id="bottom" /> */}
           </>

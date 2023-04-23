@@ -7,13 +7,16 @@ export function KycDao() {
   return (
     <>
       <div>
-        <h1>React component integration</h1>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+          KYC DAO Application
+        </h2>
         <button
           onClick={() => {
             setWidgetOpen(true);
           }}
+          className="inline-flex mt-2 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
         >
-          Open Modal
+          Apply For KYC DAO SBT
         </button>
         {widgetOpen && (
           <div>
@@ -34,7 +37,7 @@ export function KycDao() {
                 config={{
                   baseUrl: 'https://staging.kycdao.xyz',
                   enabledVerificationTypes: ['KYC'],
-                  enabledBlockchainNetworks: ['PolygonMumbai'],
+                  enabledBlockchainNetworks: ['NearTestnet'],
                   evmProvider: window.ethereum,
                   sentryConfiguration: {
                     dsn: 'https://23dafecec027439b9413cd50eb22567d@o1184096.ingest.sentry.io/4504559638413313',
