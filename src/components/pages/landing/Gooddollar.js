@@ -150,7 +150,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
-          console.log(d?.isAddressWhitelisted);
           const isVerified =
             d?.isAddressWhitelisted?.value === true ||
             d?.isAddressWhitelisted?.isVerified === true;
