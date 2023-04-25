@@ -150,7 +150,10 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
-          const isVerified = d?.isAddressWhitelisted?.value;
+          console.log(d?.isAddressWhitelisted);
+          const isVerified =
+            d?.isAddressWhitelisted?.value === true ||
+            d?.isAddressWhitelisted?.isVerified === true;
           setValues({
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
