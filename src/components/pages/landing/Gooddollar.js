@@ -343,7 +343,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
                   className="text-blue-500 font-light underline"
                   href="https://t.me/+B1DHtSWeNME0Yzgx"
                 >
-                  Link For NDC Support Community Hub
+                  NDC Community Hub
                 </a>
               </div>
             ) : (
