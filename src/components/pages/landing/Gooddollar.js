@@ -335,7 +335,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
               <div className="bg-red-100 rounded-md p-3 mt-3">
                 <p>
                   There seems to be an issue. Please submit a Support request in
-                  the NDC Community Hub:
+                  the NDC community hub “support” topic
                 </p>
                 <a
                   target="_blank"
