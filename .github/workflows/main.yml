@@ -1,15 +1,12 @@
 name: Run package tests on push
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
-      - develop
   pull_request:
     branches:
       - master
       - develop
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   build:
