@@ -59,8 +59,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
           c: wallet.accountId,
           sig: rawGoodDollarData.sig,
         };
-        console.log(sendObj);
-        let error = null;
         let updateData = {
           wallet_identifier: wallet.accountId,
           g$_address: data.gDollarAccount,
@@ -85,7 +83,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
               updateData
             );
           }
-          console.log(result);
           if (result?.m) {
             await wallet.callMethod({
               contractId: gooddollar_contract,
