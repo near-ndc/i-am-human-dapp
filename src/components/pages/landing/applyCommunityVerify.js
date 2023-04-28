@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { api_link, supabase } from "../../../utils/supabase";
+import React, { useState } from 'react';
+import { api_link, supabase } from '../../../utils/supabase';
 
-import { VerifyPhoneAndEmail } from "../home/applyCommunityVerify/verifyPhoneAndEmail";
-import { Panel } from "../../common/panel";
-import { wallet } from "../../../index";
-import { toast } from "react-toastify";
-import { log_event } from "../../../utils/utilityFunctions";
-import axios from "axios";
+import { VerifyPhoneAndEmail } from '../home/applyCommunityVerify/verifyPhoneAndEmail';
+import { Panel } from '../../common/panel';
+import { wallet } from '../../../index';
+import { toast } from 'react-toastify';
+import { log_event } from '../../../utils/utilityFunctions';
+import axios from 'axios';
 
 export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {
-    0: "5%",
-    1: "10%",
-    2: "35%",
-    3: "60%",
-    4: "100%",
+    0: '5%',
+    1: '10%',
+    2: '35%',
+    3: '60%',
+    4: '100%',
   };
   const [showStep, setShowStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [telegramData, setTelegramData] = useState({
-    email: "",
-    phone: "",
+    email: '',
+    phone: '',
   });
 
   const [acceptedAgreement, setAcceptedAgreement] = useState(false);
@@ -29,7 +29,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     setLoading(true);
     const updateData = {
       telegram_number: telegramData.phone,
-      og_sbt_application: "Application Submitted",
+      og_sbt_application: 'Application Submitted',
       wallet_identifier: wallet.accountId,
     };
     if (!Boolean(userData?.email)) {
@@ -37,17 +37,17 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
     }
     try {
       let error = null;
-      const { data } = await supabase.select("users", {
+      const { data } = await supabase.select('users', {
         wallet_identifier: wallet.accountId,
       });
 
       if (data[0]) {
-        const { error: appError } = await supabase.update("users", updateData, {
+        const { error: appError } = await supabase.update('users', updateData, {
           wallet_identifier: wallet.accountId,
         });
         error = appError;
       } else {
-        const { error: appError } = await supabase.insert("users", updateData);
+        const { error: appError } = await supabase.insert('users', updateData);
         error = appError;
       }
       await axios.post(`${api_link}/encrypt-pii-number`, {
@@ -55,24 +55,24 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
         number: telegramData.phone,
       });
       if (error) {
-        throw new Error("");
+        throw new Error('');
       } else {
-        log_event({ event_log: "Applied for OG SBT" });
+        log_event({ event_log: 'Applied for OG SBT' });
         onClose?.();
-        toast.success("Applied for community SBT");
+        toast.success('Applied for community SBT');
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
     } catch {
-      toast.error("An error occured while applying for community SBT");
+      toast.error('An error occured while applying for community SBT');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Panel open={open} onClose={onClose} title={"Apply for an OG SBT here"}>
+    <Panel open={open} onClose={onClose} title={'Apply for an OG SBT here'}>
       <div>
         <div className="overflow-hidden rounded-full bg-gray-200">
           <div
@@ -81,16 +81,16 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
           />
         </div>
         <div className="mt-2 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-          <div className={showStep >= 0 && "text-indigo-600"}>
+          <div className={showStep >= 0 && 'text-indigo-600'}>
             Create a telegram account
           </div>
-          <div className={`${showStep > 1 && "text-indigo-600"} text-center`}>
+          <div className={`${showStep > 1 && 'text-indigo-600'} text-center`}>
             Authorize Phone Number
           </div>
-          <div className={`${showStep > 2 && "text-indigo-600"} text-center`}>
+          <div className={`${showStep > 2 && 'text-indigo-600'} text-center`}>
             Send a telegram message
           </div>
-          <div className={`${showStep > 3 && "text-indigo-600"} text-right`}>
+          <div className={`${showStep > 3 && 'text-indigo-600'} text-right`}>
             Apply for OG SBT
           </div>
         </div>
@@ -122,7 +122,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             </p>
             <button
               onClick={() => {
-                window.open("https://telegram.org/", "_blank");
+                window.open('https://telegram.org/', '_blank');
               }}
               className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 mb-3"
             >
@@ -156,7 +156,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
             <p className="text-3xl font-semibold mt-5 mb-2">Apply for OG SBT</p>
             <div className="bg-gray-100 p-3 rounded">
               <p className="mb-3">
-                Send your Near account as a Telegram DM to{" "}
+                Send your Near account as a Telegram DM to{' '}
                 <a
                   href="https://t.me/iamhumanapp"
                   target="_blank"
@@ -209,7 +209,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                   <label htmlFor="candidates" className="text-gray-700">
                     I consent to recive communication by telegram. I understand
                     that I may opt out at anytime using the unsubscribe link on
-                    the settings page{" "}
+                    the settings page{' '}
                   </label>
                 </div>
               </div>
@@ -220,8 +220,8 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                   disabled={!acceptedAgreement}
                   className={`inline-flex items-center rounded border border-transparent ${
                     acceptedAgreement
-                      ? "bg-indigo-600 hover:bg-indigo-700 "
-                      : "bg-gray-500"
+                      ? 'bg-indigo-600 hover:bg-indigo-700 '
+                      : 'bg-gray-500'
                   } w-28 py-2 text-xs font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                 >
                   {loading && (
@@ -246,7 +246,7 @@ export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
                     </div>
                   )}
                   <p className="mx-auto w-[fit-content]">
-                    {loading ? "Applying" : "Apply"}
+                    {loading ? 'Applying' : 'Apply'}
                   </p>
                 </button>
               </div>

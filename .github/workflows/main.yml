@@ -1,0 +1,59 @@
+name: Run package tests on push
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: technote-space/get-diff-action@v6.1.2
+        with:
+          PATTERNS: |
+            **/*.js
+            **/*.ts
+      - name: Setup Node
+        if: env.GIT_DIFF
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Check Yarn version
+        if: env.GIT_DIFF
+        run: yarn --version
+      - name: Install dependencies
+        if: env.GIT_DIFF
+        run: yarn install
+      - name: Build packages
+        if: env.GIT_DIFF
+        env:
+          CI: false
+        run: yarn build
+      - name: Run tests
+        if: env.GIT_DIFF
+        run: yarn test
+
+  lint:
+    name: Lint and Format code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Check Yarn version
+        run: yarn --version
+      - name: Install dependencies
+        run: yarn install
+      - name: lint
+        run: yarn lint
+      - name: format
+        run: yarn format

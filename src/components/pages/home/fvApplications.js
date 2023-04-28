@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../../../utils/supabase";
-import { GrFormAdd } from "react-icons/gr";
-import { AiOutlineSync } from "react-icons/ai";
-import { toast } from "react-toastify";
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '../../../utils/supabase';
+import { GrFormAdd } from 'react-icons/gr';
+import { AiOutlineSync } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 
 export function FVSBTApplicationsTable() {
   const [allApplications, setAllApplications] = useState([]);
@@ -11,13 +11,13 @@ export function FVSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.select("users");
+      const { data, error } = await supabase.select('users');
       if (error) {
-        throw new Error("");
+        throw new Error('');
       }
       setAllApplications(data ?? []);
     } catch {
-      toast.error("An error occured while fetching applications");
+      toast.error('An error occured while fetching applications');
     } finally {
       setLoading(false);
     }
@@ -27,7 +27,7 @@ export function FVSBTApplicationsTable() {
     fetchUserApplications();
   }, [fetchUserApplications]);
 
-  const applicationStatus = ["Application Submitted", "Approved", "Rejected"];
+  const applicationStatus = ['Application Submitted', 'Approved', 'Rejected'];
   const [selectedStatus, setSelectedStatus] = useState(applicationStatus);
   const filteredApplications = allApplications.filter((item) =>
     selectedStatus.includes(item.status)
@@ -45,7 +45,7 @@ export function FVSBTApplicationsTable() {
               onClick={fetchUserApplications}
               className="bg-indigo-100 rounded-full p-2 text-sm"
             >
-              <AiOutlineSync className={loading ? "animate-spin" : ""} />
+              <AiOutlineSync className={loading ? 'animate-spin' : ''} />
             </button>
           </div>
           <p className="mt-2 text-sm text-gray-700">
@@ -60,8 +60,8 @@ export function FVSBTApplicationsTable() {
               <span
                 className={`inline-flex items-center rounded-full py-0.5 pl-2 pr-0.5 text-xs ${
                   isIncluded
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "border-indigo-100 border"
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'border-indigo-100 border'
                 }`}
               >
                 {item}
@@ -137,7 +137,7 @@ export function FVSBTApplicationsTable() {
                 {filteredApplications.map((person, personIdx) => (
                   <tr
                     key={person.wallet_identifier}
-                    className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
+                    className={personIdx % 2 === 0 ? undefined : 'bg-gray-50'}
                   >
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}

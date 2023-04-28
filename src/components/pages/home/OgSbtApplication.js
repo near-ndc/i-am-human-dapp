@@ -1,18 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { api_link, supabase } from "../../../utils/supabase";
-import axios from "axios";
-import { GrFormAdd } from "react-icons/gr";
-import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineSync } from "react-icons/ai";
-import { toast } from "react-toastify";
-import { wallet } from "../../..";
-import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
-import { log_event } from "../../../utils/utilityFunctions";
-import { useSuperAdmin } from "../../../utils/super-admins";
-import { near_contract } from "../../../utils/contract-addresses";
+import { useState, useEffect, useCallback } from 'react';
+import { api_link, supabase } from '../../../utils/supabase';
+import axios from 'axios';
+import { GrFormAdd } from 'react-icons/gr';
+import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineSync } from 'react-icons/ai';
+import { toast } from 'react-toastify';
+import { wallet } from '../../..';
+import { ShowSbtDetails } from './ObSbtApplication/showSbtDetails';
+import { log_event } from '../../../utils/utilityFunctions';
+import { useSuperAdmin } from '../../../utils/super-admins';
+import {
+  app_contract,
+  new_sbt_contract,
+} from '../../../utils/contract-addresses';
 
 const HideShowNumber = ({ telegram_number, wallet }) => {
-  const [encypted_number, setEncryptedNumber] = useState("");
+  const [encypted_number, setEncryptedNumber] = useState('');
   const [loading, setLoading] = useState(false);
 
   const dencrypt_number = async () => {
@@ -100,16 +103,16 @@ const ActionButtons = ({
           </div>
         </>
       )}
-      {!loading && person.og_sbt_application === "Application Submitted" && (
+      {!loading && person.og_sbt_application === 'Application Submitted' && (
         <>
           <button
             onClick={async () => {
               try {
                 setLoading(true);
                 await supabase.update(
-                  "users",
+                  'users',
                   {
-                    og_sbt_application: "Approved",
+                    og_sbt_application: 'Approved',
                     og_sbt_approved_by: wallet.accountId,
                   },
                   {
@@ -117,23 +120,31 @@ const ActionButtons = ({
                   }
                 );
                 await wallet.callMethod({
-                  contractId: near_contract,
-                  method: "sbt_mint",
+                  contractId: new_sbt_contract,
+                  method: 'sbt_mint',
                   args: {
                     receiver: person.wallet_identifier,
-                    metadata: {
-                      ttl: "",
-                      memo: "",
-                    },
                   },
+                  deposit: '8000000000000000000000',
                 });
                 log_event({
                   event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
                   effected_wallet: person.wallet_identifier,
                 });
-                toast.success("Successfully minted tokers");
-              } catch {
-                toast.error("An error occurred while minting tokens");
+                toast.success('Successfully minted tokers');
+              } catch (e) {
+                await supabase.update(
+                  'users',
+                  {
+                    og_sbt_application: 'Application Submitted',
+                    og_sbt_approved_by: wallet.accountId,
+                  },
+                  {
+                    wallet_identifier: person.wallet_identifier,
+                  }
+                );
+                console.log(e);
+                toast.error('An error occurred while minting tokens');
               } finally {
                 setLoading(false);
                 fetchUserApplications();
@@ -148,9 +159,9 @@ const ActionButtons = ({
               try {
                 setLoading(true);
                 await supabase.update(
-                  "users",
+                  'users',
                   {
-                    og_sbt_application: "Rejected",
+                    og_sbt_application: 'Rejected',
                   },
                   {
                     wallet_identifier: person.wallet_identifier,
@@ -171,7 +182,7 @@ const ActionButtons = ({
           </button>
         </>
       )}
-      {!loading && person.og_sbt_application === "Approved" && (
+      {!loading && person.og_sbt_application === 'Approved' && (
         <button
           onClick={async () => {
             setSelectedUser(person);
@@ -182,15 +193,15 @@ const ActionButtons = ({
           Show SBT Details
         </button>
       )}
-      {!loading && person.og_sbt_application === "Rejected" && (
+      {!loading && person.og_sbt_application === 'Rejected' && (
         <button
           onClick={async () => {
             try {
               setLoading(true);
               await supabase.update(
-                "users",
+                'users',
                 {
-                  og_sbt_application: "Approved",
+                  og_sbt_application: 'Approved',
                   og_sbt_approved_by: wallet.accountId,
                 },
                 {
@@ -198,13 +209,16 @@ const ActionButtons = ({
                 }
               );
               await wallet.callMethod({
-                contractId: near_contract,
-                method: "sbt_mint",
+                contractId: app_contract,
+                method: 'sbt_mint',
                 args: {
-                  receiver: person.wallet_identifier,
-                  metadata: {
-                    ttl: "",
-                    memo: "",
+                  ctr: 'sbt1.i-am-human.testnet',
+                  vector: {
+                    receiver: person.wallet_identifier,
+                    metadata: {
+                      ttl: '',
+                      memo: '',
+                    },
                   },
                 },
               });
@@ -235,16 +249,16 @@ export function OgSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-      const { error, data } = await supabase.select("users");
+      const { error, data } = await supabase.select('users');
       if (error) {
-        throw new Error("");
+        throw new Error('');
       }
       setAllApplications(
         data?.filter((item) => item.og_sbt_application !== null) ?? []
       );
     } catch (e) {
       console.log(e);
-      toast.error("An error occured while fetching applications");
+      toast.error('An error occured while fetching applications');
     } finally {
       setLoading(false);
     }
@@ -254,7 +268,7 @@ export function OgSBTApplicationsTable() {
     fetchUserApplications();
   }, [fetchUserApplications]);
 
-  const applicationStatus = ["Application Submitted", "Approved", "Rejected"];
+  const applicationStatus = ['Application Submitted', 'Approved', 'Rejected'];
   const [selectedStatus, setSelectedStatus] = useState(applicationStatus);
   const filteredApplications = [...allApplications]?.filter((item) =>
     selectedStatus?.includes(item?.og_sbt_application)
@@ -274,7 +288,7 @@ export function OgSBTApplicationsTable() {
               onClick={fetchUserApplications}
               className="bg-indigo-100 rounded-full p-2 text-sm"
             >
-              <AiOutlineSync className={loading ? "animate-spin" : ""} />
+              <AiOutlineSync className={loading ? 'animate-spin' : ''} />
             </button>
           </div>
           <p className="mt-2 text-sm text-gray-700">
@@ -289,8 +303,8 @@ export function OgSBTApplicationsTable() {
               <span
                 className={`inline-flex items-center rounded-full py-0.5 pl-2 pr-0.5 text-xs ${
                   isIncluded
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "border-indigo-100 border"
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'border-indigo-100 border'
                 }`}
               >
                 {item}
@@ -380,7 +394,7 @@ export function OgSBTApplicationsTable() {
                 {filteredApplications.map((person, personIdx) => (
                   <tr
                     key={person.wallet_identifier}
-                    className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
+                    className={personIdx % 2 === 0 ? undefined : 'bg-gray-50'}
                   >
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}

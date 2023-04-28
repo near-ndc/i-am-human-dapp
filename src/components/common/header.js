@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
+import React, { useEffect } from 'react';
+import { Dialog } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
-import { wallet } from "../../index";
-import Logo from "../../images/ndc.png";
-import { useAdmin } from "../../utils/useAdmin";
+import { wallet } from '../../index';
+import Logo from '../../images/ndc.png';
+import { useAdmin } from '../../utils/useAdmin';
 
 export const Header = ({ setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -40,7 +39,7 @@ export const Header = ({ setShowAdmin }) => {
                     setShowAdmin(false);
                   }}
                   alt="logo"
-                  className="h-[100px] w-[100px] mt-4"
+                  className="h-[150px] w-[150px] mt-6"
                 />
               </a>
             </div>
@@ -113,7 +112,7 @@ export const Header = ({ setShowAdmin }) => {
                 }
                 className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
               >
-                {isSignedIn ? "Sign Out" : "Connect Wallet"}
+                {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
               </button>
             </div>
           </nav>
@@ -186,7 +185,7 @@ export const Header = ({ setShowAdmin }) => {
                       }
                       className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
                     >
-                      {isSignedIn ? "Sign Out" : "Connect Wallet"}
+                      {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
                     </button>
                   </div>
                 </div>

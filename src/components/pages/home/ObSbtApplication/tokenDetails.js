@@ -1,9 +1,12 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { toast } from "react-toastify";
-import dayjs from "dayjs";
+import React, { useEffect, useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
-import { wallet } from "../../../../index";
-import { near_contract } from "../../../../utils/contract-addresses";
+import { wallet } from '../../../../index';
+import {
+  app_contract,
+  new_sbt_contract,
+} from '../../../../utils/contract-addresses';
 
 export const SbtTokenStatus = ({ wallet_address }) => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -14,21 +17,25 @@ export const SbtTokenStatus = ({ wallet_address }) => {
     try {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_supply_for_owner",
-        args: { account: wallet_address },
+        contractId: app_contract,
+        method: 'sbt_supply_by_owner',
+        args: { ctr: new_sbt_contract, account: wallet_address },
       });
       console.log(data);
       const data2 = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_tokens_for_owner",
-        args: { account: wallet_address },
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: { ctr: new_sbt_contract, account: wallet_address },
       });
-      console.log(data2)
-      setTokenData(data2?.[0] ?? null);
+      const data3 = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt',
+        args: { ctr: new_sbt_contract, token: data2[0][1][0] },
+      });
+      setTokenData(data3 ?? null);
       setTokenSupply(parseInt(data));
     } catch {
-      toast.error("An error occured while fetching token supply");
+      toast.error('An error occured while fetching token supply');
       setFetchLoading(false);
     } finally {
       setFetchLoading(false);
@@ -53,35 +60,35 @@ export const SbtTokenStatus = ({ wallet_address }) => {
                   <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
                     <p
                       className={`${
-                        isExpired ? "text-red-500" : "text-green-600"
+                        isExpired ? 'text-red-500' : 'text-green-600'
                       } font-semibold mb-2`}
                     >
-                      {isExpired ? "Expired Tokens" : "Valid Token"}
+                      {isExpired ? 'Expired Tokens' : 'Valid Token'}
                     </p>
-                    <p>Token Id : {tokenData.token_id}</p>
+                    <p>Token Id : {tokenData.token}</p>
                     <p>
-                      Issued At :{" "}
+                      Issued At :{' '}
                       {tokenData.metadata.issued_at
                         ? dayjs(tokenData.metadata.issued_at).format(
-                            "DD MMMM YYYY"
+                            'DD MMMM YYYY'
                           )
-                        : "null"}
+                        : 'null'}
                     </p>
                     <p>
-                      Expires at :{" "}
+                      Expires at :{' '}
                       {dayjs(tokenData.metadata.expires_at).format(
-                        "DD MMMM YYYY"
+                        'DD MMMM YYYY'
                       )}
                     </p>
                     <p>
                       {Date.now() > tokenData.metadata.expires_at
-                        ? "Days Since Expiration"
-                        : "Days until expiration"}{" "}
-                      :{" "}
+                        ? 'Days Since Expiration'
+                        : 'Days until expiration'}{' '}
+                      :{' '}
                       {Math.abs(
                         dayjs(tokenData.metadata.expires_at).diff(
                           Date.now(),
-                          "days"
+                          'days'
                         )
                       )}
                     </p>

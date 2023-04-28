@@ -1,20 +1,25 @@
 /* This example requires Tailwind CSS v3.0+ */
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Header } from "../../components/common/header";
-import { wallet } from "../../index";
-import dayjs from "dayjs";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Header } from '../../components/common/header';
+import { wallet } from '../../index';
+import dayjs from 'dayjs';
 
-import { useAdmin } from "../../utils/useAdmin";
-import HumanOnNDC from "../../images/backLines.png";
-import { IsSignedInLanding } from "./IsSignedInLanding";
-import { supabase } from "../../utils/supabase";
-import { toast } from "react-toastify";
-import { ApplyCommunityVerify } from "../../components/pages/landing/applyCommunityVerify";
-import { log_event } from "../../utils/utilityFunctions";
-import { gooddollar_contract, near_contract } from "../../utils/contract-addresses";
+import { useAdmin } from '../../utils/useAdmin';
+import HumanOnNDC from '../../images/backLines.png';
+import { IsSignedInLanding } from './IsSignedInLanding';
+import { supabase } from '../../utils/supabase';
+import { toast } from 'react-toastify';
+import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
+import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
+import { log_event } from '../../utils/utilityFunctions';
+import {
+  app_contract,
+  gooddollar_contract,
+  new_sbt_contract,
+} from '../../utils/contract-addresses';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
-  const [isAdmin] = useAdmin({ address: wallet?.accountId ?? "" });
+  const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
   const ref = useRef();
@@ -25,12 +30,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   useEffect(() => {
     if (isSignedIn) {
       const fetchUserStatus = async () => {
-        const { data } = await supabase.select("users", {
+        const { data } = await supabase.select('users', {
           wallet_identifier: wallet.accountId,
         });
         if (data?.[0]) {
           setUserData(data[0]);
-          if (data?.[0]?.["g$_address"]) {
+          if (data?.[0]?.['g$_address']) {
             setHasApplied(true);
           } else {
             setHasApplied(false);
@@ -58,24 +63,33 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
       try {
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
-          contractId: gooddollar_contract,
-          method: "nft_supply_for_owner",
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_supply_by_owner',
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
         const data2 = await wallet.viewMethod({
-          contractId: gooddollar_contract,
-          method: "nft_tokens_for_owner",
-          args: { account: wallet.accountId },
+          contractId: app_contract,
+          method: 'sbt_tokens_by_owner',
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
-        setFvTokenData(data2?.[0] ?? null);
-        if (!data2?.[0] && localStorage.getItem("openFv")) {
+        //in order to change supabase data if there are no fv sbt tokens
+        if (!data2?.[0]?.[1]?.[0]) {
+          await supabase.update(
+            'users',
+            { g$_address: null, status: null },
+            { wallet_identifier: wallet.accountId }
+          );
+        }
+        setFvTokenData(data2?.[0]?.[1]?.[0]);
+
+        if (!data2?.[0] && localStorage.getItem('openFv')) {
           setShowGooddollarVerification(true);
-          localStorage.removeItem("openFv");
+          localStorage.removeItem('openFv');
         }
         setFvTokenSupply(parseInt(data));
-      } catch (e){
-        console.log(e)
-        toast.error("An error occured while fetching token supply");
+      } catch (e) {
+        console.log(e);
+        toast.error('An error occured while fetching token supply');
         setFvFetchLoading(false);
       } finally {
         setFvFetchLoading(false);
@@ -83,34 +97,35 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
     }
   }, [isSignedIn]);
 
+  //commenting this code because there is no SBT functionality inside this release
   const checkSBTTokens = useCallback(async () => {
-    if (isSignedIn) {
-      try {
-        setFetchLoading(true);
-        const data = await wallet.viewMethod({
-          contractId: near_contract,
-          method: "nft_supply_for_owner",
-          args: { account: wallet.accountId },
-        });
-        const data2 = await wallet.viewMethod({
-          contractId: near_contract,
-          method: "nft_tokens_for_owner",
-          args: { account: wallet.accountId },
-        });
-        if (!data2?.[0] && localStorage.getItem("openOG")) {
-          setShowCommunityVerification(true);
-          localStorage.removeItem("openOG");
-        }
-        setTokenData(data2?.[0] ?? null);
-        setTokenSupply(parseInt(data));
-      } catch (e){
-        console.log(e)
-        toast.error("An error occured while fetching token supply");
-        setFetchLoading(false);
-      } finally {
-        setFetchLoading(false);
-      }
-    }
+    // if (isSignedIn) {
+    //   try {
+    //     setFetchLoading(true);
+    //     const data = await wallet.viewMethod({
+    //       contractId: app_contract,
+    //       method: 'sbt_supply_by_owner',
+    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+    //     });
+    //     const data2 = await wallet.viewMethod({
+    //       contractId: app_contract,
+    //       method: 'sbt_tokens_by_owner',
+    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+    //     });
+    //     setTokenData(data2?.[0]?.[1]?.[0]);
+    //     if (!data2?.[0] && localStorage.getItem('openOG')) {
+    //       setShowCommunityVerification(true);
+    //       localStorage.removeItem('openOG');
+    //     }
+    //     setTokenSupply(parseInt(data));
+    //   } catch (e) {
+    //     console.log(e);
+    //     toast.error('An error occured while fetching token supply');
+    //     setFetchLoading(false);
+    //   } finally {
+    //     setFetchLoading(false);
+    //   }
+    // }
   }, [isSignedIn]);
 
   useEffect(() => {
@@ -120,12 +135,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const isExpired = Date.now() > tokenData?.metadata?.expires_at;
   const isFvExpired = Date.now() > fvTokenData?.metadata?.expires_at;
 
+  const fvRef = useRef();
+
   return (
     <div className="isolate bg-white">
       <Header setShowAdmin={setShowAdmin} isAdmin={isAdmin} />
       <main>
-        <div className={""}>
-          <div className={"pb-20 mt-5"}>
+        <div className={''}>
+          <div className={'pb-20 mt-5'}>
             <div>
               <div className="md:flex items-center">
                 <img
@@ -135,7 +152,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 />
 
                 <>
-                  <div className="h-[fit-content] mt-[30px] md:mt-0">
+                  <div className="h-[fit-content] mt-[50px] md:mt-0">
                     <div className="px-10">
                       <p className="text-3xl font-semibold">
                         GET YOUR PROOF OF PERSONHOOD WITH I-AM-HUMAN
@@ -146,17 +163,29 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <button
-                        onClick={() => {
-                          window.open(
-                            "https://i-am-human.gitbook.io/i-am-human-docs/",
-                            "_blank"
-                          );
-                        }}
-                        className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Learn More
-                      </button>
+                      <div className="space-x-2">
+                        <button
+                          onClick={() => {
+                            fvRef?.current?.scrollIntoView({
+                              behavior: 'smooth',
+                            });
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                        >
+                          Verify My Personhood
+                        </button>
+                        <button
+                          onClick={() => {
+                            window.open(
+                              'https://i-am-human.gitbook.io/i-am-human-docs/',
+                              '_blank'
+                            );
+                          }}
+                          className="inline-flex mt-2 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
+                        >
+                          Learn More
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </>
@@ -164,16 +193,16 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             </div>
             <button
               onClick={() => {
-                ref?.current?.scrollIntoView({ behavior: "smooth" });
+                fvRef?.current?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center"
             >
               <svg
                 className="w-6 h-6 text-violet-500"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -199,13 +228,139 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
               <div aria-hidden="true" />
               <div className="mb-12">
                 <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
+                    <div>
+                      <div className="mt-6" ref={fvRef} />
+                      <div>
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                          Unique Face Verification
+                        </h2>
+                        {!fvTokenData ? (
+                          <>
+                            {' '}
+                            <p className="mt-4 text-lg text-gray-500">
+                              We have partenered with Gooddollar for Face
+                              Verification.
+                            </p>
+                            <p className="mt-4 text-lg text-gray-500">
+                              Why? They ensure that each user only creates one
+                              account, without having to rely on traditional KYC
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="mt-4 text-lg text-gray-500">
+                              We have partnered with GoodDollar for Face
+                              Verification. This is your FV token based on your
+                              GoodDollar account.
+                            </p>
+                          </>
+                        )}
+
+                        <div className="mt-3">
+                          <a
+                            className="text-blue-500 underline"
+                            target="_blank"
+                            rel="noreferrer"
+                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/face-verification"
+                          >
+                            Learn More
+                          </a>
+                        </div>
+                        <div className="mt-6">
+                          {!fvTokenData && (
+                            <button
+                              onClick={() => {
+                                window.history.replaceState(
+                                  {},
+                                  '',
+                                  window.location.origin
+                                );
+                                if (isSignedIn) {
+                                  log_event({
+                                    event_log:
+                                      'Started FV SBT verification flow',
+                                  });
+                                  setShowGooddollarVerification(true);
+                                } else {
+                                  wallet.signIn();
+                                  localStorage.setItem('openFv', 'true');
+                                }
+                              }}
+                              className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            >
+                              Get It Now
+                            </button>
+                          )}
+                          {fvFetchloading ? (
+                            <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
+                          ) : (
+                            <>
+                              {fvTokenData && (
+                                <>
+                                  <p className="mb-2">
+                                    <span className="font-medium">
+                                      FV SBT Tokens you own
+                                    </span>
+                                    : {fvTokenSupply}
+                                  </p>
+                                  <div className="mb-2">
+                                    <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
+                                      <p
+                                        className={`${
+                                          isFvExpired
+                                            ? 'text-red-500'
+                                            : 'text-green-600'
+                                        } font-semibold mb-2`}
+                                      >
+                                        {isFvExpired
+                                          ? 'Expired Tokens'
+                                          : 'Valid Token'}
+                                      </p>
+                                      <p>Token Id : {fvTokenData.token}</p>
+                                      <p>
+                                        Issued At :{' '}
+                                        {fvTokenData.metadata.issued_at
+                                          ? dayjs(
+                                              fvTokenData.metadata.issued_at
+                                            ).format('DD MMMM YYYY')
+                                          : 'null'}
+                                      </p>
+                                      <p>
+                                        Expires at :{' '}
+                                        {dayjs(
+                                          fvTokenData.metadata.expires_at
+                                        ).format('DD MMMM YYYY')}
+                                      </p>
+                                      <p>
+                                        {Date.now() >
+                                        fvTokenData.metadata.expires_at
+                                          ? 'Days Since Expiration'
+                                          : 'Days until expiration'}{' '}
+                                        :{' '}
+                                        {Math.abs(
+                                          dayjs(
+                                            fvTokenData.metadata.expires_at
+                                          ).diff(Date.now(), 'days')
+                                        )}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
                     <div>
                       {/* Show OG SBT */}
 
                       <div className="mt-6">
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                          {tokenData ? "OG SBT" : " OG SBT Application"}
+                          {tokenData ? 'OG SBT' : ' OG SBT Application'}
                         </h2>
                         {fetchloading ? (
                           <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
@@ -224,39 +379,39 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                     <p
                                       className={`${
                                         isExpired
-                                          ? "text-red-500"
-                                          : "text-green-600"
+                                          ? 'text-red-500'
+                                          : 'text-green-600'
                                       } font-semibold mb-2`}
                                     >
                                       {isExpired
-                                        ? "Expired Tokens"
-                                        : "Valid Token"}
+                                        ? 'Expired Tokens'
+                                        : 'Valid Token'}
                                     </p>
-                                    <p>Token Id : {tokenData.token_id}</p>
+                                    <p>Token Id : {tokenData.token}</p>
                                     <p>
-                                      Issued At :{" "}
+                                      Issued At :{' '}
                                       {tokenData.metadata.issued_at
                                         ? dayjs(
                                             tokenData.metadata.issued_at
-                                          ).format("DD MMMM YYYY")
-                                        : "null"}
+                                          ).format('DD MMMM YYYY')
+                                        : 'null'}
                                     </p>
                                     <p>
-                                      Expires at :{" "}
+                                      Expires at :{' '}
                                       {dayjs(
                                         tokenData.metadata.expires_at
-                                      ).format("DD MMMM YYYY")}
+                                      ).format('DD MMMM YYYY')}
                                     </p>
                                     <p>
                                       {Date.now() >
                                       tokenData.metadata.expires_at
-                                        ? "Days Since Expiration"
-                                        : "Days until expiration"}{" "}
-                                      :{" "}
+                                        ? 'Days Since Expiration'
+                                        : 'Days until expiration'}{' '}
+                                      :{' '}
                                       {Math.abs(
                                         dayjs(
                                           tokenData.metadata.expires_at
-                                        ).diff(Date.now(), "days")
+                                        ).diff(Date.now(), 'days')
                                       )}
                                     </p>
                                   </div>
@@ -296,11 +451,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           </a>
                         </div>
                         <div className="mt-6">
-                          {!tokenData &&
+                          <button className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm">
+                            Coming Soon (Stay Tuned)
+                          </button>
+                          {/* {!tokenData &&
                             (Boolean(userData?.og_sbt_application) ? (
                               <>
                                 {userData?.og_sbt_application ===
-                                  "Application Submitted" && (
+                                  'Application Submitted' && (
                                   <div>
                                     <p>
                                       You've applied. Once we receive your
@@ -309,7 +467,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                       up here.
                                     </p>
                                     <p className="mb-3">
-                                      Send your Near account as a Telegram DM to{" "}
+                                      Send your Near account as a Telegram DM to{' '}
                                       <a
                                         href="https://t.me/iamhumanapp"
                                         target="_blank"
@@ -328,172 +486,49 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   if (isSignedIn) {
                                     log_event({
                                       event_log:
+<<<<<<< HEAD
+                                        'Started OG SBT verification flow',
+=======
                                         "Started OG SBT verification flow",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                                     });
                                     setShowCommunityVerification(true);
                                   } else {
                                     wallet.signIn();
-                                    localStorage.setItem("openOG", "true");
+                                    localStorage.setItem('openOG', 'true');
                                   }
                                 }}
                                 className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                               >
                                 Get It Now
                               </button>
-                            ))}
+                            ))} */}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="relative">
-                <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:px-8">
-                  <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:pb-16 lg:px-0">
-                    <div>
-                      <div className="mt-6">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                          Unique Face Verification
-                        </h2>
-                        {!fvTokenData && (
-                          <>
-                            {" "}
-                            <p className="mt-4 text-lg text-gray-500">
-                              We have partenered with Gooddollar for Face
-                              Verification.
-                            </p>
-                            <p className="mt-4 text-lg text-gray-500">
-                              Why? They ensure that each user only creates one
-                              account, without having to rely on traditional KYC
-                            </p>
-                          </>
-                        )}
-                        <div className="mt-3">
-                          <a
-                            className="text-blue-500 underline"
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/face-verification"
-                          >
-                            Learn More
-                          </a>
-                        </div>
-                        <div className="mt-6">
-                          {!fvTokenData && (
-                            <button
-                              onClick={() => {
-                                window.history.replaceState(
-                                  {},
-                                  "",
-                                  window.location.origin
-                                );
-                                if (isSignedIn) {
-                                  log_event({
-                                    event_log:
-                                      "Started FV SBT verification flow",
-                                  });
-                                  setShowGooddollarVerification(true);
-                                } else {
-                                  wallet.signIn();
-                                  localStorage.setItem("openFv", "true");
-                                }
-                              }}
-                              className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                            >
-                              Get It Now
-                            </button>
-                          )}
-                          {fvFetchloading ? (
-                            <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
-                          ) : (
-                            <>
-                              {fvTokenData && (
-                                <>
-                                  <p className="mb-2">
-                                    <span className="font-medium">
-                                      FV SBT Tokens you own
-                                    </span>
-                                    : {fvTokenSupply}
-                                  </p>
-                                  <div className="mb-2">
-                                    <div className="inline-block rounded px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 items-center space-y-1">
-                                      <p
-                                        className={`${
-                                          isFvExpired
-                                            ? "text-red-500"
-                                            : "text-green-600"
-                                        } font-semibold mb-2`}
-                                      >
-                                        {isFvExpired
-                                          ? "Expired Tokens"
-                                          : "Valid Token"}
-                                      </p>
-                                      <p>Token Id : {fvTokenData.token_id}</p>
-                                      <p>
-                                        Issued At :{" "}
-                                        {fvTokenData.metadata.issued_at
-                                          ? dayjs(
-                                              fvTokenData.metadata.issued_at
-                                            ).format("DD MMMM YYYY")
-                                          : "null"}
-                                      </p>
-                                      <p>
-                                        Expires at :{" "}
-                                        {dayjs(
-                                          fvTokenData.metadata.expires_at
-                                        ).format("DD MMMM YYYY")}
-                                      </p>
-                                      <p>
-                                        {Date.now() >
-                                        fvTokenData.metadata.expires_at
-                                          ? "Days Since Expiration"
-                                          : "Days until expiration"}{" "}
-                                        :{" "}
-                                        {Math.abs(
-                                          dayjs(
-                                            fvTokenData.metadata.expires_at
-                                          ).diff(Date.now(), "days")
-                                        )}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-8 border-t border-gray-200 pt-6">
-                      <blockquote>
-                        <div>
-                          <p className="text-base text-gray-500">
-                            &ldquo;The NDC App is really a breakthrough in how
-                            we uniqelly identify humans on the web.&rdquo;
-                          </p>
-                        </div>
-                        <footer className="mt-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="h-6 w-6 rounded-full"
-                                src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                alt=""
-                              />
-                            </div>
-                            <div className="text-base font-medium text-gray-700">
-                              Marcia Hill, Web3 Specialist
-                            </div>
-                          </div>
-                        </footer>
-                      </blockquote>
-                    </div>
+                <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
+                  <div className="mx-auto max-w-xl px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:pb-8 lg:px-0">
+                    <IAmHumanStatus
+                      isSbtToken={Boolean(tokenData)}
+                      isFvToken={Boolean(fvTokenData)}
+                    />
                   </div>
                 </div>
               </div>
+              <a
+                href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-black bg-yellow-300 focus:outline-none hover:bg-yellow-400 focus:ring-4 focus:outline-none rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 fixed bottom-1 right-1"
+              >
+                Give us your feedback
+              </a>
+
               {/* <KycDao /> */}
             </div>
-            <div ref={ref} id="bottom" />
+            {/* <div ref={ref} id="bottom" /> */}
           </>
         </div>
       </main>

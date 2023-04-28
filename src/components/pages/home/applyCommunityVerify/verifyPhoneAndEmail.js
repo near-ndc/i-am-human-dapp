@@ -1,22 +1,22 @@
-import React from "react";
-import axios from "axios";
-import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
-import { toast } from "react-toastify";
-import OtpInput from "react-otp-input";
-import { checkUniquePhone } from "../../../../utils/uniqueUser";
-import { log_event } from "../../../../utils/utilityFunctions";
-import { api_link } from "../../../../utils/supabase";
+import React from 'react';
+import axios from 'axios';
+import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { toast } from 'react-toastify';
+import OtpInput from 'react-otp-input';
+import { checkUniquePhone } from '../../../../utils/uniqueUser';
+import { log_event } from '../../../../utils/utilityFunctions';
+import { api_link } from '../../../../utils/supabase';
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
   userData,
   setTelegramData,
 }) => {
-  const [value, setValue] = React.useState("+1");
+  const [value, setValue] = React.useState('+1');
   const [email, setEmail] = React.useState(true);
 
   const [loading, setLoading] = React.useState(false);
-  const [otp, setOtp] = React.useState("");
+  const [otp, setOtp] = React.useState('');
 
   const [otpSent, setOtpSent] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
@@ -26,7 +26,6 @@ export const VerifyPhoneAndEmail = ({
 
   const sendOtp = async () => {
     try {
-
       const is_unique = await checkUniquePhone({ no: value });
       if (!is_unique) {
         setLoading(true);
@@ -38,12 +37,12 @@ export const VerifyPhoneAndEmail = ({
 
         setTelegramData({ phone: value });
 
-        toast.success("Otp sent successfully");
+        toast.success('Otp sent successfully');
       } else {
-        toast.error("This telegram phone number has already been registered");
+        toast.error('This telegram phone number has already been registered');
       }
     } catch {
-      toast.error("Otp sent failed");
+      toast.error('Otp sent failed');
     } finally {
       setLoading(false);
     }
@@ -52,27 +51,24 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      const data = await axios.post(
-        `${api_link}/verify_otp`,
-        {
-          phone: value,
-          otp,
-        }
-      );
+      const data = await axios.post(`${api_link}/verify_otp`, {
+        phone: value,
+        otp,
+      });
       if (data.data?.error) {
         throw new Error(data.data?.error);
       }
       log_event({ event_log: `OTP verified for phone : ${value}` });
-      toast.success("Otp verified");
+      toast.success('Otp verified');
       if (is_not_email) {
         setShowStep(3);
       } else {
         setShowStep(3);
       }
     } catch (e) {
-      toast.error(e.message ? e.message : "Otp verification failed");
+      toast.error(e.message ? e.message : 'Otp verification failed');
     } finally {
-      setOtp("");
+      setOtp('');
       setLoading(false);
     }
   };
@@ -85,9 +81,9 @@ export const VerifyPhoneAndEmail = ({
       });
       setEmailSent(true);
       setTelegramData({ phone: value, email });
-      toast.success("Otp sent successfully");
+      toast.success('Otp sent successfully');
     } catch {
-      toast.error("Otp sent failed");
+      toast.error('Otp sent failed');
     } finally {
       setLoading(false);
     }
@@ -101,9 +97,9 @@ export const VerifyPhoneAndEmail = ({
         phone: value,
         otp,
       });
-      toast.success("Otp verified");
+      toast.success('Otp verified');
     } catch {
-      toast.error("Otp verification failed");
+      toast.error('Otp verification failed');
     } finally {
       if (is_not_email) {
         setShowStep(3);
@@ -115,9 +111,7 @@ export const VerifyPhoneAndEmail = ({
   };
 
   function ValidateEmail(mail) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-      return true;
-    }
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) return true;
     return false;
   }
 
@@ -246,7 +240,7 @@ export const VerifyPhoneAndEmail = ({
             onChange={(e) => setValue(e)}
             placeholder="Enter Your phone number"
           />
-          {!Boolean(isPossiblePhoneNumber(value ?? "")) && (
+          {!Boolean(isPossiblePhoneNumber(value ?? '')) && (
             <p className="text-xs text-red-500">
               Please provide a valid phone number
             </p>
@@ -254,7 +248,7 @@ export const VerifyPhoneAndEmail = ({
           <div className="ml-auto w-[fit-content] text-center space-x-2">
             <VerifyButton
               onClick={sendOtp}
-              disabled={!Boolean(isPossiblePhoneNumber(value ?? ""))}
+              disabled={!Boolean(isPossiblePhoneNumber(value ?? ''))}
               buttonLoading={loading}
             />
           </div>

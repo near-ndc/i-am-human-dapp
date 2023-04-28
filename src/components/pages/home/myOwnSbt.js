@@ -1,36 +1,37 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { toast } from "react-toastify";
-import dayjs from "dayjs";
+import React, { useEffect, useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { wallet } from "../../../index";
-import { TransferSBT } from "./MyOwnSbtFiles/transferSbt";
-import { near_contract } from "../../../utils/contract-addresses";
+import { wallet } from '../../../index';
+import { TransferSBT } from './MyOwnSbtFiles/transferSbt';
+import {
+  app_contract,
+  gooddollar_contract,
+  new_sbt_contract,
+} from '../../../utils/contract-addresses';
 
 export const CheckSbtTokenStatus = () => {
   const [fetchloading, setFetchLoading] = useState(true);
   const [tokenSupply, setTokenSupply] = useState(null);
-  const [tokenData, setTokenData] = useState(null);
   const isButtonDisabled = tokenSupply === 0;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const checkSBTTokens = useCallback(async () => {
     try {
       setFetchLoading(true);
-      const data = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_supply_for_owner",
-        args: { account: wallet.accountId },
+      const og_supply = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_supply_by_owner',
+        args: { account: wallet.accountId, ctr: new_sbt_contract },
       });
-      const data2 = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_tokens_for_owner",
-        args: { account: wallet.accountId },
+      const fv_supply = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_supply_by_owner',
+        args: { account: wallet.accountId, ctr: gooddollar_contract },
       });
-      console.log( data2);
-      setTokenData(data2?.[0] ?? null);
-      setTokenSupply(parseInt(data));
-    } catch {
-      toast.error("An error occured while fetching token supply");
+      setTokenSupply(parseInt(og_supply + fv_supply));
+    } catch (e) {
+      console.log(e);
+      toast.error('An error occured while fetching token supply');
       setFetchLoading(false);
     } finally {
       setFetchLoading(false);
@@ -40,7 +41,7 @@ export const CheckSbtTokenStatus = () => {
   useEffect(() => {
     checkSBTTokens();
   }, [checkSBTTokens]);
-  const isExpired = Date.now() > tokenData?.metadata?.expires_at;
+  // const isExpired = Date.now() > tokenData?.metadata?.expires_at;
 
   return (
     <div className="p-2">
@@ -51,22 +52,22 @@ export const CheckSbtTokenStatus = () => {
         ) : (
           <>
             <p>
-              <span className="font-medium">SBT Tokens you own</span>:{" "}
+              <span className="font-medium">SBT Tokens you own</span>:{' '}
               {tokenSupply}
             </p>
-            {tokenData && (
+            {/* {tokenData && (
               <>
                 <p
                   className={`${
-                    isExpired ? "text-red-500" : "text-green-600"
+                    isExpired ? 'text-red-500' : 'text-green-600'
                   } font-light mb-2`}
                 >
                   {isExpired
-                    ? "You have expired tokens"
-                    : "You have a valid Token"}
+                    ? 'You have expired tokens'
+                    : 'You have a valid Token'}
                 </p>
               </>
-            )}
+            )} */}
           </>
         )}
       </div>
@@ -75,7 +76,7 @@ export const CheckSbtTokenStatus = () => {
         disabled={isButtonDisabled}
         onClick={() => setIsModalOpen(true)}
         className={`text-white mt-4 focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none ${
-          isButtonDisabled ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-800"
+          isButtonDisabled ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-800'
         } `}
       >
         Transfer SBT between my own accounts

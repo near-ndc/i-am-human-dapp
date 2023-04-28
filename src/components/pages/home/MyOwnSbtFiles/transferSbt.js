@@ -1,27 +1,27 @@
-import React, { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "react-icons/ai";
+import React, { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { AiOutlineClose } from 'react-icons/ai';
 
-import { wallet } from "../../../../index";
-import { toast } from "react-toastify";
-import { ButtonLoader } from "../../../common/buttonLoader";
-import { address, addressToVerify } from "../../../../utils/addressToVerify";
-import { near_contract } from "../../../../utils/contract-addresses";
+import { wallet } from '../../../../index';
+import { toast } from 'react-toastify';
+import { ButtonLoader } from '../../../common/buttonLoader';
+import { addressToVerify } from '../../../../utils/addressToVerify';
+import { near_contract } from '../../../../utils/contract-addresses';
 
 export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   const [loading, setLoading] = useState(false);
-  const [transferTo, setTransferTo] = useState("");
+  const [transferTo, setTransferTo] = useState('');
   const transferSbtFunction = async () => {
     try {
       setLoading(true);
       await wallet.callMethod({
         contractId: near_contract,
-        method: "sbt_transfer",
+        method: 'sbt_transfer',
         args: { receiver: transferTo },
       });
-      toast.success("SBT tokens transferred successfully");
+      toast.success('SBT tokens transferred successfully');
     } catch {
-      toast.error("An error occured while transferring your sbt tokens");
+      toast.error('An error occured while transferring your sbt tokens');
     } finally {
       setLoading(false);
       closeModal();
@@ -32,7 +32,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   function countDots(str) {
     let count = 0;
     for (let i = 0; i < str.length; i++) {
-      if (str[i] === ".") {
+      if (str[i] === '.') {
         count++;
       }
     }
@@ -40,7 +40,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   }
 
   const isStringValidated = React.useMemo(() => {
-    if (transferTo === "") {
+    if (transferTo === '') {
       return false;
     }
     const testnet = addressToVerify;
@@ -110,9 +110,10 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                       />
                     </div>
                   </div>
-                  {!isStringValidated && transferTo !== "" && (
+                  {!isStringValidated && transferTo !== '' && (
                     <p className="my-2 text-red-600 text-xs">
-                      Provided addresss should be a valid one with only {addressToVerify}
+                      Provided addresss should be a valid one with only{' '}
+                      {addressToVerify}
                       at the end and containing only 1 (.)
                     </p>
                   )}
@@ -121,13 +122,13 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                       type="button"
                       className={`inline-flex justify-center rounded-md border border-transparent ${
                         isStringValidated
-                          ? "bg-blue-100 text-blue-900"
-                          : "bg-gray-100 text-gray-500"
+                          ? 'bg-blue-100 text-blue-900'
+                          : 'bg-gray-100 text-gray-500'
                       } px-4 py-2 text-sm font-medium hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2`}
                       onClick={transferSbtFunction}
                       disabled={!isStringValidated}
                     >
-                      {loading ? <ButtonLoader /> : "Transfer"}
+                      {loading ? <ButtonLoader /> : 'Transfer'}
                     </button>
                   </div>
                 </Dialog.Panel>
