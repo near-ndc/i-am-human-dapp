@@ -21,6 +21,7 @@ export const SbtTokenStatus = ({ wallet_address }) => {
         method: 'sbt_supply_by_owner',
         args: { ctr: new_sbt_contract, account: wallet_address },
       });
+      console.log(data);
       const data2 = await wallet.viewMethod({
         contractId: app_contract,
         method: 'sbt_tokens_by_owner',

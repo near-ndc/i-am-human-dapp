@@ -486,7 +486,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   if (isSignedIn) {
                                     log_event({
                                       event_log:
+<<<<<<< HEAD
                                         'Started OG SBT verification flow',
+=======
+                                        "Started OG SBT verification flow",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                                     });
                                     setShowCommunityVerification(true);
                                   } else {
