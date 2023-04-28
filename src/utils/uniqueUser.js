@@ -28,11 +28,7 @@ export const useUniqueGUser = ({ gAddress }) => {
 };
 
 export const checkUniquePhone = async ({ no }) => {
-<<<<<<< HEAD
   const { data } = await supabase.select('users', { telegram_number: no });
-=======
-  const { data } = await supabase.select("users", { telegram_number: no });
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
   if (data?.[0]) {
     return true;
   } else {
