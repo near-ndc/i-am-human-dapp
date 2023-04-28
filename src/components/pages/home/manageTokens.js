@@ -2,11 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 
+<<<<<<< HEAD
 import { RecoverModal, MintAndRenewTokenModal } from './ManageTokenFiles/index';
 import { wallet } from '../../../index';
 import { ButtonLoader } from '../../common/buttonLoader';
 import { log_event } from '../../../utils/utilityFunctions';
 import { near_contract } from '../../../utils/contract-addresses';
+=======
+import { RecoverModal, MintAndRenewTokenModal } from "./ManageTokenFiles/index";
+import { wallet } from "../../../index";
+import { ButtonLoader } from "../../common/buttonLoader";
+import { log_event } from "../../../utils/utilityFunctions";
+import { near_contract } from "../../../utils/contract-addresses";
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
 
 export const ManageTokens = () => {
   const [input, setInput] = React.useState('');
@@ -41,7 +49,11 @@ export const ManageTokens = () => {
     if (input === '') {
       return true;
     }
+<<<<<<< HEAD
     const testnet = '.testnet';
+=======
+    const testnet = ".testnet";
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
     const dots = countDots(input);
     if (input.endsWith(testnet) && dots === 1) {
       return true;
@@ -59,7 +71,11 @@ export const ManageTokens = () => {
         setValidatingAddress(true);
         const data = await wallet.viewMethod({
           contractId: near_contract,
+<<<<<<< HEAD
           method: 'nft_tokens_for_owner',
+=======
+          method: "nft_tokens_for_owner",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
           args: { account: input },
         });
         setTokens({
@@ -91,7 +107,11 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, mint: true }));
       await wallet.callMethod({
         contractId: near_contract,
+<<<<<<< HEAD
         method: 'sbt_mint',
+=======
+        method: "sbt_mint",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         args: {
           receiver: input,
           metadata: metadata,
@@ -117,14 +137,22 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, revoke: true }));
       await wallet.callMethod({
         contractId: near_contract,
+<<<<<<< HEAD
         method: 'revoke_for',
+=======
+        method: "revoke_for",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         args: { accounts: [input], metadata: {} },
       });
       log_event({
         event_log: `${wallet.accountId} revoked OG SBT tokens for ${input}`,
         effected_wallet: input,
       });
+<<<<<<< HEAD
       toast.success('Revoked SBT successfully !');
+=======
+      toast.success("Revoked SBT successfully !");
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       await checkTokens({ hideMessage: true });
     } catch (e) {
       toast.error('An error occured while minting');
@@ -138,7 +166,11 @@ export const ManageTokens = () => {
       setIsButtonLoading((d) => ({ ...d, renew: true }));
       await wallet.callMethod({
         contractId: near_contract,
+<<<<<<< HEAD
         method: 'sbt_renew',
+=======
+        method: "sbt_renew",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         args: {
           tokens: [tokens.tokenData[0].token_id],
           metadata,
@@ -149,7 +181,11 @@ export const ManageTokens = () => {
         event_log: `${wallet.accountId} renewed OG SBT tokens for ${input}`,
         effected_wallet: input,
       });
+<<<<<<< HEAD
       toast.success('Renewed SBT successfully !');
+=======
+      toast.success("Renewed SBT successfully !");
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       await checkTokens({ hideMessage: true });
     } catch (e) {
       toast.error('An error occured while renewing');

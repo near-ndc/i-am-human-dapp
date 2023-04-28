@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import axios from 'axios';
 import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
@@ -6,6 +7,16 @@ import OtpInput from 'react-otp-input';
 import { checkUniquePhone } from '../../../../utils/uniqueUser';
 import { log_event } from '../../../../utils/utilityFunctions';
 import { api_link } from '../../../../utils/supabase';
+=======
+import React from "react";
+import axios from "axios";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import { toast } from "react-toastify";
+import OtpInput from "react-otp-input";
+import { checkUniquePhone } from "../../../../utils/uniqueUser";
+import { log_event } from "../../../../utils/utilityFunctions";
+import { api_link } from "../../../../utils/supabase";
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
 
 export const VerifyPhoneAndEmail = ({
   setShowStep,
@@ -26,6 +37,7 @@ export const VerifyPhoneAndEmail = ({
 
   const sendOtp = async () => {
     try {
+
       const is_unique = await checkUniquePhone({ no: value });
       if (!is_unique) {
         setLoading(true);
@@ -51,15 +63,29 @@ export const VerifyPhoneAndEmail = ({
   const verifyOtp = async () => {
     try {
       setLoading(true);
+<<<<<<< HEAD
       const data = await axios.post(`${api_link}/verify_otp`, {
         phone: value,
         otp,
       });
+=======
+      const data = await axios.post(
+        `${api_link}/verify_otp`,
+        {
+          phone: value,
+          otp,
+        }
+      );
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       if (data.data?.error) {
         throw new Error(data.data?.error);
       }
       log_event({ event_log: `OTP verified for phone : ${value}` });
+<<<<<<< HEAD
       toast.success('Otp verified');
+=======
+      toast.success("Otp verified");
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       if (is_not_email) {
         setShowStep(3);
       } else {

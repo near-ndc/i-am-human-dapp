@@ -11,7 +11,11 @@ export function FVSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
+<<<<<<< HEAD
       const { data, error } = await supabase.select('users');
+=======
+      const { data, error } = await supabase.select("users");
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       if (error) {
         throw new Error('');
       }
@@ -137,7 +141,11 @@ export function FVSBTApplicationsTable() {
                 {filteredApplications.map((person, personIdx) => (
                   <tr
                     key={person.wallet_identifier}
+<<<<<<< HEAD
                     className={personIdx % 2 === 0 ? undefined : 'bg-gray-50'}
+=======
+                    className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                   >
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}
