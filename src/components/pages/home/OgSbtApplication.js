@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useState, useEffect, useCallback } from 'react';
 import { api_link, supabase } from '../../../utils/supabase';
 import axios from 'axios';
@@ -17,23 +16,6 @@ import {
 
 const HideShowNumber = ({ telegram_number, wallet }) => {
   const [encypted_number, setEncryptedNumber] = useState('');
-=======
-import { useState, useEffect, useCallback } from "react";
-import { api_link, supabase } from "../../../utils/supabase";
-import axios from "axios";
-import { GrFormAdd } from "react-icons/gr";
-import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineSync } from "react-icons/ai";
-import { toast } from "react-toastify";
-import { wallet } from "../../..";
-import { ShowSbtDetails } from "./ObSbtApplication/showSbtDetails";
-import { log_event } from "../../../utils/utilityFunctions";
-import { useSuperAdmin } from "../../../utils/super-admins";
-import { near_contract } from "../../../utils/contract-addresses";
-
-const HideShowNumber = ({ telegram_number, wallet }) => {
-  const [encypted_number, setEncryptedNumber] = useState("");
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
   const [loading, setLoading] = useState(false);
 
   const dencrypt_number = async () => {
@@ -121,26 +103,16 @@ const ActionButtons = ({
           </div>
         </>
       )}
-<<<<<<< HEAD
       {!loading && person.og_sbt_application === 'Application Submitted' && (
-=======
-      {!loading && person.og_sbt_application === "Application Submitted" && (
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         <>
           <button
             onClick={async () => {
               try {
                 setLoading(true);
                 await supabase.update(
-<<<<<<< HEAD
                   'users',
                   {
                     og_sbt_application: 'Approved',
-=======
-                  "users",
-                  {
-                    og_sbt_application: "Approved",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                     og_sbt_approved_by: wallet.accountId,
                   },
                   {
@@ -148,30 +120,17 @@ const ActionButtons = ({
                   }
                 );
                 await wallet.callMethod({
-<<<<<<< HEAD
                   contractId: new_sbt_contract,
                   method: 'sbt_mint',
                   args: {
                     receiver: person.wallet_identifier,
                   },
                   deposit: '8000000000000000000000',
-=======
-                  contractId: near_contract,
-                  method: "sbt_mint",
-                  args: {
-                    receiver: person.wallet_identifier,
-                    metadata: {
-                      ttl: "",
-                      memo: "",
-                    },
-                  },
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                 });
                 log_event({
                   event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
                   effected_wallet: person.wallet_identifier,
                 });
-<<<<<<< HEAD
                 toast.success('Successfully minted tokers');
               } catch (e) {
                 await supabase.update(
@@ -186,11 +145,6 @@ const ActionButtons = ({
                 );
                 console.log(e);
                 toast.error('An error occurred while minting tokens');
-=======
-                toast.success("Successfully minted tokers");
-              } catch {
-                toast.error("An error occurred while minting tokens");
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
               } finally {
                 setLoading(false);
                 fetchUserApplications();
@@ -205,15 +159,9 @@ const ActionButtons = ({
               try {
                 setLoading(true);
                 await supabase.update(
-<<<<<<< HEAD
                   'users',
                   {
                     og_sbt_application: 'Rejected',
-=======
-                  "users",
-                  {
-                    og_sbt_application: "Rejected",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                   },
                   {
                     wallet_identifier: person.wallet_identifier,
@@ -234,11 +182,7 @@ const ActionButtons = ({
           </button>
         </>
       )}
-<<<<<<< HEAD
       {!loading && person.og_sbt_application === 'Approved' && (
-=======
-      {!loading && person.og_sbt_application === "Approved" && (
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         <button
           onClick={async () => {
             setSelectedUser(person);
@@ -249,25 +193,15 @@ const ActionButtons = ({
           Show SBT Details
         </button>
       )}
-<<<<<<< HEAD
       {!loading && person.og_sbt_application === 'Rejected' && (
-=======
-      {!loading && person.og_sbt_application === "Rejected" && (
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         <button
           onClick={async () => {
             try {
               setLoading(true);
               await supabase.update(
-<<<<<<< HEAD
                 'users',
                 {
                   og_sbt_application: 'Approved',
-=======
-                "users",
-                {
-                  og_sbt_application: "Approved",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                   og_sbt_approved_by: wallet.accountId,
                 },
                 {
@@ -275,7 +209,6 @@ const ActionButtons = ({
                 }
               );
               await wallet.callMethod({
-<<<<<<< HEAD
                 contractId: app_contract,
                 method: 'sbt_mint',
                 args: {
@@ -286,15 +219,6 @@ const ActionButtons = ({
                       ttl: '',
                       memo: '',
                     },
-=======
-                contractId: near_contract,
-                method: "sbt_mint",
-                args: {
-                  receiver: person.wallet_identifier,
-                  metadata: {
-                    ttl: "",
-                    memo: "",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                   },
                 },
               });
@@ -325,11 +249,7 @@ export function OgSBTApplicationsTable() {
   const fetchUserApplications = useCallback(async () => {
     setLoading(true);
     try {
-<<<<<<< HEAD
       const { error, data } = await supabase.select('users');
-=======
-      const { error, data } = await supabase.select("users");
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       if (error) {
         throw new Error('');
       }
@@ -338,11 +258,7 @@ export function OgSBTApplicationsTable() {
       );
     } catch (e) {
       console.log(e);
-<<<<<<< HEAD
       toast.error('An error occured while fetching applications');
-=======
-      toast.error("An error occured while fetching applications");
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
     } finally {
       setLoading(false);
     }
@@ -478,11 +394,7 @@ export function OgSBTApplicationsTable() {
                 {filteredApplications.map((person, personIdx) => (
                   <tr
                     key={person.wallet_identifier}
-<<<<<<< HEAD
                     className={personIdx % 2 === 0 ? undefined : 'bg-gray-50'}
-=======
-                    className={personIdx % 2 === 0 ? undefined : "bg-gray-50"}
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                   >
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {person.wallet_identifier}

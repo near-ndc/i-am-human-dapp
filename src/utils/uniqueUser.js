@@ -8,11 +8,7 @@ export const useUniqueGUser = ({ gAddress }) => {
   const fetchUserFromDB = useCallback(async (address) => {
     setLoading(true);
     try {
-<<<<<<< HEAD
       const { data } = await supabase.select('users', { g$_address: address });
-=======
-      const { data } = await supabase.select("users", { g$_address: address });
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       if (data?.[0]) {
         setIsExistingGUser(true);
       } else {

@@ -2,19 +2,11 @@ import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { AiOutlineClose } from 'react-icons/ai';
 
-<<<<<<< HEAD
 import { wallet } from '../../../../index';
 import { toast } from 'react-toastify';
 import { ButtonLoader } from '../../../common/buttonLoader';
 import { addressToVerify } from '../../../../utils/addressToVerify';
 import { near_contract } from '../../../../utils/contract-addresses';
-=======
-import { wallet } from "../../../../index";
-import { toast } from "react-toastify";
-import { ButtonLoader } from "../../../common/buttonLoader";
-import { address, addressToVerify } from "../../../../utils/addressToVerify";
-import { near_contract } from "../../../../utils/contract-addresses";
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
 
 export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   const [loading, setLoading] = useState(false);
@@ -24,11 +16,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
       setLoading(true);
       await wallet.callMethod({
         contractId: near_contract,
-<<<<<<< HEAD
         method: 'sbt_transfer',
-=======
-        method: "sbt_transfer",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         args: { receiver: transferTo },
       });
       toast.success('SBT tokens transferred successfully');
@@ -124,12 +112,8 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                   </div>
                   {!isStringValidated && transferTo !== '' && (
                     <p className="my-2 text-red-600 text-xs">
-<<<<<<< HEAD
                       Provided addresss should be a valid one with only{' '}
                       {addressToVerify}
-=======
-                      Provided addresss should be a valid one with only {addressToVerify}
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                       at the end and containing only 1 (.)
                     </p>
                   )}

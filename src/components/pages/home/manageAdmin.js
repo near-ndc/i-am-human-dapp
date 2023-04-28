@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-<<<<<<< HEAD
 import { wallet } from '../../../index';
 import { ButtonLoader } from '../../common/buttonLoader';
 import { checkAdmin, log_event } from '../../../utils/utilityFunctions';
 import { AdminConfirmation } from './ManageAdmin/adminConfirmation';
 import { addressToVerify } from './../../../utils/addressToVerify';
 import { near_contract } from '../../../utils/contract-addresses';
-=======
-import { wallet } from "../../../index";
-import { ButtonLoader } from "../../common/buttonLoader";
-import { checkAdmin, log_event } from "../../../utils/utilityFunctions";
-import { AdminConfirmation } from "./ManageAdmin/adminConfirmation";
-import {addressToVerify} from './../../../utils/addressToVerify'
-import { near_contract } from "../../../utils/contract-addresses";
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
 
 export const ManageAdmin = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -33,12 +24,7 @@ export const ManageAdmin = () => {
       return true;
     }
     const testnet = addressToVerify;
-<<<<<<< HEAD
     if (walletAddress.endsWith(testnet)) {
-=======
-    const dots = countDots(walletAddress);
-    if (walletAddress.endsWith(testnet) && dots === 1) {
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       return true;
     }
     return false;
@@ -53,11 +39,7 @@ export const ManageAdmin = () => {
       try {
         const res = await wallet.callMethod({
           contractId: near_contract,
-<<<<<<< HEAD
           method: 'add_admins',
-=======
-          method: "add_admins",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
           args: { metadata: {}, admins: [walletAddress] },
         });
         toast.success('Added admin successfully');
@@ -87,11 +69,7 @@ export const ManageAdmin = () => {
         });
         const res = await wallet.callMethod({
           contractId: near_contract,
-<<<<<<< HEAD
           method: 'remove_admins',
-=======
-          method: "remove_admins",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
           args: { metadata: {}, admins: [walletAddress] },
         });
         toast.success('Removed admin successfully');
@@ -169,13 +147,8 @@ export const ManageAdmin = () => {
       </div>
       {!isStringValidated && (
         <p className="my-2 text-red-600 text-xs">
-<<<<<<< HEAD
           Provided addresss should be a valid one with only {addressToVerify} at
           the end and containing only 1 (.)
-=======
-          Provided addresss should be a valid one with only {addressToVerify} at the end and
-          containing only 1 (.)
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
         </p>
       )}
       {adminStatus?.status === 'isAdmin' && (

@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
-<<<<<<< HEAD
 import { wallet } from '../../../index';
 import { TransferSBT } from './MyOwnSbtFiles/transferSbt';
 import {
@@ -9,11 +8,6 @@ import {
   gooddollar_contract,
   new_sbt_contract,
 } from '../../../utils/contract-addresses';
-=======
-import { wallet } from "../../../index";
-import { TransferSBT } from "./MyOwnSbtFiles/transferSbt";
-import { near_contract } from "../../../utils/contract-addresses";
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
 
 export const CheckSbtTokenStatus = () => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -24,7 +18,6 @@ export const CheckSbtTokenStatus = () => {
   const checkSBTTokens = useCallback(async () => {
     try {
       setFetchLoading(true);
-<<<<<<< HEAD
       const og_supply = await wallet.viewMethod({
         contractId: app_contract,
         method: 'sbt_supply_by_owner',
@@ -34,17 +27,6 @@ export const CheckSbtTokenStatus = () => {
         contractId: app_contract,
         method: 'sbt_supply_by_owner',
         args: { account: wallet.accountId, ctr: gooddollar_contract },
-=======
-      const data = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_supply_for_owner",
-        args: { account: wallet.accountId },
-      });
-      const data2 = await wallet.viewMethod({
-        contractId: near_contract,
-        method: "nft_tokens_for_owner",
-        args: { account: wallet.accountId },
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
       });
       setTokenSupply(parseInt(og_supply + fv_supply));
     } catch (e) {
