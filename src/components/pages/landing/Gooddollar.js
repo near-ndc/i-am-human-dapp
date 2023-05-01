@@ -3,6 +3,7 @@ import {
   createLoginLink,
   parseLoginResponse,
   LoginButton,
+  useLogin,
 } from '@gooddollar/goodlogin-sdk';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -29,96 +30,101 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     r: ['name'],
     rdu: window.location.href,
   });
+  const [gooddollarData, setGooddollarData] = React.useState(null);
   const [rawGoodDollarData, setRawGoodDollarData] = React.useState(null);
   const [editableFields, setEditableFields] = React.useState({
     name: true,
     gDollarAccount: true,
     status: true,
   });
-  const [isVerifyApiError, setIsVerifyApiError] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(null);
 
-  const { values, handleSubmit, handleBlur, handleChange, setValues } =
-    useFormik({
-      initialValues: {
-        name: '',
-        gDollarAccount: '',
-        status: '',
-      },
-      validationSchema: Yup.object().shape({
-        email: Yup.string().email('Invalid email'),
-      }),
-      onSubmit: async (data) => {
-        // here need to clear url and remove all unnecessary data from url for near wallet redirect
-        window.history.replaceState({}, '', window.location.origin);
-        setSubmitting(true);
-        const { sig, ...rawData } = rawGoodDollarData;
+  const {
+    values,
+    handleSubmit,
+    handleBlur,
+    handleChange,
+    setValues,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      name: '',
+      gDollarAccount: '',
+      status: '',
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().email('Invalid email'),
+    }),
+    onSubmit: async (data) => {
+      // here need to clear url and remove all unnecessary data from url for near wallet redirect
+      window.history.replaceState({}, '', window.location.origin);
+      setSubmitting(true);
+      const { sig, ...rawData } = rawGoodDollarData;
 
-        const sendObj = {
-          m: JSON.stringify(rawData),
-          c: wallet.accountId,
-          sig: rawGoodDollarData.sig,
-        };
-        let updateData = {
+      const sendObj = {
+        m: JSON.stringify(rawData),
+        c: wallet.accountId,
+        sig: rawGoodDollarData.sig,
+      };
+      console.log(sendObj);
+      let error = null;
+      let updateData = {
+        wallet_identifier: wallet.accountId,
+        g$_address: data.gDollarAccount,
+        status: 'Approved',
+      };
+
+      try {
+        const result = await verifyUser(sendObj);
+        const { data } = await supabase.select('users', {
           wallet_identifier: wallet.accountId,
-          g$_address: data.gDollarAccount,
-          status: 'Approved',
-        };
+        });
 
-        try {
-          const result = await verifyUser(sendObj);
-          const { data } = await supabase.select('users', {
-            wallet_identifier: wallet.accountId,
-          });
-
-          if (data?.[0]) {
-            const { error: appError } = await supabase.update(
-              'users',
-              updateData,
-              { wallet_identifier: wallet.accountId }
-            );
-          } else {
-            const { error: appError } = await supabase.insert(
-              'users',
-              updateData
-            );
-          }
-          if (result?.m) {
-            await wallet.callMethod({
-              contractId: gooddollar_contract,
-              method: 'sbt_mint',
-              args: {
-                claim_b64: result.m,
-                claim_sig: result.sig,
-              },
-              deposit: '8000000000000000000000',
-            });
-            log_event({ event_log: 'Applied for OG SBT' });
-          } else {
-            setIsVerifyApiError(true);
-          }
-        } catch (e) {
-          console.log('Error', e);
-          toast.error(
-            'An error occured while submitting your details , please try again'
+        if (data?.[0]) {
+          const { error: appError } = await supabase.update(
+            'users',
+            updateData,
+            { wallet_identifier: wallet.accountId }
           );
-        } finally {
-          setSubmitting(false);
+        } else {
+          const { error: appError } = await supabase.insert(
+            'users',
+            updateData
+          );
         }
-      },
-      validate: (values) => {
-        const errors = {};
-        // if (values.phone) {
-        //   if (!isPossiblePhoneNumber(values.phone)) {
-        //     errors.phone =
-        //       "Invalid phone number, please provide the phone number with valid country code";
-        //   }
-        // } else {
-        //   errors.phone = "Phone Number Required";
-        // }
-        return errors;
-      },
-    });
+        await wallet.callMethod({
+          contractId: gooddollar_contract,
+          method: 'sbt_mint',
+          args: {
+            claim_b64: result.m,
+            claim_sig: result.sig,
+          },
+          deposit: '8000000000000000000000',
+        });
+        log_event({ event_log: 'Applied for OG SBT' });
+      } catch (e) {
+        console.log('Error', e);
+        toast.error(
+          'An error occured while submitting your details , please try again'
+        );
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    validate: (values) => {
+      const errors = {};
+      // if (values.phone) {
+      //   if (!isPossiblePhoneNumber(values.phone)) {
+      //     errors.phone =
+      //       "Invalid phone number, please provide the phone number with valid country code";
+      //   }
+      // } else {
+      //   errors.phone = "Phone Number Required";
+      // }
+      return errors;
+    },
+  });
 
   const handleValues = (key) => ({
     value: values[key],
@@ -135,6 +141,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
         if (data.error) return alert('Login request denied !');
         parseLoginResponse(data).then((d) => {
           setRawGoodDollarData(data);
+          setGooddollarData(d);
           setEditableFields((d) => ({
             ...d,
             email: !Boolean(d?.email?.value),
@@ -160,23 +167,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
   );
 
   useEffect(() => {
-    if (window.location.href.includes('?login=')) {
-      const loginURI = window?.location?.href.split('=');
-      const buffer = Buffer.from(
-        decodeURIComponent(loginURI[1]),
-        'base64'
-      ).toString('ascii');
-      if (buffer[buffer.length - 1] !== '}') {
-        let lastIndex = buffer.lastIndexOf('}');
-        log_event({ event_log: 'Gooddollar Authorization done' });
-        gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
-      } else {
-        gooddollarLoginCb(JSON.parse(buffer));
-      }
-    }
-  }, [gooddollarLoginCb]);
-
-  useEffect(() => {
     if (window.location.href.includes('?login')) {
       // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
       // window.history.replaceState({}, '', window.location.href.replace('%253D', '='));
@@ -193,6 +183,11 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
     gAddress: values.gDollarAccount,
+  });
+
+  //added hook to parse response with native gooddollar method
+  useLogin({
+    onLoginCallback: gooddollarLoginCb,
   });
 
   return (
@@ -328,137 +323,119 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
               Once you passed step 1 and 2 your information will be populated
               here and you will be able to apply for a Face Verification SBT.
             </p>
-            {isVerifyApiError ? (
-              <div className="bg-red-100 rounded-md p-3 mt-3">
-                <p>
-                  There seems to be an issue. Please submit a Support request in
-                  the NDC community hub “support” topic
-                </p>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-500 font-light underline"
-                  href="https://t.me/+B1DHtSWeNME0Yzgx"
-                >
-                  NDC Community Hub
-                </a>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => handleSubmit(e)}
-                className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
-              >
-                {values.status === 'Whitelisted' ? (
-                  <>
-                    <div className="flex items-center justify-between">
-                      <p className="w-[120px]">G$ Account:</p>
-                      <input
-                        className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                        placeholder="Account Address"
-                        {...handleValues('gDollarAccount')}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="w-[120px]">Status:</p>
-                      <input
-                        className="w-[88%] bg-gray-100 p-1 rounded px-3"
-                        placeholder="Status"
-                        {...handleValues('status')}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <p>
-                      Oops! It looks like you are not whitelisted. Usually this
-                      would happen if you created a GoodDollar account but
-                      didn’t complete the face verification flow.
-                    </p>
-                  </>
-                )}
 
-                {values.status === 'Whitelisted' ? (
-                  <>
-                    {isGLoading ? (
-                      <>
-                        <button className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right">
-                          <div className="w-[fit-content] mx-auto">
-                            <CircleSpinner size={20} />
-                          </div>
-                        </button>
-                      </>
-                    ) : isExistingGUser ? (
-                      <>
-                        <p>
-                          This Gooddollar account is already registered with us.
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setShowGooddollarVerification(false);
-                          }}
-                          className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                        >
-                          Ok
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        type="submit"
-                        onClick={() => {
-                          log_event({
-                            event_log:
-                              'Started Application flow for gooddollar',
-                          });
-                        }}
-                        disabled={submitting}
-                        className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
-                      >
-                        {!submitting ? (
-                          ' Apply for SBT'
-                        ) : (
-                          <div className="w-[fit-content] mx-auto">
-                            <CircleSpinner size={20} />
-                          </div>
-                        )}
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <div className="text-right w-[fit-content] ml-auto space-y-5">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        window.open('https://wallet.gooddollar.org', '_blank');
-                      }}
-                      className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                    >
-                      Did you set up GoodDollar wallet and make your first claim
-                      ?
-                    </button>
-
-                    <p>
-                      You'll need to claim once before you can apply for face
-                      vertification SBT{' '}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        window.history.replaceState(
-                          {},
-                          '',
-                          window.location.origin
-                        );
-                        setShowStep(2);
-                      }}
-                      className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                    >
-                      Claimed GoodDollar ? Authorize Login Again !
-                    </button>
+            <form
+              onSubmit={(e) => handleSubmit(e)}
+              className="font-light tracking-wider w-full space-y-2 mt-3 mb-16"
+            >
+              {values.status === 'Whitelisted' ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">G$ Account:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Account Address"
+                      {...handleValues('gDollarAccount')}
+                    />
                   </div>
-                )}
-              </form>
-            )}
+                  <div className="flex items-center justify-between">
+                    <p className="w-[120px]">Status:</p>
+                    <input
+                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      placeholder="Status"
+                      {...handleValues('status')}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Oops! It looks like you are not whitelisted. Usually this
+                    would happen if you created a GoodDollar account but didn’t
+                    complete the face verification flow.
+                  </p>
+                </>
+              )}
+
+              {values.status === 'Whitelisted' ? (
+                <>
+                  {isGLoading ? (
+                    <>
+                      <button className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right">
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      </button>
+                    </>
+                  ) : isExistingGUser ? (
+                    <>
+                      <p>
+                        This Gooddollar account is already registered with us.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowGooddollarVerification(false);
+                        }}
+                        className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                      >
+                        Ok
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="submit"
+                      onClick={() => {
+                        log_event({
+                          event_log: 'Started Application flow for gooddollar',
+                        });
+                      }}
+                      disabled={submitting}
+                      className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
+                    >
+                      {!submitting ? (
+                        ' Apply for SBT'
+                      ) : (
+                        <div className="w-[fit-content] mx-auto">
+                          <CircleSpinner size={20} />
+                        </div>
+                      )}
+                    </button>
+                  )}
+                </>
+              ) : (
+                <div className="text-right w-[fit-content] ml-auto space-y-5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.open('https://wallet.gooddollar.org', '_blank');
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Did you set up GoodDollar wallet and make your first claim ?
+                  </button>
+
+                  <p>
+                    You'll need to claim once before you can apply for face
+                    vertification SBT{' '}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.replaceState(
+                        {},
+                        '',
+                        window.location.origin
+                      );
+                      setShowStep(2);
+                    }}
+                    className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
+                  >
+                    Claimed GoodDollar ? Authorize Login Again !
+                  </button>
+                </div>
+              )}
+            </form>
           </div>
         )}
       </div>
