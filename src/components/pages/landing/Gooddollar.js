@@ -142,9 +142,14 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     async (data) => {
       try {
         if (data.error) return alert('Login request denied !');
+        log_event({
+          event_log: `Raw Data received on Gooddollar ${JSON.stringify(data)}`,
+        });
         parseLoginResponse(data).then((d) => {
           log_event({
-            event_log: `Data received on Gooddollar ${JSON.stringify(data)}`,
+            event_log: `Parsed Data received on Gooddollar ${JSON.stringify(
+              d
+            )}`,
           });
           setRawGoodDollarData(data);
           setGooddollarData(d);
