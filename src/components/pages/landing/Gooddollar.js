@@ -67,20 +67,23 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
         c: wallet.accountId,
         sig: rawGoodDollarData.sig,
       };
-      console.log(sendObj);
       let error = null;
       let updateData = {
         wallet_identifier: wallet.accountId,
         g$_address: data.gDollarAccount,
         status: 'Approved',
       };
-
+      log_event({
+        event_log: `Data sent to verify API ${JSON.stringify(sendObj)}`,
+      });
       try {
         const result = await verifyUser(sendObj);
         const { data } = await supabase.select('users', {
           wallet_identifier: wallet.accountId,
         });
-
+        log_event({
+          event_log: `Data receivied from verify API ${JSON.stringify(result)}`,
+        });
         if (data?.[0]) {
           const { error: appError } = await supabase.update(
             'users',
@@ -93,6 +96,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             updateData
           );
         }
+        log_event({ event_log: 'Applied for FV SBT' });
         await wallet.callMethod({
           contractId: gooddollar_contract,
           method: 'sbt_mint',
@@ -102,7 +106,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
           },
           deposit: '8000000000000000000000',
         });
-        log_event({ event_log: 'Applied for OG SBT' });
       } catch (e) {
         console.log('Error', e);
         toast.error(
@@ -140,6 +143,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
       try {
         if (data.error) return alert('Login request denied !');
         parseLoginResponse(data).then((d) => {
+          log_event({
+            event_log: `Data received on Gooddollar ${JSON.stringify(data)}`,
+          });
           setRawGoodDollarData(data);
           setGooddollarData(d);
           setEditableFields((d) => ({
