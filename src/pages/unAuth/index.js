@@ -12,11 +12,7 @@ import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
-import {
-  app_contract,
-  gooddollar_contract,
-  new_sbt_contract,
-} from '../../utils/contract-addresses';
+import { getConfig } from '../../utils/config';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
@@ -61,6 +57,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const checkFVokens = useCallback(async () => {
     if (isSignedIn) {
       try {
+        const { app_contract, gooddollar_contract } = getConfig();
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
           contractId: app_contract,
@@ -98,40 +95,41 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   }, [isSignedIn]);
 
   //commenting this code because there is no SBT functionality inside this release
-  const checkSBTTokens = useCallback(async () => {
-    // if (isSignedIn) {
-    //   try {
-    //     setFetchLoading(true);
-    //     const data = await wallet.viewMethod({
-    //       contractId: app_contract,
-    //       method: 'sbt_supply_by_owner',
-    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
-    //     });
-    //     const data2 = await wallet.viewMethod({
-    //       contractId: app_contract,
-    //       method: 'sbt_tokens_by_owner',
-    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
-    //     });
-    //     setTokenData(data2?.[0]?.[1]?.[0]);
-    //     if (!data2?.[0] && localStorage.getItem('openOG')) {
-    //       setShowCommunityVerification(true);
-    //       localStorage.removeItem('openOG');
-    //     }
-    //     setTokenSupply(parseInt(data));
-    //   } catch (e) {
-    //     console.log(e);
-    //     toast.error('An error occured while fetching token supply');
-    //     setFetchLoading(false);
-    //   } finally {
-    //     setFetchLoading(false);
-    //   }
-    // }
-  }, [isSignedIn]);
+  // const checkSBTTokens = useCallback(async () => {
+  // if (isSignedIn) {
+  //   try {
+  //     const { app_contract, new_sbt_contract } = getConfig();
+  //     setFetchLoading(true);
+  //     const data = await wallet.viewMethod({
+  //       contractId: app_contract,
+  //       method: 'sbt_supply_by_owner',
+  //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+  //     });
+  //     const data2 = await wallet.viewMethod({
+  //       contractId: app_contract,
+  //       method: 'sbt_tokens_by_owner',
+  //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+  //     });
+  //     setTokenData(data2?.[0]?.[1]?.[0]);
+  //     if (!data2?.[0] && localStorage.getItem('openOG')) {
+  //       setShowCommunityVerification(true);
+  //       localStorage.removeItem('openOG');
+  //     }
+  //     setTokenSupply(parseInt(data));
+  //   } catch (e) {
+  //     console.log(e);
+  //     toast.error('An error occured while fetching token supply');
+  //     setFetchLoading(false);
+  //   } finally {
+  //     setFetchLoading(false);
+  //   }
+  // }
+  // }, [isSignedIn]);
 
   useEffect(() => {
-    checkSBTTokens();
+    // checkSBTTokens();
     checkFVokens();
-  }, [checkSBTTokens, checkFVokens]);
+  }, [checkFVokens]);
   const isExpired = Date.now() > tokenData?.metadata?.expires_at;
   const isFvExpired = Date.now() > fvTokenData?.metadata?.expires_at;
 

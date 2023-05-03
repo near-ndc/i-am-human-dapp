@@ -1,26 +1,31 @@
-export function getEnv(env = process.env.REACT_APP_ENV) {
-  switch (env) {
+const environment = process.env.REACT_APP_ENV ?? 'prod';
+
+export function getConfig() {
+  const commonConfig = {
+    api_link: 'https://api-ophc7vkxsq-uc.a.run.app',
+    gooddollar_api: 'https://back.justfortestinc.site',
+    mintFee: '8000000000000000000000',
+  };
+  switch (environment) {
     case 'prod':
       return {
-        networkId: 'mainnet',
+        network_id: 'mainnet',
         app_contract: 'registry.i-am-human.near',
         og_contract: 'og-sbt.i-am-human.near',
         gooddollar_contract: 'gooddollar-v1.i-am-human.near',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
-        apiLink: 'https://api-ophc7vkxsq-uc.a.run.app',
-        mintFee: '8000000000000000000000',
+        ...commonConfig,
       };
     case 'dev':
       return {
-        networkId: 'testnet',
+        network_id: 'testnet',
         app_contract: 'registry-1.i-am-human.testnet',
         og_contract: 'og-sbt-1.i-am-human.testnet',
         gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
-        apiLink: 'https://dev-ophc7vkxsq-uc.a.run.app',
-        mintFee: '8000000000000000000000',
+        ...commonConfig,
       };
     default:
-      throw new Error(`${env} is not a valid NEAR environment`);
+      throw new Error(`${environment} is not a valid NEAR environment`);
   }
 }
