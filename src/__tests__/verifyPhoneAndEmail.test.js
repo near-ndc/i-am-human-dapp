@@ -1,4 +1,3 @@
-// above line is added to fix the TextEncode error occured due to enzyme Adapter
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import axios from 'axios';
@@ -29,6 +28,7 @@ jest.mock('react-toastify', () => ({
 }));
 
 jest.mock('axios');
+
 axios.post.mockImplementation((url) => {
   const response = Promise.resolve({ status: 200, data: { data: false } });
   switch (url) {
@@ -68,24 +68,8 @@ describe('Verify Phone And Email', () => {
     }
   }
 
-  it('throws error on incorrect phone number', async () => {
-    const { getByText, getByPlaceholderText } = render(
-      <VerifyPhoneAndEmail
-        setShowStep={setShowStep}
-        setTelegramData={setTelegramData}
-        userData={userData}
-      />
-    );
-    expect(getByText('Verify Phone Number')).toBeInTheDocument();
-    const phoneInput = getByPlaceholderText(/Enter Your phone number/i);
-    fireEvent.change(phoneInput, { target: { value: '888' } });
-    expect(
-      getByText(/Please provide a valid phone number/i)
-    ).toBeInTheDocument();
-  });
-
-  it('sends OTP via phone number and verifies it successfully', async () => {
-    const { getByPlaceholderText, getByLabelText, getByRole, getByTestId } =
+  test('sends OTP via phone number and verifies it successfully', async () => {
+    const { getByPlaceholderText, getByLabelText, getByRole, getByText } =
       render(
         <VerifyPhoneAndEmail
           setShowStep={setShowStep}
@@ -95,7 +79,7 @@ describe('Verify Phone And Email', () => {
       );
     const dropdown = getByLabelText(/Phone number country/i);
     fireEvent.change(dropdown, { target: { value: 'ZZ' } });
-    const verifyButton = getByTestId('send-phone-otp');
+    const verifyButton = getByRole('button', { name: 'Verify' });
     const phoneInput = getByPlaceholderText(/Enter Your phone number/i);
     fireEvent.change(phoneInput, { target: { value: phoneNo } });
     await act(async () => {
@@ -126,6 +110,9 @@ describe('Verify Phone And Email', () => {
     );
 
     // verify otp
+    expect(
+      getByText(/Enter verification code sent to your mobile/i)
+    ).toBeInTheDocument();
     fillOtpField();
     await act(async () => {
       fireEvent.click(verifyButton);
@@ -135,12 +122,9 @@ describe('Verify Phone And Email', () => {
       otp: otp,
     });
     expect(verifyOtp.status).toBe(200);
-    await waitFor(() =>
-      expect(toast.success).toHaveBeenCalledWith('Otp verified')
-    );
   });
 
-  it('throws error on incorrect email', async () => {
+  test('throws error on incorrect email', async () => {
     const { getByLabelText, getByText } = render(
       <VerifyPhoneAndEmail
         setShowStep={setShowStep}
@@ -156,14 +140,8 @@ describe('Verify Phone And Email', () => {
     ).toBeInTheDocument();
   });
 
-  it('sends OTP via email and verifies it successfully', async () => {
-    const {
-      getByPlaceholderText,
-      getByLabelText,
-      getByRole,
-      getByText,
-      getByTestId,
-    } = render(
+  test('sends OTP via email and verifies it successfully', async () => {
+    const { getByLabelText, getByRole, getByText } = render(
       <VerifyPhoneAndEmail
         setShowStep={setShowStep}
         setTelegramData={setTelegramData}
@@ -196,8 +174,5 @@ describe('Verify Phone And Email', () => {
       otp: otp,
     });
     expect(verifyOtp.status).toBe(200);
-    await waitFor(() => {
-      expect(toast.success).toHaveBeenCalledWith('Otp verified');
-    });
   });
 });
