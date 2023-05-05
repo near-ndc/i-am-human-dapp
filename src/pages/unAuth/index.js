@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
+import { CommunitiesApplication } from '../../components/pages/landing/communitiesApplication';
 import {
   app_contract,
   gooddollar_contract,
@@ -486,11 +487,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   if (isSignedIn) {
                                     log_event({
                                       event_log:
-<<<<<<< HEAD
-                                        'Started OG SBT verification flow',
-=======
                                         "Started OG SBT verification flow",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                                     });
                                     setShowCommunityVerification(true);
                                   } else {
@@ -516,6 +513,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                     />
                   </div>
                 </div>
+              </div>
+              <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
+                <CommunitiesApplication />
               </div>
               <a
                 href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
