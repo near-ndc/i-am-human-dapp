@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CommunityApplicationPanel } from './communityApplicationPanel/index';
+import { supabase } from '../../../utils/supabase';
+import { wallet } from '../../..';
 
 export const CommunitiesApplication = () => {
+  const [communityApplication, setCommunityApplication] = useState(null);
   const [isOpenPanel, setIsOpenPanel] = useState(false);
+
+  const fetchCommunities = useCallback(async () => {
+    const { data, error } = await supabase.select('community-artwork', {
+      account: wallet.accountId,
+    });
+    console.log(data);
+    setCommunityApplication(data?.[0]);
+  }, []);
+
+  useEffect(() => {
+    fetchCommunities();
+  }, [fetchCommunities]);
+
   return (
     <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
       <div>
@@ -27,17 +43,25 @@ export const CommunitiesApplication = () => {
             </a>
           </div>
           <div className="mt-6">
-            <button
-              onClick={() => {
-                setIsOpenPanel(true);
-              }}
-              className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-            >
-              Apply For Community SBT
-            </button>
+            {communityApplication ? (
+              <p>
+                You have applied for community application , we will review your
+                application and get back to you soon
+              </p>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsOpenPanel(true);
+                }}
+                className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+              >
+                Apply For Community SBT
+              </button>
+            )}
           </div>
           <CommunityApplicationPanel
             open={isOpenPanel}
+            fetchCommunities={fetchCommunities}
             setOpen={setIsOpenPanel}
           />
         </div>

@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Panel } from '../../../common/panel';
+import { clientStorage } from '../../../../utils/supabase-storage';
+import { wallet } from '../../../../index';
+import { supabase } from '../../../../utils/supabase';
+import { toast } from 'react-toastify';
 
-export const CommunityApplicationPanel = ({ open, setOpen }) => {
+export const CommunityApplicationPanel = ({
+  open,
+  setOpen,
+  fetchCommunities,
+}) => {
   const {
     register,
     handleSubmit,
@@ -10,8 +18,24 @@ export const CommunityApplicationPanel = ({ open, setOpen }) => {
   } = useForm();
   const [previewImage, setPreviewImage] = useState(null);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data.communityArtwork[0]);
+    const { data: fileData, error: fileError } = await clientStorage
+      .from('community-artworks')
+      .upload(`${wallet.accountId}/image`, data.communityArtwork[0], {
+        contentType: 'image/png',
+      });
+    await supabase.insert('community-artwork', {
+      name: data.communityName,
+      description: data.communityDescription,
+      account: wallet.accountId,
+      imagelink: `https://ndxjhhgwpydyiayqbkdr.supabase.co/storage/v1/object/public/community-artworks/${fileData.path}`,
+    });
+    fetchCommunities();
+    toast.success('Applied for community successfully');
+    setOpen(false);
+    // await axios.post(`${apiLink}/`);
+    //
   };
 
   const handleImageChange = (e) => {
