@@ -16,7 +16,7 @@ export function getEnv(env = process.env.REACT_APP_ENV) {
         og_contract: 'og-sbt-1.i-am-human.testnet',
         gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
-        apiLink: 'https://dev-ophc7vkxsq-uc.a.run.app',
+        apiLink: 'http://localhost:3001',
       };
     default:
       throw new Error(`${env} is not a valid NEAR environment`);

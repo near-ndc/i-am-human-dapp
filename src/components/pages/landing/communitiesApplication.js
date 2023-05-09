@@ -25,7 +25,7 @@ export const CommunitiesApplication = () => {
         <div className="mt-6" />
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-            Community Application
+            Community SBT Application
           </h2>
           <p className="mt-4 text-lg text-gray-500">
             Create your own community on I-AM-HUMAN and have the ability to

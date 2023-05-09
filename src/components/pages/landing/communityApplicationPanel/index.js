@@ -52,7 +52,7 @@ export const CommunityApplicationPanel = ({
     <Panel
       open={open}
       onClose={() => setOpen(false)}
-      title="Application for Community on I-am-Human"
+      title="Application to create a Community Specific SBT on I-am-Human"
     >
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -100,13 +100,33 @@ export const CommunityApplicationPanel = ({
           <div className="py-2">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="communityLink"
+            >
+              Community Link
+            </label>
+            <input
+              {...register('communityLink', {
+                required: 'Community link is required',
+              })}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="communityLink"
+            />
+            {errors.communityLink && (
+              <p className="text-red-500 mt-1 text-xs italic">
+                {errors.communityLink.message}
+              </p>
+            )}
+          </div>
+          <div className="py-2">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="communityArtwork"
             >
-              Community Artwork
+              Proposed Artwork for SBT Badge
             </label>
             <input
               {...register('communityArtwork', {
-                required: 'Community artwork is required',
+                required: 'Proposed Artwork for SBT Badge is required',
               })}
               onChange={handleImageChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -134,7 +154,7 @@ export const CommunityApplicationPanel = ({
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Create Community
+              Apply for Community SBT
             </button>
           </div>
         </form>
