@@ -1,24 +1,31 @@
 import 'regenerator-runtime/runtime';
 import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
-import { Landing } from './pages/unAuth/index';
-import { Home } from './pages/auth/home';
+import { IndexPage } from './pages/index';
+import { CommunityApplicationPage } from './pages/communtiyapplication';
 //hard code 3 near address to show additional data
 
 export function App({ isSignedIn }) {
-  const [showAdmin, setShowAdmin] = useState(false);
   return (
     <>
-      {showAdmin ? (
-        <>
-          <Home setShowAdmin={setShowAdmin} />
-        </>
-      ) : (
-        <>
-          <Landing setShowAdmin={setShowAdmin} isSignedIn={isSignedIn} />
-        </>
-      )}
+      <Router>
+        <Switch>
+          <Route path="/community-application">
+            <CommunityApplicationPage />
+          </Route>
+          <Route path="/">
+            <IndexPage />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </Router>
       <ToastContainer
         position="top-right"
         autoClose={3500}

@@ -6,6 +6,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { wallet } from '../../index';
 import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export const Header = ({ setShowAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -25,23 +26,23 @@ export const Header = ({ setShowAdmin }) => {
 
   return (
     <>
-      <div className="px-6 pt-6 lg:px-8">
+      <div className="lg:mx-auto lg:max-w-7xl pt-8 ">
         <div>
           <nav
             className="flex h-9 items-center justify-between"
             aria-label="Global"
           >
             <div className="flex lg:min-w-0 lg:flex-1" aria-label="Global">
-              <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
+              <Link to="/" className="-m-1.5 p-1.5 font-bold tracking-tight">
                 <img
                   src={Logo}
                   onClick={() => {
-                    setShowAdmin(false);
+                    setShowAdmin?.(false);
                   }}
                   alt="logo"
                   className="h-[150px] w-[150px] mt-6"
                 />
-              </a>
+              </Link>
             </div>
             <div className="flex lg:hidden">
               {isSignedIn ? (

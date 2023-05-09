@@ -49,6 +49,8 @@
     "react-otp-input": "^2.4.0",
     "react-phone-number-input": "^3.2.18",
     "react-refresh": "^0.14.0",
+    "react-router": "5.3.4",
+    "react-router-dom": "5.3.4",
     "react-scripts": "5.0.0",
     "react-spinners-kit": "^1.9.1",
     "react-toastify": "^9.1.1",

@@ -12,12 +12,12 @@ import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
-import { CommunitiesApplication } from '../../components/pages/landing/communitiesApplication';
 import {
   app_contract,
   gooddollar_contract,
   new_sbt_contract,
 } from '../../utils/contract-addresses';
+import { Footer } from '../../components/common/footer';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
@@ -514,9 +514,6 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   </div>
                 </div>
               </div>
-              <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
-                <CommunitiesApplication />
-              </div>
               <a
                 href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
                 target="_blank"
@@ -532,6 +529,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           </>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -20,7 +20,7 @@ export const CommunitiesApplication = () => {
   }, [fetchCommunities]);
 
   return (
-    <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none pb-16 lg:px-0">
+    <div className="mx-auto pt-16 pb-16">
       <div>
         <div className="mt-6" />
         <div>
