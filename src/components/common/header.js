@@ -13,14 +13,27 @@ export const Header = ({ setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet.accountId });
 
   //When user login with default wallet id it will contain 64 characters, so this function will show first 6 and last 4 chars
-  const formatAccountId = (accountId) =>
-    accountId.includes('.')
-      ? accountId
-      : `${accountId.substring(0, 6)}...${accountId.substring(
-          accountId.length - 4,
-          accountId.length
-        )}`;
+  function getAccountLengths(screenWidth) {
+    if (screenWidth < 480) {
+      return { startLength: 4, endLength: 4, maxLength: 9 };
+    } else if (screenWidth < 768) {
+      return { startLength: 8, endLength: 8, maxLength: 18 };
+    } else {
+      return { startLength: 10, endLength: 10, maxLength: 22 };
+    }
+  }
 
+  function getDisplayableAccountId(screenWidth) {
+    const { startLength, endLength, maxLength } =
+      getAccountLengths(screenWidth);
+    const accountId = wallet.accountId;
+
+    return accountId.length > maxLength
+      ? accountId.slice(0, startLength) +
+          '..' +
+          (endLength === 0 ? '' : accountId.slice(0 - endLength))
+      : accountId;
+  }
   useEffect(() => {
     wallet
       .startUp()
@@ -111,7 +124,7 @@ export const Header = ({ setShowAdmin }) => {
               )}
               {wallet.accountId && (
                 <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                  {formatAccountId(wallet.accountId)}
+                  {getDisplayableAccountId(window.innerWidth)}
                 </div>
               )}
               <button
@@ -182,7 +195,7 @@ export const Header = ({ setShowAdmin }) => {
                     )}
                     {wallet.accountId && (
                       <div className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">
-                        {formatAccountId(wallet.accountId)}
+                        {getDisplayableAccountId(window.innerWidth)}
                       </div>
                     )}
                     <button
