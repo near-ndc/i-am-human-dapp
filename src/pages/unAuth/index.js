@@ -65,17 +65,18 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
         const data = await wallet.viewMethod({
           contractId: app_contract,
           method: 'sbt_supply_by_owner',
-          args: { account: wallet.accountId, ctr: gooddollar_contract },
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
         const data2 = await wallet.viewMethod({
           contractId: app_contract,
           method: 'sbt_tokens_by_owner',
-          args: { account: wallet.accountId, ctr: gooddollar_contract },
+          args: { account: wallet.accountId, issuer: gooddollar_contract },
         });
+        //in order to change supabase data if there are no fv sbt tokens
         if (!data2?.[0]?.[1]?.[0]) {
           await supabase.update(
             'users',
-            { g$_address: null },
+            { g$_address: null, status: null },
             { wallet_identifier: wallet.accountId }
           );
         }
@@ -485,7 +486,11 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   if (isSignedIn) {
                                     log_event({
                                       event_log:
+<<<<<<< HEAD
                                         'Started OG SBT verification flow',
+=======
+                                        "Started OG SBT verification flow",
+>>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                                     });
                                     setShowCommunityVerification(true);
                                   } else {
