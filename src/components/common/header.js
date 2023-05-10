@@ -24,9 +24,13 @@ export const Header = ({ setShowAdmin }) => {
   }
 
   function getDisplayableAccountId(screenWidth) {
+    const accountId = wallet.accountId;
+
+    if (accountId.length < 30) {
+      return accountId;
+    }
     const { startLength, endLength, maxLength } =
       getAccountLengths(screenWidth);
-    const accountId = wallet.accountId;
 
     return accountId.length > maxLength
       ? accountId.slice(0, startLength) +
