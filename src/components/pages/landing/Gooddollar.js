@@ -3,6 +3,7 @@ import {
   createLoginLink,
   parseLoginResponse,
   LoginButton,
+  useLogin,
 } from '@gooddollar/goodlogin-sdk';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -16,10 +17,10 @@ import { useUniqueGUser } from '../../../utils/uniqueUser';
 
 import { supabase } from '../../../utils/supabase';
 
-import getConfig from '../../../config';
+import { getEnv } from '../../../utils/config';
 import { log_event } from '../../../utils/utilityFunctions';
 import { gooddollar_contract } from '../../../utils/contract-addresses';
-const config = getConfig();
+const { mintFee } = getEnv();
 
 export const Gooddollar = ({ setShowGooddollarVerification }) => {
   const gooddollarLink = createLoginLink({
@@ -29,7 +30,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     r: ['name'],
     rdu: window.location.href,
   });
-  const [gooddollarData, setGooddollarData] = React.useState(null);
   const [rawGoodDollarData, setRawGoodDollarData] = React.useState(null);
   const [editableFields, setEditableFields] = React.useState({
     name: true,
@@ -38,93 +38,75 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
   });
   const [submitting, setSubmitting] = React.useState(null);
 
-  const {
-    values,
-    handleSubmit,
-    handleBlur,
-    handleChange,
-    setValues,
-    errors,
-    setFieldValue,
-  } = useFormik({
-    initialValues: {
-      name: '',
-      gDollarAccount: '',
-      status: '',
-    },
-    validationSchema: Yup.object().shape({
-      email: Yup.string().email('Invalid email'),
-    }),
-    onSubmit: async (data) => {
-      // here need to clear url and remove all unnecessary data from url for near wallet redirect
-      window.history.replaceState({}, '', window.location.origin);
-      setSubmitting(true);
-      const { sig, ...rawData } = rawGoodDollarData;
-
-      const sendObj = {
-        m: JSON.stringify(rawData),
-        c: wallet.accountId,
-        sig: rawGoodDollarData.sig,
-      };
-      console.log(sendObj);
-      let error = null;
-      let updateData = {
-        wallet_identifier: wallet.accountId,
-        g$_address: data.gDollarAccount,
-        status: 'Approved',
-      };
-
-      try {
-        const result = await verifyUser(sendObj);
-        const { data } = await supabase.select('users', {
+  const { values, handleSubmit, handleBlur, handleChange, setValues } =
+    useFormik({
+      initialValues: {
+        name: '',
+        gDollarAccount: '',
+        status: '',
+      },
+      validationSchema: Yup.object().shape({
+        email: Yup.string().email('Invalid email'),
+      }),
+      onSubmit: async (data) => {
+        // here need to clear url and remove all unnecessary data from url for near wallet redirect
+        window.history.replaceState({}, '', window.location.origin);
+        setSubmitting(true);
+        const { sig, ...rawData } = rawGoodDollarData;
+        const sendObj = {
+          m: JSON.stringify(rawData),
+          c: wallet.accountId,
+          sig: rawGoodDollarData.sig,
+        };
+        let updateData = {
           wallet_identifier: wallet.accountId,
+          g$_address: data.gDollarAccount,
+          status: 'Approved',
+        };
+        log_event({
+          event_log: `Data sent to verify API ${JSON.stringify(sendObj)}`,
         });
-
-        if (data?.[0]) {
-          const { error: appError } = await supabase.update(
-            'users',
-            updateData,
-            { wallet_identifier: wallet.accountId }
+        try {
+          const result = await verifyUser(sendObj);
+          const { data } = await supabase.select('users', {
+            wallet_identifier: wallet.accountId,
+          });
+          log_event({
+            event_log: `Data receivied from verify API ${JSON.stringify(
+              result
+            )}`,
+          });
+          if (data?.[0]) {
+            await supabase.update('users', updateData, {
+              wallet_identifier: wallet.accountId,
+            });
+          } else {
+            await supabase.insert('users', updateData);
+          }
+          log_event({ event_log: 'Applied for FV SBT' });
+          await wallet.callMethod({
+            contractId: gooddollar_contract,
+            method: 'sbt_mint',
+            args: {
+              claim_b64: result.m,
+              claim_sig: result.sig,
+            },
+            deposit: mintFee,
+          });
+        } catch (e) {
+          log_event({
+            event_log: `Error happened while submitting FB SBT ${JSON.stringify(
+              e
+            )}`,
+          });
+          toast.error(
+            'An error occured while submitting your details , please try again'
           );
-        } else {
-          const { error: appError } = await supabase.insert(
-            'users',
-            updateData
-          );
+        } finally {
+          setSubmitting(false);
         }
-        console.log(result);
-        await wallet.callMethod({
-          contractId: gooddollar_contract,
-          method: 'sbt_mint',
-          args: {
-            claim_b64: result.m,
-            claim_sig: result.sig,
-          },
-          deposit: '8000000000000000000000',
-        });
-        log_event({ event_log: 'Applied for OG SBT' });
-      } catch (e) {
-        console.log('Error', e);
-        toast.error(
-          'An error occured while submitting your details , please try again'
-        );
-      } finally {
-        setSubmitting(false);
-      }
-    },
-    validate: (values) => {
-      const errors = {};
-      // if (values.phone) {
-      //   if (!isPossiblePhoneNumber(values.phone)) {
-      //     errors.phone =
-      //       "Invalid phone number, please provide the phone number with valid country code";
-      //   }
-      // } else {
-      //   errors.phone = "Phone Number Required";
-      // }
-      return errors;
-    },
-  });
+      },
+    });
 
   const handleValues = (key) => ({
     value: values[key],
@@ -139,9 +121,16 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     async (data) => {
       try {
         if (data.error) return alert('Login request denied !');
+        log_event({
+          event_log: `Raw Data received on Gooddollar ${JSON.stringify(data)}`,
+        });
         parseLoginResponse(data).then((d) => {
+          log_event({
+            event_log: `Parsed Data received on Gooddollar ${JSON.stringify(
+              d
+            )}`,
+          });
           setRawGoodDollarData(data);
-          setGooddollarData(d);
           setEditableFields((d) => ({
             ...d,
             email: !Boolean(d?.email?.value),
@@ -150,7 +139,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             ...d,
             mobile: !Boolean(d?.mobile?.value),
           }));
-          const isVerified = d?.isAddressWhitelisted?.value;
+          const isVerified =
+            d?.isAddressWhitelisted?.value === true ||
+            d?.isAddressWhitelisted?.isVerified === true;
           setValues({
             gDollarAccount: d?.walletAddress?.value,
             status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
@@ -163,23 +154,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     },
     [setValues]
   );
-
-  useEffect(() => {
-    if (window.location.href.includes('?login=')) {
-      const loginURI = window?.location?.href.split('=');
-      const buffer = Buffer.from(
-        decodeURIComponent(loginURI[1]),
-        'base64'
-      ).toString('ascii');
-      if (buffer[buffer.length - 1] !== '}') {
-        let lastIndex = buffer.lastIndexOf('}');
-        log_event({ event_log: 'Gooddollar Authorization done' });
-        gooddollarLoginCb(JSON.parse(buffer.slice(0, lastIndex + 1)));
-      } else {
-        gooddollarLoginCb(JSON.parse(buffer));
-      }
-    }
-  }, [gooddollarLoginCb]);
 
   useEffect(() => {
     if (window.location.href.includes('?login')) {
@@ -198,6 +172,11 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
     gAddress: values.gDollarAccount,
+  });
+
+  //added hook to parse response with native gooddollar method
+  useLogin({
+    onLoginCallback: gooddollarLoginCb,
   });
 
   return (
