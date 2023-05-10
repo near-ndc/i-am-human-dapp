@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import {
   BrowserRouter as Router,
@@ -12,18 +12,24 @@ import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
 //hard code 3 near address to show additional data
 
+const RedirectComponent = () => {
+  return <Redirect to="/" />;
+};
+
 export function App({ isSignedIn }) {
   return (
     <>
       <Router>
         <Switch>
-          <Route path="/community-application">
+          <Route exact path="/community-application">
             <CommunityApplicationPage />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <IndexPage />
           </Route>
-          <Redirect to="/" />
+          <Route path="*">
+            <RedirectComponent />
+          </Route>
         </Switch>
       </Router>
       <ToastContainer
