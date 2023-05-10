@@ -16,7 +16,7 @@ In your project's dashboard, you'll see a menu on the left-hand side of the page
 
 ## 4. Open the Events Table
 
-In the database interface, you'll see a list of tables on the left-hand side. Find and click on the `Events` table to open it.
+In the database interface, you'll see a list of tables on the left-hand side. Find and click on the `events` table to open it.
 
 ## 5. Review the Logs
 
