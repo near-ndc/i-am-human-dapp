@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../utils/supabase';
 import { GrFormAdd } from 'react-icons/gr';
@@ -58,6 +59,7 @@ export function FVSBTApplicationsTable() {
             const isIncluded = selectedStatus.includes(item);
             return (
               <span
+                key={item}
                 className={`inline-flex items-center rounded-full py-0.5 pl-2 pr-0.5 text-xs ${
                   isIncluded
                     ? 'bg-indigo-100 text-indigo-700'
