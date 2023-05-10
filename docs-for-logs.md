@@ -29,7 +29,3 @@ Please remember to respect privacy and data security when accessing logs. Only u
 If you face any problems or have any questions during this process, don't hesitate to reach out to your project admins for support.
 
 For more detailed information about Supabase, please refer to the [official Supabase documentation](https://supabase.io/docs).
-
----
-
-For more questions, feel free to contact us on Telegram at `[@your_support_contact]` or by email at `[your_support_email]`.
