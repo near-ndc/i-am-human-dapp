@@ -22,10 +22,10 @@ export function App({ isSignedIn }) {
       <Router>
         <Switch>
           <Route exact path="/community-application">
-            <CommunityApplicationPage />
+            <CommunityApplicationPage isSignedIn={isSignedIn} />
           </Route>
           <Route exact path="/">
-            <IndexPage />
+            <IndexPage isSignedIn={isSignedIn} />
           </Route>
           <Route path="*">
             <RedirectComponent />
