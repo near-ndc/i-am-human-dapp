@@ -530,7 +530,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   href="https://github.com/near-ndc/i-am-human-dapp/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="bg-red-500 hover:bg-red-400 rounded-lg px-5 py-2.5"
+                  class="bg-red-600 text-white hover:bg-red-500 rounded-lg px-5 py-2.5"
                 >
                   Report Problem
                 </a>
