@@ -17,7 +17,7 @@ export function getEnv(env = process.env.REACT_APP_ENV) {
         og_contract: 'og-sbt-1.i-am-human.testnet',
         gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
-        apiLink: 'http://localhost:3001',
+        apiLink: 'https://dev-ophc7vkxsq-uc.a.run.app',
         mintFee: '8000000000000000000000',
       };
     default:
