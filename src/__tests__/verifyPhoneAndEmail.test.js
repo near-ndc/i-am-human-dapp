@@ -152,7 +152,7 @@ describe('Verify Phone And Email', () => {
     const emailInput = getByLabelText(/Email/i);
     const verifyButton = getByRole('button', { name: 'Verify' });
     fireEvent.change(emailInput, { target: { value: email } });
-    act(() => {
+    await act(async () => {
       fireEvent.click(verifyButton);
     });
     const sendOtp = await axios.post(`${api_link}/send_email_otp`, {
@@ -166,7 +166,7 @@ describe('Verify Phone And Email', () => {
     // verify otp
     expect(getByText(/Enter otp sent to your email/i)).toBeInTheDocument();
     fillOtpField();
-    act(() => {
+    await act(async () => {
       fireEvent.click(verifyButton);
     });
     const verifyOtp = await axios.post(`${api_link}/verify_email_otp`, {
