@@ -7,7 +7,7 @@ export const CommunityApplicationPage = ({ isSignedIn }) => {
   const ref = React.useRef();
 
   React.useEffect(() => {
-    ref.current.scrollTo(0, 0);
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
   }, []);
   return (
     <div ref={ref}>

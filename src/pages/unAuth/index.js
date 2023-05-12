@@ -164,7 +164,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <div className="md:space-x-2 space-y-2 md:space-y-0">
+                      <div className="space-x-2 space-y-2 md:space-y-0">
                         <button
                           onClick={() => {
                             fvRef?.current?.scrollIntoView({
