@@ -176,7 +176,7 @@ export const VerifyPhoneAndEmail = ({
           <div>
             <div>
               <label
-                for="email"
+                htmlFor="email"
                 className="block mb-2 ml-1 text-sm font-medium text-gray-900"
               >
                 Email
