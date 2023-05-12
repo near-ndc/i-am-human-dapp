@@ -22,7 +22,6 @@ export const CommunityApplicationPanel = ({
   const [previewImage, setPreviewImage] = useState(null);
 
   const onSubmit = async (data) => {
-    console.log(data.communityArtwork[0]);
     try {
       setFormLoading(true);
       const { data: fileData } = await clientStorage
@@ -38,7 +37,6 @@ export const CommunityApplicationPanel = ({
         email: data.email,
         imagelink: `https://ndxjhhgwpydyiayqbkdr.supabase.co/storage/v1/object/public/community-artworks/${fileData.path}`,
       });
-      // await axios.post(`${api_link}/send-email`);
       toast.success('Applied for community successfully');
     } finally {
       setFormLoading(false);
@@ -46,9 +44,6 @@ export const CommunityApplicationPanel = ({
       reset();
       fetchCommunities();
     }
-
-    // await axios.post(`${apiLink}/`);
-    //
   };
 
   const handleImageChange = (e) => {
@@ -186,9 +181,7 @@ export const CommunityApplicationPanel = ({
             type="submit"
             disabled={formLoading}
           >
-            {formLoading
-              ? 'Applying , Please wait :)'
-              : 'Apply for Community SBT'}
+            {formLoading ? 'Applying' : 'Apply for Community SBT'}
           </button>
         </div>
       </form>

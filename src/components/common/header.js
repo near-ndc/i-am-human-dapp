@@ -40,7 +40,7 @@ export const Header = ({ setShowAdmin }) => {
                     setShowAdmin?.(false);
                   }}
                   alt="logo"
-                  className="h-[150px] w-[150px] mt-6"
+                  className="h-[150px] w-[150px] mt-6 "
                 />
               </Link>
             </div>
@@ -49,7 +49,7 @@ export const Header = ({ setShowAdmin }) => {
                 <>
                   <button
                     type="button"
-                    className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                    className=" inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                     onClick={() => setMobileMenuOpen(true)}
                   >
                     <span className="sr-only">Open main menu</span>
