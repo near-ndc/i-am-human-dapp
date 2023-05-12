@@ -6,7 +6,7 @@ We use [Supabase](https://supabase.io/) to collect logs.
 ## Logging information
 
 Logs are created through the log_event function in src/utils/utilityFunctions
-As a developer if you want to implement logging at any step in the app just add the code "log_event({ event_log: 'Message you want to log' })" and it will be stored inside the supabase db instantly
+As a developer if you want to implement logging at any step in the app just add the code `log_event({ event_log: 'Message you want to log' })` and it will be stored inside the supabase db instantly.
 
 
 ## Accessing Supabase
