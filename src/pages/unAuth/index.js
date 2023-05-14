@@ -80,6 +80,23 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             { g$_address: null, status: null },
             { wallet_identifier: wallet.accountId }
           );
+        } else {
+          const communityName = localStorage.getItem('community-name');
+          const communityVertical = localStorage.getItem('community-vertical');
+          if (communityName) {
+            const { data } = await supabase.select('scoreboard', {
+              account: wallet.accountId,
+            });
+            if (!data?.[0]) {
+              await supabase.insert('scoreboard', {
+                account: wallet.accountId,
+                'community-name': communityName,
+                'community-vertical': communityVertical,
+              });
+            }
+            localStorage.removeItem('community-name');
+            localStorage.removeItem('community-vertical');
+          }
         }
         setFvTokenData(data2?.[0]?.[1]?.[0]);
 
