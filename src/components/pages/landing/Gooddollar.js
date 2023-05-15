@@ -4,7 +4,7 @@ import {
   parseLoginResponse,
   LoginButton,
   useLogin,
-} from '@gooddollar/goodlogin-sdk';
+} from '../../../../packages/gooddollar-login-sdk';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -56,7 +56,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
         const sendObj = {
           m: JSON.stringify(rawData),
           c: wallet.accountId,
-          sig: rawGoodDollarData.sig,
+          sig,
         };
         let updateData = {
           wallet_identifier: wallet.accountId,
