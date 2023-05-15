@@ -1,12 +1,14 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { ManageTokens } from '../components/pages/home/manageTokens';
-import { near_contract } from '../utils/contract-addresses';
 import '@testing-library/jest-dom';
 import { wallet } from '../index';
+import { getConfig } from '../utils/config';
 
 const accountIDWithSBT = 'user1tictactoe.testnet';
 const accountIDWithoutSBT = 'user2tictactoe.testnet';
+
+const { og_contract } = getConfig();
 
 // Mock wallet from index.js file
 jest.mock('../index', () => ({
@@ -54,7 +56,7 @@ describe('ManageTokens', () => {
     fireEvent.change(input, { target: { value: accountIDWithoutSBT } });
     fireEvent.click(screen.getByRole('button', { name: /Check Tokens/i }));
     expect(wallet.viewMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'nft_tokens_for_owner',
       args: { account: accountIDWithoutSBT },
     });
@@ -79,7 +81,7 @@ describe('ManageTokens', () => {
     const viewButton = screen.getByRole('button', { name: /Check Tokens/i });
     fireEvent.click(viewButton);
     expect(wallet.viewMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'nft_tokens_for_owner',
       args: { account: accountIDWithSBT },
     });

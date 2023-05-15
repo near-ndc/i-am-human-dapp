@@ -3,11 +3,7 @@ import { toast } from 'react-toastify';
 
 import { wallet } from '../../../index';
 import { TransferSBT } from './MyOwnSbtFiles/transferSbt';
-import {
-  app_contract,
-  gooddollar_contract,
-  new_sbt_contract,
-} from '../../../utils/contract-addresses';
+import { getConfig } from '../../../utils/config';
 
 export const CheckSbtTokenStatus = () => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -16,6 +12,7 @@ export const CheckSbtTokenStatus = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const checkSBTTokens = useCallback(async () => {
+    const { app_contract, new_sbt_contract, gooddollar_contract } = getConfig();
     try {
       setFetchLoading(true);
       const og_supply = await wallet.viewMethod({

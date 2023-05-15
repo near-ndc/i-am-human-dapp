@@ -6,7 +6,7 @@ import { wallet } from '../../../../index';
 import { toast } from 'react-toastify';
 import { ButtonLoader } from '../../../common/buttonLoader';
 import { addressToVerify } from '../../../../utils/addressToVerify';
-import { near_contract } from '../../../../utils/contract-addresses';
+import { getConfig } from '../../../../utils/config';
 
 export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
     try {
       setLoading(true);
       await wallet.callMethod({
-        contractId: near_contract,
+        contractId: getConfig().og_contract,
         method: 'sbt_transfer',
         args: { receiver: transferTo },
       });
