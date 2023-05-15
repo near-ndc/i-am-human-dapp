@@ -1,24 +1,37 @@
 import 'regenerator-runtime/runtime';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
-import { Landing } from './pages/unAuth/index';
-import { Home } from './pages/auth/home';
+import { IndexPage } from './pages/index';
+import { CommunityApplicationPage } from './pages/communtiyapplication';
 //hard code 3 near address to show additional data
 
+const RedirectComponent = () => {
+  return <Redirect to="/" />;
+};
+
 export function App({ isSignedIn }) {
-  const [showAdmin, setShowAdmin] = useState(false);
   return (
     <>
-      {showAdmin ? (
-        <>
-          <Home setShowAdmin={setShowAdmin} />
-        </>
-      ) : (
-        <>
-          <Landing setShowAdmin={setShowAdmin} isSignedIn={isSignedIn} />
-        </>
-      )}
+      <Router>
+        <Switch>
+          <Route exact path="/community-application">
+            <CommunityApplicationPage isSignedIn={isSignedIn} />
+          </Route>
+          <Route exact path="/">
+            <IndexPage isSignedIn={isSignedIn} />
+          </Route>
+          <Route path="*">
+            <RedirectComponent />
+          </Route>
+        </Switch>
+      </Router>
       <ToastContainer
         position="top-right"
         autoClose={3500}

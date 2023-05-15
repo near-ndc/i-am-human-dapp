@@ -12,13 +12,13 @@ import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
+import { Footer } from '../../components/common/footer';
 import { getConfig } from '../../utils/config';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
-  const ref = useRef();
   const [showGooddollarVerification, setShowGooddollarVerification] =
     useState(false);
   const [showCommunityVerification, setShowCommunityVerification] =
@@ -161,7 +161,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <div className="space-x-2">
+                      <div className="space-x-2 space-y-2 md:space-y-0">
                         <button
                           onClick={() => {
                             fvRef?.current?.scrollIntoView({
@@ -484,11 +484,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   if (isSignedIn) {
                                     log_event({
                                       event_log:
-<<<<<<< HEAD
-                                        'Started OG SBT verification flow',
-=======
                                         "Started OG SBT verification flow",
->>>>>>> 48966249772b5aa83c9c64693200e4f44c160f97
                                     });
                                     setShowCommunityVerification(true);
                                   } else {
@@ -540,6 +536,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
           </>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
