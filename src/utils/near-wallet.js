@@ -9,7 +9,6 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 import LedgerIconUrl from '@near-wallet-selector/ledger/assets/ledger-icon.png';
 import MyNearIconUrl from '@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png';
 import meteorIconUrl from '@near-wallet-selector/meteor-wallet/assets/meteor-icon.png';
-import { networkConfig } from './contract-addresses';
 // wallet selector options
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupLedger } from '@near-wallet-selector/ledger';
@@ -21,6 +20,7 @@ import { setupSender } from '@near-wallet-selector/sender';
 import senderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import HereWalletIconUrl from '@near-wallet-selector/here-wallet/assets/here-wallet-icon.png';
+import { getConfig } from './config';
 
 const sender = setupSender({
   iconUrl: senderIconUrl,
@@ -52,7 +52,7 @@ export class Wallet {
     // Omitting the accountId will result in the user being
     // asked to sign all transactions.
     this.createAccessKeyFor = createAccessKeyFor;
-    this.network = networkConfig;
+    this.network = getConfig().network_id;
   }
 
   // To be called when the website loads

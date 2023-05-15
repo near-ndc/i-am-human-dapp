@@ -10,7 +10,10 @@ import {
 
 import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
+<<<<<<< HEAD
 import { ScoreboardPage } from './pages/scoreboard';
+=======
+>>>>>>> c4aef0415d1ce1de609e7633aba20d5508f35c65
 //hard code 3 near address to show additional data
 
 const RedirectComponent = () => {

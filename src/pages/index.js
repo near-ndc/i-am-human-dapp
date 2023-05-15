@@ -1,6 +1,5 @@
 import 'regenerator-runtime/runtime';
 import React, { useState, useEffect } from 'react';
-import { use } from 'react-router-dom';
 
 import { Landing } from './unAuth/index';
 import { Home } from './auth/home';
