@@ -12,18 +12,13 @@ import { toast } from 'react-toastify';
 import { IAmHumanStatus } from '../../components/pages/landing/iAmHumanStatus';
 import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommunityVerify';
 import { log_event } from '../../utils/utilityFunctions';
-import {
-  app_contract,
-  gooddollar_contract,
-  new_sbt_contract,
-} from '../../utils/contract-addresses';
 import { Footer } from '../../components/common/footer';
+import { getConfig } from '../../utils/config';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
   const [hasApplied, setHasApplied] = useState(null);
   const [userData, setUserData] = useState({});
-  const ref = useRef();
   const [showGooddollarVerification, setShowGooddollarVerification] =
     useState(false);
   const [showCommunityVerification, setShowCommunityVerification] =
@@ -62,6 +57,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const checkFVokens = useCallback(async () => {
     if (isSignedIn) {
       try {
+        const { app_contract, gooddollar_contract } = getConfig();
         setFvFetchLoading(true);
         const data = await wallet.viewMethod({
           contractId: app_contract,
@@ -99,40 +95,41 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
   }, [isSignedIn]);
 
   //commenting this code because there is no SBT functionality inside this release
-  const checkSBTTokens = useCallback(async () => {
-    // if (isSignedIn) {
-    //   try {
-    //     setFetchLoading(true);
-    //     const data = await wallet.viewMethod({
-    //       contractId: app_contract,
-    //       method: 'sbt_supply_by_owner',
-    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
-    //     });
-    //     const data2 = await wallet.viewMethod({
-    //       contractId: app_contract,
-    //       method: 'sbt_tokens_by_owner',
-    //       args: { account: wallet.accountId, ctr: new_sbt_contract },
-    //     });
-    //     setTokenData(data2?.[0]?.[1]?.[0]);
-    //     if (!data2?.[0] && localStorage.getItem('openOG')) {
-    //       setShowCommunityVerification(true);
-    //       localStorage.removeItem('openOG');
-    //     }
-    //     setTokenSupply(parseInt(data));
-    //   } catch (e) {
-    //     console.log(e);
-    //     toast.error('An error occured while fetching token supply');
-    //     setFetchLoading(false);
-    //   } finally {
-    //     setFetchLoading(false);
-    //   }
-    // }
-  }, [isSignedIn]);
+  // const checkSBTTokens = useCallback(async () => {
+  // if (isSignedIn) {
+  //   try {
+  //     const { app_contract, new_sbt_contract } = getConfig();
+  //     setFetchLoading(true);
+  //     const data = await wallet.viewMethod({
+  //       contractId: app_contract,
+  //       method: 'sbt_supply_by_owner',
+  //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+  //     });
+  //     const data2 = await wallet.viewMethod({
+  //       contractId: app_contract,
+  //       method: 'sbt_tokens_by_owner',
+  //       args: { account: wallet.accountId, ctr: new_sbt_contract },
+  //     });
+  //     setTokenData(data2?.[0]?.[1]?.[0]);
+  //     if (!data2?.[0] && localStorage.getItem('openOG')) {
+  //       setShowCommunityVerification(true);
+  //       localStorage.removeItem('openOG');
+  //     }
+  //     setTokenSupply(parseInt(data));
+  //   } catch (e) {
+  //     console.log(e);
+  //     toast.error('An error occured while fetching token supply');
+  //     setFetchLoading(false);
+  //   } finally {
+  //     setFetchLoading(false);
+  //   }
+  // }
+  // }, [isSignedIn]);
 
   useEffect(() => {
-    checkSBTTokens();
+    // checkSBTTokens();
     checkFVokens();
-  }, [checkSBTTokens, checkFVokens]);
+  }, [checkFVokens]);
   const isExpired = Date.now() > tokenData?.metadata?.expires_at;
   const isFvExpired = Date.now() > fvTokenData?.metadata?.expires_at;
 
@@ -514,14 +511,24 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   </div>
                 </div>
               </div>
-              <a
-                href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-black bg-yellow-300 focus:outline-none hover:bg-yellow-400 focus:ring-4 focus:outline-none rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 fixed bottom-1 right-1"
-              >
-                Give us your feedback
-              </a>
+              <div className="text-black focus:outline-none focus:outline-none focus:ring-4 text-xs text-center inline-flex !gap-2 items-center mr-2 mb-2 fixed bottom-1 right-1">
+                <a
+                  href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-yellow-300 hover:bg-yellow-400 px-5 py-2.5 rounded-lg"
+                >
+                  Give us your feedback
+                </a>
+                <a
+                  href="https://github.com/near-ndc/i-am-human-dapp/issues/new"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-red-600 text-white hover:bg-red-500 rounded-lg px-5 py-2.5"
+                >
+                  Report Problem
+                </a>
+              </div>
 
               {/* <KycDao /> */}
             </div>

@@ -1,12 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
-
 import { wallet } from '../../../../index';
-import {
-  app_contract,
-  new_sbt_contract,
-} from '../../../../utils/contract-addresses';
+import { getConfig } from '../../../../utils/config';
 
 export const SbtTokenStatus = ({ wallet_address }) => {
   const [fetchloading, setFetchLoading] = useState(true);
@@ -14,6 +10,7 @@ export const SbtTokenStatus = ({ wallet_address }) => {
   const [tokenData, setTokenData] = useState(null);
 
   const checkSBTTokens = useCallback(async () => {
+    const { app_contract, new_sbt_contract } = getConfig();
     try {
       setFetchLoading(true);
       const data = await wallet.viewMethod({
