@@ -11,7 +11,6 @@ export function IndexPage({ isSignedIn }) {
     const params = new URLSearchParams(search);
     const community = params.get('community');
     const vertical = params.get('vertical');
-    console.log(vertical);
     if (community && vertical) {
       localStorage.setItem('community-name', community);
       localStorage.setItem('community-vertical', vertical);
