@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Footer } from '../components/common/footer';
 import { Header } from '../components/common/header';
 import { supabase } from '../utils/supabase';
+import { CommunityDataKeys } from '../utils/campaign';
 
 import { ScoreBoardTable } from '../components/pages/scoreboard/scoreboardTable';
 
@@ -14,18 +15,21 @@ export const ScoreboardPage = ({ isSignedIn }) => {
     const { data } = await supabase.select('scoreboard');
     const communityCounter = {};
     data.map((item) => {
-      if (!communityCounter[item?.['community-name']]) {
-        communityCounter[item?.['community-name']] = 1;
+      if (!communityCounter[item?.[CommunityDataKeys.COMMUNITY_NAME]]) {
+        communityCounter[item?.[CommunityDataKeys.COMMUNITY_NAME]] = 1;
       } else {
-        communityCounter[item?.['community-name']] =
-          communityCounter[item?.['community-name']] + 1;
+        communityCounter[item?.[CommunityDataKeys.COMMUNITY_NAME]] =
+          communityCounter[item?.[CommunityDataKeys.COMMUNITY_NAME]] + 1;
       }
     });
     const arrayToSet = Object.entries(communityCounter).map(([key, val]) => {
-      let community_data = data.find((item) => item['community-name'] === key);
+      let community_data = data.find(
+        (item) => item[CommunityDataKeys.COMMUNITY_NAME] === key
+      );
       let objectToReturn = {};
-      objectToReturn['vertical'] = community_data['community-vertical'];
-      objectToReturn['name'] = community_data['community-name'];
+      objectToReturn['vertical'] =
+        community_data[CommunityDataKeys.COMMUNITY_VERTICAL];
+      objectToReturn['name'] = community_data[CommunityDataKeys.COMMUNITY_NAME];
       objectToReturn['usercount'] = val;
       objectToReturn['id'] = 'id' + Math.random().toString(16).slice(2);
       return objectToReturn;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Landing } from './unAuth/index';
 import { Home } from './auth/home';
+import { CommunityDataKeys } from '../utils/campaign';
 
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
@@ -12,8 +13,8 @@ export function IndexPage({ isSignedIn }) {
     const community = params.get('community');
     const vertical = params.get('vertical');
     if (community && vertical) {
-      localStorage.setItem('community-name', community);
-      localStorage.setItem('community-vertical', vertical);
+      localStorage.setItem(CommunityDataKeys.COMMUNITY_NAME, community);
+      localStorage.setItem(CommunityDataKeys.COMMUNITY_VERTICAL, vertical);
     }
   }, []);
   return (
