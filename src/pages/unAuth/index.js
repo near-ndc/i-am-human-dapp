@@ -14,6 +14,7 @@ import { ApplyCommunityVerify } from '../../components/pages/landing/applyCommun
 import { log_event } from '../../utils/utilityFunctions';
 import { Footer } from '../../components/common/footer';
 import { getConfig } from '../../utils/config';
+import { CommunityDataKeys } from '../../utils/campaign';
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [isAdmin] = useAdmin({ address: wallet?.accountId ?? '' });
@@ -86,12 +87,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
             if (!data?.[0]) {
               await supabase.insert('scoreboard', {
                 account: wallet.accountId,
-                'community-name': communityName,
-                'community-vertical': communityVertical,
+                [CommunityDataKeys.COMMUNITY_NAME]: communityName,
+                [CommunityDataKeys.COMMUNITY_VERTICAL]: communityVertical,
               });
             }
-            localStorage.removeItem('community-name');
-            localStorage.removeItem('community-vertical');
+            localStorage.removeItem(CommunityDataKeys.COMMUNITY_NAME);
+            localStorage.removeItem(CommunityDataKeys.COMMUNITY_VERTICAL);
           }
         }
         setFvTokenData(data2?.[0]?.[1]?.[0]);
