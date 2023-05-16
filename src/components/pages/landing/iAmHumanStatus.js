@@ -46,7 +46,7 @@ export const IAmHumanStatus = ({ isSbtToken, isFvToken, isKycDao = false }) => {
       </div>
       <button
         onClick={() => setIsVideoOpen(true)}
-        className="p-2 bg-gray-100 shadow rounded-md text-xs hover:bg-gray-200 transition-all"
+        className="inline-flex rounded-md border px-4 py-2 text-base font-medium shadow-sm hover:bg-gray-100"
       >
         Click here to see how it works
       </button>

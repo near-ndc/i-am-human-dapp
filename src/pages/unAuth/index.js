@@ -161,14 +161,14 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                         them you will have a strong proof-of-personhood, which
                         can give you access to vote, to apps, to DAOs and more.
                       </p>
-                      <div className="space-x-2 space-y-2 md:space-y-0">
+                      <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => {
                             fvRef?.current?.scrollIntoView({
                               behavior: 'smooth',
                             });
                           }}
-                          className="inline-flex mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          className="mt-2 rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                         >
                           Verify My Personhood
                         </button>
@@ -179,7 +179,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                               '_blank'
                             );
                           }}
-                          className="inline-flex mt-2 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
+                          className="mt-2 rounded-md border border-purple-600 px-4 py-2 text-base font-medium text-purple-500 shadow-sm hover:bg-purple-200"
                         >
                           Learn More
                         </button>
@@ -189,24 +189,6 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                 </>
               </div>
             </div>
-            <button
-              onClick={() => {
-                fvRef?.current?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="animate-bounce mx-auto bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 opacity-60 shadow-lg rounded-full flex items-center justify-center"
-            >
-              <svg
-                className="w-6 h-6 text-violet-500"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-              </svg>
-            </button>
           </div>
           <>
             {isSignedIn && (
@@ -449,7 +431,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           </a>
                         </div>
                         <div className="mt-6">
-                          <button className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm">
+                          <button className="inline-flex rounded-md border px-4 py-2 text-base font-medium shadow-sm">
                             Coming Soon (Stay Tuned)
                           </button>
                           {/* {!tokenData &&
@@ -516,17 +498,17 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="bg-yellow-300 hover:bg-yellow-400 px-5 py-2.5 rounded-lg"
+                  class="border border-yellow-500 text-yellow-500 hover:bg-yellow-100 px-5 py-2.5 rounded-lg"
                 >
-                  Give us your feedback
+                  Feedback
                 </a>
                 <a
                   href="https://github.com/near-ndc/i-am-human-dapp/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="bg-red-600 text-white hover:bg-red-500 rounded-lg px-5 py-2.5"
+                  class="border border-red-500 text-red-500 hover:bg-red-100 rounded-lg px-5 py-2.5"
                 >
-                  Report Problem
+                  Report
                 </a>
               </div>
 
