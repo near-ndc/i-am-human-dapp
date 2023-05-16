@@ -14,13 +14,9 @@ import { wallet } from '../../..';
 import 'react-phone-number-input/style.css';
 import { verifyUser } from '../../../services/api';
 import { useUniqueGUser } from '../../../utils/uniqueUser';
-
 import { supabase } from '../../../utils/supabase';
-
-import { getEnv } from '../../../utils/config';
 import { log_event } from '../../../utils/utilityFunctions';
-import { gooddollar_contract } from '../../../utils/contract-addresses';
-const { mintFee } = getEnv();
+import { getConfig } from '../../../utils/config';
 
 export const Gooddollar = ({ setShowGooddollarVerification }) => {
   const gooddollarLink = createLoginLink({
@@ -84,6 +80,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             await supabase.insert('users', updateData);
           }
           log_event({ event_log: 'Applied for FV SBT' });
+          const { mintFee, gooddollar_contract } = getConfig();
           await wallet.callMethod({
             contractId: gooddollar_contract,
             method: 'sbt_mint',

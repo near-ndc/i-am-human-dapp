@@ -2,14 +2,15 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { ManageAdmin } from '../components/pages/home/manageAdmin';
 import '@testing-library/jest-dom';
-import { near_contract } from '../utils/contract-addresses';
 import { wallet } from '../index';
 import { AdminConfirmation } from '../components/pages/home/ManageAdmin/adminConfirmation';
 import { toast } from 'react-toastify';
 import { act } from 'react-dom/test-utils';
+import { getConfig } from '../utils/config';
 
 const accountIDWithoutAdminStatus = 'megha19.testnet';
 const accountIDWithAdminStatus = 'kazander.testnet';
+const { og_contract } = getConfig();
 
 // Mock wallet from index.js file
 jest.mock('../index', () => ({
@@ -50,7 +51,7 @@ async function addAccountToStatus(accountID, isAdmin = false) {
   await act(async () => {
     fireEvent.click(checkAdminStatusBtn);
     expect(wallet.viewMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'is_admin',
       args: { addr: accountID },
     });
@@ -122,7 +123,7 @@ describe('ManageAdmin', () => {
     });
     wallet.callMethod.mockResolvedValue({});
     expect(wallet.callMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'add_admins',
       args: { metadata: {}, admins: [accountIDWithoutAdminStatus] },
     });
@@ -155,7 +156,7 @@ describe('ManageAdmin', () => {
     });
     wallet.callMethod.mockResolvedValue({});
     expect(wallet.callMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'remove_admins',
       args: { metadata: {}, admins: [accountIDWithAdminStatus] },
     });
