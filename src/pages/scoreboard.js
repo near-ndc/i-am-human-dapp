@@ -34,7 +34,7 @@ export const ScoreboardPage = ({ isSignedIn }) => {
   }, []);
 
   React.useEffect(() => {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    window.scrollTo(0, 0)
     fetchCommunities();
   }, [fetchCommunities]);
 
