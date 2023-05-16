@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import {
   BrowserRouter as Router,
@@ -7,16 +7,28 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
 //hard code 3 near address to show additional data
+
+const TRACKING_ID = 'G-E1XZYSXM34'; // Google Analytics tracking ID
 
 const RedirectComponent = () => {
   return <Redirect to="/" />;
 };
 
 export function App({ isSignedIn }) {
+  const prodENV = process.env.REACT_APP_ENV === 'prod';
+
+  useEffect(() => {
+    if (prodENV) {
+      ReactGA.initialize(TRACKING_ID);
+      ReactGA.pageview(window.location.pathname);
+    }
+  }, []);
+
   return (
     <>
       <Router>
