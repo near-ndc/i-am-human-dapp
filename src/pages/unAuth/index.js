@@ -237,41 +237,44 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                           </>
                         )}
 
-                        <div className="mt-3">
-                          <a
-                            className="text-blue-500 underline"
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/face-verification"
-                          >
-                            Learn More
-                          </a>
-                        </div>
                         <div className="mt-6">
-                          {!fvTokenData && (
+                          <div className="flex flex-wrap gap-2">
+                            {!fvTokenData && (
+                              <button
+                                onClick={() => {
+                                  window.history.replaceState(
+                                    {},
+                                    '',
+                                    window.location.origin
+                                  );
+                                  if (isSignedIn) {
+                                    log_event({
+                                      event_log:
+                                        'Started FV SBT verification flow',
+                                    });
+                                    setShowGooddollarVerification(true);
+                                  } else {
+                                    wallet.signIn();
+                                    localStorage.setItem('openFv', 'true');
+                                  }
+                                }}
+                                className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              >
+                                Get It Now
+                              </button>
+                            )}
                             <button
-                              onClick={() => {
-                                window.history.replaceState(
-                                  {},
-                                  '',
-                                  window.location.origin
-                                );
-                                if (isSignedIn) {
-                                  log_event({
-                                    event_log:
-                                      'Started FV SBT verification flow',
-                                  });
-                                  setShowGooddollarVerification(true);
-                                } else {
-                                  wallet.signIn();
-                                  localStorage.setItem('openFv', 'true');
-                                }
-                              }}
-                              className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              className="rounded-md border border-purple-600 px-4 py-2 text-base font-medium text-purple-500 shadow-sm hover:bg-purple-200"
+                              onClick={() =>
+                                window.open(
+                                  'https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/face-verification',
+                                  '_blank'
+                                )
+                              }
                             >
-                              Get It Now
+                              Learn More
                             </button>
-                          )}
+                          </div>
                           {fvFetchloading ? (
                             <div className="h-8 rounded w-60 bg-gray-200 animate-pulse" />
                           ) : (
@@ -420,19 +423,21 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                             </p>
                           </>
                         )}
-                        <div className="mt-3">
-                          <a
-                            className="text-blue-500 underline"
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/community-verification"
-                          >
-                            Learn More
-                          </a>
-                        </div>
-                        <div className="mt-6">
+
+                        <div className="flex flex-wrap gap-2 mt-6">
                           <button className="inline-flex rounded-md border px-4 py-2 text-base font-medium shadow-sm">
                             Coming Soon (Stay Tuned)
+                          </button>
+                          <button
+                            className="rounded-md border border-purple-600 px-4 py-2 text-base font-medium text-purple-500 shadow-sm hover:bg-purple-200"
+                            onClick={() =>
+                              window.open(
+                                'https://i-am-human.gitbook.io/i-am-human-docs/the-soulbound-tokens/community-verification',
+                                '_blank'
+                              )
+                            }
+                          >
+                            Learn More
                           </button>
                           {/* {!tokenData &&
                             (Boolean(userData?.og_sbt_application) ? (
