@@ -23,7 +23,7 @@ export function App({ isSignedIn }) {
 
   useEffect(() => {
     if (prodENV) {
-      ReactGA.initialize(process.env.GA_TRACKING_ID);
+      ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
       ReactGA.pageview(window.location.pathname);
     }
   }, []);
