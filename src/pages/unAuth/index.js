@@ -503,7 +503,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   href="https://hr6bimbyqly.typeform.com/to/wVhraeUG"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="border border-yellow-500 text-yellow-500 hover:bg-yellow-100 px-5 py-2.5 rounded-lg"
+                  class="bg-white border border-yellow-500 text-yellow-500 hover:bg-yellow-100 px-5 py-2.5 rounded-lg"
                 >
                   Feedback
                 </a>
@@ -511,7 +511,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                   href="https://github.com/near-ndc/i-am-human-dapp/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="border border-red-500 text-red-500 hover:bg-red-100 rounded-lg px-5 py-2.5"
+                  class="bg-white border border-red-500 text-red-500 hover:bg-red-100 rounded-lg px-5 py-2.5"
                 >
                   Report
                 </a>
