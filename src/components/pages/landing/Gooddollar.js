@@ -137,11 +137,15 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             mobile: !Boolean(d?.mobile?.value),
           }));
           const isVerified =
-            d?.isAddressWhitelisted?.value === true ||
+            d?.isAddressWhitelisted?.value === true &&
             d?.isAddressWhitelisted?.isVerified === true;
+          const checkVerifiedError =
+            d?.isAddressWhitelisted?.isVerified === false
+              ? d?.error
+              : 'Not Whitelisted';
           setValues({
             gDollarAccount: d?.walletAddress?.value,
-            status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
+            status: isVerified ? 'Whitelisted' : checkVerifiedError,
           });
           setShowStep(3);
         });
