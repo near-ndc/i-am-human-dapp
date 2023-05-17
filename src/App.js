@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import {
   BrowserRouter as Router,
@@ -7,6 +7,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
@@ -18,6 +19,15 @@ const RedirectComponent = () => {
 };
 
 export function App({ isSignedIn }) {
+  const prodENV = process.env.REACT_APP_ENV === 'prod';
+
+  useEffect(() => {
+    if (prodENV) {
+      ReactGA.initialize(process.env.GA_TRACKING_ID);
+      ReactGA.pageview(window.location.pathname);
+    }
+  }, []);
+
   return (
     <>
       <Router>
