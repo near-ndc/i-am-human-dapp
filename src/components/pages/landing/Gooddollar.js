@@ -26,13 +26,13 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     r: ['name'],
     rdu: window.location.href,
   });
-  const [rawGoodDollarData, setRawGoodDollarData] = React.useState(null);
-  const [editableFields, setEditableFields] = React.useState({
+  const [rawGoodDollarData, setRawGoodDollarData] = useState(null);
+  const [editableFields, setEditableFields] = useState({
     name: true,
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = React.useState(null);
+  const [submitting, setSubmitting] = useState(null);
 
   const { values, handleSubmit, handleBlur, handleChange, setValues } =
     useFormik({
@@ -64,32 +64,37 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
         });
         try {
           const result = await verifyUser(sendObj);
-          const { data } = await supabase.select('users', {
-            wallet_identifier: wallet.accountId,
-          });
-          log_event({
-            event_log: `Data receivied from verify API ${JSON.stringify(
-              result
-            )}`,
-          });
-          if (data?.[0]) {
-            await supabase.update('users', updateData, {
+
+          if (result?.error) {
+            toast.error(result?.error);
+          } else {
+            const { data } = await supabase.select('users', {
               wallet_identifier: wallet.accountId,
             });
-          } else {
-            await supabase.insert('users', updateData);
+            log_event({
+              event_log: `Data receivied from verify API ${JSON.stringify(
+                result
+              )}`,
+            });
+            if (data?.[0]) {
+              await supabase.update('users', updateData, {
+                wallet_identifier: wallet.accountId,
+              });
+            } else {
+              await supabase.insert('users', updateData);
+            }
+            log_event({ event_log: 'Applied for FV SBT' });
+            const { mintFee, gooddollar_contract } = getConfig();
+            await wallet.callMethod({
+              contractId: gooddollar_contract,
+              method: 'sbt_mint',
+              args: {
+                claim_b64: result.m,
+                claim_sig: result.sig,
+              },
+              deposit: mintFee,
+            });
           }
-          log_event({ event_log: 'Applied for FV SBT' });
-          const { mintFee, gooddollar_contract } = getConfig();
-          await wallet.callMethod({
-            contractId: gooddollar_contract,
-            method: 'sbt_mint',
-            args: {
-              claim_b64: result.m,
-              claim_sig: result.sig,
-            },
-            deposit: mintFee,
-          });
         } catch (e) {
           log_event({
             event_log: `Error happened while submitting FB SBT ${JSON.stringify(
@@ -179,6 +184,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
   useLogin({
     onLoginCallback: gooddollarLoginCb,
   });
+
+  const checkStatusTextColor =
+    values.status !== 'Whitelisted' && 'text-red-600';
 
   return (
     <div className="p-2 pt-5 w-full">
@@ -331,7 +339,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
                   <div className="flex items-center justify-between">
                     <p className="w-[120px]">Status:</p>
                     <input
-                      className="w-[88%] bg-gray-100 p-1 rounded px-3"
+                      className={`w-[88%] bg-gray-100 p-1 rounded px-3 ${checkStatusTextColor}`}
                       placeholder="Status"
                       {...handleValues('status')}
                     />
@@ -339,7 +347,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
                 </>
               ) : (
                 <>
-                  <p>
+                  <p className="text-red-600">
                     Oops! It looks like you are not whitelisted. Usually this
                     would happen if you created a GoodDollar account but didn’t
                     complete the face verification flow.
