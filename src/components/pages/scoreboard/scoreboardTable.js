@@ -8,14 +8,12 @@ export function ScoreBoardTable({ communities = [] }) {
     return 0;
   });
   return (
-    <div>
-      <h1 className="font-semibold leading-6 text-gray-900 text-2xl text-center mb-5">
-        Community Scoreboard
-      </h1>
-
-      <div className="shadow bg-white p-1 border border-1 border-gray">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto"></div>
+    <div className="shadow bg-white m-1 p-4 rounded-md">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-gray-900">
+            Community Scoreboard
+          </h1>
         </div>
         <div className="mt-8 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
