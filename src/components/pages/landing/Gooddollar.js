@@ -32,7 +32,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     gDollarAccount: true,
     status: true,
   });
-  const [submitting, setSubmitting] = useState(null);
+  const [submit, setSubmit] = useState(null);
 
   const { values, handleSubmit, handleBlur, handleChange, setValues } =
     useFormik({
@@ -47,7 +47,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
       onSubmit: async (data) => {
         // here need to clear url and remove all unnecessary data from url for near wallet redirect
         window.history.replaceState({}, '', window.location.origin);
-        setSubmitting(true);
+        setSubmit(true);
         const { sig, ...rawData } = rawGoodDollarData;
         const sendObj = {
           m: JSON.stringify(rawData),
@@ -105,7 +105,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             'An error occured while submitting your details , please try again'
           );
         } finally {
-          setSubmitting(false);
+          setSubmit(false);
         }
       },
     });
@@ -388,10 +388,10 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
                           event_log: 'Started Application flow for gooddollar',
                         });
                       }}
-                      disabled={submitting}
+                      disabled={submit}
                       className="bg-blue-600 w-40 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2 float-right"
                     >
-                      {!submitting ? (
+                      {!submit ? (
                         ' Apply for SBT'
                       ) : (
                         <div className="w-[fit-content] mx-auto">
