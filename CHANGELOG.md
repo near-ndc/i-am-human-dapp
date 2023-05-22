@@ -7,7 +7,6 @@
 - added report issue link directing to github New Issue Page.
 - added support for community application.
 - moved IAH to GoodWeb3Mono to fix gooddollar bug.
-- added Google Analytics.
 
 ### Tests
 
