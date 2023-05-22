@@ -47,6 +47,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
     }
   }, [isSignedIn]);
 
+  useEffect(() => {
+    if (window.location.href.includes('&state')) {
+      setShowGooddollarVerification(true);
+    }
+  }, []);
+
   const [fetchloading, setFetchLoading] = useState(false);
   const [tokenSupply, setTokenSupply] = useState(null);
   const [tokenData, setTokenData] = useState(null);

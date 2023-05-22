@@ -1,10 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  createLoginLink,
-  parseLoginResponse,
-  LoginButton,
-  useLogin,
-} from '../../../../packages/gooddollar-login-sdk';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -19,13 +13,6 @@ import { log_event } from '../../../utils/utilityFunctions';
 import { getConfig } from '../../../utils/config';
 
 export const Gooddollar = ({ setShowGooddollarVerification }) => {
-  const gooddollarLink = createLoginLink({
-    v: 'I-AM-HUMAN-DAPP',
-    web: 'https://i-am-human.dapp/',
-    id: '0x09D2011Ca5781CA70810F6d82837648132762F9a',
-    r: ['name'],
-    rdu: window.location.href,
-  });
   const [rawGoodDollarData, setRawGoodDollarData] = React.useState(null);
   const [editableFields, setEditableFields] = React.useState({
     name: true,
@@ -51,7 +38,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
         const { sig, ...rawData } = rawGoodDollarData;
         const sendObj = {
           m: JSON.stringify(rawData),
-          c: wallet.accountId,
+          c: wallet.accountId, //claimer
           sig,
         };
         let updateData = {
@@ -116,47 +103,55 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
 
   const gooddollarLoginCb = useCallback(
     async (data) => {
-      try {
-        if (data.error) return alert('Login request denied !');
-        log_event({
-          event_log: `Raw Data received on Gooddollar ${JSON.stringify(data)}`,
-        });
-        parseLoginResponse(data).then((d) => {
-          log_event({
-            event_log: `Parsed Data received on Gooddollar ${JSON.stringify(
-              d
-            )}`,
-          });
-          setRawGoodDollarData(data);
-          setEditableFields((d) => ({
-            ...d,
-            email: !Boolean(d?.email?.value),
-          }));
-          setEditableFields((d) => ({
-            ...d,
-            mobile: !Boolean(d?.mobile?.value),
-          }));
-          const isVerified =
-            d?.isAddressWhitelisted?.value === true ||
-            d?.isAddressWhitelisted?.isVerified === true;
-          setValues({
-            gDollarAccount: d?.walletAddress?.value,
-            status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
-          });
-          setShowStep(3);
-        });
-      } catch (e) {
-        console.log(e);
-      }
+      if (data?.error) return alert('Login request denied !');
+      const { fractal_link, fractal_client_id } = getConfig();
+      const fractalVerifyURL =
+        fractal_link +
+        '/authorize?' +
+        `client_id=${fractal_client_id}&redirect_uri=${encodeURIComponent(
+          window.location.href
+        )}&response_type=code&scope=contact%3Aread%20verification.uniqueness%3Aread%20verification.uniqueness.details%3Aread&state=test&ensure_wallet=${
+          wallet.accountId
+        }`;
+
+      log_event({
+        event_log: `Raw Data received on Fractal ${JSON.stringify(
+          fractalVerifyURL
+        )}`,
+      });
+      window.location.href = fractalVerifyURL;
+
+      // parseLoginResponse(data).then((d) => {
+      //   log_event({
+      //     event_log: `Parsed Data received on Gooddollar ${JSON.stringify(
+      //       d
+      //     )}`,
+      //   });
+      //   setRawGoodDollarData(data);
+      //   setEditableFields((d) => ({
+      //     ...d,
+      //     email: !Boolean(d?.email?.value),
+      //   }));
+      //   setEditableFields((d) => ({
+      //     ...d,
+      //     mobile: !Boolean(d?.mobile?.value),
+      //   }));
+      //   const isVerified =
+      //     d?.isAddressWhitelisted?.value === true ||
+      //     d?.isAddressWhitelisted?.isVerified === true;
+      //   setValues({
+      //     gDollarAccount: d?.walletAddress?.value,
+      //     status: isVerified ? 'Whitelisted' : 'Not Whitelisted',
+      //   });
+      //   setShowStep(3);
+      // });
     },
     [setValues]
   );
 
   useEffect(() => {
-    if (window.location.href.includes('?login')) {
-      // TODO here we avoid double encode URI and change incorrect symbols, fast workaround
-      // window.history.replaceState({}, '', window.location.href.replace('%253D', '='));
-      setShowStep(2);
+    if (window.location.href.includes('&state')) {
+      setShowStep(3);
     }
   }, []);
 
@@ -169,11 +164,6 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
 
   const { isExistingGUser, loading: isGLoading } = useUniqueGUser({
     gAddress: values.gDollarAccount,
-  });
-
-  //added hook to parse response with native gooddollar method
-  useLogin({
-    onLoginCallback: gooddollarLoginCb,
   });
 
   return (
@@ -285,17 +275,16 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
               <div
                 className="w-[fit-content]"
                 onClick={() => {
-                  log_event({ event_log: 'Gooddollar authorization started' });
+                  log_event({ event_log: 'Fractal authorization started' });
                 }}
               >
-                <LoginButton
-                  onLoginCallback={gooddollarLoginCb}
-                  className="bg-blue-600 mt-3 text-white rounded shadow-lg font-medium w-[fit-content] text-sm px-4 py-2"
-                  gooddollarlink={gooddollarLink}
-                  rdu="gasdasd"
+                <button
+                  onClick={() => gooddollarLoginCb()}
+                  type="button"
+                  className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-60 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  Authorize G$
-                </LoginButton>
+                  <p className="mx-auto w-[fit-content]">Authorize Fractal</p>
+                </button>
               </div>
             )}
           </div>
