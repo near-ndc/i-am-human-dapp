@@ -4,16 +4,13 @@ import { CheckSbtTokenStatus } from '../components/pages/home/myOwnSbt';
 import '@testing-library/jest-dom';
 import { toast } from 'react-toastify';
 import { wallet } from '../index';
-import {
-  app_contract,
-  gooddollar_contract,
-  near_contract,
-  new_sbt_contract,
-} from '../utils/contract-addresses';
 import { TransferSBT } from '../components/pages/home/MyOwnSbtFiles/transferSbt';
 import { act } from 'react-dom/test-utils';
+import { getConfig } from '../utils/config';
 
 const accountID = 'megha19.testnet';
+const { app_contract, gooddollar_contract, new_sbt_contract, og_contract } =
+  getConfig();
 
 // Mock wallet from index.js file
 jest.mock('../index', () => ({
@@ -120,7 +117,7 @@ describe('Check Sbt Token Status', () => {
     wallet.callMethod.mockResolvedValue(0);
 
     expect(wallet.callMethod).toHaveBeenCalledWith({
-      contractId: near_contract,
+      contractId: og_contract,
       method: 'sbt_transfer',
       args: { receiver: accountID },
     });
