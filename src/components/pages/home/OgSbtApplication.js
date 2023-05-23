@@ -9,10 +9,7 @@ import { wallet } from '../../..';
 import { ShowSbtDetails } from './ObSbtApplication/showSbtDetails';
 import { log_event } from '../../../utils/utilityFunctions';
 import { useSuperAdmin } from '../../../utils/super-admins';
-import {
-  app_contract,
-  new_sbt_contract,
-} from '../../../utils/contract-addresses';
+import { getConfig } from '../../../utils/config';
 
 const HideShowNumber = ({ telegram_number, wallet }) => {
   const [encypted_number, setEncryptedNumber] = useState('');
@@ -120,7 +117,7 @@ const ActionButtons = ({
                   }
                 );
                 await wallet.callMethod({
-                  contractId: new_sbt_contract,
+                  contractId: getConfig().new_sbt_contract,
                   method: 'sbt_mint',
                   args: {
                     receiver: person.wallet_identifier,
@@ -209,7 +206,7 @@ const ActionButtons = ({
                 }
               );
               await wallet.callMethod({
-                contractId: app_contract,
+                contractId: getConfig().app_contract,
                 method: 'sbt_mint',
                 args: {
                   ctr: 'sbt1.i-am-human.testnet',

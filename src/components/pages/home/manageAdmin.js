@@ -6,7 +6,7 @@ import { ButtonLoader } from '../../common/buttonLoader';
 import { checkAdmin, log_event } from '../../../utils/utilityFunctions';
 import { AdminConfirmation } from './ManageAdmin/adminConfirmation';
 import { addressToVerify } from './../../../utils/addressToVerify';
-import { near_contract } from '../../../utils/contract-addresses';
+import { getConfig } from '../../../utils/config';
 
 export const ManageAdmin = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -38,7 +38,7 @@ export const ManageAdmin = () => {
       });
       try {
         const res = await wallet.callMethod({
-          contractId: near_contract,
+          contractId: getConfig().og_contract,
           method: 'add_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
@@ -68,7 +68,7 @@ export const ManageAdmin = () => {
           effected_wallet: walletAddress,
         });
         const res = await wallet.callMethod({
-          contractId: near_contract,
+          contractId: getConfig().og_contract,
           method: 'remove_admins',
           args: { metadata: {}, admins: [walletAddress] },
         });
