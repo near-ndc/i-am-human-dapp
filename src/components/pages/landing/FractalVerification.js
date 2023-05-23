@@ -12,11 +12,11 @@ import { supabase } from '../../../utils/supabase';
 import { log_event } from '../../../utils/utilityFunctions';
 import { getConfig } from '../../../utils/config';
 
-export const Gooddollar = ({ setShowGooddollarVerification }) => {
+export const FractalVerification = ({ setShowGooddollarVerification }) => {
   const [editableFields, setEditableFields] = useState({
     code: '',
     claimer: wallet.accountId,
-    redirect_uri: '',
+    redirect_uri: 'https://i-am-human-dev.netlify.app/',
   });
   const [submit, setSubmit] = useState(null);
 
@@ -62,9 +62,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
             await supabase.insert('users', updateData);
           }
           log_event({ event_log: 'Applied for FV SBT' });
-          const { mintFee, gooddollar_contract } = getConfig();
+          const { mintFee, fractal_contract } = getConfig();
           await wallet.callMethod({
-            contractId: gooddollar_contract,
+            contractId: fractal_contract,
             method: 'sbt_mint',
             args: {
               claim_b64: result.m,
@@ -94,9 +94,9 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
     onBlur: handleBlur(key),
   });
 
-  const [showStep, setShowStep] = useState(0);
+  const [showStep, setShowStep] = useState(2);
 
-  const gooddollarLoginCb = useCallback(
+  const fractalLoginCb = useCallback(
     async (data) => {
       if (data?.error) return alert('Login request denied !');
       const { fractal_link, fractal_client_id } = getConfig();
@@ -256,7 +256,7 @@ export const Gooddollar = ({ setShowGooddollarVerification }) => {
                 }}
               >
                 <button
-                  onClick={() => gooddollarLoginCb()}
+                  onClick={() => fractalLoginCb()}
                   type="button"
                   className="inline-flex items-center rounded border border-transparent bg-indigo-600 w-60 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
