@@ -94,7 +94,7 @@ export const TransferSBT = ({ isOpen, closeModal, checkSBTTokens }) => {
                   <div className="mt-2">
                     <div>
                       <label
-                        for="first_name"
+                        htmlFor="first_name"
                         className="block mb-2 text-md font-medium text-gray-900"
                       >
                         Transfer To
