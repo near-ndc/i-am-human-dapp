@@ -2,8 +2,8 @@ const environment = process.env.REACT_APP_ENV ?? 'prod';
 
 export function getConfig() {
   const commonConfig = {
-    gooddollar_api: 'https://staging.justfortestinc.site',
     mintFee: '8000000000000000000000',
+    succes_fractal_state: 'facescan',
   };
   switch (environment) {
     case 'prod':
@@ -15,6 +15,7 @@ export function getConfig() {
         fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
         new_sbt_contract: 'sbt1.i-am-human.testnet',
         api_link: 'https://api-ophc7vkxsq-uc.a.run.app',
+        fractal_api: 'https://back.justfortestinc.site',
         fractal_link: 'https://app.fractal.id',
         fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8',
         ...commonConfig,
@@ -28,6 +29,7 @@ export function getConfig() {
         fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
         new_sbt_contract: 'sbt1.i-am-human.testnet',
         api_link: 'https://dev-ophc7vkxsq-uc.a.run.app/',
+        fractal_api: 'https://staging.justfortestinc.site',
         fractal_link: 'https://app.next.fractal.id',
         fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8', // waiting for DEV branch
         // fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000

@@ -2,23 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../../components/common/header';
 import { IsSignedOutLanding } from './IsSignedOutLanding';
 import { IsSignedInLanding } from './IsSignedInLanding';
+import { getConfig } from '../../utils/config';
+
+const URL = window.location;
 
 export const Landing = ({ isSignedIn, setShowAdmin }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
 
   useEffect(() => {
-    if (activeTabIndex === 0 && isSignedIn) {
+    const { succes_fractal_state } = getConfig();
+    const URL_state = new URLSearchParams(URL.search).get('state');
+
+    if (URL_state === succes_fractal_state) {
+      setActiveTabIndex(2);
+    } else if (activeTabIndex === 0 && isSignedIn) {
       setActiveTabIndex(1);
     }
-  }, [activeTabIndex]);
+  }, [activeTabIndex, isSignedIn]);
 
   return (
     <div className="isolate bg-white">
       <Header setShowAdmin={setShowAdmin} isAdmin={false} />
       <main>
         <div className="max-w-2xl mx-auto mt-12 pt-5">
-          {isStarted ? (
+          {isStarted || isSignedIn ? (
             <IsSignedInLanding
               activeTabIndex={activeTabIndex}
               setActiveTabIndex={setActiveTabIndex}

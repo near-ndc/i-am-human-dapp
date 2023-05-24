@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { FractalVerification } from '../../components/pages/landing/FractalVerification';
+import {
+  ConnectWallet,
+  MintSBT,
+  ScanFace,
+} from '../../components/pages/landing/FractalVerification';
 import { Tabs } from '../../components/common/Tabs';
-import { wallet } from '../..';
 
 export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
   const TabsData = [
@@ -24,22 +27,7 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
           />
         </svg>
       ),
-      content: (
-        <div className="mt-8">
-          <p className="text-s mb-5">
-            Near wallet is required. Be sure you connect the wallet you want to
-            use for governance. Get a new wallet for free if you don't already
-            have one (or need an alt).
-          </p>
-          <button
-            onClick={() => wallet.signIn()}
-            type="button"
-            className="flex items-center mx-auto rounded border border-transparent bg-indigo-600 w-60 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <p className="mx-auto w-[fit-content]">Connect</p>
-          </button>
-        </div>
-      ),
+      content: <ConnectWallet />,
     },
     {
       name: 'Face Scan',
@@ -59,7 +47,7 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
           />
         </svg>
       ),
-      content: <FractalVerification />,
+      content: <ScanFace />,
     },
     {
       name: 'Mint SBT',
@@ -79,7 +67,7 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
           />
         </svg>
       ),
-      content: <FractalVerification />,
+      content: <MintSBT setActiveTabIndex={setActiveTabIndex} />,
     },
   ];
 

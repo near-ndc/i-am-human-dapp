@@ -16,10 +16,10 @@ export const IsSignedOutLanding = ({ setIsStarted }) => (
       Get Started
     </button>
     <button
-      onClick={() => {
-        window.open('https://i-am-human.gitbook.io/i-am-human-docs/', '_blank');
-      }}
-      className="inline-flex ml-3 rounded-md border border-transparent bg-purple-500 px-4 py-2 text-base font-medium text-white shadow-sm"
+      onClick={() =>
+        window.open('https://i-am-human.gitbook.io/i-am-human-docs/', '_blank')
+      }
+      className="inline-flex ml-3 rounded-md border border-transparent bg-slate-200 px-4 py-2 text-base font-light text-black shadow-sm"
     >
       Learn More
     </button>
