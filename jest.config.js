@@ -10,5 +10,4 @@ module.exports = {
   },
   transformIgnorePatterns: ['/node_modules/'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  setupTestFrameworkScriptFile: ['<rootDir>/src/__tests__/setup.js'],
 };
