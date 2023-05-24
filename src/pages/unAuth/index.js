@@ -47,6 +47,12 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
     }
   }, [isSignedIn]);
 
+  useEffect(() => {
+    if (window.location.href.includes('&state')) {
+      setShowGooddollarVerification(true);
+    }
+  }, []);
+
   const [fetchloading, setFetchLoading] = useState(false);
   const [tokenSupply, setTokenSupply] = useState(null);
   const [tokenData, setTokenData] = useState(null);
@@ -303,9 +309,9 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
                                   localStorage.setItem('openFv', 'true');
                                 }
                               }}
-                              disabled={true}
-                              className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm"
-                              // className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              // disabled={true}
+                              // className="inline-flex bg-gray-400 rounded-md border px-4 py-2 text-base font-medium text-white shadow-sm"
+                              className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                             >
                               Get It Now
                             </button>
