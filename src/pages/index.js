@@ -9,6 +9,7 @@ import FVSBTImage from '../images/FvSBT.png';
 import KYCSBTImage from '../images/KYCSBT.png';
 import CommunitySBTImage from '../images/CommunitySBT.png';
 import OGSBT from '../images/OGSBT.png';
+import { TokenDetails } from '../components/common/TokenDetails';
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
 
@@ -201,9 +202,11 @@ export function IndexPage({ isSignedIn }) {
               Community, we will be introducing Community SBT soon. Mint your
               Community SBT and join us to build web3 governance.
             </p>
-            <button className="cursor-auto inline-flex rounded-md border border-gray-500 text-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm">
+            <TokenDetails />
+            {/* <button className="cursor-auto inline-flex rounded-md border border-gray-500 text-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm">
+              
               Coming Soon
-            </button>
+            </button> */}
           </div>
           <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center">
             <img src={CommunitySBTImage} className="object-fill" />
