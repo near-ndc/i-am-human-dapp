@@ -25,7 +25,7 @@ export const Landing = ({ isSignedIn, setShowAdmin }) => {
     <div className="isolate bg-white">
       <Header setShowAdmin={setShowAdmin} isAdmin={false} />
       <main>
-        <div className="max-w-2xl mx-auto mt-12 pt-5">
+        <div className="mx-auto">
           {isStarted || isSignedIn ? (
             <IsSignedInLanding
               activeTabIndex={activeTabIndex}
