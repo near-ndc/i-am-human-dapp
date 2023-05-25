@@ -1,12 +1,17 @@
 import 'regenerator-runtime/runtime';
 import React, { useState, useEffect } from 'react';
-
-import { Landing } from './unAuth/index';
-import { Home } from './auth/home';
 import { CommunityDataKeys } from '../utils/campaign';
-
+import { Header } from '../components/common/header';
+import { PrivacyComponent } from '../components/common/privacy';
+import { Footer } from '../components/common/footer';
+import Design from '../images/backLines.png';
+import FVSBTImage from '../images/FvSBT.png';
+import KYCSBTImage from '../images/KYCSBT.png';
+import CommunitySBTImage from '../images/CommunitySBT.png';
+import OGSBT from '../images/OGSBT.png';
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
+
   useEffect(() => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
@@ -17,17 +22,216 @@ export function IndexPage({ isSignedIn }) {
       localStorage.setItem(CommunityDataKeys.COMMUNITY_VERTICAL, vertical);
     }
   }, []);
+
+  const TabsData = [
+    {
+      name: 'Connect Wallet',
+      header: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-12 h-12 stroke-white"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: 'Face Scan',
+      header: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-12 h-12 stroke-white"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: 'Mint SBT',
+      header: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-12 h-12 stroke-white"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+          />
+        </svg>
+      ),
+    },
+  ];
+
   return (
-    <>
-      {showAdmin ? (
-        <>
-          <Home setShowAdmin={setShowAdmin} />
-        </>
-      ) : (
-        <>
-          <Landing setShowAdmin={setShowAdmin} isSignedIn={isSignedIn} />
-        </>
-      )}
-    </>
+    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10">
+      <Header setShowAdmin={setShowAdmin} isAdmin={false} />
+      <div className="px-5 mt-[10px] md:mt-[100px] flex flex-col gap-y-32">
+        <div className="flex flex-wrap gap-10">
+          <div className="flex-1 min-w-[300px]">
+            <h1 className="font-bold text-3xl">
+              Get your Proof of Personhood with I-AM-HUMAN
+            </h1>
+            <p className="my-5">
+              Welcome, I-AM-HUMAN is your launchpad for several different types
+              of Soul Bound Tokens (SBTs). Each of which will identify you as a
+              human. With enough of these SBTs, you will have a strong
+              proof-of-personhood, which give you access to voting on
+              governance, on-chain reputation, DAOs, grassroots funding, and
+              much more.
+            </p>
+            <p className="">All you need to do is 3 easy steps</p>
+            <div className="grid grid-cols-3 my-5 gap-5">
+              {TabsData.map((tab, index) => {
+                return (
+                  <div>
+                    <div className="flex items-center gap-5">
+                      <div className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 w-fit p-1">
+                        {tab.header}
+                      </div>
+                      {index < 2 ? (
+                        <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
+                      ) : (
+                        <span></span>
+                      )}
+                    </div>
+                    <p className="col-span-2 text-md mt-2">{tab.name}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex flex-wrap gap-10">
+              <button
+                // onClick={() => setIsStarted(true)}
+                className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+              >
+                Get Started
+              </button>
+              <button
+                onClick={() =>
+                  window.open(
+                    'https://i-am-human.gitbook.io/i-am-human-docs/',
+                    '_blank'
+                  )
+                }
+                className="rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+              >
+                Learn More
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 min-w-[300px] order-first md:order-last">
+            <img src={Design} className="w-full object-fill" />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-10">
+          <div className="flex-1 min-w-[300px]">
+            <h2 className="font-bold text-2xl">
+              Get your Face Verification Soul Bound Token
+            </h2>
+            <p className="my-5">
+              We have partnered with Fractal for Face Verification. Why? With
+              nearly 1 million users across 200+ projects, Fractal provides a
+              full stack of open source identity solutions that give you ability
+              to easily verify and prove that you are a human. They ensure that
+              each person only creates one unique account.
+            </p>
+            <button
+              onClick={() =>
+                window.open(
+                  'https://i-am-human.gitbook.io/i-am-human-docs/face-verification-sbt',
+                  '_blank'
+                )
+              }
+              className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            >
+              Learn More
+            </button>
+          </div>
+          <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+            <img src={FVSBTImage} className="object-fill" />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-10">
+          <div className="flex-1 min-w-[300px]">
+            <h2 className="font-bold text-2xl">
+              Get Your KYC Soul Bound Token
+            </h2>
+            <p className="my-5">
+              Have you already KYC with Fractal? You are in luck. If you have
+              received a bounty payout for your contribution from the NEAR
+              Foundation, you will not be required to re-verify your identity
+              when minting your SBTs. Mint your SBTs now.
+            </p>
+            <button className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm">
+              Coming Soon
+            </button>
+          </div>
+          <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center">
+            <img src={KYCSBTImage} className="object-fill" />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-10">
+          <div className="flex-1 min-w-[300px]">
+            <h2 className="font-bold text-2xl">
+              Get Your Community Soul Bound Token
+            </h2>
+            <p className="my-5">
+              Are you part of the Community? If you are active in the NEAR
+              Community, we will be introducing Community SBT soon. Mint your
+              Community SBT and join us to build web3 governance.
+            </p>
+            <button className="cursor-auto inline-flex rounded-md border border-gray-500 text-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm">
+              Coming Soon
+            </button>
+          </div>
+          <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+            <img src={CommunitySBTImage} className="object-fill" />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-10">
+          <div className="flex-1 min-w-[300px]">
+            <h2 className="font-bold text-2xl">Get Your OG Soul Bound Token</h2>
+            <p className="my-5">
+              Are you someone who stands out in the NEAR ecosystem? Get the OG
+              Soul Bound Token. We will create a "seed group" of OGs and trusted
+              individuals to bootstrap the next iteration of NEAR Community.
+            </p>
+            <button className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm">
+              Coming Soon
+            </button>
+          </div>
+          <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center">
+            <img src={OGSBT} className="object-fill" />
+          </div>
+        </div>
+      </div>
+      <main>
+        <div className="max-w-2xl mx-auto mt-12 pt-5"></div>
+      </main>
+      <PrivacyComponent />
+      <Footer />
+    </div>
   );
 }
