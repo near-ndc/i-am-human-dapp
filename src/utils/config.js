@@ -13,7 +13,7 @@ export function getConfig() {
         og_contract: 'og-sbt.i-am-human.near',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.near',
         fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
-        new_sbt_contract: 'sbt1.i-am-human.testnet',
+        new_sbt_contract: 'i-am-human-staging.testnet',
         api_link: 'https://api-ophc7vkxsq-uc.a.run.app',
         fractal_api: 'https://back.justfortestinc.site',
         fractal_link: 'https://app.fractal.id',
@@ -27,7 +27,7 @@ export function getConfig() {
         og_contract: 'og-sbt-1.i-am-human.testnet',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
-        new_sbt_contract: 'sbt1.i-am-human.testnet',
+        new_sbt_contract: 'i-am-human-staging.testnet',
         api_link: 'https://dev-ophc7vkxsq-uc.a.run.app/',
         fractal_api: 'https://staging.justfortestinc.site',
         fractal_link: 'https://app.next.fractal.id',

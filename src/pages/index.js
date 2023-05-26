@@ -8,6 +8,9 @@ import Design from '../images/backLines.png';
 import { Landing } from './unAuth';
 import { Home } from './auth/home';
 import { IsSignedInLanding } from './unAuth/IsSignedInLanding';
+import { getConfig } from '../utils/config';
+
+const URL = window.location;
 
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
@@ -23,7 +26,13 @@ export function IndexPage({ isSignedIn }) {
       localStorage.setItem(CommunityDataKeys.COMMUNITY_NAME, community);
       localStorage.setItem(CommunityDataKeys.COMMUNITY_VERTICAL, vertical);
     }
-    if (isSignedIn) {
+    const { succes_fractal_state } = getConfig();
+    const URL_state = new URLSearchParams(URL.search).get('state');
+    console.log('URL_state', URL_state);
+    if (URL_state === succes_fractal_state) {
+      setActiveTabIndex(2);
+      setShowConnectWallet(true);
+    } else if (isSignedIn) {
       setActiveTabIndex(1);
     }
   }, []);
