@@ -28,10 +28,9 @@ export function IndexPage({ isSignedIn }) {
     }
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
-    console.log('URL_state', URL_state);
+
     if (URL_state === succes_fractal_state) {
       setActiveTabIndex(2);
-      setShowConnectWallet(true);
     } else if (isSignedIn) {
       setActiveTabIndex(1);
     }
