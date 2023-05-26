@@ -85,7 +85,7 @@ export function IndexPage({ isSignedIn }) {
   return (
     <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10">
       <Header setShowAdmin={setShowAdmin} isAdmin={false} />
-      <div className="px-5 mt-[80px] md:mt-[100px] flex flex-col gap-y-32">
+      <div className="mt-[80px] md:mt-[100px] flex flex-col gap-y-32">
         <div className="flex flex-wrap gap-10">
           <div className="flex-1 min-w-[300px]">
             <h1 className="font-bold text-4xl">
