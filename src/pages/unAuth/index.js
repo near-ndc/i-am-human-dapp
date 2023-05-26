@@ -8,8 +8,8 @@ export const Landing = () => {
   return (
     <div className="flex flex-col gap-10 md:gap-32 mb-20">
       <div className="flex flex-wrap gap-10">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="font-bold text-3xl">
+        <div className="flex-1 min-w-[300px] md:mt-10">
+          <h2 className="font-bold text-4xl">
             Get your Face Verification Soul Bound Token
           </h2>
           <p className="my-5">
@@ -26,7 +26,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
           >
             Learn More
           </button>
@@ -36,8 +36,8 @@ export const Landing = () => {
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="font-bold text-3xl">Get Your KYC Soul Bound Token</h2>
+        <div className="flex-1 min-w-[300px] md:mt-10">
+          <h2 className="font-bold text-4xl">Get Your KYC Soul Bound Token</h2>
           <p className="my-5">
             Have you already KYC with Fractal? You are in luck. If you have
             received a bounty payout for your contribution from the NEAR
@@ -51,7 +51,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
           >
             Learn More
           </button>
@@ -61,8 +61,8 @@ export const Landing = () => {
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="font-bold text-3xl">
+        <div className="flex-1 min-w-[300px] md:mt-10">
+          <h2 className="font-bold text-4xl">
             Get Your Community Soul Bound Token
           </h2>
           <p className="my-5">
@@ -78,7 +78,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="cursor-auto inline-flex rounded-md border border-gray-500 text-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
           >
             Coming Soon
           </button>
@@ -92,8 +92,8 @@ export const Landing = () => {
       </div>
 
       <div className="flex flex-wrap gap-10">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="font-bold text-3xl">Get Your OG Soul Bound Token</h2>
+        <div className="flex-1 min-w-[300px] md:mt-10">
+          <h2 className="font-bold text-4xl">Get Your OG Soul Bound Token</h2>
           <p className="my-5">
             Are you someone who stands out in the NEAR ecosystem? Get the OG
             Soul Bound Token. We will create a "seed group" of OGs and trusted
@@ -106,7 +106,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 mt-5 py-2 text-base font-light text-black shadow-sm"
           >
             Coming Soon
           </button>

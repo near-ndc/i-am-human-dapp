@@ -173,7 +173,7 @@ export function Footer() {
                   id="mce-EMAIL"
                   type="text"
                   className="p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
-                  placeholder="Input your email"
+                  placeholder="Your email"
                 />
                 <button
                   id="mc-embedded-subscribe"

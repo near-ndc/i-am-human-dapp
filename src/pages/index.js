@@ -15,7 +15,7 @@ const URL = window.location;
 
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeTabIndex, setActiveTabIndex] = useState(null);
 
   useEffect(() => {
     const search = window.location.search;
@@ -31,8 +31,6 @@ export function IndexPage({ isSignedIn }) {
 
     if (URL_state === succes_fractal_state) {
       setActiveTabIndex(2);
-    } else if (isSignedIn) {
-      setActiveTabIndex(1);
     }
   }, []);
 
@@ -97,93 +95,107 @@ export function IndexPage({ isSignedIn }) {
   ];
 
   return (
-    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10">
-      <Header
-        setActiveTabIndex={setActiveTabIndex}
-        setShowAdmin={setShowAdmin}
-        isAdmin={false}
-      />
-      {typeof activeTabIndex !== 'number' ? (
-        <>
-          <div className="mt-[80px] md:mt-[100px] flex flex-col gap-y-32">
-            <div className="flex flex-wrap gap-10">
-              <div className="flex-1 min-w-[300px]">
-                <h1 className="font-bold text-4xl">
-                  Get your Proof of Personhood with I-AM-HUMAN
-                </h1>
-                <p className="my-5">
-                  Welcome, I-AM-HUMAN is your launchpad for several different
-                  types of Soul Bound Tokens (SBTs). Each of which will identify
-                  you as a human. With enough of these SBTs, you will have a
-                  strong proof-of-personhood, which give you access to voting on
-                  governance, on-chain reputation, DAOs, grassroots funding, and
-                  much more.
-                </p>
-                <p className="">All you need to do is 3 easy steps</p>
-                <div className="grid grid-cols-3 my-5 gap-5">
-                  {TabsData.map((tab, index) => {
-                    return (
-                      <div>
-                        <div className="flex items-center gap-5">
-                          <div className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 w-fit p-1">
-                            {tab.header}
-                          </div>
-                          {index < 2 ? (
-                            <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
-                          ) : (
-                            <span></span>
-                          )}
-                        </div>
-                        <p className="col-span-2 text-md mt-2">{tab.name}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="flex flex-wrap gap-10">
-                  <button
-                    onClick={() => {
-                      if (wallet?.accountId) {
-                        setActiveTabIndex(1);
-                      } else {
-                        setActiveTabIndex(0);
-                      }
-                    }}
-                    className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                  >
-                    Get Started
-                  </button>
-                  <button
-                    onClick={() =>
-                      window.open(
-                        'https://i-am-human.gitbook.io/i-am-human-docs/',
-                        '_blank'
-                      )
-                    }
-                    className="rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
-                  >
-                    Learn More
-                  </button>
-                </div>
-              </div>
-              <div className="flex-1 min-w-[300px] order-first md:order-last">
-                <img src={Design} className="w-full object-fill" />
-              </div>
-            </div>
-            {isSignedIn ? (
-              <Home setActiveTabIndex={setActiveTabIndex} />
-            ) : (
-              <Landing setActiveTabIndex={setActiveTabIndex} />
-            )}
-          </div>
-          <PrivacyComponent />
-        </>
-      ) : (
-        <IsSignedInLanding
-          activeTabIndex={activeTabIndex}
+    <div
+      style={{
+        backgroundImage:
+          typeof activeTabIndex !== 'number' ? `url(${Design})` : 'none',
+        zIndex: 10,
+      }}
+      className="bg-no-repeat bg-[center_top_4%] md:bg-[right_top_8%]"
+    >
+      <div
+        style={{ background: 'transparent' }}
+        className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
+      >
+        <Header
           setActiveTabIndex={setActiveTabIndex}
+          setShowAdmin={setShowAdmin}
+          isAdmin={false}
         />
-      )}
-      <Footer />
+        {typeof activeTabIndex !== 'number' ? (
+          <>
+            <div className="mt-[80px] md:mt-[100px] flex flex-col gap-y-32">
+              <div className="flex flex-wrap gap-10">
+                <div className="flex-1 min-w-[300px]">
+                  <h1 className="font-bold text-5xl">
+                    Get your Proof of Personhood with
+                    <br />
+                    I-AM-HUMAN
+                  </h1>
+                  <p className="my-5 mt-10">
+                    Welcome, I-AM-HUMAN is your launchpad for several different
+                    types of Soul Bound Tokens (SBTs). Each of which will
+                    identify you as a human. With enough of these SBTs, you will
+                    have a strong proof-of-personhood, which give you access to
+                    voting on governance, on-chain reputation, DAOs, grassroots
+                    funding, and much more.
+                  </p>
+                  <p className="">All you need to do is 3 easy steps.</p>
+                  <div className="grid grid-cols-3 my-10 gap-5 items-center">
+                    {TabsData.map((tab, index) => {
+                      return (
+                        <div>
+                          <div className="flex items-center gap-5">
+                            <div className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 w-fit p-1">
+                              {tab.header}
+                            </div>
+                            {index < 2 ? (
+                              <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
+                            ) : (
+                              <span></span>
+                            )}
+                          </div>
+                          <p className="col-span-2 text-md mt-2">{tab.name}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex flex-wrap gap-10">
+                    <button
+                      onClick={() => {
+                        if (wallet?.accountId) {
+                          setActiveTabIndex(1);
+                        } else {
+                          setActiveTabIndex(0);
+                        }
+                      }}
+                      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                    >
+                      Get Started
+                    </button>
+                    <button
+                      onClick={() =>
+                        window.open(
+                          'https://i-am-human.gitbook.io/i-am-human-docs/',
+                          '_blank'
+                        )
+                      }
+                      className="rounded-md border border-purple-500 text-purple-500 border-1 px-10 py-2 text-base font-light text-black shadow-sm"
+                    >
+                      Learn More
+                    </button>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-[300px] order-first md:order-last">
+                  <img src={Design} className="w-full object-fill invisible" />
+                </div>
+              </div>
+              {isSignedIn ? (
+                <Home setActiveTabIndex={setActiveTabIndex} />
+              ) : (
+                <Landing setActiveTabIndex={setActiveTabIndex} />
+              )}
+            </div>
+            <PrivacyComponent />
+          </>
+        ) : (
+          <IsSignedInLanding
+            activeTabIndex={activeTabIndex}
+            setActiveTabIndex={setActiveTabIndex}
+          />
+        )}
+        <Footer />
+      </div>
     </div>
   );
 }
