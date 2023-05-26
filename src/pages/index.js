@@ -9,6 +9,7 @@ import { Landing } from './unAuth';
 import { Home } from './auth/home';
 import { IsSignedInLanding } from './unAuth/IsSignedInLanding';
 import { getConfig } from '../utils/config';
+import { wallet } from '..';
 
 const URL = window.location;
 
@@ -142,7 +143,11 @@ export function IndexPage({ isSignedIn }) {
                 <div className="flex flex-wrap gap-10">
                   <button
                     onClick={() => {
-                      setActiveTabIndex(1);
+                      if (wallet?.accountId) {
+                        setActiveTabIndex(1);
+                      } else {
+                        setActiveTabIndex(0);
+                      }
                     }}
                     className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                   >

@@ -23,7 +23,7 @@ export const Home = ({ setActiveTabIndex }) => {
   const fetchFVTokens = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().og_contract,
+        contractId: getConfig().fractal_contract,
         method: 'nft_tokens_for_owner',
         args: { account: wallet.accountId },
       });
@@ -38,7 +38,7 @@ export const Home = ({ setActiveTabIndex }) => {
   const fetchKYCTokens = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().fractal_contract,
+        contractId: getConfig().app_contract,
         method: 'nft_tokens_for_owner',
         args: { account: wallet.accountId },
       });
