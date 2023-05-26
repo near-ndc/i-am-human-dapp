@@ -177,7 +177,7 @@ export const CommunityApplicationPanel = ({
         </div>
         <div className="py-2">
           <button
-            className="bg-blue-500 w-60 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
             type="submit"
             disabled={formLoading}
           >

@@ -45,7 +45,7 @@ export const CommunitiesApplication = ({ isSignedIn }) => {
                       onClick={() => {
                         setIsOpenPanel(true);
                       }}
-                      className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                     >
                       Apply For Community SBT
                     </button>

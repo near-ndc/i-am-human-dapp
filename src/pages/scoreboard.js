@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabase';
 import { CommunityDataKeys } from '../utils/campaign';
 
 import { ScoreBoardTable } from '../components/pages/scoreboard/scoreboardTable';
+import { CircleSpinner } from 'react-spinners-kit';
 
 export const ScoreboardPage = ({ isSignedIn }) => {
   const ref = React.useRef();
@@ -43,17 +44,19 @@ export const ScoreboardPage = ({ isSignedIn }) => {
   }, [fetchCommunities]);
 
   const { loading, data } = communities;
+
   return (
-    <div ref={ref}>
+    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10" ref={ref}>
       <Header />
-      <div className="lg:mx-auto mt-14 lg:max-w-7xl lg:px-8 px-6">
-        <>
-          {loading ? (
-            <p>Loading Community Scoreboard</p>
-          ) : (
-            <ScoreBoardTable communities={data} />
-          )}
-        </>
+      <div className="px-5 mt-[80px] md:mt-[100px] flex flex-col gap-y-32 mb-20">
+        {loading ? (
+          <p className="flex flex-wrap gap-2 items-center">
+            Loading Community Scoreboard...{' '}
+            <CircleSpinner size={20} color="blue" />
+          </p>
+        ) : (
+          <ScoreBoardTable communities={data} />
+        )}
       </div>
       <Footer />
     </div>
