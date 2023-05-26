@@ -6,11 +6,11 @@ const navigation = [
     header: 'Product',
     links: [
       {
-        name: 'Documentation',
+        name: 'I-AM-HUMAN Docs',
         href: 'https://i-am-human.gitbook.io/i-am-human-docs/',
       },
       {
-        name: 'Feedback',
+        name: 'Product Feedback',
         href: 'https://hr6bimbyqly.typeform.com/to/wVhraeUG',
       },
       {
@@ -23,16 +23,16 @@ const navigation = [
     header: 'Resources',
     links: [
       {
-        name: 'NDC DOCS',
-        href: 'https://i-am-human.gitbook.io/i-am-human-docs/',
+        name: 'NDC Docs',
+        href: 'https://near.social/#/neardigitalcollective.near/widget/NDCDocs_OneArticle?articleId=TheNDC&blockHeight=92179204&lastEditor=blaze.near',
       },
       {
         name: 'Community Dashboard',
-        href: 'https://hr6bimbyqly.typeform.com/to/wVhraeUG',
+        to: '/community-scoreboard',
       },
       {
-        name: 'Community Application for SBT',
-        to: '/community-application',
+        name: 'NDC Gigs',
+        href: 'https://near.social/#/neardigitalcollective.near/widget/Gigs',
       },
     ],
   },
@@ -41,7 +41,11 @@ const navigation = [
     links: [
       {
         name: 'Join us',
-        href: 'https://t.me/c/1708163325/1',
+        href: 'https://t.me/+fcNhYGxK891lMjMx',
+      },
+      {
+        name: 'Refer Friends',
+        href: 'https://near.org/sking.near/widget/IAH.Invite',
       },
     ],
   },
@@ -102,7 +106,7 @@ export function Footer() {
                 <input
                   type="text"
                   className="p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
-                  placeholder="Your email address"
+                  placeholder="Input your email"
                 />
                 <button className="inline-flex rounded-tr-md rounded-br-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700">
                   Subscribe

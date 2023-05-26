@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 import { wallet } from '../../index';
-import Logo from '../../images/logoText.png';
+import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
@@ -40,7 +40,7 @@ export const Header = ({ setShowAdmin }) => {
                     setShowAdmin?.(false);
                   }}
                   alt="logo"
-                  className="h-[50px] w-[100px] md:h-[100px] md:w-[150px] mt-6"
+                  className="h-[120px] w-[100px] mt-6"
                 />
               </Link>
             </div>
@@ -103,7 +103,7 @@ export const Header = ({ setShowAdmin }) => {
                     <img
                       src={Logo}
                       alt="logo"
-                      className="h-[50px] w-[100px] md:h-[100px] md:w-[150px] mt-6 "
+                      className="h-[80px] w-[70px] mt-6 "
                     />
                   </a>
                 </div>
