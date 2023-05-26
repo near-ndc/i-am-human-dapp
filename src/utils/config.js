@@ -25,7 +25,7 @@ export function getConfig() {
       return {
         network_id: 'testnet',
         // app_contract: 'registry-1.i-am-human.testnet',
-        app_contract: 'i-am-human-staging.testnet', // REMOVE AFTER TESTING
+        app_contract: 'registry-1.i-am-human.testnet',
         og_contract: 'og-sbt-1.i-am-human.testnet',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         // fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
