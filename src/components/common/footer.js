@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Logo from '../../images/ndc.png';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 const navigation = [
   {
@@ -11,7 +14,7 @@ const navigation = [
       },
       {
         name: 'Product Feedback',
-        href: 'https://hr6bimbyqly.typeform.com/to/wVhraeUG',
+        href: 'https://i-am-human.canny.io',
       },
       {
         name: 'Bug Report',
@@ -61,60 +64,130 @@ export function Footer() {
         Footer
       </h2>
       <div className="pt-10 lg:pt-20">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-8 gap-10">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-8 gap-3">
           <div className="flex md:justify-center items-center lg:row-span-2 md:row-span-3">
             <img
-              style={{ width: '40%' }}
-              className="object-fill object-center"
+              className="object-fill object-center w-[100px] md:w-[40%]"
               src={Logo}
               alt="Company name"
             />
           </div>
 
           {navigation.map((nav) => (
-            <div className="mt-10 md:mt-0">
-              <h2>{nav.header}</h2>
-              <ul role="list" className="mt-6 space-y-4">
-                {nav.links.map((item) => (
-                  <li key={item.name}>
-                    {Boolean(item.to) ? (
-                      <Link
-                        to={item.to}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
+            <div>
+              <div className="hidden md:block">
+                <h2>{nav.header}</h2>
+                <ul role="list" className="mt-6 space-y-4">
+                  {nav.links.map((item) => (
+                    <li key={item.name}>
+                      {Boolean(item.to) ? (
+                        <Link
+                          to={item.to}
+                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        >
+                          {item.name}
+                        </Link>
+                      ) : (
+                        <a
+                          href={item.href}
+                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {item.name}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Menu as="div" className="relative text-left md:hidden">
+                <div>
+                  <Menu.Button className="flex-1 flex w-full justify-between gap-x-1.5 px-3 py-2 text-sm font-semibold">
+                    {nav.header}
+                    <ChevronDownIcon
+                      className="-mr-1 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      {nav.links.map((item) => (
+                        <Menu.Item>
+                          <div
+                            key={item.name}
+                            className="text-gray-700 block px-4 py-2 text-sm"
+                          >
+                            {Boolean(item.to) ? (
+                              <Link
+                                to={item.to}
+                                className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                              >
+                                {item.name}
+                              </Link>
+                            ) : (
+                              <a
+                                href={item.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                              >
+                                {item.name}
+                              </a>
+                            )}
+                          </div>
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </div>
           ))}
           <div>
-            <form action="">
-              <p class="text-secondary-800 dark:text-secondary-200">
+            <form
+              action="https://app.us21.list-manage.com/subscribe/post?u=c30811e8c153eaa458c2a89eb&amp;id=8ca3d4361b&amp;f_id=00ef55e1f0"
+              method="post"
+              id="mc-embedded-subscribe-form"
+              name="mc-embedded-subscribe-form"
+              className="validate"
+              target="_blank"
+              novalidate
+            >
+              <p className="text-secondary-800 dark:text-secondary-200">
                 <strong>Subscribe to our Newsletter</strong>
               </p>
-              <div class="mt-4 flex">
+              <div className="mt-4 flex">
                 <input
+                  id="mce-EMAIL"
                   type="text"
                   className="p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
                   placeholder="Input your email"
                 />
-                <button className="inline-flex rounded-tr-md rounded-br-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700">
+                <button
+                  id="mc-embedded-subscribe"
+                  type="submit"
+                  value="Subscribe"
+                  className="inline-flex rounded-tr-md rounded-br-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                >
                   Subscribe
                 </button>
               </div>
             </form>
           </div>
         </div>
+
         <div className="flex items-center mt-16 border-t border-gray-900/10 pt-10 lg:mt-20 mb-5 gap-5">
           <div className="flex-1"></div>
           <p className="text-xs text-center text-gray-500">

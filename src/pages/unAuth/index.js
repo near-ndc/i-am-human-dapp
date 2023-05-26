@@ -6,7 +6,7 @@ import OGSBT from '../../images/OGSBT.png';
 
 export const Landing = () => {
   return (
-    <div className="flex flex-col gap-32 mb-20">
+    <div className="flex flex-col gap-10 md:gap-32 mb-20">
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px]">
           <h2 className="font-bold text-3xl">
@@ -32,7 +32,7 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
-          <img src={FVSBTImage} className="object-fill" />
+          <img src={FVSBTImage} className="object-fill rounded-lg w-2/3" />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
@@ -49,7 +49,7 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
-          <img src={KYCSBTImage} className="object-fill" />
+          <img src={KYCSBTImage} className="object-fill rounded-lg w-2/3" />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
@@ -68,7 +68,10 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
-          <img src={CommunitySBTImage} className="object-fill" />
+          <img
+            src={CommunitySBTImage}
+            className="object-fill rounded-lg w-2/3"
+          />
         </div>
       </div>
 
@@ -85,7 +88,7 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
-          <img src={OGSBT} className="object-fill" />
+          <img src={OGSBT} className="object-fill rounded-lg w-2/3" />
         </div>
       </div>
     </div>
