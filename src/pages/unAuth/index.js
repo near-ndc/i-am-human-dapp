@@ -6,7 +6,7 @@ import OGSBT from '../../images/OGSBT.png';
 
 export const Landing = () => {
   return (
-    <div className="flex flex-col gap-32">
+    <div className="flex flex-col gap-32 mb-20">
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px]">
           <h2 className="font-bold text-3xl">
