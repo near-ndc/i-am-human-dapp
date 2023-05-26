@@ -51,9 +51,9 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-4 py-2 text-base font-light text-black shadow-sm"
           >
-            Coming Soon
+            Learn More
           </button>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
