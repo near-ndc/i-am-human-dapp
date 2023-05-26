@@ -1,12 +1,23 @@
 import React from 'react';
 import Logo from '../../images/bigLogo.png';
 import { CheckCircle } from '../../images/CheckCircle';
+import { Warning } from '../../images/Warning';
 
-export const Tabs = ({ tabs, activeTabIndex, setActiveTabIndex }) => (
+export const Tabs = ({
+  tabs,
+  activeTabIndex,
+  setActiveTabIndex,
+  error,
+  successSBT,
+}) => (
   <div className="grid grid-cols-3">
     <div className="flex flex-col items-center py-52">
       <div className="flex flex-col">
-        <div className="bg-gray-100 absolute top-0 left-0 h-full w-[38%] -z-50" />
+        <div
+          className={`bg-gray-100 absolute top-0 left-0 ${
+            successSBT ? 'h-[75rem]' : 'h-full'
+          } w-[38%] -z-50`}
+        />
         <div className="lg:mx-auto lg:max-w-7xl w-full h-3 absolute top-0 left-1/2 transform -translate-x-1/2">
           <div
             className={`bg-purple-600 h-3 ${
@@ -37,6 +48,11 @@ export const Tabs = ({ tabs, activeTabIndex, setActiveTabIndex }) => (
               >
                 {tab.name}
               </p>
+              {activeTabIndex === index && !!error ? (
+                <Warning />
+              ) : (
+                activeTabIndex === index && successSBT && <CheckCircle />
+              )}
               {activeTabIndex > index && <CheckCircle />}
             </div>
             {tabs.length !== index + 1 && (
