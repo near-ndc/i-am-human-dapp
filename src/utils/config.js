@@ -31,8 +31,8 @@ export function getConfig() {
         api_link: 'https://dev-ophc7vkxsq-uc.a.run.app/',
         fractal_api: 'https://staging.justfortestinc.site',
         fractal_link: 'https://app.next.fractal.id',
-        // fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8', // waiting for DEV branch
-        fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000
+        fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8', // waiting for DEV branch
+        // fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000
         ...commonConfig,
       };
     default:
