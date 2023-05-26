@@ -8,7 +8,7 @@ import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export const Header = ({ setShowAdmin }) => {
+export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
   const [isAdmin] = useAdmin({ address: wallet.accountId });
@@ -33,16 +33,18 @@ export const Header = ({ setShowAdmin }) => {
             aria-label="Global"
           >
             <div className="flex lg:min-w-0 lg:flex-1" aria-label="Global">
-              <Link to="/" className="-m-1.5 p-1.5 font-bold tracking-tight">
-                <img
-                  src={Logo}
-                  onClick={() => {
-                    setShowAdmin?.(false);
-                  }}
-                  alt="logo"
-                  className="h-[120px] w-[100px] mt-6"
-                />
-              </Link>
+              <div onClick={() => setActiveTabIndex(null)}>
+                <Link to="/" className="-m-1.5 p-1.5 font-bold tracking-tight">
+                  <img
+                    src={Logo}
+                    onClick={() => {
+                      setShowAdmin?.(false);
+                    }}
+                    alt="logo"
+                    className="h-[120px] w-[100px] mt-6"
+                  />
+                </Link>
+              </div>
             </div>
             <div className="flex lg:hidden">
               {isSignedIn ? (
@@ -80,9 +82,12 @@ export const Header = ({ setShowAdmin }) => {
                 </>
               )}
               {wallet.accountId && (
-                <div className="inline-block bg-gray-50 border border-1 border-gray-50 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                <button
+                  onClick={() => setActiveTabIndex(null)}
+                  className="inline-block bg-gray-50 border border-1 border-gray-50 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20"
+                >
                   {wallet.accountId}
-                </div>
+                </button>
               )}
               <button
                 type="button"
