@@ -81,11 +81,11 @@ export const Home = ({ setActiveTabIndex }) => {
                 <h2 className="text-xl font-bold"> No SBTs Available </h2>
                 <p className="my-3">
                   Looks like you don't have SBTs available, then it's time to
-                  mint your first SBTs now
+                  mint your first SBTs.
                 </p>
                 <button
-                  onClick={() => setActiveTabIndex(2)}
-                  className="rounded-md border mt-3 border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                  onClick={() => setActiveTabIndex(1)}
+                  className="rounded-md border mt-5 mb-2 border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                 >
                   Mint your SBTs Now
                 </button>
