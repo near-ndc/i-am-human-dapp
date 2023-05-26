@@ -209,7 +209,7 @@ const ActionButtons = ({
                 contractId: getConfig().app_contract,
                 method: 'sbt_mint',
                 args: {
-                  ctr: 'i-am-human-staging.testnet',
+                  ctr: getConfig().new_sbt_contract,
                   vector: {
                     receiver: person.wallet_identifier,
                     metadata: {
