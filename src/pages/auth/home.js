@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 
-export const Home = () => {
+export const Home = ({ setActiveTabIndex }) => {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
 
@@ -83,7 +83,10 @@ export const Home = () => {
                   Looks like you don't have SBTs available, then it's time to
                   mint your first SBTs now
                 </p>
-                <button className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700">
+                <button
+                  onClick={() => setActiveTabIndex(2)}
+                  className="rounded-md border mt-3 border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                >
                   Mint your SBTs Now
                 </button>
               </div>

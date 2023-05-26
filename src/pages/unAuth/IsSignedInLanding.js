@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ConnectWallet,
   MintSBT,
@@ -41,15 +41,21 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
     },
   ];
 
+  useEffect(() => {
+    window?.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="lg:mx-auto lg:max-w-7xl">
-      <Tabs
-        tabs={TabsData}
-        activeTabIndex={activeTabIndex}
-        error={error}
-        successSBT={successSBT}
-        setActiveTabIndex={() => null}
-      />
+      {typeof activeTabIndex === 'number' && (
+        <Tabs
+          tabs={TabsData}
+          activeTabIndex={activeTabIndex}
+          error={error}
+          successSBT={successSBT}
+          setActiveTabIndex={() => null}
+        />
+      )}
     </div>
   );
 };

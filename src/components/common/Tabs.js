@@ -68,9 +68,8 @@ export const Tabs = ({
         ))}
       </div>
     </div>
-    <div className="col-span-2 pt-32 pb-52 pl-12">
+    <div className="col-span-2 pt-32 pl-12">
       {tabs[activeTabIndex].content}
-
       <img src={Logo} alt="logo" className="absolute bottom-6 right-0" />
     </div>
   </div>

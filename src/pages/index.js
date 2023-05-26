@@ -14,7 +14,6 @@ const URL = window.location;
 
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
-  const [showConnectWallet, setShowConnectWallet] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   useEffect(() => {
@@ -99,8 +98,12 @@ export function IndexPage({ isSignedIn }) {
 
   return (
     <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10">
-      <Header setShowAdmin={setShowAdmin} isAdmin={false} />
-      {!showConnectWallet ? (
+      <Header
+        setActiveTabIndex={setActiveTabIndex}
+        setShowAdmin={setShowAdmin}
+        isAdmin={false}
+      />
+      {typeof activeTabIndex !== 'number' ? (
         <>
           <div className="mt-[80px] md:mt-[100px] flex flex-col gap-y-32">
             <div className="flex flex-wrap gap-10">
@@ -138,7 +141,9 @@ export function IndexPage({ isSignedIn }) {
                 </div>
                 <div className="flex flex-wrap gap-10">
                   <button
-                    onClick={() => setShowConnectWallet(true)}
+                    onClick={() => {
+                      setActiveTabIndex(1);
+                    }}
                     className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                   >
                     Get Started
@@ -160,7 +165,11 @@ export function IndexPage({ isSignedIn }) {
                 <img src={Design} className="w-full object-fill" />
               </div>
             </div>
-            {isSignedIn ? <Home /> : <Landing />}
+            {isSignedIn ? (
+              <Home setActiveTabIndex={setActiveTabIndex} />
+            ) : (
+              <Landing setActiveTabIndex={setActiveTabIndex} />
+            )}
           </div>
           <PrivacyComponent />
         </>
