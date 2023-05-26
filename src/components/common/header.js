@@ -26,7 +26,7 @@ export const Header = ({ setShowAdmin }) => {
 
   return (
     <>
-      <div className="lg:mx-auto lg:max-w-7xl pt-8 ">
+      <div>
         <div>
           <nav
             className="flex h-9 items-center justify-between"
@@ -40,7 +40,7 @@ export const Header = ({ setShowAdmin }) => {
                     setShowAdmin?.(false);
                   }}
                   alt="logo"
-                  className="h-[150px] w-[150px] mt-6 "
+                  className="h-[120px] w-[100px] mt-6"
                 />
               </Link>
             </div>
@@ -49,7 +49,7 @@ export const Header = ({ setShowAdmin }) => {
                 <>
                   <button
                     type="button"
-                    className=" inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                    className=" inline-flex items-center justify-center rounded-md text-gray-700"
                     onClick={() => setMobileMenuOpen(true)}
                   >
                     <span className="sr-only">Open main menu</span>
@@ -66,43 +66,21 @@ export const Header = ({ setShowAdmin }) => {
                 </button>
               )}
             </div>
-            <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-              {/* {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="font-semibold text-gray-900 hover:text-gray-900"
-                >
-                  {item.name}
-                </a>
-              ))} */}
-            </div>
+            <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12"></div>
             <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
-              {/* <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                Docs
-              </div> */}
-              {isSignedIn && (
+              {isSignedIn && isAdmin && (
                 <>
-                  {isAdmin ? (
-                    <>
-                      <button
-                        onClick={() => setShowAdmin(true)}
-                        className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
-                      >
-                        <p>Admin Console</p>
-                        <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                      </button>
-                    </>
-                  ) : (
-                    <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2">
-                      <p>User Account</p>
-                      <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                    </div>
-                  )}
+                  <button
+                    onClick={() => setShowAdmin(true)}
+                    className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
+                  >
+                    <p>Admin Console</p>
+                    <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                  </button>
                 </>
               )}
               {wallet.accountId && (
-                <div className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                <div className="inline-block bg-gray-50 border border-1 border-gray-50 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                   {wallet.accountId}
                 </div>
               )}
@@ -125,7 +103,7 @@ export const Header = ({ setShowAdmin }) => {
                     <img
                       src={Logo}
                       alt="logo"
-                      className="h-[100px] w-[100px] mt-4"
+                      className="h-[80px] w-[70px] mt-6 "
                     />
                   </a>
                 </div>
@@ -154,23 +132,14 @@ export const Header = ({ setShowAdmin }) => {
                     ))} */}
                   </div>
                   <div className="py-6">
-                    {isSignedIn && (
-                      <>
-                        {isAdmin ? (
-                          <button
-                            onClick={() => setShowAdmin(true)}
-                            className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2"
-                          >
-                            <p>Admin Console</p>
-                            <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                          </button>
-                        ) : (
-                          <div className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2">
-                            <p>User Account</p>
-                            <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                          </div>
-                        )}
-                      </>
+                    {isSignedIn && isAdmin && (
+                      <button
+                        onClick={() => setShowAdmin(true)}
+                        className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2"
+                      >
+                        <p>Admin Console</p>
+                        <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                      </button>
                     )}
                     {wallet.accountId && (
                       <div className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">

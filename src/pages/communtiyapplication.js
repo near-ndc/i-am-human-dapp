@@ -9,12 +9,11 @@ export const CommunityApplicationPage = ({ isSignedIn }) => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
-    <div ref={ref}>
+    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10" ref={ref}>
       <Header />
-      <div className="lg:mx-auto lg:max-w-7xl lg:px-8 px-6">
-        <CommunitiesApplication isSignedIn={isSignedIn} />
-      </div>
+      <CommunitiesApplication isSignedIn={isSignedIn} />
       <Footer />
     </div>
   );
