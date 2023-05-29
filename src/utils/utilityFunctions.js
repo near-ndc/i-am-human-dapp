@@ -22,3 +22,7 @@ export const log_event = async ({ event_log, effected_wallet }) => {
     throw new Error(error?.message);
   }
 };
+
+export const isNumber = (value) => {
+  return typeof value === 'number';
+};
