@@ -95,7 +95,15 @@ export const MintSBT = ({
         await supabase.insert('users', updateData);
       }
       log_event({ event_log: 'Applied for FV SBT' });
-      const { mintFee, fractal_contract } = getConfig();
+      const { fractal_contract } = getConfig();
+      // fetch fees requirement from contract
+      const fees = await wallet.viewMethod({
+        contractId: fractal_contract,
+        method: 'get_required_sbt_mint_deposit',
+        args: {
+          is_verified_kyc: false,
+        },
+      });
       await wallet.callMethod({
         contractId: fractal_contract,
         method: 'sbt_mint',
@@ -103,7 +111,7 @@ export const MintSBT = ({
           claim_b64: result.m,
           claim_sig: result.sig,
         },
-        deposit: mintFee,
+        deposit: BigInt(fees).toString(),
       });
     } catch (e) {
       log_event({
