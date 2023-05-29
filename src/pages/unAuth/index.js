@@ -26,7 +26,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
           >
             Learn More
           </button>
@@ -51,7 +51,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
           >
             Learn More
           </button>
@@ -78,7 +78,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 py-2 mt-5 text-base font-light text-black shadow-sm"
+            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
           >
             Coming Soon
           </button>
@@ -106,7 +106,7 @@ export const Landing = () => {
                 '_blank'
               )
             }
-            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 mt-5 py-2 text-base font-light text-black shadow-sm"
+            className="cursor-auto inline-flex rounded-md border border-gray-500 border-1 px-5 md:mt-5 py-2 text-base font-light text-black shadow-sm"
           >
             Coming Soon
           </button>
