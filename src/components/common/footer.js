@@ -14,7 +14,7 @@ const navigation = [
       },
       {
         name: 'Product Feedback',
-        href: 'https://i-am-human.canny.io',
+        href: 'https://i-am-human.canny.io/feature-requests',
       },
       {
         name: 'Bug Report',
@@ -43,7 +43,7 @@ const navigation = [
     header: 'About Us',
     links: [
       {
-        name: 'Join us',
+        name: 'Join Us',
         href: 'https://t.me/+fcNhYGxK891lMjMx',
       },
       {
@@ -76,7 +76,7 @@ export function Footer() {
           {navigation.map((nav) => (
             <div>
               <div className="hidden md:block">
-                <h2>{nav.header}</h2>
+                <h2 className="text-md font-bold">{nav.header}</h2>
                 <ul role="list" className="mt-6 space-y-4">
                   {nav.links.map((item) => (
                     <li key={item.name}>
@@ -103,7 +103,7 @@ export function Footer() {
               </div>
               <Menu as="div" className="relative text-left md:hidden">
                 <div>
-                  <Menu.Button className="flex-1 flex w-full justify-between gap-x-1.5 px-3 py-2 text-sm font-semibold">
+                  <Menu.Button className="flex-1 flex w-full justify-between gap-x-1.5 py-2 text-md font-bold">
                     {nav.header}
                     <ChevronDownIcon
                       className="-mr-1 h-5 w-5 text-gray-400"
@@ -165,10 +165,10 @@ export function Footer() {
               target="_blank"
               novalidate
             >
-              <p className="text-secondary-800 dark:text-secondary-200">
-                <strong>Subscribe to our Newsletter</strong>
+              <p className="text-secondary-800 dark:text-secondary-200 text-md font-bold">
+                Subscribe to our Newsletter
               </p>
-              <div className="mt-4 flex">
+              <div className="mt-2 flex">
                 <input
                   id="mce-EMAIL"
                   type="text"
