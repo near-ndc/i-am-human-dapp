@@ -10,41 +10,41 @@ import { getConfig } from '../../utils/config';
 import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
+import { isNumber } from '../../utils/utilityFunctions';
 
 export const Home = ({ setActiveTabIndex }) => {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
 
   useEffect(() => {
-    fetchFVTokens();
-    fetchKYCTokens();
-  }, []);
+    // fetching only when logged in (without steps) state active
+    if (!isNumber(setActiveTabIndex)) fetchTokens();
+  }, [setActiveTabIndex]);
 
-  const fetchFVTokens = async () => {
-    try {
-      const data = await wallet.viewMethod({
-        contractId: getConfig().fractal_contract,
-        method: 'nft_tokens_for_owner',
-        args: { account: wallet.accountId },
-      });
-      setFVTokens(data?.[0]);
-    } catch {
-      toast.error(
-        'An error occured while fetching face verification SBT details'
-      );
-    }
-  };
-
-  const fetchKYCTokens = async () => {
+  const fetchTokens = async () => {
     try {
       const data = await wallet.viewMethod({
         contractId: getConfig().app_contract,
-        method: 'nft_tokens_for_owner',
-        args: { account: wallet.accountId },
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: getConfig().fractal_contract,
+        },
       });
-      setKYCTokens(data);
-    } catch {
-      toast.error('An error occured while fetching KYC SBT details');
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => FV token
+          if (token.metadata.class === 1) {
+            setFVTokens(token);
+          } else {
+            setKYCTokens(token);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error(
+        'An error occured while fetching face verification SBT details'
+      );
     }
   };
 
@@ -101,7 +101,7 @@ export const Home = ({ setActiveTabIndex }) => {
                   My Face Verification Soul Bound Token
                 </h2>
                 <TokenDetails
-                  tokenID={fvTokens.token_id}
+                  tokenID={fvTokens.token}
                   issuedDate={fvTokens?.metadata?.issued_at}
                   expireDate={fvTokens?.metadata?.expires_at}
                 />
@@ -114,7 +114,7 @@ export const Home = ({ setActiveTabIndex }) => {
                   My KYC Soul Bound Token
                 </h2>
                 <TokenDetails
-                  tokenID={kycTokens?.token_id}
+                  tokenID={kycTokens?.token}
                   issuedDate={kycTokens?.metadata?.issued_at}
                   expireDate={kycTokens?.metadata?.expires_at}
                 />
