@@ -2,7 +2,6 @@ const environment = process.env.REACT_APP_ENV ?? 'prod';
 
 export function getConfig() {
   const commonConfig = {
-    mintFee: '9270000000000000000000',
     succes_fractal_state: 'facescan',
   };
   switch (environment) {
