@@ -8,6 +8,7 @@ import { Tabs } from '../../components/common/Tabs';
 import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
   const [error, setError] = useState(false);
@@ -46,16 +47,21 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
   }, []);
 
   return (
-    <div className="lg:mx-auto lg:max-w-7xl">
-      {typeof activeTabIndex === 'number' && (
-        <Tabs
-          tabs={TabsData}
-          activeTabIndex={activeTabIndex}
-          error={error}
-          successSBT={successSBT}
-          setActiveTabIndex={() => null}
-        />
-      )}
-    </div>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.REACT_APP_RE_CAPTCHA_KEY}
+      language="en"
+    >
+      <div className="lg:mx-auto lg:max-w-7xl">
+        {typeof activeTabIndex === 'number' && (
+          <Tabs
+            tabs={TabsData}
+            activeTabIndex={activeTabIndex}
+            error={error}
+            successSBT={successSBT}
+            setActiveTabIndex={() => null}
+          />
+        )}
+      </div>
+    </GoogleReCaptchaProvider>
   );
 };
