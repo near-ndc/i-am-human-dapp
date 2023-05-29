@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { CircleSpinner } from 'react-spinners-kit';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import 'react-phone-number-input/style.css';
 import 'react-phone-number-input/style.css';
 import { wallet } from '../../..';
@@ -17,6 +18,7 @@ import COMMUNITYImage from '../../../images/COMMUNITY.png';
 import FACE_VERIFICATIONImage from '../../../images/FACE_VERIFICATION.png';
 import NO_KNOWLEDGE_KYCImage from '../../../images/NO_KNOWLEDGE_KYC.png';
 import ORIGINAL_MEMBERImage from '../../../images/ORIGINAL_MEMBER.png';
+import Timer from '../../common/countdown';
 
 const TOKENS_PLACEHOLDER = [
   COMMUNITYImage,
@@ -60,6 +62,7 @@ export const MintSBT = ({
     redirect_uri: '',
   });
   const [submit, setSubmit] = useState(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const mintSBT = async () => {
     window.history.replaceState({}, '', window.location.origin);
@@ -128,6 +131,19 @@ export const MintSBT = ({
     }
   }, []);
 
+  const handleVerifyRecaptcha = useCallback(async () => {
+    if (!executeRecaptcha) {
+      toast.error('Recaptcha has not been loaded');
+
+      return;
+    }
+
+    const token = await executeRecaptcha('homepage');
+    if (!successSBT && token) {
+      mintSBT();
+    }
+  }, [executeRecaptcha]);
+
   return (
     <>
       <div className="w-full flex justify-between items-center">
@@ -156,7 +172,7 @@ export const MintSBT = ({
               ? 'Success!'
               : 'Mint Face Verification Soul Bound Token'}
           </h2>
-          <p className="text-s mb-8">
+          <p className="text-s mb-8 mr-8">
             {successSBT
               ? 'Check out your newly minted Soul Bound Tokens! You can now participate in Near Digital Collective (NDC) governance. Share the good news!'
               : "Congratulations! You're eligible to receive Soul Bound Tokens (SBTs) that verify that you are a human."}
@@ -216,19 +232,26 @@ export const MintSBT = ({
               </button>
             </>
           ) : (
-            <button
-              onClick={() => !successSBT && mintSBT()}
-              type="button"
-              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-            >
-              {submit ? (
-                <CircleSpinner size={20} />
-              ) : (
-                <p className="mx-auto w-[fit-content]">
-                  {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
-                </p>
+            <div className="flex items-center">
+              <button
+                onClick={handleVerifyRecaptcha}
+                type="button"
+                className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+              >
+                {submit ? (
+                  <CircleSpinner size={20} />
+                ) : (
+                  <p className="mx-auto w-[fit-content]">
+                    {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
+                  </p>
+                )}
+              </button>
+              {!successSBT && (
+                <div className="ml-4">
+                  <Timer delayResend="600" />
+                </div>
               )}
-            </button>
+            </div>
           )}
         </div>
         {!successSBT && (
