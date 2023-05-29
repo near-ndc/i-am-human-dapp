@@ -122,7 +122,7 @@ const ActionButtons = ({
                   args: {
                     receiver: person.wallet_identifier,
                   },
-                  deposit: '8000000000000000000000',
+                  deposit: '9270000000000000000000',
                 });
                 log_event({
                   event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
