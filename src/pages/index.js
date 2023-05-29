@@ -59,10 +59,7 @@ export function IndexPage({ isSignedIn }) {
           typeof activeTabIndex !== 'number' ? `url(${Design})` : 'none',
         zIndex: 10,
       }}
-      className={
-        'bg-no-repeat md:bg-[right_top_8%] ' +
-        (wallet.accountId ? 'bg-[center_top_5%]' : 'bg-[center_top_2.5%]')
-      }
+      className={'bg-no-repeat md:bg-[right_top_8%] bg-[center_top_-30%]'}
     >
       <div
         style={{ background: 'transparent' }}
@@ -75,7 +72,7 @@ export function IndexPage({ isSignedIn }) {
         />
         {typeof activeTabIndex !== 'number' ? (
           <>
-            <div className="mt-[200px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+            <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
               <div className="flex flex-wrap gap-10">
                 <div className="flex-1 min-w-[300px]">
                   <h1 className="font-bold text-5xl">
@@ -93,10 +90,10 @@ export function IndexPage({ isSignedIn }) {
                   </p>
                   <p>All you need to do is 3 easy steps.</p>
                   <div className="my-10">
-                    <div className="grid grid-cols-3 gap-5 items-center">
+                    <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
                       {TabsData.map((tab, index) => {
                         return (
-                          <div className="flex items-center gap-5">
+                          <div className="flex items-center gap-1 md:gap-2">
                             <div className="rounded-full border border-2 border-purple-400 w-fit p-1">
                               {tab.header}
                             </div>
@@ -110,13 +107,15 @@ export function IndexPage({ isSignedIn }) {
                       })}
                     </div>
                     {/* for responsive better styling */}
-                    <div className="grid grid-cols-3 gap-5 items-center">
+                    <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
                       {TabsData.map((tab) => {
-                        return <p className="text-md mt-2">{tab.name}</p>;
+                        return (
+                          <p className="text-sm md:text-md mt-2">{tab.name}</p>
+                        );
                       })}
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-x-10 gap-y-5">
+                  <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
                     <button
                       onClick={() => {
                         if (wallet?.accountId) {
@@ -125,7 +124,7 @@ export function IndexPage({ isSignedIn }) {
                           setActiveTabIndex(0);
                         }
                       }}
-                      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                     >
                       Get Started
                     </button>
@@ -136,14 +135,17 @@ export function IndexPage({ isSignedIn }) {
                           '_blank'
                         )
                       }
-                      className="rounded-md border border-purple-500 text-purple-500 border-1 px-10 py-2 text-base font-light text-black shadow-sm"
+                      className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
                     >
                       Learn More
                     </button>
                   </div>
                 </div>
                 <div className="flex-1 min-w-[300px] order-first md:order-last">
-                  <img src={Design} className="w-full object-fill invisible" />
+                  <img
+                    src={Design}
+                    className="w-full object-fill hidden md:invisible"
+                  />
                 </div>
               </div>
               {isSignedIn ? (
