@@ -163,8 +163,11 @@ export const MintSBT = ({
           </p>
           {successSBT && (
             <div className="grid grid-rows-2 grid-flow-col gap-6 mb-8">
-              {TOKENS_PLACEHOLDER.map((item) => (
-                <div className="bg-gray-100 p-2 flex items-center rounded-2xl">
+              {TOKENS_PLACEHOLDER.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 p-2 flex items-center rounded-2xl"
+                >
                   <div className="w-44 h-44 flex">
                     <img src={item} className="rounded-2xl" />
                   </div>
@@ -222,7 +225,7 @@ export const MintSBT = ({
                 <CircleSpinner size={20} />
               ) : (
                 <p className="mx-auto w-[fit-content]">
-                  {successSBT ? 'Share on Twitter' : 'Connect Wallet'}
+                  {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
                 </p>
               )}
             </button>
@@ -256,11 +259,10 @@ export const ScanFace = () => {
       fractal_link +
       '/authorize?' +
       `client_id=${fractal_client_id}&redirect_uri=${encodeURIComponent(
-        window.location.href
+        window.location.origin
       )}&response_type=code&scope=contact%3Aread%20verification.uniqueness%3Aread%20verification.uniqueness.details%3Aread&state=${succes_fractal_state}&ensure_wallet=${
         wallet.accountId
       }`;
-
     log_event({
       event_log: `Raw Data received on Fractal ${JSON.stringify(
         fractalVerifyURL
