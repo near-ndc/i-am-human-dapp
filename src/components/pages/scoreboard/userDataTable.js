@@ -10,7 +10,6 @@ import {
 } from 'recharts';
 
 const CustomizedLabel = (props) => {
-  console.log(props);
   const { payload } = props;
   return (
     <div className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
@@ -22,8 +21,10 @@ const CustomizedLabel = (props) => {
 export const UserDataTable = ({ userData }) => {
   // Helper function to get week of the year
   function getWeek(date) {
-    let oneJan = new Date(date.getFullYear(), 0, 1);
-    let numberOfDays = Math.floor((date - oneJan) / (24 * 60 * 60 * 1000));
+    let firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    let numberOfDays = Math.floor(
+      (date - firstDayOfYear) / (24 * 60 * 60 * 1000)
+    );
     return Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
   }
 
