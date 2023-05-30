@@ -69,8 +69,8 @@ export const ScoreboardPage = ({ isSignedIn }) => {
 
   return (
     <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10" ref={ref}>
-      <Header />
-      <div className="lg:mx-auto mt-14 lg:max-w-7xl lg:px-8 px-6">
+      <Header setShowAdmin={() => {}} setActiveTabIndex={() => {}} />
+      <div className="lg:mx-auto mt-20 lg:max-w-7xl lg:px-8 px-6 mb-20">
         <>
           {loading ? (
             <p className="flex flex-wrap gap-2 items-center">

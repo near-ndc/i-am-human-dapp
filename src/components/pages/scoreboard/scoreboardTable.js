@@ -7,12 +7,13 @@ export function ScoreBoardTable({ communities = [] }) {
     if (keyA > keyB) return -1;
     return 0;
   });
+
   return (
     <div className="shadow bg-white m-1 p-4 rounded-md">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Community Scoreboard
+            Vertical Scoreboard
           </h1>
         </div>
         <div className="mt-8 flow-root">
