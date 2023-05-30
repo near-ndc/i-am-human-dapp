@@ -10,9 +10,13 @@ import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
+export const IsSignedInLanding = ({
+  activeTabIndex,
+  setActiveTabIndex,
+  successSBT,
+  setSuccessSBT,
+}) => {
   const [error, setError] = useState(false);
-  const [successSBT, setSuccessSBT] = useState(false);
   const activeTab = (index) =>
     activeTabIndex >= index ? 'stroke-purple-400' : 'stroke-gray-300';
 

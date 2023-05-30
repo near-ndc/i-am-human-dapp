@@ -19,6 +19,7 @@ import FACE_VERIFICATIONImage from '../../../images/FACE_VERIFICATION.png';
 import NO_KNOWLEDGE_KYCImage from '../../../images/NO_KNOWLEDGE_KYC.png';
 import ORIGINAL_MEMBERImage from '../../../images/ORIGINAL_MEMBER.png';
 import Timer from '../../common/countdown';
+import { SuccesVerification } from './FractalVerification/Success';
 
 const TOKENS_PLACEHOLDER = [
   COMMUNITYImage,
@@ -53,7 +54,6 @@ export const MintSBT = ({
   setActiveTabIndex,
   setError,
   isError,
-  setSuccessSBT,
   successSBT,
 }) => {
   const [editableFields, setEditableFields] = useState({
@@ -139,7 +139,7 @@ export const MintSBT = ({
     }
   }, []);
 
-  const handleVerifyRecaptcha = useCallback(async () => {
+  const handleVerifyRecaptcha = async () => {
     if (!executeRecaptcha) {
       toast.error('Recaptcha has not been loaded');
 
@@ -148,135 +148,76 @@ export const MintSBT = ({
 
     const token = await executeRecaptcha('homepage');
     if (!successSBT && token) {
-      mintSBT();
+      await mintSBT();
     }
-  }, [executeRecaptcha]);
+  };
 
-  return (
-    <>
-      <div className="w-full flex justify-between items-center">
-        <div>
-          <div
-            className={`flex items-center justify-center w-20 h-20 rounded-full border-2 ${
-              successSBT ? 'border-green-400' : 'border-purple-400'
-            }`}
-          >
-            <div
-              className={`flex items-center justify-center w-full h-full rounded-full border-2 ${
-                successSBT
-                  ? 'border-green-500 bg-green-200 shadow-green-400'
-                  : 'border-purple-500 bg-purple-200 shadow-purple-400'
-              } shadow-[inset_0_0px_4px_#FFFFFF]`}
-            >
-              <MintSVG
-                styles={`w-12 h-12 ${
-                  successSBT ? 'stroke-green-300' : 'stroke-purple-400'
-                }`}
-              />
-            </div>
+  return successSBT ? (
+    <SuccesVerification />
+  ) : (
+    <div className="w-full flex justify-between items-center">
+      <div>
+        <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
+          <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-purple-400 shadow-[inset_0_0px_4px_#FFFFFF]">
+            <MintSVG styles="w-12 h-12 stroke-purple-400" />
           </div>
-          <h2 className="text-4xl font-bold	my-4">
-            {successSBT
-              ? 'Success!'
-              : 'Mint Face Verification Soul Bound Token'}
-          </h2>
-          <p className="text-s mb-8 mr-8">
-            {successSBT
-              ? 'Check out your newly minted Soul Bound Tokens! You can now participate in Near Digital Collective (NDC) governance. Share the good news!'
-              : "Congratulations! You're eligible to receive Soul Bound Tokens (SBTs) that verify that you are a human."}
-          </p>
-          {successSBT && (
-            <div className="grid grid-rows-2 grid-flow-col gap-6 mb-8">
-              {TOKENS_PLACEHOLDER.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-100 p-2 flex items-center rounded-2xl"
-                >
-                  <div className="w-44 h-44 flex">
-                    <img src={item} className="rounded-2xl" />
-                  </div>
-                  <div className="">
-                    <p className="">Token ID: 113</p>
-                    <p className="my-3">Issed on: 10 May 2023</p>
-                    <p className="mb-3">Expired on: 09 May 2024</p>
-                    <p className="">Days until expiration: 351</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {isError ? (
-            <>
-              <div className="flex">
-                <button
-                  onClick={() => mintSBT()}
-                  type="button"
-                  className="rounded-md bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                >
-                  {submit ? (
-                    <CircleSpinner size={20} />
-                  ) : (
-                    <p className="mx-auto w-[fit-content]">Try Again</p>
-                  )}
-                </button>
-                <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
-                  <Warning />
-                  <p className="ml-2">
-                    Something went wrong, please try again.
-                  </p>
-                </div>
-              </div>
+        </div>
+        <h2 className="text-4xl font-bold	my-4">
+          Mint Face Verification Soul Bound Token
+        </h2>
+        <p className="text-s mb-8 mr-8">
+          Congratulations! You're eligible to receive Soul Bound Tokens (SBTs)
+          that verify that you are a human.
+        </p>
+        {isError ? (
+          <>
+            <div className="flex">
               <button
                 onClick={() => {
-                  setSuccessSBT(true);
+                  setActiveTabIndex(1);
                   setError(false);
                 }}
                 type="button"
-                className="rounded-md bg-yellow-400 px-4 py-2 mt-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-              >
-                <p className="mx-auto w-[fit-content]">
-                  Show Success Screen (only for test)
-                </p>
-              </button>
-            </>
-          ) : (
-            <div className="flex items-center">
-              <button
-                onClick={handleVerifyRecaptcha}
-                type="button"
-                className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                className="rounded-md bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
               >
                 {submit ? (
                   <CircleSpinner size={20} />
                 ) : (
-                  <p className="mx-auto w-[fit-content]">
-                    {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
-                  </p>
+                  <p className="mx-auto w-[fit-content]">Try Again</p>
                 )}
               </button>
-              {!successSBT && (
-                <div className="ml-4">
-                  <Timer delayResend="600" />
-                </div>
-              )}
+              <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
+                <Warning />
+                <p className="ml-2">Something went wrong, please try again.</p>
+              </div>
             </div>
-          )}
-        </div>
-        {!successSBT && (
-          <div className="md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
-            <img src={FVSBTImage} className="object-fill" />
+          </>
+        ) : (
+          <div className="flex items-center">
+            <button
+              onClick={handleVerifyRecaptcha}
+              type="button"
+              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+            >
+              {submit ? (
+                <CircleSpinner size={20} />
+              ) : (
+                <p className="mx-auto w-[fit-content]">Mint Your SBT</p>
+              )}
+            </button>
+
+            <div className="flex items-center ml-4">
+              <p className="mr-1">Expire in</p>
+              <Timer delayResend="600" />
+            </div>
           </div>
         )}
       </div>
 
-      {successSBT && (
-        <p className="text-s mt-8">
-          Please note that you can request for your SBTs to be revoked (along
-          with deletion of any identifying data stored by I-AM-HUMAN and
-          Fractal).
-        </p>
-      )}
-    </>
+      <div className="md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+        <img src={FVSBTImage} className="object-fill" />
+      </div>
+    </div>
   );
 };
 
