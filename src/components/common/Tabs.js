@@ -86,11 +86,11 @@ export const Tabs = ({
               <div className="flex gap-2">
                 <div
                   className={`rounded-full border-2 ${
-                    index < activeTabIndex
+                    index <= activeTabIndex
                       ? 'border-purple-400'
                       : 'border-gray-300'
                   } ${
-                    index < activeTabIndex
+                    index <= activeTabIndex
                       ? 'stoke-purple-400'
                       : 'stroke-gray-300'
                   } p-1.5`}
@@ -105,7 +105,7 @@ export const Tabs = ({
               </div>
               <p
                 className={`text-m font-medium ml-4 mr-2 ${
-                  index < activeTabIndex ? 'text-purple-600' : 'text-black'
+                  index <= activeTabIndex ? 'text-purple-600' : 'text-black'
                 }`}
               >
                 {tab.name}
