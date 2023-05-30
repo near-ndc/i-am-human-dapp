@@ -64,18 +64,19 @@ export const MintSBT = ({
   const [submit, setSubmit] = useState(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const mintSBT = async () => {
+  const mintSBT = async (token) => {
     window.history.replaceState({}, '', window.location.origin);
     setSubmit(true);
     let updateData = {
       wallet_identifier: wallet.accountId,
       ...editableFields,
     };
+    const verifyData = { ...editableFields, captch: token };
     log_event({
       event_log: `Data sent to verify API ${JSON.stringify(editableFields)}`,
     });
     try {
-      const result = await verifyUser(editableFields);
+      const result = await verifyUser(verifyData);
       if (result?.error) {
         setError(true);
         return;
@@ -148,7 +149,7 @@ export const MintSBT = ({
 
     const token = await executeRecaptcha('homepage');
     if (!successSBT && token) {
-      await mintSBT();
+      await mintSBT(token);
     }
   };
 

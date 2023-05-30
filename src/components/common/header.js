@@ -24,6 +24,16 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
       });
   });
 
+  const signOut = () => {
+    if (isSignedIn) {
+      wallet.signOut();
+      localStorage.removeItem('fvTokens');
+      localStorage.removeItem('kycTokens');
+    } else {
+      wallet.signIn();
+    }
+  };
+
   return (
     <>
       <div>
@@ -88,9 +98,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
               )}
               <button
                 type="button"
-                onClick={
-                  isSignedIn ? () => wallet.signOut() : () => wallet.signIn()
-                }
+                onClick={() => signOut()}
                 className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
               >
                 {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
