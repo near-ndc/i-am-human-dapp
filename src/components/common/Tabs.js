@@ -71,7 +71,11 @@ export const Tabs = ({
       </div>
       <div className="col-span-2 pt-32 pl-12">
         {tabs[activeTabIndex].content}
-        <img src={Logo} alt="logo" className="absolute bottom-6 right-0" />
+        <img
+          src={Logo}
+          alt="logo"
+          className="absolute bottom-6 right-0 hidden lg:block"
+        />
       </div>
     </div>
     {/* for smaller screens */}
