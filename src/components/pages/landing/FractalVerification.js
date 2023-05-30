@@ -71,7 +71,7 @@ export const MintSBT = ({
       wallet_identifier: wallet.accountId,
       ...editableFields,
     };
-    const verifyData = { ...editableFields, captch: token };
+    const verifyData = { ...editableFields, captcha: token };
     log_event({
       event_log: `Data sent to verify API ${JSON.stringify(editableFields)}`,
     });
