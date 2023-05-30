@@ -93,7 +93,7 @@ export const Home = ({ setActiveTabIndex }) => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap md:flex-nowrap gap-5">
+          <div className="flex gap-y-10 flex-wrap md:flex-nowrap gap-5">
             {fvTokens && (
               <Item imageSrc={FVSBTImage}>
                 <ValidTokenComponent />

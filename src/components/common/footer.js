@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Logo from '../../images/ndc.png';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
+import jsonp from 'jsonp';
 
 const navigation = [
   {
@@ -50,11 +51,50 @@ const navigation = [
         name: 'Refer Friends',
         href: 'https://near.org/sking.near/widget/IAH.Invite',
       },
+      {
+        name: 'Join Other Humans',
+        href: 'https://near.social/#/7418d5cb7d7657e526b8bccf28750939105828d0f5b34a7254bd107477d84a2c/widget/ProgressMeterBarWidget',
+      },
     ],
   },
 ];
 
 export function Footer() {
+  const [email, setEmail] = useState(null);
+  const [error, setError] = useState(null);
+
+  const validateEmail = useCallback(() => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+      return true;
+    } else {
+      setError('Invalid email address!');
+      return false;
+    }
+  }, [email]);
+
+  useEffect(() => {
+    setError('');
+  }, [email]);
+
+  const onSubscribeSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateEmail()) {
+      return;
+    }
+    try {
+      alert('Thank you for subscribing!');
+      const url =
+        'https://app.us21.list-manage.com/subscribe/post?u=c30811e8c153eaa458c2a89eb&amp;id=8ca3d4361b&amp;f_id=00ef55e1f0';
+      // using jsonp because of CORS issue
+      jsonp(`${url}&EMAIL=${email}`, { param: 'c' });
+      setEmail('');
+    } catch (error) {
+      setEmail('');
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <footer
       className="bg-white border-t border-gray-900/10"
@@ -74,7 +114,7 @@ export function Footer() {
           </div>
 
           {navigation.map((nav) => (
-            <div>
+            <div key={nav.header}>
               <div className="hidden md:block">
                 <h2 className="text-md font-bold">{nav.header}</h2>
                 <ul role="list" className="mt-6 space-y-4">
@@ -157,19 +197,18 @@ export function Footer() {
           ))}
           <div>
             <form
-              action="https://app.us21.list-manage.com/subscribe/post?u=c30811e8c153eaa458c2a89eb&amp;id=8ca3d4361b&amp;f_id=00ef55e1f0"
-              method="post"
+              onSubmit={onSubscribeSubmit}
               id="mc-embedded-subscribe-form"
               name="mc-embedded-subscribe-form"
-              className="validate"
-              target="_blank"
-              novalidate
+              noValidate
             >
               <p className="text-secondary-800 dark:text-secondary-200 text-md font-bold">
                 Subscribe to our Newsletter
               </p>
               <div className="mt-2 flex">
                 <input
+                  onChange={({ target: { value } }) => setEmail(value)}
+                  name="EMAIL"
                   id="mce-EMAIL"
                   type="text"
                   className="p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
@@ -184,6 +223,7 @@ export function Footer() {
                   Subscribe
                 </button>
               </div>
+              <p className="text-red-500">{error}</p>
             </form>
           </div>
         </div>

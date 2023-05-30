@@ -98,7 +98,7 @@ export function IndexPage({ isSignedIn }) {
                               {tab.header}
                             </div>
                             {index < 2 ? (
-                              <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
+                              <hr className="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
                             ) : (
                               <span></span>
                             )}
