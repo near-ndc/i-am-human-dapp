@@ -36,8 +36,10 @@ export const Home = ({ setActiveTabIndex }) => {
           // if class = 1 => FV token
           if (token.metadata.class === 1) {
             setFVTokens(token);
+            localStorage.setItem('fvTokens', token);
           } else {
             setKYCTokens(token);
+            localStorage.setItem('kycTokens', token);
           }
         }
       }

@@ -11,7 +11,7 @@ export const Tabs = ({
   successSBT,
 }) => (
   <div className="grid grid-cols-3">
-    <div className="flex flex-col items-center py-52">
+    <div className="flex items-center min-h-screen">
       <div className="flex flex-col">
         <div
           className={`bg-gray-100 absolute top-0 left-0 ${
@@ -68,7 +68,7 @@ export const Tabs = ({
         ))}
       </div>
     </div>
-    <div className="col-span-2 pt-32 pl-12">
+    <div className="flex items-center col-span-2 min-h-screen pl-12">
       {tabs[activeTabIndex].content}
       <img src={Logo} alt="logo" className="absolute bottom-6 right-0" />
     </div>
