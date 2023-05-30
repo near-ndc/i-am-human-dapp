@@ -84,8 +84,7 @@ export function Footer() {
     }
     try {
       alert('Thank you for subscribing!');
-      const url =
-        'https://app.us21.list-manage.com/subscribe/post?u=c30811e8c153eaa458c2a89eb&amp;id=8ca3d4361b&amp;f_id=00ef55e1f0';
+      const url = `https://app.us21.list-manage.com/subscribe/post?u=${process.env.REACT_APP_MAILCHIMP_U_ID}&amp;id=${process.env.REACT_APP_MAILCHIMP_ID}&amp;f_id=${process.env.REACT_APP_MAILCHIMP_F_ID}`;
       // using jsonp because of CORS issue
       jsonp(`${url}&EMAIL=${email}`, { param: 'c' });
       setEmail('');
