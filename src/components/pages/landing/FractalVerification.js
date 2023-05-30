@@ -102,7 +102,7 @@ export const MintSBT = ({
         contractId: fractal_contract,
         method: 'get_required_sbt_mint_deposit',
         args: {
-          is_verified_kyc: true, // get exact mint cost
+          is_verified_kyc: result?.kyc == 'approved', // get exact mint cost
         },
       });
       await wallet.callMethod({
