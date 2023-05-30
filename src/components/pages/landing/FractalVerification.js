@@ -42,7 +42,7 @@ export const ConnectWallet = () => (
     <button
       onClick={() => wallet.signIn()}
       type="button"
-      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+      className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
     >
       <p className="mx-auto w-[fit-content]">Connect Wallet</p>
     </button>
@@ -154,7 +154,7 @@ export const MintSBT = ({
 
   return (
     <>
-      <div className="w-full flex justify-between items-center">
+      <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center">
         <div>
           <div
             className={`flex items-center justify-center w-20 h-20 rounded-full border-2 ${
@@ -240,30 +240,37 @@ export const MintSBT = ({
               </button>
             </>
           ) : (
-            <div className="flex items-center">
-              <button
-                onClick={handleVerifyRecaptcha}
-                type="button"
-                className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-              >
-                {submit ? (
-                  <CircleSpinner size={20} />
-                ) : (
-                  <p className="mx-auto w-[fit-content]">
-                    {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
-                  </p>
-                )}
-              </button>
+            <div>
               {!successSBT && (
-                <div className="ml-4">
-                  <Timer delayResend="600" />
+                <div className="block md:hidden mb-10 md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+                  <img src={FVSBTImage} className=" object-fill" />
                 </div>
               )}
+              <div className="flex gap-y-5 md:gap-0 flex-wrap items-center">
+                <button
+                  onClick={handleVerifyRecaptcha}
+                  type="button"
+                  className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                >
+                  {submit ? (
+                    <CircleSpinner size={20} />
+                  ) : (
+                    <p className="mx-auto w-[fit-content]">
+                      {successSBT ? 'Share on Twitter' : 'Mint Your SBT'}
+                    </p>
+                  )}
+                </button>
+                {!successSBT && (
+                  <div className="ml-4">
+                    <Timer delayResend="600" />
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
         {!successSBT && (
-          <div className="md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+          <div className="hidden md:block md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
             <img src={FVSBTImage} className="object-fill" />
           </div>
         )}
@@ -328,7 +335,7 @@ export const ScanFace = () => {
       <button
         onClick={() => fractalLoginCb()}
         type="button"
-        className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+        className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
       >
         {submit ? (
           <CircleSpinner size={20} />

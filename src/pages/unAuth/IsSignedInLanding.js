@@ -55,7 +55,7 @@ export const IsSignedInLanding = ({ activeTabIndex, setActiveTabIndex }) => {
         {typeof activeTabIndex === 'number' && (
           <Tabs
             tabs={TabsData}
-            activeTabIndex={activeTabIndex}
+            activeTabIndex={2}
             error={error}
             successSBT={successSBT}
             setActiveTabIndex={() => null}
