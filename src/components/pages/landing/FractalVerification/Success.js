@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MintSVG } from '../../../../images/MintSVG';
 import FVSBTImage from '../../../../images/FvSBT.png';
 import KYCSBTImage from '../../../../images/KYCSBT.png';
@@ -8,8 +8,9 @@ import {
 } from '../../../common/TokenDetails';
 
 export const SuccesVerification = () => {
-  const fvTokens = localStorage.getItem('fvTokens');
-  const kycTokens = localStorage.getItem('kycTokens');
+  const [showTooltip, setShowtooltip] = useState(false);
+  const fvTokens = JSON.parse(localStorage.getItem('fvTokens'));
+  const kycTokens = JSON.parse(localStorage.getItem('kycTokens'));
 
   const Item = ({ imageSrc, children }) => {
     return (
@@ -88,6 +89,43 @@ export const SuccesVerification = () => {
         Please note that you can request for your SBTs to be revoked (along with
         deletion of any identifying data stored by I-AM-HUMAN and Fractal).
       </p>
+
+      <div class="relative py-3 sm:max-w-xl">
+        <div
+          class="group cursor-pointer relative inline-block border-b border-gray-400 text-center text-gray-600"
+          onClick={() => setShowtooltip(!showTooltip)}
+        >
+          Revoke my SBT's
+        </div>
+        {showTooltip && (
+          <div class="w-48 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10  bottom-full -left-8 px-3">
+            <div className="flex flex-col">
+              <a
+                className="underline mb-1"
+                target="_top"
+                href="mailto:privacy@fractal.id?subject=Delete%20my%20Fractal"
+              >
+                Delete from Fractal
+              </a>
+              <a
+                className="underline"
+                href="mailto:iah.privacy@gmail.com?subject=Delete%20my%20IAM"
+              >
+                Delete from I-AM-HUMAN
+              </a>
+            </div>
+            <svg
+              class="absolute text-black h-2 w-full left-0 top-full"
+              x="0px"
+              y="0px"
+              viewBox="0 0 255 255"
+              xmlSpace="preserve"
+            >
+              <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+            </svg>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
