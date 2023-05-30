@@ -31,7 +31,7 @@ const navigation = [
         href: 'https://near.social/#/neardigitalcollective.near/widget/NDCDocs_OneArticle?articleId=TheNDC&blockHeight=92179204&lastEditor=blaze.near',
       },
       {
-        name: 'Community Dashboard',
+        name: 'Community Scoreboard',
         to: '/community-scoreboard',
       },
       {
