@@ -80,11 +80,17 @@ export const Tabs = ({
     </div>
     {/* for smaller screens */}
     <div className="block md:hidden mt-[100px]">
-      <div className="flex">
+      <div
+        className="grid"
+        style={{ gridTemplateColumns: '1.35fr 1fr 0.75fr' }}
+      >
         {tabs.map((tab, index) => (
           <>
             <div
-              className="flex flex-col items-center cursor-default"
+              className={
+                'flex flex-col cursor-default ' +
+                (index === 2 ? 'justify-self-end' : '')
+              }
               key={index}
             >
               <div className="flex gap-2">
@@ -102,13 +108,13 @@ export const Tabs = ({
                   {tab.header}
                 </div>
                 {tabs.length !== index + 1 && (
-                  <div className="min-w-[30%]">
+                  <div className="min-w-[50%]">
                     <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
                   </div>
                 )}
               </div>
               <p
-                className={`text-m font-medium ml-4 mr-2 ${
+                className={`text-m font-medium ${
                   index <= activeTabIndex ? 'text-purple-600' : 'text-black'
                 }`}
               >
