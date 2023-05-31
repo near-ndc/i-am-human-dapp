@@ -19,6 +19,9 @@ const URL = window.location;
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(null);
+  const [successSBT, setSuccessSBT] = useState(false);
+  const fvTokens = localStorage.getItem('fvTokens');
+  const kycTokens = localStorage.getItem('kycTokens');
 
   useEffect(() => {
     const search = window.location.search;
@@ -32,8 +35,13 @@ export function IndexPage({ isSignedIn }) {
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
 
-    if (URL_state === succes_fractal_state) {
+    if (URL_state === succes_fractal_state && wallet?.accountId) {
       setActiveTabIndex(2);
+      if (fvTokens || kycTokens) {
+        setSuccessSBT(true);
+      } else {
+        setSuccessSBT(false);
+      }
     }
   }, []);
 
@@ -51,6 +59,21 @@ export function IndexPage({ isSignedIn }) {
       header: <MintSVG styles={`w-12 h-12 stroke-purple-400`} />,
     },
   ];
+
+  const getStarted = () => {
+    if (wallet?.accountId) {
+      if (fvTokens || kycTokens) {
+        setActiveTabIndex(2);
+        setSuccessSBT(true);
+      } else {
+        setActiveTabIndex(1);
+        setSuccessSBT(false);
+      }
+    } else {
+      setActiveTabIndex(0);
+      setSuccessSBT(false);
+    }
+  };
 
   return (
     <div
@@ -98,7 +121,7 @@ export function IndexPage({ isSignedIn }) {
                               {tab.header}
                             </div>
                             {index < 2 ? (
-                              <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
+                              <hr className="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
                             ) : (
                               <span></span>
                             )}
@@ -117,13 +140,7 @@ export function IndexPage({ isSignedIn }) {
                   </div>
                   <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
                     <button
-                      onClick={() => {
-                        if (wallet?.accountId) {
-                          setActiveTabIndex(1);
-                        } else {
-                          setActiveTabIndex(0);
-                        }
-                      }}
+                      onClick={() => getStarted()}
                       className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                     >
                       Get Started
@@ -160,6 +177,8 @@ export function IndexPage({ isSignedIn }) {
           <IsSignedInLanding
             activeTabIndex={activeTabIndex}
             setActiveTabIndex={setActiveTabIndex}
+            successSBT={successSBT}
+            setSuccessSBT={setSuccessSBT}
           />
         )}
         <Footer />

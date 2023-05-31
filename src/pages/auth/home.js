@@ -36,8 +36,10 @@ export const Home = ({ setActiveTabIndex }) => {
           // if class = 1 => FV token
           if (token.metadata.class === 1) {
             setFVTokens(token);
+            localStorage.setItem('fvTokens', JSON.stringify(token));
           } else {
             setKYCTokens(token);
+            localStorage.setItem('kycTokens', JSON.stringify(token));
           }
         }
       }
@@ -93,7 +95,7 @@ export const Home = ({ setActiveTabIndex }) => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap md:flex-nowrap gap-5">
+          <div className="flex gap-y-10 flex-wrap md:flex-nowrap gap-5">
             {fvTokens && (
               <Item imageSrc={FVSBTImage}>
                 <ValidTokenComponent />

@@ -10,7 +10,7 @@ export const Tabs = ({
   error,
   successSBT,
 }) => (
-  <div>
+  <>
     <div className="hidden md:grid grid-cols-3">
       <div className="flex flex-col items-center py-52">
         <div className="flex flex-col">
@@ -120,5 +120,5 @@ export const Tabs = ({
       </div>
       <div className="my-10 flex">{tabs[activeTabIndex].content}</div>
     </div>
-  </div>
+  </>
 );
