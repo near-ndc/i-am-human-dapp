@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MintSVG } from '../../../../images/MintSVG';
 import FVSBTImage from '../../../../images/FvSBT.png';
 import KYCSBTImage from '../../../../images/KYCSBT.png';
@@ -6,11 +6,28 @@ import {
   TokenDetails,
   ValidTokenComponent,
 } from '../../../common/TokenDetails';
+import ReactConfetti from 'react-confetti';
 
 export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const fvTokens = JSON.parse(localStorage.getItem('fvTokens'));
   const kycTokens = JSON.parse(localStorage.getItem('kycTokens'));
+  const parentRef = useRef();
+  const [width, setWidth] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(true);
+
+  useEffect(() => {
+    setWidth(parentRef?.current?.offsetWidth);
+  }, []);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setShowConfetti(false);
+    }, 10000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   const Item = ({ imageSrc, children }) => {
     return (
@@ -27,7 +44,10 @@ export const SuccesVerification = () => {
   };
 
   return (
-    <div className="w-full">
+    <div ref={parentRef} className="w-full">
+      {showConfetti && (
+        <ReactConfetti width={width} height={document.body.offsetHeight} />
+      )}
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-green-400">
           <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-green-500 bg-green-200 shadow-green-400 shadow-[inset_0_0px_4px_#FFFFFF]">
