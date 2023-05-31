@@ -198,7 +198,7 @@ export const MintSBT = ({
 
             <div className="flex items-center ml-4">
               <p className="mr-1">Expire in</p>
-              <Timer delayResend="600" />
+              <Timer delayResend="600" setActiveTabIndex={setActiveTabIndex} />
             </div>
           </div>
         )}
