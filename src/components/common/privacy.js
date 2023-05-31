@@ -13,7 +13,7 @@ export const PrivacyComponent = () => {
       <button
         onClick={() =>
           window.open(
-            'https://i-am-human.gitbook.io/i-am-human-docs/technical-specs/pii-and-gdpr',
+            'https://i-am-human.gitbook.io/i-am-human-docs/privacy/date-use-and-gdpr',
             '_blank'
           )
         }

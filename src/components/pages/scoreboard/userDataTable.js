@@ -133,7 +133,7 @@ export const UserDataTable = ({ userData }) => {
             <div ref={parentRef}>
               <LineChart
                 width={width - 20}
-                height={(document.body.offsetHeight * 70) / 100}
+                height={(document.body.offsetHeight * 15) / 100}
                 data={growth}
                 margin={{ top: 5, right: 50, left: -20, bottom: 15 }}
                 className="bg-white shadow-md p-4 rounded-md"

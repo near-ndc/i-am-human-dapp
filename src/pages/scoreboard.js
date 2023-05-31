@@ -78,7 +78,7 @@ export const ScoreboardPage = ({ isSignedIn }) => {
               <CircleSpinner size={20} color="blue" />
             </p>
           ) : (
-            <div className="space-y-4 pb-4">
+            <div className="space-y-10 pb-4">
               <ScoreBoardTable communities={data} />
               <VerticalScoreboard communities={vertical} />
               <UserDataTable userData={allUserData} />

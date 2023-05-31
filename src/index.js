@@ -8,6 +8,8 @@ import { Provider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'r
 // NEAR
 import { Wallet } from './utils/near-wallet';
 import { getConfig } from './utils/config';
+import './styles/index.css';
+
 const CONTRACT_ADDRESS = getConfig().app_contract;
 const rollbarConfig = {
   accessToken: '31e514c3334a42728684b0638472dd32',
