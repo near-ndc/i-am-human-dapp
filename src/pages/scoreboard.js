@@ -78,10 +78,40 @@ export const ScoreboardPage = ({ isSignedIn }) => {
               <CircleSpinner size={20} color="blue" />
             </p>
           ) : (
-            <div className="space-y-10 pb-4">
-              <ScoreBoardTable communities={data} />
-              <VerticalScoreboard communities={vertical} />
-              <UserDataTable userData={allUserData} />
+            <div className="space-y-5 pb-4 text-center">
+              <div className="mx-auto max-w-7xl text-center rounded-lg mb-10 border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 py-10 text-base font-medium text-white shadow-sm">
+                <h2 className="font-semibold text-3xl">
+                  I-AM-HUMAN Onboarding Competition{' '}
+                </h2>
+                <p className="text-sm mt-5 max-w-4xl mx-auto">
+                  Get your personal tracking links to onboard humans and see
+                  scores here. For more information, join this telegram group
+                  for competition details.
+                </p>
+                <div className="flex justify-center gap-10">
+                  <button
+                    onClick={() =>
+                      window.open('https://t.me/+fcNhYGxK891lMjMx', '_blank')
+                    }
+                    className="bg-white mt-5 rounded-lg text-purple-500 p-2 px-4"
+                  >
+                    Join the Community
+                  </button>
+                  <button
+                    onClick={() =>
+                      window.open('https://t.me/+gVXWvooKWzozNmE0', '_blank')
+                    }
+                    className="border border-white border-2 mt-5 rounded-lg text-white-500 p-2 px-4"
+                  >
+                    Learn about the Competition
+                  </button>
+                </div>
+              </div>
+              <div className="mt-20 space-y-10">
+                <ScoreBoardTable communities={data} />
+                {/* <VerticalScoreboard communities={vertical} /> */}
+                <UserDataTable userData={allUserData} />
+              </div>
             </div>
           )}
         </>
