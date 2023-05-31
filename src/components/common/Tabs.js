@@ -82,14 +82,15 @@ export const Tabs = ({
     <div className="block md:hidden mt-[100px]">
       <div
         className="grid"
-        style={{ gridTemplateColumns: '1.35fr 1fr 0.75fr' }}
+        style={{ gridTemplateColumns: '1.2fr 1.2fr 0.75fr' }}
       >
         {tabs.map((tab, index) => (
           <>
             <div
               className={
                 'flex flex-col cursor-default ' +
-                (index === 2 ? 'justify-self-end' : '')
+                (index === 2 ? 'justify-self-end' : '') +
+                (index === 1 ? 'ml-4' : '')
               }
               key={index}
             >

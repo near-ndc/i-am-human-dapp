@@ -134,9 +134,10 @@ export const MintSBT = ({
   }, []);
 
   const handleVerifyRecaptcha = async () => {
+    setSubmit(true);
     if (!executeRecaptcha) {
       toast.error('Recaptcha has not been loaded');
-
+      setSubmit(false);
       return;
     }
 
@@ -144,6 +145,7 @@ export const MintSBT = ({
     if (!successSBT && token) {
       await mintSBT(token);
     }
+    setSubmit(false);
   };
 
   const tryAgain = () => {
