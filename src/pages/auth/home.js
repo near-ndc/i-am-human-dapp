@@ -12,7 +12,11 @@ import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
 
-export const Home = ({ setActiveTabIndex }) => {
+export const Home = ({
+  setActiveTabIndex,
+  sendFVTokensDetails,
+  sendKYCTokensDetails,
+}) => {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
 
@@ -36,8 +40,10 @@ export const Home = ({ setActiveTabIndex }) => {
           // if class = 1 => FV token
           if (token.metadata.class === 1) {
             setFVTokens(token);
+            sendFVTokensDetails(token);
             localStorage.setItem('fvTokens', JSON.stringify(token));
           } else {
+            sendKYCTokensDetails(token);
             setKYCTokens(token);
             localStorage.setItem('kycTokens', JSON.stringify(token));
           }

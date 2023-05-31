@@ -230,7 +230,8 @@ export const ScanFace = () => {
         fractalVerifyURL
       )}`,
     });
-    window.location.href = fractalVerifyURL;
+    window.open(fractalVerifyURL, '_blank');
+    setSubmit(false);
   };
 
   return (

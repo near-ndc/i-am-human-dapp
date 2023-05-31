@@ -4,7 +4,7 @@ import { CommunityDataKeys } from '../utils/campaign';
 import { Header } from '../components/common/header';
 import { PrivacyComponent } from '../components/common/privacy';
 import { Footer } from '../components/common/footer';
-import Design from '../images/backLines.png';
+import Design from '../images/NDC-Lines.svg';
 import { Landing } from './unAuth';
 import { Home } from './auth/home';
 import { IsSignedInLanding } from './unAuth/IsSignedInLanding';
@@ -20,8 +20,8 @@ export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(null);
   const [successSBT, setSuccessSBT] = useState(false);
-  const fvTokens = localStorage.getItem('fvTokens');
-  const kycTokens = localStorage.getItem('kycTokens');
+  const [fvTokens, setFVTokens] = useState(null);
+  const [kycTokens, setKYCTokens] = useState(null);
 
   useEffect(() => {
     const search = window.location.search;
@@ -82,7 +82,7 @@ export function IndexPage({ isSignedIn }) {
           typeof activeTabIndex !== 'number' ? `url(${Design})` : 'none',
         zIndex: 10,
       }}
-      className={'bg-no-repeat md:bg-[right_top_8%] bg-[center_top_-30%]'}
+      className={'bg-no-repeat home_bg_image'}
     >
       <div
         style={{ background: 'transparent' }}
@@ -139,12 +139,29 @@ export function IndexPage({ isSignedIn }) {
                     </div>
                   </div>
                   <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
-                    <button
-                      onClick={() => getStarted()}
-                      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                    >
-                      Get Started
-                    </button>
+                    {/* show get started only if no tokens are minted by user */}
+                    {!kycTokens && !fvTokens && (
+                      <button
+                        onClick={() => getStarted()}
+                        className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                      >
+                        Get Started
+                      </button>
+                    )}
+                    {kycTokens ||
+                      (fvTokens && (
+                        <button
+                          onClick={() =>
+                            window.open(
+                              'https://t.me/+fcNhYGxK891lMjMx',
+                              '_blank'
+                            )
+                          }
+                          className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                        >
+                          Join the Community
+                        </button>
+                      ))}
                     <button
                       onClick={() =>
                         window.open(
@@ -166,7 +183,11 @@ export function IndexPage({ isSignedIn }) {
                 </div>
               </div>
               {isSignedIn ? (
-                <Home setActiveTabIndex={setActiveTabIndex} />
+                <Home
+                  setActiveTabIndex={setActiveTabIndex}
+                  sendFVTokensDetails={setFVTokens}
+                  sendKYCTokensDetails={setKYCTokens}
+                />
               ) : (
                 <Landing setActiveTabIndex={setActiveTabIndex} />
               )}
