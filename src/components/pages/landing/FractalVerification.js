@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { CircleSpinner } from 'react-spinners-kit';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -14,19 +14,8 @@ import { FaceSVG } from '../../../images/FaceSVG';
 import { MintSVG } from '../../../images/MintSVG';
 import { Warning } from '../../../images/Warning';
 import FVSBTImage from '../../../images/FvSBT.png';
-import COMMUNITYImage from '../../../images/COMMUNITY.png';
-import FACE_VERIFICATIONImage from '../../../images/FACE_VERIFICATION.png';
-import NO_KNOWLEDGE_KYCImage from '../../../images/NO_KNOWLEDGE_KYC.png';
-import ORIGINAL_MEMBERImage from '../../../images/ORIGINAL_MEMBER.png';
 import Timer from '../../common/countdown';
 import { SuccesVerification } from './FractalVerification/Success';
-
-const TOKENS_PLACEHOLDER = [
-  COMMUNITYImage,
-  FACE_VERIFICATIONImage,
-  NO_KNOWLEDGE_KYCImage,
-  ORIGINAL_MEMBERImage,
-];
 
 export const ConnectWallet = () => (
   <div className="w-full">
@@ -43,7 +32,7 @@ export const ConnectWallet = () => (
     <button
       onClick={() => wallet.signIn()}
       type="button"
-      className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+      className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
     >
       <p className="mx-auto w-[fit-content]">Connect Wallet</p>
     </button>
@@ -156,7 +145,7 @@ export const MintSBT = ({
   return successSBT ? (
     <SuccesVerification />
   ) : (
-    <div className="w-full flex justify-between items-center">
+    <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center">
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
           <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-purple-400 shadow-[inset_0_0px_4px_#FFFFFF]">
@@ -194,11 +183,11 @@ export const MintSBT = ({
             </div>
           </>
         ) : (
-          <div className="flex items-center">
+          <div className="flex gap-y-5 md:gap-0 flex-wrap items-center">
             <button
               onClick={handleVerifyRecaptcha}
               type="button"
-              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+              className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
             >
               {submit ? (
                 <CircleSpinner size={20} />
@@ -215,7 +204,7 @@ export const MintSBT = ({
         )}
       </div>
 
-      <div className="md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
+      <div className="hidden md:block md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
         <img src={FVSBTImage} className="object-fill" />
       </div>
     </div>
@@ -270,7 +259,7 @@ export const ScanFace = () => {
       <button
         onClick={() => fractalLoginCb()}
         type="button"
-        className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+        className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
       >
         {submit ? (
           <CircleSpinner size={20} />
