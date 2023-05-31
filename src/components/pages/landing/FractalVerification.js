@@ -17,6 +17,8 @@ import FVSBTImage from '../../../images/FvSBT.png';
 import Timer from '../../common/countdown';
 import { SuccesVerification } from './FractalVerification/Success';
 
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
+
 export const ConnectWallet = () => (
   <div className="w-full">
     <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
@@ -51,6 +53,7 @@ export const MintSBT = ({
     redirect_uri: '',
   });
   const [submit, setSubmit] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(DEFAULT_ERROR_MESSAGE);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const mintSBT = async (token) => {
@@ -68,6 +71,7 @@ export const MintSBT = ({
       const result = await verifyUser(verifyData);
       if (result?.error) {
         setError(true);
+        setErrorMessage(result?.error || DEFAULT_ERROR_MESSAGE);
         return;
       }
 
@@ -142,6 +146,12 @@ export const MintSBT = ({
     }
   };
 
+  const tryAgain = () => {
+    setActiveTabIndex(1);
+    setError(false);
+    setErrorMessage(DEFAULT_ERROR_MESSAGE);
+  };
+
   return successSBT ? (
     <SuccesVerification />
   ) : (
@@ -163,10 +173,7 @@ export const MintSBT = ({
           <>
             <div className="flex">
               <button
-                onClick={() => {
-                  setActiveTabIndex(1);
-                  setError(false);
-                }}
+                onClick={() => tryAgain()}
                 type="button"
                 className="rounded-md bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
               >
@@ -178,7 +185,7 @@ export const MintSBT = ({
               </button>
               <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
                 <Warning />
-                <p className="ml-2">Something went wrong, please try again.</p>
+                <p className="ml-2">{errorMessage}</p>
               </div>
             </div>
           </>
