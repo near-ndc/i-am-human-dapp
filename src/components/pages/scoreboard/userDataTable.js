@@ -99,7 +99,7 @@ export const UserDataTable = ({ userData }) => {
     <div className="shadow bg-white m-1 p-4 rounded-md">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">
+          <h1 className="text-2xl font-semibold leading-6 text-gray-900">
             Weekly User Growth
           </h1>
         </div>
@@ -133,7 +133,7 @@ export const UserDataTable = ({ userData }) => {
             <div ref={parentRef}>
               <LineChart
                 width={width - 20}
-                height={(document.body.offsetHeight * 15) / 100}
+                height={(document.body.offsetHeight * 20) / 100}
                 data={growth}
                 margin={{ top: 5, right: 50, left: -20, bottom: 15 }}
                 className="bg-white shadow-md p-4 rounded-md"
