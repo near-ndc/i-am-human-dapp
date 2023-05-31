@@ -248,7 +248,7 @@ export function Footer() {
             </a>
             {/* Telegram */}
             <a
-              href="https://t.me/c/1708163325/1"
+              href="https://t.me/+fcNhYGxK891lMjMx"
               target="_blank"
               rel="noreferrer"
               className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
