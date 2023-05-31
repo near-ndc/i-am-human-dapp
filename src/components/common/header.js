@@ -92,7 +92,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                 </>
               )}
               {wallet.accountId && (
-                <p className="inline-block bg-gray-50 border border-1 border-gray-50 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                <p className="inline-block px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900">
                   {wallet.accountId}
                 </p>
               )}
