@@ -59,11 +59,8 @@ async function addAccountToStatus(accountID, isAdmin = false) {
 }
 
 describe('ManageAdmin', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   beforeEach(async () => {
+    jest.clearAllMocks();
     await act(async () => {
       render(<ManageAdmin />);
     });

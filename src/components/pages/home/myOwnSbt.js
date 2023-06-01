@@ -18,12 +18,12 @@ export const CheckSbtTokenStatus = () => {
       const og_supply = await wallet.viewMethod({
         contractId: app_contract,
         method: 'sbt_supply_by_owner',
-        args: { account: wallet.accountId, ctr: new_sbt_contract },
+        args: { account: wallet.accountId, issuer: new_sbt_contract },
       });
       const fv_supply = await wallet.viewMethod({
         contractId: app_contract,
         method: 'sbt_supply_by_owner',
-        args: { account: wallet.accountId, ctr: gooddollar_contract },
+        args: { account: wallet.accountId, issuer: gooddollar_contract },
       });
       setTokenSupply(parseInt(og_supply + fv_supply));
     } catch (e) {
