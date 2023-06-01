@@ -89,7 +89,7 @@ export const Tabs = ({ isAdmin }) => {
 
   return (
     <>
-      <div className="border-b border-gray-300">
+      <div className="border-b border-gray-300 mt-[70px]">
         <ul className="flex -mb-px text-sm font-medium text-center text-gray-500 overflow-x-auto dark:text-gray-400">
           {tabs.map((item, index) => (
             <div key={item.name} className="mr-2">
