@@ -12,7 +12,7 @@ export function getConfig() {
         og_contract: 'og-sbt.i-am-human.near',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.near',
         // fractal_contract: 'fractal-1.i-am-human.testnet',
-        fractal_contract: 'fractal.i-am-human.near.json', // REMOVE AFTER TESTING
+        fractal_contract: 'fractal.i-am-human.near',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
         api_link: 'https://api-ophc7vkxsq-uc.a.run.app',
         fractal_api: 'https://back.justfortestinc.site',
