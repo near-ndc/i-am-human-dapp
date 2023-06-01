@@ -37,7 +37,7 @@ const meteorWallet = setupMeteorWallet({
   iconUrl: meteorIconUrl,
 });
 
-const THIRTY_TGAS = '30000000000000';
+const DEFAULT_TGAS = '60000000000000';
 const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector
@@ -123,7 +123,7 @@ export class Wallet {
     contractId,
     method,
     args = {},
-    gas = THIRTY_TGAS,
+    gas = DEFAULT_TGAS,
     deposit = NO_DEPOSIT,
   }) {
     // Sign a transaction with the "FunctionCall" action
