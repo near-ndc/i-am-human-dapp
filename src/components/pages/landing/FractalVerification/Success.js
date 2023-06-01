@@ -94,9 +94,7 @@ export const SuccesVerification = () => {
             target="_blank"
             rel="noreferrer"
             class="twitter-share-button"
-            href="https://twitter.com/intent/tweet?text=Participate in Governance and mint your SBTs for proof of humanity at https://i-am-human.app/. Mines are minted in my wallet.
-
-            #NEAR #NDC #CommunityGovernance #WeAreCommunity"
+            href="https://twitter.com/intent/tweet?text=Participate in Governance and mint your SBTs for Proof of Humanity at https://i-am-human.app/. #NEARisNOW #WeAreCommunity #ndc"
             data-size="large"
             className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
           >

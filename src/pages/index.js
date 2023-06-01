@@ -13,6 +13,7 @@ import { wallet } from '..';
 import { WalletSVG } from '../images/WalletSVG';
 import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
+import { Tabs } from '../components/pages/home/tabs';
 
 const URL = window.location;
 
@@ -79,7 +80,9 @@ export function IndexPage({ isSignedIn }) {
     <div
       style={{
         backgroundImage:
-          typeof activeTabIndex !== 'number' ? `url(${Design})` : 'none',
+          typeof activeTabIndex !== 'number' && !showAdmin
+            ? `url(${Design})`
+            : 'none',
         zIndex: 10,
       }}
       className={'bg-no-repeat home_bg_image'}
@@ -93,116 +96,124 @@ export function IndexPage({ isSignedIn }) {
           setShowAdmin={setShowAdmin}
           isAdmin={false}
         />
-        {typeof activeTabIndex !== 'number' ? (
+        {showAdmin ? (
+          <Tabs isAdmin={showAdmin} />
+        ) : (
           <>
-            <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
-              <div className="flex flex-wrap gap-10">
-                <div className="flex-1 min-w-[300px]">
-                  <h1 className="font-bold text-5xl">
-                    Get your Proof of Personhood with
-                    <br />
-                    I-AM-HUMAN
-                  </h1>
-                  <p className="my-5 mt-10">
-                    Welcome, I-AM-HUMAN is your launchpad for several different
-                    types of Soul Bound Tokens (SBTs). Each of which will
-                    identify you as a human. With enough of these SBTs, you will
-                    have a strong proof-of-personhood, which give you access to
-                    voting on governance, on-chain reputation, DAOs, grassroots
-                    funding, and much more.
-                  </p>
-                  <p>All you need to do is 3 easy steps.</p>
-                  <div className="my-10">
-                    <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
-                      {TabsData.map((tab, index) => {
-                        return (
-                          <div className="flex items-center gap-1 md:gap-2">
-                            <div className="rounded-full border border-2 border-purple-400 w-fit p-1">
-                              {tab.header}
-                            </div>
-                            {index < 2 ? (
-                              <hr className="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
-                            ) : (
-                              <span></span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {/* for responsive better styling */}
-                    <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
-                      {TabsData.map((tab) => {
-                        return (
-                          <p className="text-sm md:text-md mt-2">{tab.name}</p>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
-                    {/* show get started only if no tokens are minted by user */}
-                    {!kycTokens && !fvTokens && (
-                      <button
-                        onClick={() => getStarted()}
-                        className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Get Started
-                      </button>
-                    )}
-                    {kycTokens ||
-                      (fvTokens && (
+            {typeof activeTabIndex !== 'number' ? (
+              <>
+                <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+                  <div className="flex flex-wrap gap-10">
+                    <div className="flex-1 min-w-[300px]">
+                      <h1 className="font-bold text-5xl">
+                        Get your Proof of Personhood with
+                        <br />
+                        I-AM-HUMAN
+                      </h1>
+                      <p className="my-5 mt-10">
+                        Welcome, I-AM-HUMAN is your launchpad for several
+                        different types of Soul Bound Tokens (SBTs). Each of
+                        which will identify you as a human. With enough of these
+                        SBTs, you will have a strong proof-of-personhood, which
+                        give you access to voting on governance, on-chain
+                        reputation, DAOs, grassroots funding, and much more.
+                      </p>
+                      <p>All you need to do is 3 easy steps.</p>
+                      <div className="my-10">
+                        <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
+                          {TabsData.map((tab, index) => {
+                            return (
+                              <div className="flex items-center gap-1 md:gap-2">
+                                <div className="rounded-full border border-2 border-purple-400 w-fit p-1">
+                                  {tab.header}
+                                </div>
+                                {index < 2 ? (
+                                  <hr className="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
+                                ) : (
+                                  <span></span>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {/* for responsive better styling */}
+                        <div className="grid grid-cols-3 gap-1 md:gap-2 items-center justify-center md:justify-start">
+                          {TabsData.map((tab) => {
+                            return (
+                              <p className="text-sm md:text-md mt-2">
+                                {tab.name}
+                              </p>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
+                        {/* show get started only if no tokens are minted by user */}
+                        {!kycTokens && !fvTokens && (
+                          <button
+                            onClick={() => getStarted()}
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          >
+                            Get Started
+                          </button>
+                        )}
+                        {kycTokens ||
+                          (fvTokens && (
+                            <button
+                              onClick={() =>
+                                window.open(
+                                  'https://t.me/+fcNhYGxK891lMjMx',
+                                  '_blank'
+                                )
+                              }
+                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            >
+                              Join the Community
+                            </button>
+                          ))}
                         <button
                           onClick={() =>
                             window.open(
-                              'https://t.me/+fcNhYGxK891lMjMx',
+                              'https://i-am-human.gitbook.io/i-am-human-docs/',
                               '_blank'
                             )
                           }
-                          className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
                         >
-                          Join the Community
+                          Learn More
                         </button>
-                      ))}
-                    <button
-                      onClick={() =>
-                        window.open(
-                          'https://i-am-human.gitbook.io/i-am-human-docs/',
-                          '_blank'
-                        )
-                      }
-                      className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
-                    >
-                      Learn More
-                    </button>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-[300px] order-first md:order-last">
+                      <img
+                        src={Design}
+                        className="w-full object-fill hidden md:invisible"
+                      />
+                    </div>
                   </div>
+                  {isSignedIn ? (
+                    <Home
+                      setActiveTabIndex={setActiveTabIndex}
+                      sendFVTokensDetails={setFVTokens}
+                      sendKYCTokensDetails={setKYCTokens}
+                    />
+                  ) : (
+                    <Landing setActiveTabIndex={setActiveTabIndex} />
+                  )}
                 </div>
-                <div className="flex-1 min-w-[300px] order-first md:order-last">
-                  <img
-                    src={Design}
-                    className="w-full object-fill hidden md:invisible"
-                  />
-                </div>
-              </div>
-              {isSignedIn ? (
-                <Home
-                  setActiveTabIndex={setActiveTabIndex}
-                  sendFVTokensDetails={setFVTokens}
-                  sendKYCTokensDetails={setKYCTokens}
-                />
-              ) : (
-                <Landing setActiveTabIndex={setActiveTabIndex} />
-              )}
-            </div>
-            <PrivacyComponent />
+                <PrivacyComponent />
+              </>
+            ) : (
+              <IsSignedInLanding
+                activeTabIndex={activeTabIndex}
+                setActiveTabIndex={setActiveTabIndex}
+                successSBT={successSBT}
+                setSuccessSBT={setSuccessSBT}
+              />
+            )}
+            <Footer />
           </>
-        ) : (
-          <IsSignedInLanding
-            activeTabIndex={activeTabIndex}
-            setActiveTabIndex={setActiveTabIndex}
-            successSBT={successSBT}
-            setSuccessSBT={setSuccessSBT}
-          />
         )}
-        <Footer />
       </div>
     </div>
   );
