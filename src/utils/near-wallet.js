@@ -38,6 +38,7 @@ const meteorWallet = setupMeteorWallet({
 });
 
 const THIRTY_TGAS = '30000000000000';
+export const SIXTY_TGAS = '60000000000000';
 const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector

@@ -16,6 +16,7 @@ import { Warning } from '../../../images/Warning';
 import FVSBTImage from '../../../images/FvSBT.png';
 import Timer from '../../common/countdown';
 import { SuccesVerification } from './FractalVerification/Success';
+import { SIXTY_TGAS } from '../../../utils/near-wallet';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -106,6 +107,7 @@ export const MintSBT = ({
           claim_sig: result.sig,
         },
         deposit: BigInt(fees).toString(),
+        gas: SIXTY_TGAS,
       });
     } catch (e) {
       log_event({
