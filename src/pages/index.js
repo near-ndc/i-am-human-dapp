@@ -37,14 +37,14 @@ export function IndexPage({ isSignedIn }) {
     const URL_state = new URLSearchParams(URL.search).get('state');
 
     if (URL_state === succes_fractal_state && wallet?.accountId) {
-      setActiveTabIndex(2);
       if (fvTokens || kycTokens) {
         setSuccessSBT(true);
       } else {
         setSuccessSBT(false);
       }
+      setActiveTabIndex(2);
     }
-  }, []);
+  }, [fvTokens]);
 
   const TabsData = [
     {
