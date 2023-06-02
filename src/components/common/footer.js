@@ -53,7 +53,7 @@ const navigation = [
       },
       {
         name: 'Join Other Humans',
-        href: 'https://near.social/#/7418d5cb7d7657e526b8bccf28750939105828d0f5b34a7254bd107477d84a2c/widget/ProgressMeterBarWidget',
+        href: 'https://near.social/#/neardigitalcollective.near/widget/ProgressMeterBarWidget',
       },
     ],
   },
