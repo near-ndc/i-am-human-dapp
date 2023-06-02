@@ -176,7 +176,7 @@ export const MintSBT = ({
         </p>
         {isError ? (
           <>
-            <div className="flex">
+            <div className="flex mr-10">
               <button
                 onClick={() => tryAgain()}
                 type="button"
@@ -185,7 +185,7 @@ export const MintSBT = ({
                 {submit ? (
                   <CircleSpinner size={20} />
                 ) : (
-                  <p className="mx-auto w-[fit-content]">Try Again</p>
+                  <p className="mx-auto min-w-max">Try Again</p>
                 )}
               </button>
               <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
