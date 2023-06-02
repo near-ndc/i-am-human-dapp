@@ -271,11 +271,6 @@ export const ScanFace = () => {
         verification.
         <br />
         <br />
-        Already have a Fractal account? Use the same email you previously used
-        with <br />
-        Fractal.
-        <br />
-        <br />
         Keep your phone nearby in case Face Verification fails on desktop. Once
         you've <br /> finished the verification on Fractal, return to
         I-AM-HUMAN.
@@ -291,12 +286,12 @@ export const ScanFace = () => {
         >
           {submit ? (
             <div className="flex gap-x-5">
-              <p>Verifying your uniqueness with Fractal</p>
+              <p>Verifying Your Uniqueness with Fractal</p>
               <CircleSpinner size={20} />
             </div>
           ) : (
             <p className="mx-auto w-[fit-content]">
-              {isApprovalAwait ? 'Try Again' : 'Start Face Scan'}
+              {isApprovalAwait ? 'Try Again' : 'Start Face Scan with Fractal'}
             </p>
           )}
         </button>
@@ -308,8 +303,17 @@ export const ScanFace = () => {
         )}
       </div>
       <p className="font-light italic mt-4 text-sm">
-        * Fractal is a web3 identity provider. Your images are not stored, only
-        a “hash” of your face for uniqueness comparison with other users.{' '}
+        * Fractal is a web3 identity provider. Do you have issues with Fractal
+        verification? Please see the{' '}
+        <a
+          href="https://i-am-human.gitbook.io/i-am-human-docs/help/troubleshooting-faq"
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+        >
+          Troubleshoot Guide
+        </a>{' '}
+        for solutions.
       </p>
     </div>
   );
