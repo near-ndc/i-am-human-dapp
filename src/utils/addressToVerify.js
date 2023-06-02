@@ -1,2 +1,2 @@
 export const addressToVerify =
-  process.env.REACT_APP_ENV === 'dev' ? '.testnet' : '.near';
+  process.env.REACT_APP_ENV === 'prod' ? '.near' : '.testnet';
