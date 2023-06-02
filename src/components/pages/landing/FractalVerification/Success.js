@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MintSVG } from '../../../../images/MintSVG';
 import FVSBTImage from '../../../../images/FvSBT.png';
 import KYCSBTImage from '../../../../images/KYCSBT.png';
@@ -12,18 +12,12 @@ export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const fvTokens = JSON.parse(localStorage.getItem('fvTokens'));
   const kycTokens = JSON.parse(localStorage.getItem('kycTokens'));
-  const parentRef = useRef();
-  const [width, setWidth] = useState(0);
   const [showConfetti, setShowConfetti] = useState(true);
-
-  useEffect(() => {
-    setWidth(parentRef?.current?.offsetWidth);
-  }, []);
 
   useEffect(() => {
     let timer = setTimeout(() => {
       setShowConfetti(false);
-    }, 10000);
+    }, 5000);
     return () => {
       clearTimeout(timer);
     };
@@ -44,9 +38,12 @@ export const SuccesVerification = () => {
   };
 
   return (
-    <div ref={parentRef} className="w-full">
+    <div className="w-full">
       {showConfetti && (
-        <ReactConfetti width={width} height={document.body.offsetHeight} />
+        <ReactConfetti
+          width={document.body.offsetWidth}
+          height={document.body.offsetHeight}
+        />
       )}
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-green-400">
