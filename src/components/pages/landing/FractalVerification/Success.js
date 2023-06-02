@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MintSVG } from '../../../../images/MintSVG';
 import FVSBTImage from '../../../../images/FvSBT.png';
 import KYCSBTImage from '../../../../images/KYCSBT.png';
@@ -12,18 +12,12 @@ export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const fvTokens = JSON.parse(localStorage.getItem('fvTokens'));
   const kycTokens = JSON.parse(localStorage.getItem('kycTokens'));
-  const parentRef = useRef();
-  const [width, setWidth] = useState(0);
   const [showConfetti, setShowConfetti] = useState(true);
-
-  useEffect(() => {
-    setWidth(parentRef?.current?.offsetWidth);
-  }, []);
 
   useEffect(() => {
     let timer = setTimeout(() => {
       setShowConfetti(false);
-    }, 10000);
+    }, 5000);
     return () => {
       clearTimeout(timer);
     };
@@ -44,9 +38,12 @@ export const SuccesVerification = () => {
   };
 
   return (
-    <div ref={parentRef} className="w-full">
+    <div className="w-full">
       {showConfetti && (
-        <ReactConfetti width={width} height={document.body.offsetHeight} />
+        <ReactConfetti
+          width={document.body.offsetWidth}
+          height={document.body.offsetHeight}
+        />
       )}
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-green-400">
@@ -94,7 +91,7 @@ export const SuccesVerification = () => {
             target="_blank"
             rel="noreferrer"
             class="twitter-share-button"
-            href="https://twitter.com/intent/tweet?text=Participate in Governance and mint your SBTs for Proof of Humanity at https://i-am-human.app/. #NEARisNOW #WeAreCommunity #ndc"
+            href="https://twitter.com/intent/tweet?text=Mint%20your%20Soul%20Bound%20Tokens%20for%20Proof%20of%20Humanity%20at%20https%3A%2F%2Fi-am-human.app%2F%20and%20vote%20in%20upcoming%20elections%20at%20NEAR.%20%23NEARisNOW%20%23WeAreCommunity%20%23NDC"
             data-size="large"
             className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
           >

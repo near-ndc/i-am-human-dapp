@@ -71,7 +71,10 @@ export const MintSBT = ({
       const result = await verifyUser(verifyData);
       if (result?.error) {
         setError(true);
-        setErrorMessage(result?.error || DEFAULT_ERROR_MESSAGE);
+        // not using fractal error message, since it is quite vague
+        setErrorMessage(
+          'Your face scan is waiting to be processed by Fractal. Please wait for a few minutes.'
+        );
         return;
       }
 
@@ -173,7 +176,7 @@ export const MintSBT = ({
         </p>
         {isError ? (
           <>
-            <div className="flex">
+            <div className="flex mr-10">
               <button
                 onClick={() => tryAgain()}
                 type="button"
@@ -182,7 +185,7 @@ export const MintSBT = ({
                 {submit ? (
                   <CircleSpinner size={20} />
                 ) : (
-                  <p className="mx-auto w-[fit-content]">Try Again</p>
+                  <p className="mx-auto min-w-max">Try Again</p>
                 )}
               </button>
               <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
@@ -222,6 +225,7 @@ export const MintSBT = ({
 
 export const ScanFace = () => {
   const [submit, setSubmit] = useState(null);
+  const [isApprovalAwait, setApproval] = useState(false);
   const fractalLoginCb = () => {
     setSubmit(true);
     const { fractal_link, fractal_client_id, succes_fractal_state } =
@@ -240,8 +244,17 @@ export const ScanFace = () => {
       )}`,
     });
     window.open(fractalVerifyURL, '_blank');
-    setSubmit(false);
+    // showing processing screen since we open the verify URL in new tab
   };
+
+  useEffect(() => {
+    const { succes_fractal_state } = getConfig();
+    const URL_state = new URLSearchParams(URL.search).get('state');
+    // if on redirect we are on this tab, it means user approval is awaiting
+    if (URL_state === succes_fractal_state && wallet?.accountId) {
+      setApproval(true);
+    }
+  }, []);
 
   return (
     <div className="w-full">
@@ -251,35 +264,59 @@ export const ScanFace = () => {
         </div>
       </div>
       <h2 className="text-4xl font-bold	my-4">Face Scan</h2>
+      <p className="font-semibold mb-4">
+        Have you used Fractal before? Use the same email you had used with
+        Fractal.
+      </p>
       <p className="text-s mb-8">
         For the face scan, please create or log into your Fractal account.
         Follow the steps on <br /> the Fractal website to complete the
         verification.
         <br />
         <br />
-        Already have a Fractal account? Use the same email you previously used
-        with <br />
-        Fractal.
-        <br />
-        <br />
         Keep your phone nearby in case Face Verification fails on desktop. Once
         you've <br /> finished the verification on Fractal, return to
         I-AM-HUMAN.
       </p>
-      <button
-        onClick={() => fractalLoginCb()}
-        type="button"
-        className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-      >
-        {submit ? (
-          <CircleSpinner size={20} />
-        ) : (
-          <p className="mx-auto w-[fit-content]">Start Face Scan</p>
+      <div className="flex">
+        <button
+          onClick={() => fractalLoginCb()}
+          type="button"
+          className={`w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 ${
+            isApprovalAwait ? 'bg-red-500' : ''
+          }`}
+          disabled={submit}
+        >
+          {submit ? (
+            <div className="flex gap-x-5">
+              <p>Verifying Your Uniqueness with Fractal</p>
+              <CircleSpinner size={20} />
+            </div>
+          ) : (
+            <p className="mx-auto w-[fit-content]">
+              {isApprovalAwait ? 'Try Again' : 'Start Face Scan with Fractal'}
+            </p>
+          )}
+        </button>
+        {isApprovalAwait && (
+          <div className="bg-red-100 p-3 rounded-md">
+            Your face scan is waiting to be processed by Fractal. Please wait
+            for a few minutes.
+          </div>
         )}
-      </button>
+      </div>
       <p className="font-light italic mt-4 text-sm">
-        * Fractal is a web3 identity provider. Your images are not stored, only
-        a “hash” of your face for uniqueness comparison with other users.{' '}
+        * Fractal is a web3 identity provider. Do you have issues with Fractal
+        verification? Please see the{' '}
+        <a
+          href="https://i-am-human.gitbook.io/i-am-human-docs/help/troubleshooting-faq"
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+        >
+          Troubleshoot Guide
+        </a>{' '}
+        for solutions.
       </p>
     </div>
   );
