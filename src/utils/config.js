@@ -36,6 +36,19 @@ export function getConfig() {
         // fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000
         ...commonConfig,
       };
+    case 'local':
+      return {
+        network_id: 'testnet',
+        app_contract: 'registry-1.i-am-human.testnet',
+        og_contract: 'og-sbt-1.i-am-human.testnet',
+        fractal_contract: 'some.invalid.to.prevent.mint.testnet',
+        new_sbt_contract: 'sbt1.i-am-human.testnet',
+        api_link: 'http://localhost:3000/',
+        fractal_api: 'http://localhost:8080',
+        fractal_link: 'https://app.next.fractal.id',
+        fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000
+        ...commonConfig,
+      };
     default:
       throw new Error(`${environment} is not a valid NEAR environment`);
   }
