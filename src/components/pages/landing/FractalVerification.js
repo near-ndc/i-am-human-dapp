@@ -71,7 +71,10 @@ export const MintSBT = ({
       const result = await verifyUser(verifyData);
       if (result?.error) {
         setError(true);
-        setErrorMessage(result?.error || DEFAULT_ERROR_MESSAGE);
+        // not using fractal error message, since it is quite vague
+        setErrorMessage(
+          'Your face scan is waiting to be processed by Fractal. Please wait for a few minutes.'
+        );
         return;
       }
 
