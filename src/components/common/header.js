@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 import { wallet } from '../../index';
 import Logo from '../../images/ndc.png';
-import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useAdmin } from '../../hooks/useAdmin';
 
 export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [isSignedIn, setIsSignedIn] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [isAdmin] = useAdmin({ address: wallet.accountId });
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
               )}
               <button
                 type="button"
-                onClick={() => signOut()}
+                onClick={signOut}
                 className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
               >
                 {isSignedIn ? 'Sign Out' : 'Connect Wallet'}

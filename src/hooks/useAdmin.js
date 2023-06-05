@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { checkAdmin } from './utilityFunctions';
+import { checkAdmin } from '../utils/common';
 
 export const useAdmin = ({ address }) => {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -8,11 +8,7 @@ export const useAdmin = ({ address }) => {
     if (address) {
       try {
         const data = await checkAdmin(address);
-        if (data) {
-          setIsAdmin(true);
-        } else {
-          setIsAdmin(false);
-        }
+        setIsAdmin(!!data);
       } catch {
         setIsAdmin(false);
       }
@@ -22,5 +18,6 @@ export const useAdmin = ({ address }) => {
   useEffect(() => {
     checkAdminStatus();
   }, [checkAdminStatus]);
+
   return [isAdmin];
 };

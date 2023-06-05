@@ -1,12 +1,8 @@
 export function VerticalScoreboard({ communities = [] }) {
-  const sortedCommunities = [...communities].sort(function (a, b) {
-    var keyA = a.usercount,
-      keyB = b.usercount;
-    // Compare the 2 dates
-    if (keyA < keyB) return 1;
-    if (keyA > keyB) return -1;
-    return 0;
-  });
+  const sortedCommunities = [...communities].sort(
+    (a, b) => b.usercount - a.usercount
+  );
+
   return (
     <div className="shadow bg-white m-1 p-4 rounded-md">
       <div className="sm:flex sm:items-center">

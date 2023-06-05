@@ -4,8 +4,8 @@ import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
 import { checkUniquePhone } from '../../../../utils/uniqueUser';
-import { log_event } from '../../../../utils/utilityFunctions';
 import { api_link } from '../../../../utils/supabase';
+import { log_event } from '../../../../utils/common';
 
 // moving the component outside the Parent, to have unique instance of it (for tests)
 const VerifyButton = ({ onClick, buttonLoading, ...rest }) => (

@@ -7,7 +7,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { wallet } from '../../..';
 import { ShowSbtDetails } from './ObSbtApplication/showSbtDetails';
-import { log_event } from '../../../utils/utilityFunctions';
+import { log_event } from '../../../utils/common';
 import { useSuperAdmin } from '../../../utils/super-admins';
 import { getConfig } from '../../../utils/config';
 
@@ -56,11 +56,7 @@ const HideShowNumber = ({ telegram_number, wallet }) => {
       {encypted_number ? (
         <>{encypted_number}</>
       ) : (
-        <button
-          onClick={() => {
-            dencrypt_number();
-          }}
-        >
+        <button onClick={dencrypt_number}>
           <AiOutlineEye className="text-lg" />
         </button>
       )}

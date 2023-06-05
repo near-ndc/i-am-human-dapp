@@ -10,7 +10,7 @@ import { getConfig } from '../../utils/config';
 import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
-import { isNumber } from '../../utils/utilityFunctions';
+import { isNumber } from '../../utils/common';
 
 export const Home = ({
   setActiveTabIndex,

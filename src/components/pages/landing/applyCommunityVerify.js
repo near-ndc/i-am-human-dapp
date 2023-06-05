@@ -5,8 +5,8 @@ import { VerifyPhoneAndEmail } from '../home/applyCommunityVerify/verifyPhoneAnd
 import { Panel } from '../../common/panel';
 import { wallet } from '../../../index';
 import { toast } from 'react-toastify';
-import { log_event } from '../../../utils/utilityFunctions';
 import axios from 'axios';
+import { log_event } from '../../../utils/common';
 
 export const ApplyCommunityVerify = ({ open, onClose, userData }) => {
   const steps = {

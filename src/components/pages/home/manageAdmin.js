@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { wallet } from '../../../index';
 import { ButtonLoader } from '../../common/buttonLoader';
-import { checkAdmin, log_event } from '../../../utils/utilityFunctions';
+import { checkAdmin, log_event } from '../../../utils/common';
 import { AdminConfirmation } from './ManageAdmin/adminConfirmation';
 import { addressToVerify } from './../../../utils/addressToVerify';
 import { getConfig } from '../../../utils/config';

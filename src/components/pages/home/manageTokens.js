@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { RecoverModal, MintAndRenewTokenModal } from './ManageTokenFiles/index';
 import { wallet } from '../../../index';
 import { ButtonLoader } from '../../common/buttonLoader';
-import { log_event } from '../../../utils/utilityFunctions';
+import { log_event } from '../../../utils/common';
 import { getConfig } from '../../../utils/config';
 
 export const ManageTokens = () => {
