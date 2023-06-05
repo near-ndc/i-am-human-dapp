@@ -12,25 +12,22 @@ import ReactGA from 'react-ga';
 import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
 import { ScoreboardPage } from './pages/scoreboard';
-//hard code 3 near address to show additional data
+import RouteChangeTracker from './utils/routeChangeTracker';
 
 const RedirectComponent = () => {
   return <Redirect to="/" />;
 };
 
 export function App({ isSignedIn }) {
-  const prodENV = process.env.REACT_APP_ENV === 'prod';
-
   useEffect(() => {
-    if (prodENV) {
+    if (process.env.REACT_APP_ENV === 'prod')
       ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
-      ReactGA.pageview(window.location.pathname + window.location.search);
-    }
   }, []);
 
   return (
     <>
       <Router>
+        <RouteChangeTracker />
         <Switch>
           <Route exact path="/community-application">
             <CommunityApplicationPage isSignedIn={isSignedIn} />
@@ -46,6 +43,7 @@ export function App({ isSignedIn }) {
           </Route>
         </Switch>
       </Router>
+
       <ToastContainer
         position="top-right"
         autoClose={3500}
