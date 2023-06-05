@@ -14,6 +14,7 @@ import { WalletSVG } from '../images/WalletSVG';
 import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
+import { supabase } from '../utils/supabase';
 
 const URL = window.location;
 
@@ -24,18 +25,34 @@ export function IndexPage({ isSignedIn }) {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
 
-  useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    const community = params.get('community');
-    const vertical = params.get('vertical');
-    if (community && vertical) {
-      localStorage.setItem(CommunityDataKeys.COMMUNITY_NAME, community);
-      localStorage.setItem(CommunityDataKeys.COMMUNITY_VERTICAL, vertical);
+  async function storeCommunityVerticalData() {
+    try {
+      const communityName = localStorage.getItem('community-name');
+      const communityVertical = localStorage.getItem('community-vertical');
+      if (communityName && fvTokens) {
+        const { data } = await supabase.select('scoreboard', {
+          account: wallet.accountId,
+        });
+        if (!data?.[0]) {
+          await supabase.insert('scoreboard', {
+            account: wallet.accountId,
+            [CommunityDataKeys.COMMUNITY_NAME]: communityName,
+            [CommunityDataKeys.COMMUNITY_VERTICAL]: communityVertical,
+          });
+        }
+        // since the data is stored in db, removing it from LS
+        localStorage.removeItem(CommunityDataKeys.COMMUNITY_NAME);
+        localStorage.removeItem(CommunityDataKeys.COMMUNITY_VERTICAL);
+      }
+    } catch (error) {
+      console.log('Error occurred while saving data in scoreboard db', error);
     }
+  }
+
+  useEffect(() => {
+    storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
-
     if (URL_state === succes_fractal_state && wallet?.accountId) {
       if (fvTokens || kycTokens) {
         setSuccessSBT(true);
@@ -45,6 +62,18 @@ export function IndexPage({ isSignedIn }) {
       setActiveTabIndex(2);
     }
   }, [fvTokens]);
+
+  useEffect(() => {
+    // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const community = params.get('community');
+    const vertical = params.get('vertical');
+    if (community && vertical) {
+      localStorage.setItem(CommunityDataKeys.COMMUNITY_NAME, community);
+      localStorage.setItem(CommunityDataKeys.COMMUNITY_VERTICAL, vertical);
+    }
+  }, []);
 
   const TabsData = [
     {
