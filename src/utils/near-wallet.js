@@ -21,6 +21,7 @@ import senderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import HereWalletIconUrl from '@near-wallet-selector/here-wallet/assets/here-wallet-icon.png';
 import { getConfig } from './config';
+import { DEFAULT_TGAS, NO_DEPOSIT } from './constants';
 
 const sender = setupSender({
   iconUrl: senderIconUrl,
@@ -36,9 +37,6 @@ const nearWallet = setupNearWallet({
 const meteorWallet = setupMeteorWallet({
   iconUrl: meteorIconUrl,
 });
-
-const DEFAULT_TGAS = '60000000000000';
-const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector
 export class Wallet {

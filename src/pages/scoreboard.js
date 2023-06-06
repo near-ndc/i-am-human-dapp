@@ -9,6 +9,7 @@ import { CircleSpinner } from 'react-spinners-kit';
 import { VerticalScoreboard } from '../components/pages/scoreboard/verticalScoreboard';
 import { UserDataTable } from '../components/pages/scoreboard/userDataTable';
 import moment from 'moment';
+import { COMPETITION_CONTENT } from '../utils/constants';
 
 export const ScoreboardPage = ({ isSignedIn }) => {
   const ref = React.useRef();
@@ -96,12 +97,10 @@ export const ScoreboardPage = ({ isSignedIn }) => {
             <div className="space-y-5 pb-4 text-center">
               <div className="mx-auto max-w-7xl text-center rounded-lg mb-10 border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 py-10 text-base font-medium text-white shadow-sm">
                 <h2 className="font-semibold text-3xl">
-                  I-AM-HUMAN Onboarding Competition{' '}
+                  {COMPETITION_CONTENT.title}
                 </h2>
                 <p className="text-sm mt-5 max-w-4xl mx-auto">
-                  Get your personal tracking links to onboard humans and see
-                  scores here. For more information, join this telegram group
-                  for competition details.
+                  {COMPETITION_CONTENT.description}
                 </p>
                 <div className="flex justify-center gap-10">
                   <button

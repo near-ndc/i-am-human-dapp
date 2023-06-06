@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { IndexPage } from './pages/index';
-import { CommunityApplicationPage } from './pages/communtiyapplication';
+import { CommunityApplicationPage } from './pages/communityApplication';
 import { ScoreboardPage } from './pages/scoreboard';
 
 const RedirectComponent = () => <Redirect to="/" />;

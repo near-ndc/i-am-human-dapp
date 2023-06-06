@@ -3,6 +3,12 @@ import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
 import CommunitySBTImage from '../../images/CommunitySBT.png';
 import OGSBT from '../../images/OGSBT.png';
+import {
+  COMMUNITY_CONTENT,
+  FACE_VERIFICATION_CONTENT,
+  KYC_CONTENT,
+  OG_SBT_CONTENT,
+} from '../../utils/constants';
 
 export const Landing = () => {
   return (
@@ -10,15 +16,9 @@ export const Landing = () => {
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
           <h2 className="font-bold text-4xl">
-            Get your Face Verification Soul Bound Token
+            {FACE_VERIFICATION_CONTENT.title}
           </h2>
-          <p className="my-5">
-            We have partnered with Fractal for Face Verification. Why? With
-            nearly 1 million users across 200+ projects, Fractal provides a full
-            stack of open source identity solutions that give you ability to
-            easily verify and prove that you are a human. They ensure that each
-            person only creates one unique account.
-          </p>
+          <p className="my-5">{FACE_VERIFICATION_CONTENT.description}</p>
           <button
             onClick={() =>
               window.open(
@@ -37,13 +37,8 @@ export const Landing = () => {
       </div>
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
-          <h2 className="font-bold text-4xl">Get Your KYC Soul Bound Token</h2>
-          <p className="my-5">
-            Have you already KYC with Fractal? You are in luck. If you have
-            received a bounty payout for your contribution from the NEAR
-            Foundation, you will not be required to re-verify your identity when
-            minting your SBTs. Mint your SBTs now.
-          </p>
+          <h2 className="font-bold text-4xl">{KYC_CONTENT.title}</h2>
+          <p className="my-5">{KYC_CONTENT.description}</p>
           <button
             onClick={() =>
               window.open(
@@ -62,14 +57,8 @@ export const Landing = () => {
       </div>
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
-          <h2 className="font-bold text-4xl">
-            Get Your Community Soul Bound Token
-          </h2>
-          <p className="my-5">
-            Are you part of the Community? If you are active in the NEAR
-            Community, we will be introducing Community SBT soon. Mint your
-            Community SBT and join us to build web3 governance.
-          </p>
+          <h2 className="font-bold text-4xl">{COMMUNITY_CONTENT.title}</h2>
+          <p className="my-5">{COMMUNITY_CONTENT.description}</p>
 
           <button
             onClick={() =>
@@ -93,12 +82,8 @@ export const Landing = () => {
 
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
-          <h2 className="font-bold text-4xl">Get Your OG Soul Bound Token</h2>
-          <p className="my-5">
-            Are you someone who stands out in the NEAR ecosystem? Get the OG
-            Soul Bound Token. We will create a "seed group" of OGs and trusted
-            individuals to bootstrap the next iteration of NEAR Community.
-          </p>
+          <h2 className="font-bold text-4xl">{OG_SBT_CONTENT.title}</h2>
+          <p className="my-5">{OG_SBT_CONTENT.description}</p>
           <button
             onClick={() =>
               window.open(
