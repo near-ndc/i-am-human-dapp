@@ -20,7 +20,10 @@ const RedirectComponent = () => {
 
 export function App({ isSignedIn }) {
   useEffect(() => {
-    if (process.env.REACT_APP_ENV === 'prod')
+    if (
+      process.env.REACT_APP_ENV === 'prod' ||
+      process.env.REACT_APP_ENV === 'dev'
+    )
       ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
   }, []);
 
