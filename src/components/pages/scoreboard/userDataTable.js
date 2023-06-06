@@ -27,7 +27,6 @@ export const UserDataTable = ({ userData }) => {
     );
     return Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
   }
-
   function weeklyUserGrowth(data) {
     // Parse dates and sort data
     data.forEach((item) => {
@@ -39,35 +38,42 @@ export const UserDataTable = ({ userData }) => {
     const firstWeek = getWeek(data[0].created_at);
     const lastWeek = getWeek(data[data.length - 1].created_at);
 
-    // Create a list of all communities
-    const communities = Array.from(
-      new Set(data.map((item) => item['community-name']))
-    );
+    // Get the top 5 communities based on occurrence count
+    const communityCounts = data.reduce((counts, item) => {
+      const community = item['community-name'];
+      counts[community] = (counts[community] || 0) + 1;
+      return counts;
+    }, {});
+    const top5Communities = Object.keys(communityCounts)
+      .sort((a, b) => communityCounts[b] - communityCounts[a])
+      .slice(0, 5);
 
-    // Initialize weeklyData with all week-community pairs
+    // Initialize weeklyData with top 5 community names
     let weeklyData = {};
-    for (let week = 0; week <= lastWeek - firstWeek + 1; week++) {
-      // +1 to include week 0
-      weeklyData[week] = {};
-      communities.forEach((community) => {
-        weeklyData[week][community] = 0;
-      });
-    }
+    top5Communities.forEach((community) => {
+      weeklyData[community] = {};
+      for (let week = 0; week <= lastWeek - firstWeek + 1; week++) {
+        // +1 to include week 0
+        weeklyData[community][week] = 0;
+      }
+    });
 
     // Fill weeklyData with actual data
     data.forEach((item) => {
       let week = getWeek(item.created_at) - firstWeek + 1; // Normalize week number
       let community = item['community-name'];
-      weeklyData[week][community]++;
+      if (top5Communities.includes(community)) {
+        weeklyData[community][week]++;
+      }
     });
 
     // Create weekly growth array
     let growthArray = [];
-    for (let week in weeklyData) {
+    for (let week in weeklyData[top5Communities[0]]) {
       let weekData = { week: `Week ${week}` }; // Use string week numbers for better tooltip readability
-      for (let community in weeklyData[week]) {
-        weekData[community] = weeklyData[week][community];
-      }
+      top5Communities.forEach((community) => {
+        weekData[community] = weeklyData[community][week];
+      });
       growthArray.push(weekData);
     }
 

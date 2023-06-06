@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/common';
+import { TWITTER_URL } from '../../utils/constants';
 
 export const Home = ({
   setActiveTabIndex,
@@ -72,7 +73,7 @@ export const Home = ({
               target="_blank"
               rel="noreferrer"
               class="twitter-share-button"
-              href="https://twitter.com/intent/tweet?text=Mint%20your%20Soul%20Bound%20Tokens%20for%20Proof%20of%20Humanity%20at%20https%3A%2F%2Fi-am-human.app%2F%20and%20vote%20in%20upcoming%20elections%20at%20NEAR.%20%23NEARisNOW%20%23WeAreCommunity%20%23NDC"
+              href={TWITTER_URL}
               data-size="large"
               className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
             >

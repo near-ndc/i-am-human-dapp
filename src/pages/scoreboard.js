@@ -8,6 +8,7 @@ import { ScoreBoardTable } from '../components/pages/scoreboard/scoreboardTable'
 import { CircleSpinner } from 'react-spinners-kit';
 import { VerticalScoreboard } from '../components/pages/scoreboard/verticalScoreboard';
 import { UserDataTable } from '../components/pages/scoreboard/userDataTable';
+import moment from 'moment';
 
 export const ScoreboardPage = ({ isSignedIn }) => {
   const ref = React.useRef();
@@ -67,6 +68,20 @@ export const ScoreboardPage = ({ isSignedIn }) => {
 
   const { loading, data, vertical, allUserData } = communities;
 
+  const WeeklyUserGrowth = () => {
+    const weeklyUsers = allUserData?.filter(
+      (item) =>
+        moment(item?.created_at).unix() >= moment().subtract(7, 'days').unix()
+    );
+
+    return (
+      <div className="flex gap-2 text-2xl text-center font-semibold leading-6 text-gray-900">
+        <h1>Weekly User Growth:</h1>
+        <p>{weeklyUsers.length} users</p>
+      </div>
+    );
+  };
+
   return (
     <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10" ref={ref}>
       <Header setShowAdmin={() => {}} setActiveTabIndex={() => {}} />
@@ -109,7 +124,8 @@ export const ScoreboardPage = ({ isSignedIn }) => {
               </div>
               <div className="mt-20 space-y-10">
                 <ScoreBoardTable communities={data} />
-                {/* <VerticalScoreboard communities={vertical} /> */}
+                <VerticalScoreboard communities={vertical} />
+                <WeeklyUserGrowth />
                 <UserDataTable userData={allUserData} />
               </div>
             </div>
