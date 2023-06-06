@@ -19,7 +19,6 @@ export function App({ isSignedIn }) {
   return (
     <>
       <Router>
-        <RouteChangeTracker />
         <Switch>
           <Route exact path="/community-application">
             <CommunityApplicationPage isSignedIn={isSignedIn} />
