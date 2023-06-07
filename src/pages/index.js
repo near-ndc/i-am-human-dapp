@@ -16,6 +16,7 @@ import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
 import { LSKeys } from '../utils/constants';
+import { insertUserData, log_event } from '../utils/utilityFunctions';
 
 const URL = window.location;
 
@@ -50,6 +51,20 @@ export function IndexPage({ isSignedIn }) {
     }
   }
 
+  function createEventLog() {
+    const userData = {
+      token_id: fvTokens.token,
+      issued_date: fvTokens?.metadata?.issued_at,
+      expire_date: fvTokens?.metadata?.expires_at,
+      token_type: 'Face Verification',
+      status: 'Mint Success',
+    };
+    insertUserData(userData);
+    log_event({
+      event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+    });
+  }
+
   useEffect(() => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
@@ -58,6 +73,7 @@ export function IndexPage({ isSignedIn }) {
       setActiveTabIndex(2);
     }
     if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
+      createEventLog();
       localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
       setSuccessSBT(true);
       setActiveTabIndex(2);

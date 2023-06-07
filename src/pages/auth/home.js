@@ -50,7 +50,7 @@ export const Home = ({
           }
         }
       } else {
-        // user logges in, no tokens found, setting LS to show success SBT page whenever tokens exists
+        // user logged in, no tokens found, setting LS to show success SBT page whenever tokens exists
         localStorage.setItem(LSKeys.SHOW_SBT_PAGE, true);
       }
     } catch (error) {

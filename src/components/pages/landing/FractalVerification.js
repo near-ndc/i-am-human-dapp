@@ -6,8 +6,7 @@ import 'react-phone-number-input/style.css';
 import 'react-phone-number-input/style.css';
 import { wallet } from '../../..';
 import { verifyUser } from '../../../services/api';
-import { supabase } from '../../../utils/supabase';
-import { log_event } from '../../../utils/utilityFunctions';
+import { insertUserData, log_event } from '../../../utils/utilityFunctions';
 import { getConfig } from '../../../utils/config';
 import { WalletSVG } from '../../../images/WalletSVG';
 import { FaceSVG } from '../../../images/FaceSVG';
@@ -59,39 +58,30 @@ export const MintSBT = ({
   const mintSBT = async (token) => {
     window.history.replaceState({}, '', window.location.origin);
     setSubmit(true);
-    let updateData = {
-      wallet_identifier: wallet.accountId,
-      ...editableFields,
-    };
     const verifyData = { ...editableFields, captcha: token };
-    log_event({
-      event_log: `Data sent to verify API ${JSON.stringify(editableFields)}`,
-    });
     try {
       const result = await verifyUser(verifyData);
       if (result?.error) {
         setError(true);
+        log_event({
+          event_log: 'User is not approved from Fractal',
+        });
+        insertUserData({
+          status: 'Fractal Pending Authorization',
+        });
         // not using fractal error message, since it is quite vague
         setErrorMessage(
           'Your face scan is waiting to be processed by Fractal. Please wait for a few minutes.'
         );
         return;
       }
-
-      const { data } = await supabase.select('users', {
-        wallet_identifier: wallet.accountId,
+      insertUserData({
+        status: 'Fractal Approved',
       });
+      // since verify is passed, it means user is approved
       log_event({
-        event_log: `Data receivied from verify API ${JSON.stringify(result)}`,
+        event_log: 'User is approved from Fractal',
       });
-      if (data?.[0]) {
-        await supabase.update('users', updateData, {
-          wallet_identifier: wallet.accountId,
-        });
-      } else {
-        await supabase.insert('users', updateData);
-      }
-      log_event({ event_log: 'Applied for FV SBT' });
       const { fractal_contract } = getConfig();
       // fetch fees requirement from contract
       const fees = await wallet.viewMethod({
@@ -101,6 +91,13 @@ export const MintSBT = ({
           is_verified_kyc: result?.kyc == 'approved', // get exact mint cost
         },
       });
+      log_event({
+        event_log: 'User apply for FV SBT, creates the transaction',
+      });
+      insertUserData({
+        status: 'Minting tx send',
+      });
+
       await wallet.callMethod({
         contractId: fractal_contract,
         method: 'sbt_mint',
@@ -112,9 +109,7 @@ export const MintSBT = ({
       });
     } catch (e) {
       log_event({
-        event_log: `Error happened while submitting FB SBT ${JSON.stringify(
-          e
-        )}`,
+        event_log: `Error happened while minting FV SBT ${JSON.stringify(e)}`,
       });
       toast.error(
         'An error occured while submitting your details , please try again'
@@ -238,10 +233,11 @@ export const ScanFace = () => {
       )}&response_type=code&scope=contact%3Aread%20verification.uniqueness%3Aread%20verification.uniqueness.details%3Aread&state=${succes_fractal_state}&ensure_wallet=${
         wallet.accountId
       }`;
+    insertUserData({
+      status: 'User begins Face Verification',
+    });
     log_event({
-      event_log: `Raw Data received on Fractal ${JSON.stringify(
-        fractalVerifyURL
-      )}`,
+      event_log: 'User begins their Face scan',
     });
     window.open(fractalVerifyURL, '_blank');
     // showing processing screen since we open the verify URL in new tab
