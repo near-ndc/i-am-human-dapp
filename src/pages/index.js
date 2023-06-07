@@ -15,6 +15,7 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
+import { LSKeys } from '../utils/constants';
 
 const URL = window.location;
 
@@ -54,11 +55,11 @@ export function IndexPage({ isSignedIn }) {
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
     if (URL_state === succes_fractal_state && wallet?.accountId) {
-      if (fvTokens || kycTokens) {
-        setSuccessSBT(true);
-      } else {
-        setSuccessSBT(false);
-      }
+      setActiveTabIndex(2);
+    }
+    if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
+      localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
+      setSuccessSBT(true);
       setActiveTabIndex(2);
     }
   }, [fvTokens]);
@@ -92,16 +93,9 @@ export function IndexPage({ isSignedIn }) {
 
   const getStarted = () => {
     if (wallet?.accountId) {
-      if (fvTokens || kycTokens) {
-        setActiveTabIndex(2);
-        setSuccessSBT(true);
-      } else {
-        setActiveTabIndex(1);
-        setSuccessSBT(false);
-      }
+      setActiveTabIndex(1);
     } else {
       setActiveTabIndex(0);
-      setSuccessSBT(false);
     }
   };
 
