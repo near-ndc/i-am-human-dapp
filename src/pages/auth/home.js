@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
-import { TWITTER_URL } from '../../utils/constants';
+import { LSKeys, TWITTER_URL } from '../../utils/constants';
 
 export const Home = ({
   setActiveTabIndex,
@@ -49,6 +49,9 @@ export const Home = ({
             localStorage.setItem('kycTokens', JSON.stringify(token));
           }
         }
+      } else {
+        // user logges in, no tokens found, setting LS to show success SBT page whenever tokens exists
+        localStorage.setItem(LSKeys.SHOW_SBT_PAGE, true);
       }
     } catch (error) {
       toast.error(
