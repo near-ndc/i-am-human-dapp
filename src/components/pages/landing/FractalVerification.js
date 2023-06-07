@@ -221,7 +221,7 @@ export const MintSBT = ({
 export const ScanFace = () => {
   const [submit, setSubmit] = useState(null);
   const [isApprovalAwait, setApproval] = useState(false);
-  const fractalLoginCb = async () => {
+  const fractalLoginCb = () => {
     setSubmit(true);
     const { fractal_link, fractal_client_id, succes_fractal_state } =
       getConfig();
