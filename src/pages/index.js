@@ -51,10 +51,7 @@ export function IndexPage({ isSignedIn }) {
     }
   }
 
-  async function createEventLog() {
-    if (!fvTokens) {
-      return;
-    }
+  function createEventLog() {
     const userData = {
       token_id: fvTokens.token,
       issued_date: fvTokens?.metadata?.issued_at,
@@ -62,7 +59,7 @@ export function IndexPage({ isSignedIn }) {
       token_type: 'Face Verification',
       status: 'Mint Success',
     };
-    await insertUserData(userData);
+    insertUserData(userData);
     log_event({
       event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
     });
