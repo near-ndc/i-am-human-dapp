@@ -29,7 +29,7 @@ export function getConfig() {
         // fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
         fractal_contract: 'i-am-human-staging.testnet', // REMOVE AFTER TESTING
         new_sbt_contract: 'sbt1.i-am-human.testnet',
-        api_link: 'https://dev-ophc7vkxsq-uc.a.run.app/',
+        api_link: 'https://dev-ophc7vkxsq-uc.a.run.app',
         fractal_api: 'https://staging.justfortestinc.site',
         fractal_link: 'https://app.next.fractal.id',
         fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8',

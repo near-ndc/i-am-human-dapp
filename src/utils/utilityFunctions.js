@@ -32,7 +32,10 @@ export const insertUserData = async (dataToInsert) => {
     wallet_identifier: wallet.accountId,
   });
   if (!data?.[0]) {
-    await supabase.insert('users', dataToInsert);
+    await supabase.insert('users', {
+      ...dataToInsert,
+      wallet_identifier: wallet.accountId,
+    });
   } else {
     await supabase.update('users', dataToInsert, {
       wallet_identifier: wallet.accountId,

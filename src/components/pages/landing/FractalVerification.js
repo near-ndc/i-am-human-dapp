@@ -66,7 +66,7 @@ export const MintSBT = ({
         log_event({
           event_log: 'User is not approved from Fractal',
         });
-        await insertUserData({
+        insertUserData({
           status: 'Fractal Pending Authorization',
         });
         // not using fractal error message, since it is quite vague
@@ -75,7 +75,7 @@ export const MintSBT = ({
         );
         return;
       }
-      await insertUserData({
+      insertUserData({
         status: 'Fractal Approved',
       });
       // since verify is passed, it means user is approved
@@ -94,7 +94,7 @@ export const MintSBT = ({
       log_event({
         event_log: 'User apply for FV SBT, creates the transaction',
       });
-      await insertUserData({
+      insertUserData({
         status: 'Minting tx send',
       });
 
@@ -233,8 +233,8 @@ export const ScanFace = () => {
       )}&response_type=code&scope=contact%3Aread%20verification.uniqueness%3Aread%20verification.uniqueness.details%3Aread&state=${succes_fractal_state}&ensure_wallet=${
         wallet.accountId
       }`;
-    await insertUserData({
-      status: null,
+    insertUserData({
+      status: 'User begins Face Verification',
     });
     log_event({
       event_log: 'User begins their Face scan',
