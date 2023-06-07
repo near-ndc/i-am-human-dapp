@@ -16,6 +16,7 @@ import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
 import { LSKeys } from '../utils/constants';
+import { insertUserData, log_event } from '../utils/utilityFunctions';
 
 const URL = window.location;
 
@@ -48,6 +49,23 @@ export function IndexPage({ isSignedIn }) {
     } catch (error) {
       console.log('Error occurred while saving data in scoreboard db', error);
     }
+  }
+
+  async function createEventLog() {
+    if (!fvTokens) {
+      return;
+    }
+    const userData = {
+      token_id: fvTokens.token,
+      issued_date: fvTokens?.metadata?.issued_at,
+      expire_date: fvTokens?.metadata?.expires_at,
+      token_type: 'Face Verification',
+      status: 'Mint Success',
+    };
+    await insertUserData(userData);
+    log_event({
+      event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+    });
   }
 
   useEffect(() => {

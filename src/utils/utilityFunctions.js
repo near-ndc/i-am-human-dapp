@@ -26,3 +26,16 @@ export const log_event = async ({ event_log, effected_wallet }) => {
 export const isNumber = (value) => {
   return typeof value === 'number';
 };
+
+export const insertUserData = async (dataToInsert) => {
+  const { data } = await supabase.select('users', {
+    wallet_identifier: wallet.accountId,
+  });
+  if (!data?.[0]) {
+    await supabase.insert('users', dataToInsert);
+  } else {
+    await supabase.update('users', dataToInsert, {
+      wallet_identifier: wallet.accountId,
+    });
+  }
+};
