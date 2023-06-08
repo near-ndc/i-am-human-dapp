@@ -10,6 +10,5 @@ export const LSKeys = {
 
 // used in supabase column type for date
 export const convertToTimestamptz = (timestamp) => {
-  console.log(timestamp);
   return moment.utc(timestamp).format('YYYY-MM-DDTHH:mm:ssZ');
 };
