@@ -17,6 +17,7 @@ import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
 import { LSKeys, convertToTimestamptz } from '../utils/constants';
 import { log_event } from '../utils/utilityFunctions';
+import ProgressTracker from '../components/common/progressTracker';
 
 const URL = window.location;
 
@@ -135,8 +136,9 @@ export function IndexPage({ isSignedIn }) {
             : 'none',
         zIndex: 10,
       }}
-      className={'bg-no-repeat home_bg_image'}
+      className={'bg-no-repeat home_bg_image md:bg-[top_right_10%]'}
     >
+      {typeof activeTabIndex !== 'number' && <ProgressTracker />}
       <div
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
@@ -152,7 +154,7 @@ export function IndexPage({ isSignedIn }) {
           <>
             {typeof activeTabIndex !== 'number' ? (
               <>
-                <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+                <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
                     <div className="flex-1 min-w-[300px]">
                       <h1 className="font-bold text-5xl">
@@ -197,12 +199,12 @@ export function IndexPage({ isSignedIn }) {
                           })}
                         </div>
                       </div>
-                      <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
+                      <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
                         {!kycTokens && !fvTokens && (
                           <button
                             onClick={() => getStarted()}
-                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
                             Get Started
                           </button>
@@ -216,7 +218,7 @@ export function IndexPage({ isSignedIn }) {
                                   '_blank'
                                 )
                               }
-                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                             >
                               Join the Community
                             </button>
@@ -228,13 +230,13 @@ export function IndexPage({ isSignedIn }) {
                               '_blank'
                             )
                           }
-                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
+                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-5 md:px-10 py-2 text-base font-light text-black shadow-sm"
                         >
                           Learn More
                         </button>
                       </div>
                     </div>
-                    <div className="flex-1 min-w-[300px] order-first md:order-last">
+                    <div className="flex-1 min-w-[300px] order-last">
                       <img
                         src={Design}
                         className="w-full object-fill hidden md:invisible"

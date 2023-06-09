@@ -1,3 +1,26 @@
 .home_bg_image {
-  background-position: 28rem -3rem;
+  background-position: 28rem 3rem;
+}
+
+@media (max-width: 680px) {
+  .home_bg_image {
+    background-position: 100% 100%;
+  }
+}
+
+@media (min-width: 680px) and (max-width: 1000px) {
+  .home_bg_image {
+    background-position: 14rem 15rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .home_bg_image {
+    background-position: 81% 12%;
+    background-size: 50%;
+  }
+}
+
+.w-webkit-fill {
+  width: -webkit-fill-available;
 }
