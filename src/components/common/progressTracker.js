@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 
@@ -27,16 +27,19 @@ const ProgressTracker = () => {
     fetchHumansRegistered();
   }, []);
 
-  const registeredPercentage =
-    (humansRegistered / (process.env.REACT_APP_PROGRESS_METER_MAX ?? 1000)) *
-    100;
+  const getRegisteredPercentage = useCallback(
+    () =>
+      (humansRegistered / (process.env.REACT_APP_PROGRESS_METER_MAX ?? 1000)) *
+      100,
+    [humansRegistered]
+  );
 
   // to make sure the the right corner is not clipped much with increasing width
   function getClipPercentage() {
+    const registeredPercentage = getRegisteredPercentage();
     if (registeredPercentage < 15) {
       return 25;
-    }
-    if (registeredPercentage < 30) {
+    } else if (registeredPercentage < 30) {
       return 13;
     } else if (registeredPercentage < 95) {
       return 4;
@@ -53,7 +56,7 @@ const ProgressTracker = () => {
           <div
             className="bg-yellow-400 absolute left-0 top-0 h-full"
             style={{
-              width: `${registeredPercentage}%`,
+              width: `${getRegisteredPercentage()}%`,
               clipPath: `polygon(0 0, 100% 0, calc(100% - ${getClipPercentage()}%) 100%, 0% 100%)`,
             }}
           ></div>
