@@ -15,8 +15,8 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
-import { LSKeys } from '../utils/constants';
-import { insertUserData, log_event } from '../utils/utilityFunctions';
+import { LSKeys, convertToTimestamptz } from '../utils/constants';
+import { log_event } from '../utils/utilityFunctions';
 
 const URL = window.location;
 
@@ -51,18 +51,27 @@ export function IndexPage({ isSignedIn }) {
     }
   }
 
-  function createEventLog() {
-    const userData = {
+  // checking for existing user data with token_id to make sure we store data for all users (new and old)
+  async function createEventLog() {
+    const { data } = await supabase.select('users', {
+      wallet_identifier: wallet.accountId,
       token_id: fvTokens.token,
-      issued_date: fvTokens?.metadata?.issued_at,
-      expire_date: fvTokens?.metadata?.expires_at,
-      token_type: 'Face Verification',
-      status: 'Mint Success',
-    };
-    insertUserData(userData);
-    log_event({
-      event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
     });
+
+    if (!data?.[0]) {
+      const userData = {
+        token_id: fvTokens.token,
+        issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
+        expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        token_type: 'Face Verification',
+        status: 'Mint Success',
+        wallet_identifier: wallet.accountId,
+      };
+      await supabase.insert('users', userData);
+      log_event({
+        event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+      });
+    }
   }
 
   useEffect(() => {
@@ -73,10 +82,12 @@ export function IndexPage({ isSignedIn }) {
       setActiveTabIndex(2);
     }
     if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
-      createEventLog();
       localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
       setSuccessSBT(true);
       setActiveTabIndex(2);
+    }
+    if (fvTokens) {
+      createEventLog();
     }
   }, [fvTokens]);
 
