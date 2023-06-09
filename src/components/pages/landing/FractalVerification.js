@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { CircleSpinner } from 'react-spinners-kit';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import 'react-phone-number-input/style.css';
 import 'react-phone-number-input/style.css';
 import { wallet } from '../../..';
-import { verifyUser } from '../../../services/api';
 import { insertUserData, log_event } from '../../../utils/utilityFunctions';
 import { getConfig } from '../../../utils/config';
 import { WalletSVG } from '../../../images/WalletSVG';
@@ -15,6 +13,10 @@ import { Warning } from '../../../images/Warning';
 import FVSBTImage from '../../../images/FvSBT.png';
 import Timer from '../../common/countdown';
 import { SuccesVerification } from './FractalVerification/Success';
+import { useSelector, useDispatch } from 'react-redux';
+import { verifyUser } from '../../../services/api';
+import { updateResponse } from '../../../redux/reducer/oracleReducer';
+import { hasTwoDots } from '../../../utils/constants';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -46,49 +48,21 @@ export const MintSBT = ({
   isError,
   successSBT,
 }) => {
-  const [editableFields, setEditableFields] = useState({
-    code: '',
-    claimer: wallet.accountId,
-    redirect_uri: '',
-  });
+  const { responseData } = useSelector((state) => state.oracle);
   const [submit, setSubmit] = useState(null);
   const [errorMessage, setErrorMessage] = useState(DEFAULT_ERROR_MESSAGE);
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const mintSBT = async (token) => {
+  const mintSBT = async () => {
     window.history.replaceState({}, '', window.location.origin);
     setSubmit(true);
-    const verifyData = { ...editableFields, captcha: token };
     try {
-      const result = await verifyUser(verifyData);
-      if (result?.error) {
-        setError(true);
-        log_event({
-          event_log: 'User is not approved from Fractal',
-        });
-        insertUserData({
-          status: 'Fractal Pending Authorization',
-        });
-        // not using fractal error message, since it is quite vague
-        setErrorMessage(
-          'Your face scan is waiting to be processed by Fractal. Please wait for a few minutes.'
-        );
-        return;
-      }
-      insertUserData({
-        status: 'Fractal Approved',
-      });
-      // since verify is passed, it means user is approved
-      log_event({
-        event_log: 'User is approved from Fractal',
-      });
       const { fractal_contract } = getConfig();
       // fetch fees requirement from contract
       const fees = await wallet.viewMethod({
         contractId: fractal_contract,
         method: 'get_required_sbt_mint_deposit',
         args: {
-          is_verified_kyc: result?.kyc == 'approved', // get exact mint cost
+          is_verified_kyc: responseData?.kyc == 'approved', // get exact mint cost
         },
       });
       log_event({
@@ -102,8 +76,8 @@ export const MintSBT = ({
         contractId: fractal_contract,
         method: 'sbt_mint',
         args: {
-          claim_b64: result.m,
-          claim_sig: result.sig,
+          claim_b64: responseData.m,
+          claim_sig: responseData.sig,
         },
         deposit: BigInt(fees).toString(),
       });
@@ -111,39 +85,12 @@ export const MintSBT = ({
       log_event({
         event_log: `Error happened while minting FV SBT ${JSON.stringify(e)}`,
       });
-      toast.error(
-        'An error occured while submitting your details , please try again'
-      );
+      setError(true);
+      setErrorMessage(e.message);
+      setSubmit(false);
     } finally {
       setSubmit(false);
     }
-  };
-
-  useEffect(() => {
-    const URL = window.location;
-    if (URL.href.includes('&state')) {
-      const code = new URLSearchParams(URL.search).get('code');
-      setEditableFields((d) => ({
-        ...d,
-        code,
-        redirect_uri: URL.origin,
-      }));
-    }
-  }, []);
-
-  const handleVerifyRecaptcha = async () => {
-    setSubmit(true);
-    if (!executeRecaptcha) {
-      toast.error('Recaptcha has not been loaded');
-      setSubmit(false);
-      return;
-    }
-
-    const token = await executeRecaptcha('homepage');
-    if (!successSBT && token) {
-      await mintSBT(token);
-    }
-    setSubmit(false);
   };
 
   const tryAgain = () => {
@@ -192,7 +139,7 @@ export const MintSBT = ({
         ) : (
           <div className="flex gap-y-5 md:gap-0 flex-wrap items-center">
             <button
-              onClick={handleVerifyRecaptcha}
+              onClick={mintSBT}
               type="button"
               className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
             >
@@ -218,10 +165,74 @@ export const MintSBT = ({
   );
 };
 
-export const ScanFace = () => {
+export const ScanFace = ({ setActiveTabIndex }) => {
   const [submit, setSubmit] = useState(null);
-  const [isApprovalAwait, setApproval] = useState(false);
+  const [isApprovalAwait, setApprovalWait] = useState(false);
+  const { responseData } = useSelector((state) => state.oracle);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
+  // try again is called when verifyUser throws error at Tabs screen
+  async function tryAgainAction() {
+    if (checkForSubAccounts()) {
+      return;
+    }
+    setSubmit(true);
+    const verifyData = {
+      redirect_uri: window.location.origin,
+      token: responseData?.token,
+      claimer: wallet.accountId,
+    };
+    verifyUser(verifyData)
+      .then((resp) => {
+        dispatch(updateResponse(resp));
+        if (resp?.token) {
+          log_event({
+            event_log: 'User is not approved from Fractal',
+          });
+          insertUserData({
+            status: 'Fractal Pending Authorization',
+          });
+        }
+        // success response,
+        if (resp?.m) {
+          insertUserData({
+            status: 'Fractal Approved',
+          });
+          log_event({
+            event_log: 'User is approved from Fractal',
+          });
+          setActiveTabIndex(2);
+        }
+        if (resp?.error) {
+          log_event({
+            event_log: resp?.error,
+          });
+          setActiveTabIndex(1);
+        }
+        setSubmit(false);
+      })
+      .catch((error) => {
+        console.log('Error occured while verifying data', error);
+        setSubmit(false);
+      });
+  }
+
+  function checkForSubAccounts() {
+    // check for sub accounts
+    if (hasTwoDots(wallet.accountId)) {
+      setError(
+        'Please use a top level NEAR account, not a sub-account, to mint your SBT.'
+      );
+      return true;
+    }
+    return false;
+  }
+
   const fractalLoginCb = () => {
+    if (checkForSubAccounts()) {
+      return;
+    }
     setSubmit(true);
     const { fractal_link, fractal_client_id, succes_fractal_state } =
       getConfig();
@@ -244,13 +255,14 @@ export const ScanFace = () => {
   };
 
   useEffect(() => {
-    const { succes_fractal_state } = getConfig();
-    const URL_state = new URLSearchParams(URL.search).get('state');
-    // if on redirect we are on this tab, it means user approval is awaiting
-    if (URL_state === succes_fractal_state && wallet?.accountId) {
-      setApproval(true);
+    setError(responseData?.error);
+  }, [responseData?.error]);
+
+  useEffect(() => {
+    if (responseData?.token) {
+      setApprovalWait(true);
     }
-  }, []);
+  }, [responseData?.token]);
 
   return (
     <div className="w-full">
@@ -274,9 +286,9 @@ export const ScanFace = () => {
         you've <br /> finished the verification on Fractal, return to
         I-AM-HUMAN.
       </p>
-      <div className="flex">
+      <div className="flex flex-wrap md:flex-nowrap gap-5">
         <button
-          onClick={() => fractalLoginCb()}
+          onClick={isApprovalAwait || error ? tryAgainAction : fractalLoginCb}
           type="button"
           className={`w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 ${
             isApprovalAwait ? 'bg-red-500' : ''
@@ -290,14 +302,16 @@ export const ScanFace = () => {
             </div>
           ) : (
             <p className="mx-auto w-[fit-content]">
-              {isApprovalAwait ? 'Try Again' : 'Start Face Scan with Fractal'}
+              {isApprovalAwait || error
+                ? 'Try Again'
+                : 'Start Face Scan with Fractal'}
             </p>
           )}
         </button>
-        {isApprovalAwait && (
-          <div className="bg-red-100 p-3 rounded-md">
-            Your face scan is waiting to be processed by Fractal. Please wait
-            for a few minutes.
+        {(isApprovalAwait || error) && !submit && (
+          <div className="bg-red-500 p-3 rounded-md text-white">
+            {error ??
+              'Your face scan is waiting to be processed by Fractal. Please wait for a few minutes.'}
           </div>
         )}
       </div>
@@ -310,7 +324,7 @@ export const ScanFace = () => {
           rel="noreferrer"
           className="underline"
         >
-          Troubleshoot Guide
+          Troubleshooting Guide
         </a>{' '}
         for solutions.
       </p>

@@ -12,3 +12,8 @@ export const LSKeys = {
 export const convertToTimestamptz = (timestamp) => {
   return moment.utc(timestamp).format('YYYY-MM-DDTHH:mm:ssZ');
 };
+
+export function hasTwoDots(str) {
+  const regex = /\.\.*\./;
+  return regex.test(str);
+}

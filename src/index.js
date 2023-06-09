@@ -3,12 +3,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import 'react-toastify/dist/ReactToastify.css';
-import { Provider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
+import { Provider as ReduxProvider } from 'react-redux';
 
 // NEAR
 import { Wallet } from './utils/near-wallet';
 import { getConfig } from './utils/config';
 import './styles/index.css';
+import store from './redux/store';
 
 const CONTRACT_ADDRESS = getConfig().app_contract;
 const rollbarConfig = {
@@ -27,18 +29,20 @@ window.onload = async () => {
   const isSignedIn = await wallet.startUp();
 
   root.render(
-    <Provider config={rollbarConfig}>
+    <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary
         fallbackUI={
           <p className="p-4">Oops an error occurred , please try again</p>
         }
       >
-        <App
-          isSignedIn={isSignedIn}
-          contractId={CONTRACT_ADDRESS}
-          wallet={wallet}
-        />
+        <ReduxProvider store={store}>
+          <App
+            isSignedIn={isSignedIn}
+            contractId={CONTRACT_ADDRESS}
+            wallet={wallet}
+          />
+        </ReduxProvider>
       </ErrorBoundary>
-    </Provider>
+    </RollbarProvider>
   );
 };
