@@ -5,3 +5,8 @@ export const TWITTER_URL = `https://twitter.com/intent/tweet?text=${TWITTER_TEXT
 export const LSKeys = {
   SHOW_SBT_PAGE: 'showSuccessSBTPage',
 };
+
+export function hasTwoDots(str) {
+  const regex = /\.\.*\./;
+  return regex.test(str);
+}

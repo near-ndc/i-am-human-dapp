@@ -29,7 +29,13 @@ export const IsSignedInLanding = ({
     {
       name: 'Face Scan',
       header: <FaceSVG styles={`w-12 h-12 ${activeTab(1)}`} />,
-      content: <ScanFace setError={setError} isError={error} />,
+      content: (
+        <ScanFace
+          setError={setError}
+          isError={error}
+          setActiveTabIndex={setActiveTabIndex}
+        />
+      ),
     },
     {
       name: 'Mint SBT',
@@ -62,7 +68,7 @@ export const IsSignedInLanding = ({
             activeTabIndex={activeTabIndex}
             error={error}
             successSBT={successSBT}
-            setActiveTabIndex={() => null}
+            setActiveTabIndex={setActiveTabIndex}
           />
         )}
       </div>
