@@ -136,7 +136,7 @@ export function IndexPage({ isSignedIn }) {
             : 'none',
         zIndex: 10,
       }}
-      className={'bg-no-repeat home_bg_image md:bg-[top_right_10%]'}
+      className={'bg-no-repeat home_bg_image'}
     >
       {typeof activeTabIndex !== 'number' && <ProgressTracker />}
       <div
