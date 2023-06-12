@@ -18,7 +18,7 @@ export const IsSignedInLanding = ({
 }) => {
   const [error, setError] = useState(false);
   const activeTab = (index) =>
-    activeTabIndex >= index ? 'stroke-purple-400' : 'stroke-gray-300';
+    activeTabIndex >= index ? 'stroke-themeColor' : 'stroke-gray-300';
 
   const TabsData = [
     {

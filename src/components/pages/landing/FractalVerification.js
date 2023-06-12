@@ -24,7 +24,7 @@ export const ConnectWallet = () => (
   <div className="w-full">
     <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
       <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-[inset_0_0px_4px_#FFFFFF] shadow-purple-400">
-        <WalletSVG styles="w-12 h-12 fill-purple-400 stroke-purple-200" />
+        <WalletSVG styles="w-12 h-12 fill-purple-400 stroke-themeColor" />
       </div>
     </div>
     <h2 className="text-4xl font-bold	my-4">Connect Wallet</h2>
@@ -106,7 +106,7 @@ export const MintSBT = ({
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
           <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-purple-400 shadow-[inset_0_0px_4px_#FFFFFF]">
-            <MintSVG styles="w-12 h-12 stroke-purple-400" />
+            <MintSVG styles="w-12 h-12 stroke-themeColor" />
           </div>
         </div>
         <h2 className="text-4xl font-bold	my-4">
@@ -268,7 +268,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
     <div className="w-full">
       <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
         <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-[inset_0_0px_4px_#FFFFFF] shadow-purple-400">
-          <FaceSVG styles="w-12 h-12 fill-purple-400 stroke-purple-200" />
+          <FaceSVG styles="w-12 h-12 fill-purple-400 stroke-themeColor" />
         </div>
       </div>
       <h2 className="text-4xl font-bold	my-4">Face Scan</h2>

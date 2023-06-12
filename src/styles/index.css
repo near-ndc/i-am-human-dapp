@@ -1,3 +1,7 @@
+html {
+  --theme-color: #9333ea;
+}
+
 .home_bg_image {
   background-position: 28rem 3rem;
 }
@@ -23,4 +27,12 @@
 
 .w-webkit-fill {
   width: -webkit-fill-available;
+}
+
+.stroke-themeColor {
+  stroke: var(--theme-color);
+}
+
+.border-themeColor {
+  border-color: var(--theme-color);
 }
