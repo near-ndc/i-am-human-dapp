@@ -60,7 +60,7 @@ const ProgressTracker = () => {
               clipPath: `polygon(0 0, 100% 0, calc(100% - ${getClipPercentage()}%) 100%, 0% 100%)`,
             }}
           ></div>
-          <h2 className="relative z-10 py-1 text-xl font-bold">
+          <h2 className="relative flex h-full justify-center items-center z-10 text-xl font-bold">
             Join {humansRegistered} HUMANS ON NEAR
           </h2>
         </div>
