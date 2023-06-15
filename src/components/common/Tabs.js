@@ -175,7 +175,7 @@ export const Tabs = ({
           <div className="block md:hidden mt-[100px]">
             <div
               className="grid"
-              style={{ gridTemplateColumns: '1.2fr 1.2fr 0.75fr' }}
+              style={{ gridTemplateColumns: '1.2fr 1.12fr 0.8fr' }}
             >
               {tabs.map((tab, index) => (
                 <>
@@ -183,7 +183,7 @@ export const Tabs = ({
                     className={
                       'flex flex-col cursor-default ' +
                       (index === 2 ? 'justify-self-end' : '') +
-                      (index === 1 ? 'ml-4' : '')
+                      (index === 1 ? 'ml-2' : '')
                     }
                     key={index}
                   >
@@ -202,7 +202,7 @@ export const Tabs = ({
                         {tab.header}
                       </div>
                       {tabs.length !== index + 1 && (
-                        <div className="min-w-[50%]">
+                        <div className="min-w-[40%]">
                           <hr class="h-px my-8 bg-gradient-to-r from-purple-600 to-indigo-600 border-0 w-full" />
                         </div>
                       )}

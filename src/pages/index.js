@@ -17,6 +17,7 @@ import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
 import { LSKeys, convertToTimestamptz } from '../utils/constants';
 import { log_event } from '../utils/utilityFunctions';
+import ProgressTracker from '../components/common/progressTracker';
 
 const URL = window.location;
 
@@ -106,15 +107,15 @@ export function IndexPage({ isSignedIn }) {
   const TabsData = [
     {
       name: 'Connect Wallet',
-      header: <WalletSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <WalletSVG styles={`w-12 h-12 stroke-themeColor`} />,
     },
     {
       name: 'Face Scan',
-      header: <FaceSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <FaceSVG styles={`w-12 h-12 stroke-themeColor`} />,
     },
     {
       name: 'Mint SBT',
-      header: <MintSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <MintSVG styles={`w-12 h-12 stroke-themeColor`} />,
     },
   ];
 
@@ -137,6 +138,7 @@ export function IndexPage({ isSignedIn }) {
       }}
       className={'bg-no-repeat home_bg_image'}
     >
+      {typeof activeTabIndex !== 'number' && <ProgressTracker />}
       <div
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
@@ -152,7 +154,7 @@ export function IndexPage({ isSignedIn }) {
           <>
             {typeof activeTabIndex !== 'number' ? (
               <>
-                <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+                <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
                     <div className="flex-1 min-w-[300px]">
                       <h1 className="font-bold text-5xl">
@@ -174,7 +176,7 @@ export function IndexPage({ isSignedIn }) {
                           {TabsData.map((tab, index) => {
                             return (
                               <div className="flex items-center gap-1 md:gap-2">
-                                <div className="rounded-full border border-2 border-purple-400 w-fit p-1">
+                                <div className="rounded-full border border-2 border-themeColor w-fit p-2">
                                   {tab.header}
                                 </div>
                                 {index < 2 ? (
@@ -197,12 +199,12 @@ export function IndexPage({ isSignedIn }) {
                           })}
                         </div>
                       </div>
-                      <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
+                      <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
                         {!kycTokens && !fvTokens && (
                           <button
                             onClick={() => getStarted()}
-                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
                             Get Started
                           </button>
@@ -216,7 +218,7 @@ export function IndexPage({ isSignedIn }) {
                                   '_blank'
                                 )
                               }
-                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                             >
                               Join the Community
                             </button>
@@ -228,13 +230,13 @@ export function IndexPage({ isSignedIn }) {
                               '_blank'
                             )
                           }
-                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
+                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-5 md:px-10 py-2 text-base font-light text-black shadow-sm"
                         >
                           Learn More
                         </button>
                       </div>
                     </div>
-                    <div className="flex-1 min-w-[300px] order-first md:order-last">
+                    <div className="flex-1 min-w-[300px] order-last">
                       <img
                         src={Design}
                         className="w-full object-fill hidden md:invisible"
