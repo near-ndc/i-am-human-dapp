@@ -83,8 +83,8 @@ export function IndexPage({ isSignedIn }) {
       setActiveTabIndex(2);
     }
     if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
-      localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
       setSuccessSBT(true);
+      localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
       setActiveTabIndex(2);
     }
     if (fvTokens) {

@@ -84,7 +84,7 @@ export const Tabs = ({
   }, []);
 
   useEffect(() => {
-    if (activeTabIndex === 2) {
+    if (activeTabIndex === 2 && !successSBT) {
       checkIsUserVerified();
     } else {
       setLoading(false);
