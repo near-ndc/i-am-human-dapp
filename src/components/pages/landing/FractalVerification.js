@@ -66,7 +66,9 @@ export const MintSBT = ({
         },
       });
       log_event({
-        event_log: 'User apply for FV SBT, creates the transaction',
+        event_log:
+          'User apply for FV SBT, creates the transaction' +
+          JSON.stringify(responseData),
       });
       insertUserData({
         status: 'Minting tx send',
@@ -188,7 +190,8 @@ export const ScanFace = ({ setActiveTabIndex }) => {
         dispatch(updateResponse(resp));
         if (resp?.token) {
           log_event({
-            event_log: 'User is not approved from Fractal',
+            event_log:
+              'User is not approved from Fractal' + JSON.stringify(resp),
           });
           insertUserData({
             status: 'Fractal Pending Authorization',
@@ -200,13 +203,13 @@ export const ScanFace = ({ setActiveTabIndex }) => {
             status: 'Fractal Approved',
           });
           log_event({
-            event_log: 'User is approved from Fractal',
+            event_log: 'User is approved from Fractal' + JSON.stringify(resp),
           });
           setActiveTabIndex(2);
         }
         if (resp?.error) {
           log_event({
-            event_log: resp?.error,
+            event_log: 'Error received from oracle API' + resp?.error,
           });
           setActiveTabIndex(1);
         }
