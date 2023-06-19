@@ -27,6 +27,7 @@ export function IndexPage({ isSignedIn }) {
   const [successSBT, setSuccessSBT] = useState(false);
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
+  const [ogTokens, setOGTokens] = useState(null);
 
   async function storeCommunityVerticalData() {
     try {
@@ -53,15 +54,15 @@ export function IndexPage({ isSignedIn }) {
   }
 
   // checking for existing user data with token_id to make sure we store data for all users (new and old)
-  async function createEventLog() {
+  async function createFVEventLog() {
     const { data } = await supabase.select('users', {
       wallet_identifier: wallet.accountId,
-      token_id: fvTokens.token,
+      fv_token_id: fvTokens.token,
     });
 
     if (!data?.[0]) {
       const userData = {
-        token_id: fvTokens.token,
+        fv_token_id: fvTokens.token,
         issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
         expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
         token_type: 'Face Verification',
@@ -72,6 +73,25 @@ export function IndexPage({ isSignedIn }) {
       log_event({
         event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
       });
+    }
+  }
+
+  async function createOGEventLog() {
+    const { data } = await supabase.select('users', {
+      wallet_identifier: wallet.accountId,
+      og_token_id: ogTokens.token,
+    });
+
+    if (!data?.[0]) {
+      const userData = {
+        og_token_id: ogTokens.token,
+        issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
+        expire_date: convertToTimestamptz(ogTokens?.metadata?.expires_at),
+        token_type: 'OG Soul Bound Token',
+        status: 'Mint Success',
+        wallet_identifier: wallet.accountId,
+      };
+      await supabase.insert('users', userData);
     }
   }
 
@@ -88,9 +108,15 @@ export function IndexPage({ isSignedIn }) {
       setActiveTabIndex(2);
     }
     if (fvTokens) {
-      createEventLog();
+      createFVEventLog();
     }
   }, [fvTokens]);
+
+  useEffect(() => {
+    if (ogTokens) {
+      createOGEventLog();
+    }
+  }, [ogTokens]);
 
   useEffect(() => {
     // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)
@@ -201,7 +227,7 @@ export function IndexPage({ isSignedIn }) {
                       </div>
                       <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
-                        {!kycTokens && !fvTokens && (
+                        {!kycTokens && !fvTokens && !ogTokens && (
                           <button
                             onClick={() => getStarted()}
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -209,20 +235,19 @@ export function IndexPage({ isSignedIn }) {
                             Get Started
                           </button>
                         )}
-                        {kycTokens ||
-                          (fvTokens && (
-                            <button
-                              onClick={() =>
-                                window.open(
-                                  'https://t.me/+fcNhYGxK891lMjMx',
-                                  '_blank'
-                                )
-                              }
-                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                            >
-                              Join the Community
-                            </button>
-                          ))}
+                        {(kycTokens || fvTokens || ogTokens) && (
+                          <button
+                            onClick={() =>
+                              window.open(
+                                'https://t.me/+fcNhYGxK891lMjMx',
+                                '_blank'
+                              )
+                            }
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          >
+                            Join the Community
+                          </button>
+                        )}
                         <button
                           onClick={() =>
                             window.open(
@@ -248,6 +273,7 @@ export function IndexPage({ isSignedIn }) {
                       setActiveTabIndex={setActiveTabIndex}
                       sendFVTokensDetails={setFVTokens}
                       sendKYCTokensDetails={setKYCTokens}
+                      sendOGTokenDetails={setOGTokens}
                     />
                   ) : (
                     <Landing setActiveTabIndex={setActiveTabIndex} />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
+import OGSBT from '../../images/OGSBT.png';
 import {
   TokenDetails,
   ValidTokenComponent,
@@ -17,9 +18,11 @@ export const Home = ({
   setActiveTabIndex,
   sendFVTokensDetails,
   sendKYCTokensDetails,
+  sendOGTokenDetails,
 }) => {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
+  const [ogTokens, setOGTokens] = useState(null);
 
   useEffect(() => {
     // fetching only when logged in (without steps) state active
@@ -43,6 +46,11 @@ export const Home = ({
             setFVTokens(token);
             sendFVTokensDetails(token);
             localStorage.setItem('fvTokens', JSON.stringify(token));
+            // TODO UPDATE CLASS WHEN CONTRACT IS READY FOR OG
+          } else if (token.metadata.class === 2) {
+            sendOGTokenDetails(token);
+            setOGTokens(token);
+            localStorage.setItem('ogTokens', JSON.stringify(token));
           } else {
             sendKYCTokensDetails(token);
             setKYCTokens(token);
@@ -94,7 +102,7 @@ export const Home = ({
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
       <div className="flex flex-col gap-32">
-        {!fvTokens && !kycTokens ? (
+        {!fvTokens && !kycTokens && !ogTokens ? (
           <div>
             <div
               style={{ backgroundImage: `url(${BgImage})` }}
@@ -143,6 +151,19 @@ export const Home = ({
                   tokenID={kycTokens?.token}
                   issuedDate={kycTokens?.metadata?.issued_at}
                   expireDate={kycTokens?.metadata?.expires_at}
+                />
+              </Item>
+            )}
+            {ogTokens && (
+              <Item imageSrc={OGSBT}>
+                <ValidTokenComponent />
+                <h2 className="font-bold text-3xl my-1">
+                  My OG Soul Bound Token
+                </h2>
+                <TokenDetails
+                  tokenID={ogTokens?.token}
+                  issuedDate={ogTokens?.metadata?.issued_at}
+                  expireDate={ogTokens?.metadata?.expires_at}
                 />
               </Item>
             )}
