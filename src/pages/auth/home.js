@@ -26,8 +26,36 @@ export const Home = ({
 
   useEffect(() => {
     // fetching only when logged in (without steps) state active
-    if (!isNumber(setActiveTabIndex)) fetchTokens();
+    if (!isNumber(setActiveTabIndex)) {
+      fetchOGSBTTokens();
+      fetchTokens();
+    }
   }, [setActiveTabIndex]);
+
+  const fetchOGSBTTokens = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: getConfig().app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: getConfig().og_contract, // issuer is community sbt contract
+        },
+      });
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => OG token
+          if (token.metadata.class === 1) {
+            sendOGTokenDetails(token);
+            setOGTokens(token);
+            localStorage.setItem('ogTokens', JSON.stringify(token));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching OG Token details');
+    }
+  };
 
   const fetchTokens = async () => {
     try {
@@ -36,7 +64,7 @@ export const Home = ({
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().fractal_contract,
+          issuer: getConfig().fractal_contract, // issuer is fractal
         },
       });
       if (data?.[0]?.[1]) {
@@ -46,11 +74,6 @@ export const Home = ({
             setFVTokens(token);
             sendFVTokensDetails(token);
             localStorage.setItem('fvTokens', JSON.stringify(token));
-            // TODO UPDATE CLASS WHEN CONTRACT IS READY FOR OG
-          } else if (token.metadata.class === 2) {
-            sendOGTokenDetails(token);
-            setOGTokens(token);
-            localStorage.setItem('ogTokens', JSON.stringify(token));
           } else {
             sendKYCTokensDetails(token);
             setKYCTokens(token);
@@ -127,7 +150,7 @@ export const Home = ({
             </div>
           </div>
         ) : (
-          <div className="flex gap-y-10 flex-wrap md:flex-nowrap gap-5">
+          <div className="flex flex-col gap-y-10 flex-wrap gap-5">
             {fvTokens && (
               <Item imageSrc={FVSBTImage}>
                 <ValidTokenComponent />
@@ -144,7 +167,7 @@ export const Home = ({
             {kycTokens && (
               <Item imageSrc={KYCSBTImage}>
                 <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1">
+                <h2 className="font-bold text-3xl my-1 mb-5">
                   My KYC Soul Bound Token
                 </h2>
                 <TokenDetails
@@ -157,7 +180,7 @@ export const Home = ({
             {ogTokens && (
               <Item imageSrc={OGSBT}>
                 <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1">
+                <h2 className="font-bold text-3xl my-1 mb-5">
                   My OG Soul Bound Token
                 </h2>
                 <TokenDetails

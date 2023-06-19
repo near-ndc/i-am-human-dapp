@@ -71,7 +71,7 @@ export const MintSBT = ({
           JSON.stringify(responseData),
       });
       insertUserData({
-        status: 'Minting txn send',
+        fv_status: 'Minting txn send',
       });
 
       await wallet.callMethod({
@@ -193,13 +193,13 @@ export const ScanFace = ({ setActiveTabIndex }) => {
             event_log: 'Fractal: User is not approved! ' + JSON.stringify(resp),
           });
           insertUserData({
-            status: 'Fractal Pending Authorization',
+            fv_status: 'Fractal Pending Authorization',
           });
         }
         // success response,
         if (resp?.m) {
           insertUserData({
-            status: 'Fractal Approved',
+            fv_status: 'Fractal Approved',
           });
           log_event({
             event_log: 'Fractal: User is approved! ' + JSON.stringify(resp),
@@ -247,7 +247,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
         wallet.accountId
       }`;
     insertUserData({
-      status: 'User begins Face Verification',
+      fv_status: 'User begins Face Verification',
     });
     log_event({
       event_log: 'Fractal: User begins their Face scan',

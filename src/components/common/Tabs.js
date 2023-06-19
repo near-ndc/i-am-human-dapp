@@ -44,14 +44,14 @@ export const Tabs = ({
             event_log: 'User is not approved from Fractal',
           });
           insertUserData({
-            status: 'Fractal Pending Authorization',
+            fv_status: 'Fractal Pending Authorization',
           });
           setActiveTabIndex(1);
         }
         // success response,
         if (resp?.m) {
           insertUserData({
-            status: 'Fractal Approved',
+            fv_status: 'Fractal Approved',
           });
           log_event({
             event_log: 'User is approved from Fractal',
