@@ -66,10 +66,12 @@ export const MintSBT = ({
         },
       });
       log_event({
-        event_log: 'User apply for FV SBT, creates the transaction',
+        event_log:
+          'Oracle: Contract. User apply for FV SBT, creates the transaction ' +
+          JSON.stringify(responseData),
       });
       insertUserData({
-        status: 'Minting tx send',
+        status: 'Minting txn send',
       });
 
       await wallet.callMethod({
@@ -83,7 +85,7 @@ export const MintSBT = ({
       });
     } catch (e) {
       log_event({
-        event_log: `Error happened while minting FV SBT ${JSON.stringify(e)}`,
+        event_log: `Oracle: Contract Error. ${JSON.stringify(e)}`,
       });
       setError(true);
       setErrorMessage(e.message);
@@ -188,7 +190,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
         dispatch(updateResponse(resp));
         if (resp?.token) {
           log_event({
-            event_log: 'User is not approved from Fractal',
+            event_log: 'Fractal: User is not approved! ' + JSON.stringify(resp),
           });
           insertUserData({
             status: 'Fractal Pending Authorization',
@@ -200,13 +202,13 @@ export const ScanFace = ({ setActiveTabIndex }) => {
             status: 'Fractal Approved',
           });
           log_event({
-            event_log: 'User is approved from Fractal',
+            event_log: 'Fractal: User is approved! ' + JSON.stringify(resp),
           });
           setActiveTabIndex(2);
         }
         if (resp?.error) {
           log_event({
-            event_log: resp?.error,
+            event_log: 'Oracle: API Error. ' + resp?.error,
           });
           setActiveTabIndex(1);
         }
@@ -248,7 +250,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
       status: 'User begins Face Verification',
     });
     log_event({
-      event_log: 'User begins their Face scan',
+      event_log: 'Fractal: User begins their Face scan',
     });
     window.open(fractalVerifyURL, '_blank');
     // showing processing screen since we open the verify URL in new tab
