@@ -97,10 +97,19 @@ export class Wallet {
   }
 
   // Sign-out method
-  signOut() {
-    this.wallet.signOut();
-    this.wallet = this.accountId = this.createAccessKeyFor = null;
-    window.location.replace(window.location.origin + window.location.pathname);
+  async signOut() {
+    if (!this?.wallet) return;
+    await this.wallet.signOut();
+
+    if (
+      this.wallet.id === 'near-wallet' ||
+      this.wallet.id === 'my-near-wallet'
+    ) {
+      this.wallet = this.accountId = this.createAccessKeyFor = undefined;
+      window.location.replace(
+        window.location.origin + window.location.pathname
+      );
+    } else window.location.reload();
   }
 
   // Make a read-only call to retrieve information from the network
