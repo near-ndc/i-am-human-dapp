@@ -111,6 +111,25 @@ export function IndexPage({ isSignedIn }) {
     }
   }
 
+  async function createOGEventLog() {
+    const { data } = await supabase.select('users', {
+      wallet_identifier: wallet.accountId,
+      og_token_id: ogTokens.token,
+    });
+
+    if (!data?.[0]) {
+      const userData = {
+        og_token_id: ogTokens.token,
+        issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
+        expire_date: convertToTimestamptz(ogTokens?.metadata?.expires_at),
+        token_type: 'OG Soul Bound Token',
+        status: 'Mint Success',
+        wallet_identifier: wallet.accountId,
+      };
+      await supabase.insert('users', userData);
+    }
+  }
+
   useEffect(() => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
