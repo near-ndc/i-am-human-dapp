@@ -90,8 +90,6 @@ export const MintSBT = ({
       setError(true);
       setErrorMessage(e.message);
       setSubmit(false);
-    } finally {
-      setSubmit(false);
     }
   };
 
