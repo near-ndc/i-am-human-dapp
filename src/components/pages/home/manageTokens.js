@@ -99,7 +99,6 @@ export const ManageTokens = () => {
       });
       log_event({
         event_log: `${wallet.accountId} minted OG SBT tokens for ${input}`,
-        effected_wallet: input,
       });
       checkTokens({ hideMessage: true });
       toast.success('Minted SBT successfully !');
@@ -122,7 +121,6 @@ export const ManageTokens = () => {
       });
       log_event({
         event_log: `${wallet.accountId} revoked OG SBT tokens for ${input}`,
-        effected_wallet: input,
       });
       toast.success('Revoked SBT successfully !');
       await checkTokens({ hideMessage: true });
@@ -147,7 +145,6 @@ export const ManageTokens = () => {
       });
       log_event({
         event_log: `${wallet.accountId} renewed OG SBT tokens for ${input}`,
-        effected_wallet: input,
       });
       toast.success('Renewed SBT successfully !');
       await checkTokens({ hideMessage: true });

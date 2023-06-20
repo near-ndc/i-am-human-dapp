@@ -59,19 +59,28 @@ export function IndexPage({ isSignedIn }) {
       wallet_identifier: wallet.accountId,
       fv_token_id: fvTokens.token,
     });
-
-    if (!data?.[0]) {
+    if (!data?.length) {
       const userData = {
         fv_token_id: fvTokens.token,
-        issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
-        expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
-        token_type: 'Face Verification',
-        status: 'Mint Success',
+        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_status: 'Mint Success',
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
       log_event({
         event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+      });
+    } else if (data.length > 0 && !data[0]?.['fv_token_id']) {
+      // update data
+      const userData = {
+        fv_token_id: fvTokens.token,
+        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_status: 'Mint Success',
+      };
+      await supabase.update('users', userData, {
+        wallet_identifier: wallet.accountId,
       });
     }
   }
@@ -79,10 +88,9 @@ export function IndexPage({ isSignedIn }) {
   async function createOGEventLog() {
     const { data } = await supabase.select('users', {
       wallet_identifier: wallet.accountId,
-      og_token_id: ogTokens.token,
     });
-
-    if (!data?.[0]) {
+    if (!data?.length) {
+      // no entry exists, insert data
       const userData = {
         og_token_id: ogTokens.token,
         issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
@@ -92,6 +100,16 @@ export function IndexPage({ isSignedIn }) {
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
+    } else if (data.length > 0 && !data[0]?.['og_token_id']) {
+      // update data
+      const userData = {
+        og_token_id: ogTokens.token,
+        og_issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
+        og_expire_date: convertToTimestamptz(ogTokens?.metadata?.expires_at),
+      };
+      await supabase.update('users', userData, {
+        wallet_identifier: wallet.accountId,
+      });
     }
   }
 
