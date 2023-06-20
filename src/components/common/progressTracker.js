@@ -50,7 +50,7 @@ const ProgressTracker = () => {
   }
 
   return (
-    <div className="text-center">
+    <div className="text-center text-md">
       <>
         <div className="bg-purple-400 h-[40px] relative">
           <div
@@ -60,15 +60,13 @@ const ProgressTracker = () => {
               clipPath: `polygon(0 0, 100% 0, calc(100% - ${getClipPercentage()}%) 100%, 0% 100%)`,
             }}
           ></div>
-          <h2 className="relative flex h-full justify-center items-center z-10 text-xl font-bold">
+          <h2 className="relative flex h-full justify-center items-center z-10 font-bold">
             Join {humansRegistered} HUMANS ON NEAR
           </h2>
         </div>
 
         <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex justify-center gap-5">
-          <h4 className="text-yellow-400 text-md font-bold">
-            JOIN THE HUMANS OF NEAR
-          </h4>
+          <h4 className="text-yellow-400 font-bold">JOIN THE HUMANS OF NEAR</h4>
           <p className="text-gray-300">
             Unlock Elections, Governance, & Community Treasury with 1000 Humans
             on NEAR

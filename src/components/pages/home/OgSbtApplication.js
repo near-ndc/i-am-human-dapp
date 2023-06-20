@@ -126,7 +126,6 @@ const ActionButtons = ({
                 });
                 log_event({
                   event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
-                  effected_wallet: person.wallet_identifier,
                 });
                 toast.success('Successfully minted tokers');
               } catch (e) {
@@ -166,7 +165,6 @@ const ActionButtons = ({
                 );
                 log_event({
                   event_log: `${wallet.accountId} rejected OG SBT for ${person.wallet_identifier}`,
-                  effected_wallet: person.wallet_identifier,
                 });
               } finally {
                 setLoading(false);
@@ -221,7 +219,6 @@ const ActionButtons = ({
               });
               log_event({
                 event_log: `${wallet.accountId} approved OG SBT for ${person.wallet_identifier}`,
-                effected_wallet: person.wallet_identifier,
               });
             } finally {
               setLoading(false);
