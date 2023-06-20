@@ -34,7 +34,6 @@ export const ManageAdmin = () => {
       setButtonLoading(true);
       log_event({
         event_log: `${walletAddress} added to admins`,
-        effected_wallet: walletAddress,
       });
       try {
         const res = await wallet.callMethod({
@@ -65,7 +64,6 @@ export const ManageAdmin = () => {
       try {
         log_event({
           event_log: `${walletAddress} removed from admins`,
-          effected_wallet: walletAddress,
         });
         const res = await wallet.callMethod({
           contractId: getConfig().og_contract,
