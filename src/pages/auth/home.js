@@ -74,11 +74,6 @@ export const Home = ({
             setFVTokens(token);
             sendFVTokensDetails(token);
             localStorage.setItem('fvTokens', JSON.stringify(token));
-            // TODO UPDATE CLASS WHEN CONTRACT IS READY FOR OG
-          } else if (token.metadata.class === 2) {
-            sendOGTokenDetails(token);
-            setOGTokens(token);
-            localStorage.setItem('ogTokens', JSON.stringify(token));
           } else {
             sendKYCTokensDetails(token);
             setKYCTokens(token);
