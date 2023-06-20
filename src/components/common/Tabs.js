@@ -9,6 +9,7 @@ import { CircleSpinner } from 'react-spinners-kit';
 import { useDispatch } from 'react-redux';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { insertUserData, log_event } from '../../utils/utilityFunctions';
+import ReactConfetti from 'react-confetti';
 
 export const Tabs = ({
   tabs,
@@ -24,6 +25,7 @@ export const Tabs = ({
     redirect_uri: '',
   });
   const [loading, setLoading] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   async function checkIsUserVerified() {
@@ -91,6 +93,18 @@ export const Tabs = ({
     }
   }, [executeRecaptcha]);
 
+  useEffect(() => {
+    if (successSBT) {
+      setShowConfetti(true);
+      let timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [successSBT]);
+
   return (
     <>
       {loading ? (
@@ -100,6 +114,7 @@ export const Tabs = ({
         </div>
       ) : (
         <>
+          {showConfetti && <ReactConfetti className="w-screen h-screen" />}
           <div className="hidden md:grid grid-cols-3">
             <div className="flex flex-col items-center py-52">
               <div className="flex flex-col">
