@@ -151,15 +151,15 @@ export function IndexPage({ isSignedIn }) {
   const TabsData = [
     {
       name: 'Connect Wallet',
-      header: <WalletSVG styles={`w-12 h-12 stroke-themeColor`} />,
+      header: <WalletSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
     {
       name: 'Face Scan',
-      header: <FaceSVG styles={`w-12 h-12 stroke-themeColor`} />,
+      header: <FaceSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
     {
       name: 'Mint SBT',
-      header: <MintSVG styles={`w-12 h-12 stroke-themeColor`} />,
+      header: <MintSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
   ];
 
@@ -220,7 +220,7 @@ export function IndexPage({ isSignedIn }) {
                           {TabsData.map((tab, index) => {
                             return (
                               <div className="flex items-center gap-1 md:gap-2">
-                                <div className="rounded-full border border-2 border-themeColor w-fit p-2">
+                                <div className="rounded-full border border-2 border-themeColor svg-themeColor w-fit p-2">
                                   {tab.header}
                                 </div>
                                 {index < 2 ? (

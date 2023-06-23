@@ -3,6 +3,20 @@ import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
 import CommunitySBTImage from '../../images/CommunitySBT.png';
 import OGSBT from '../../images/OGSBT.png';
+import CreativeOGSBT from '../../images/CREATIVE.png';
+import DegenOGSBT from '../../images/DEGEN.png';
+import GeniusOGSBT from '../../images/GENIUS.png';
+import GWGContributorOGSBT from '../../images/GWG CONTRIBUTOR.png';
+import CoreContributorOGSBT from '../../images/GWG_CORE_CONTRIBUTOR.png';
+import JuggernautOGSBT from '../../images/JUGGERNAUT.png';
+import ModOGSBT from '../../images/MOD.png';
+import NDCChampionOGSBT from '../../images/NDC_CHAMPION.png';
+import NDCContributorOGSBT from '../../images/NDC_CONTRIBUTOR.png';
+import ProofOfDevOGSBT from '../../images/PROOF_OF_DEV.png';
+
+const BadgeItem = ({ imageSrc }) => {
+  return <img src={imageSrc} className="object-fill rounded-lg badge" />;
+};
 
 export const Landing = () => {
   return (
@@ -116,6 +130,18 @@ export const Landing = () => {
             className="object-fill rounded-lg md:w-2/3"
           />
         </div>
+      </div>
+      <div className="grid grid-cols-5 gap-5">
+        <BadgeItem imageSrc={CreativeOGSBT} />
+        <BadgeItem imageSrc={DegenOGSBT} />
+        <BadgeItem imageSrc={GeniusOGSBT} />
+        <BadgeItem imageSrc={GWGContributorOGSBT} />
+        <BadgeItem imageSrc={CoreContributorOGSBT} />
+        <BadgeItem imageSrc={JuggernautOGSBT} />
+        <BadgeItem imageSrc={ModOGSBT} />
+        <BadgeItem imageSrc={NDCChampionOGSBT} />
+        <BadgeItem imageSrc={NDCContributorOGSBT} />
+        <BadgeItem imageSrc={ProofOfDevOGSBT} />
       </div>
     </div>
   );
