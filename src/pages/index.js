@@ -18,6 +18,7 @@ import { supabase } from '../utils/supabase';
 import { LSKeys, convertToTimestamptz } from '../utils/constants';
 import { log_event } from '../utils/utilityFunctions';
 import ProgressTracker from '../components/common/progressTracker';
+import { isEqual } from 'lodash';
 
 const URL = window.location;
 
@@ -92,20 +93,17 @@ export function IndexPage({ isSignedIn }) {
     if (!data?.length) {
       // no entry exists, insert data
       const userData = {
-        og_token_id: ogTokens.token,
-        issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
-        expire_date: convertToTimestamptz(ogTokens?.metadata?.expires_at),
-        token_type: 'OG Soul Bound Token',
-        status: 'Mint Success',
+        og_tokens_metadata: ogTokens,
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
-    } else if (data.length > 0 && !data[0]?.['og_token_id']) {
+    } else if (
+      !data[0]?.['og_tokens_metadata'] ||
+      !isEqual(data[0]?.['og_tokens_metadata'], ogTokens) // some new type of OG token can be issued
+    ) {
       // update data
       const userData = {
-        og_token_id: ogTokens.token,
-        og_issued_date: convertToTimestamptz(ogTokens?.metadata?.issued_at),
-        og_expire_date: convertToTimestamptz(ogTokens?.metadata?.expires_at),
+        og_tokens_metadata: ogTokens,
       };
       await supabase.update('users', userData, {
         wallet_identifier: wallet.accountId,
