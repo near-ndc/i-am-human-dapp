@@ -13,6 +13,7 @@ import ModOGSBT from '../../images/MOD.png';
 import NDCChampionOGSBT from '../../images/NDC_CHAMPION.png';
 import NDCContributorOGSBT from '../../images/NDC_CONTRIBUTOR.png';
 import ProofOfDevOGSBT from '../../images/PROOF_OF_DEV.png';
+import ProofOfVibeOGSBT from '../../images/PROOF_OF_VIBE.png';
 
 const BadgeItem = ({ imageSrc }) => {
   return <img src={imageSrc} className="object-fill rounded-lg badge" />;
@@ -46,7 +47,10 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
-          <img src={FVSBTImage} className="object-fill rounded-lg md:w-2/3" />
+          <img
+            src={FVSBTImage}
+            className="object-fill rounded-lg md:w-2/3 badge"
+          />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
@@ -71,7 +75,7 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
-          <img src={OGSBT} className="object-fill rounded-lg md:w-2/3" />
+          <img src={OGSBT} className="object-fill rounded-lg md:w-2/3 badge" />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
@@ -98,11 +102,14 @@ export const Landing = () => {
           </button>
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
-          <img src={KYCSBTImage} className="object-fill rounded-lg md:w-2/3" />
+          <img
+            src={KYCSBTImage}
+            className="object-fill rounded-lg md:w-2/3 badge"
+          />
         </div>
       </div>
-
-      <div className="flex flex-wrap gap-10">
+      {/* we won't have it right now */}
+      {/* <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
           <h2 className="font-bold text-4xl">
             Get Your Community Soul Bound Token
@@ -130,18 +137,32 @@ export const Landing = () => {
             className="object-fill rounded-lg md:w-2/3"
           />
         </div>
-      </div>
-      <div className="grid grid-cols-5 gap-5">
-        <BadgeItem imageSrc={CreativeOGSBT} />
-        <BadgeItem imageSrc={DegenOGSBT} />
-        <BadgeItem imageSrc={GeniusOGSBT} />
-        <BadgeItem imageSrc={GWGContributorOGSBT} />
-        <BadgeItem imageSrc={CoreContributorOGSBT} />
-        <BadgeItem imageSrc={JuggernautOGSBT} />
-        <BadgeItem imageSrc={ModOGSBT} />
-        <BadgeItem imageSrc={NDCChampionOGSBT} />
-        <BadgeItem imageSrc={NDCContributorOGSBT} />
-        <BadgeItem imageSrc={ProofOfDevOGSBT} />
+      </div> */}
+      <div className="flex flex-col gap-5">
+        <h2 className="font-bold text-4xl">
+          Sneak Peek on Upcoming Soul Bound Tokens
+        </h2>
+        <p>
+          We're thrilled to announce that more Soul Bound Tokens are launching
+          soon, bringing with them a groundbreaking feature – the power of
+          onchain reputation! Embrace the power of reputation on the blockchain,
+          where your contributions are valued, acknowledged, and rewarded. Join
+          us as we forge ahead, united by a shared vision of trust,
+          transparency, and innovation.
+        </p>
+        <div className="grid grid-cols-5 gap-5">
+          <BadgeItem imageSrc={ProofOfVibeOGSBT} />
+          <BadgeItem imageSrc={CreativeOGSBT} />
+          <BadgeItem imageSrc={DegenOGSBT} />
+          {/* <BadgeItem imageSrc={GeniusOGSBT} /> */}
+          <BadgeItem imageSrc={GWGContributorOGSBT} />
+          <BadgeItem imageSrc={CoreContributorOGSBT} />
+          <BadgeItem imageSrc={JuggernautOGSBT} />
+          <BadgeItem imageSrc={ModOGSBT} />
+          <BadgeItem imageSrc={NDCChampionOGSBT} />
+          <BadgeItem imageSrc={NDCContributorOGSBT} />
+          <BadgeItem imageSrc={ProofOfDevOGSBT} />
+        </div>
       </div>
     </div>
   );
