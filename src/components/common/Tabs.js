@@ -123,17 +123,6 @@ export const Tabs = ({
                     successSBT ? 'h-[75rem]' : 'h-full'
                   } w-[38%] -z-50`}
                 />
-                <div className="lg:mx-auto lg:max-w-7xl w-full h-3 absolute top-0 left-1/2 transform -translate-x-1/2">
-                  <div
-                    className={`bg-purple-600 h-3 ${
-                      activeTabIndex === 0
-                        ? 'w-1/3'
-                        : tabs.length === activeTabIndex + 1
-                        ? 'w-3/3'
-                        : 'w-2/3'
-                    } rounded`}
-                  />
-                </div>
                 {tabs.map((tab, index) => (
                   <>
                     <div
