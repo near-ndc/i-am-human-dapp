@@ -1,5 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { TWITTER_URL } from '../../utils/constants';
 
 export const ValidTokenComponent = () => {
   return (
@@ -59,6 +60,18 @@ export const TokenDetails = ({ tokenID, issuedDate, expireDate }) => {
           Days until expiration :{' '}
           {Math.abs(dayjs(expireDate).diff(Date.now(), 'days'))}
         </p>
+      </div>
+      <div className="flex items-center">
+        <a
+          target="_blank"
+          rel="noreferrer"
+          class="twitter-share-button"
+          href={TWITTER_URL}
+          data-size="large"
+          className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+        >
+          <p className="mx-auto w-[fit-content]">Share on Twitter</p>
+        </a>
       </div>
     </div>
   );

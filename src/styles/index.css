@@ -18,13 +18,6 @@ html {
   }
 }
 
-@media (min-width: 1600px) {
-  .home_bg_image {
-    background-position: 81% 12%;
-    background-size: 50%;
-  }
-}
-
 .w-webkit-fill {
   width: -webkit-fill-available;
 }
@@ -35,4 +28,46 @@ html {
 
 .border-themeColor {
   border-color: var(--theme-color);
+}
+
+.svg-themeColor svg {
+  fill: var(--theme-color);
+}
+
+.svg-themeColor {
+  fill: var(--theme-color);
+}
+
+.svg-gray {
+  fill: rgba(209, 213, 219, 0.91);
+}
+
+.badge {
+  position: relative;
+  display: inline-block;
+  top: 0;
+  transition: all 0.2s ease;
+}
+
+.badge:before,
+.badge:after {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background: inherit;
+  content: '';
+  margin: auto;
+}
+
+.badge:before {
+  transform: rotate(60deg);
+}
+
+.badge:after {
+  transform: rotate(-60deg);
+}
+
+.badge:hover {
+  top: -6px;
 }
