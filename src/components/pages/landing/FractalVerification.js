@@ -171,6 +171,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
   const { responseData } = useSelector((state) => state.oracle);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const [isUserRedirected, setUserRedirect] = useState(false);
 
   // try again is called when verifyUser throws error at Tabs screen
   async function tryAgainAction() {
@@ -233,7 +234,7 @@ export const ScanFace = ({ setActiveTabIndex }) => {
     if (checkForSubAccounts()) {
       return;
     }
-    setSubmit(true);
+    setUserRedirect(true);
     const { fractal_link, fractal_client_id, succes_fractal_state } =
       getConfig();
     const fractalVerifyURL =
@@ -251,7 +252,6 @@ export const ScanFace = ({ setActiveTabIndex }) => {
       event_log: 'Fractal: User begins their Face scan',
     });
     window.open(fractalVerifyURL, '_blank');
-    // showing processing screen since we open the verify URL in new tab
   };
 
   useEffect(() => {
@@ -304,6 +304,8 @@ export const ScanFace = ({ setActiveTabIndex }) => {
             <p className="mx-auto w-[fit-content]">
               {isApprovalAwait || error
                 ? 'Try Again'
+                : isUserRedirected
+                ? 'Verify Your Uniqueness with Fractal'
                 : 'Start Face Scan with Fractal'}
             </p>
           )}

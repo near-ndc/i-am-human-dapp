@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
-import { LSKeys, TWITTER_URL } from '../../utils/constants';
+import { LSKeys } from '../../utils/constants';
 
 export const Home = ({
   setActiveTabIndex,
@@ -100,21 +100,7 @@ export const Home = ({
             className="object-cover rounded-lg max-h-[350px]"
           />
         </div>
-        <div>
-          {children}
-          <div className="flex items-center mt-5">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              class="twitter-share-button"
-              href={TWITTER_URL}
-              data-size="large"
-              className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-            >
-              <p className="mx-auto w-[fit-content]">Share on Twitter</p>
-            </a>
-          </div>
-        </div>
+        <div>{children}</div>
       </div>
     );
   };
