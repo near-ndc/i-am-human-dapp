@@ -7,6 +7,7 @@ import {
   ValidTokenComponent,
 } from '../../../common/TokenDetails';
 import ReactConfetti from 'react-confetti';
+import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
 
 export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
@@ -48,7 +49,7 @@ export const SuccesVerification = () => {
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-green-400">
           <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-green-500 bg-green-200 shadow-green-400 shadow-[inset_0_0px_4px_#FFFFFF]">
-            <MintSVG styles={'w-12 h-12 stroke-green-300'} />
+            <CircleWavyCheck styles={'w-12 h-12 stroke-black-300 svg-green'} />
           </div>
         </div>
         <h2 className="text-4xl font-bold	my-4">Success!</h2>

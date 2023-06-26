@@ -71,3 +71,7 @@ html {
 .badge:hover {
   top: -6px;
 }
+
+.svg-green {
+  fill: #4ade80;
+}
