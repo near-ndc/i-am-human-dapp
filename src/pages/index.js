@@ -15,6 +15,10 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
+import { LSKeys, convertToTimestamptz } from '../utils/constants';
+import { log_event } from '../utils/utilityFunctions';
+import ProgressTracker from '../components/common/progressTracker';
+import { isEqual } from 'lodash';
 
 const URL = window.location;
 
@@ -24,6 +28,7 @@ export function IndexPage({ isSignedIn }) {
   const [successSBT, setSuccessSBT] = useState(false);
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
+  const [ogTokens, setOGTokens] = useState(null);
 
   async function storeCommunityVerticalData() {
     try {
@@ -49,19 +54,85 @@ export function IndexPage({ isSignedIn }) {
     }
   }
 
+  // checking for existing user data with token_id to make sure we store data for all users (new and old)
+  async function createFVEventLog() {
+    const { data } = await supabase.select('users', {
+      wallet_identifier: wallet.accountId,
+      fv_token_id: fvTokens.token,
+    });
+    if (!data?.length) {
+      const userData = {
+        fv_token_id: fvTokens.token,
+        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_status: 'Mint Success',
+        wallet_identifier: wallet.accountId,
+      };
+      await supabase.insert('users', userData);
+      log_event({
+        event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+      });
+    } else if (data.length > 0 && !data[0]?.['fv_token_id']) {
+      // update data
+      const userData = {
+        fv_token_id: fvTokens.token,
+        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_status: 'Mint Success',
+      };
+      await supabase.update('users', userData, {
+        wallet_identifier: wallet.accountId,
+      });
+    }
+  }
+
+  async function createOGEventLog() {
+    const { data } = await supabase.select('users', {
+      wallet_identifier: wallet.accountId,
+    });
+    if (!data?.length) {
+      // no entry exists, insert data
+      const userData = {
+        og_tokens_metadata: ogTokens,
+        wallet_identifier: wallet.accountId,
+      };
+      await supabase.insert('users', userData);
+    } else if (
+      !data[0]?.['og_tokens_metadata'] ||
+      !isEqual(data[0]?.['og_tokens_metadata'], ogTokens) // some new type of OG token can be issued
+    ) {
+      // update data
+      const userData = {
+        og_tokens_metadata: ogTokens,
+      };
+      await supabase.update('users', userData, {
+        wallet_identifier: wallet.accountId,
+      });
+    }
+  }
+
   useEffect(() => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
     if (URL_state === succes_fractal_state && wallet?.accountId) {
-      if (fvTokens || kycTokens) {
-        setSuccessSBT(true);
-      } else {
-        setSuccessSBT(false);
-      }
       setActiveTabIndex(2);
     }
+    if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
+      setSuccessSBT(true);
+      localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
+      setActiveTabIndex(2);
+    }
+    if (fvTokens) {
+      createFVEventLog();
+    }
   }, [fvTokens]);
+
+  useEffect(() => {
+    if (ogTokens) {
+      createOGEventLog();
+    }
+  }, [ogTokens]);
 
   useEffect(() => {
     // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)
@@ -78,30 +149,23 @@ export function IndexPage({ isSignedIn }) {
   const TabsData = [
     {
       name: 'Connect Wallet',
-      header: <WalletSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <WalletSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
     {
       name: 'Face Scan',
-      header: <FaceSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <FaceSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
     {
       name: 'Mint SBT',
-      header: <MintSVG styles={`w-12 h-12 stroke-purple-400`} />,
+      header: <MintSVG styles={`w-10 h-10 stroke-themeColor`} />,
     },
   ];
 
   const getStarted = () => {
     if (wallet?.accountId) {
-      if (fvTokens || kycTokens) {
-        setActiveTabIndex(2);
-        setSuccessSBT(true);
-      } else {
-        setActiveTabIndex(1);
-        setSuccessSBT(false);
-      }
+      setActiveTabIndex(1);
     } else {
       setActiveTabIndex(0);
-      setSuccessSBT(false);
     }
   };
 
@@ -116,6 +180,7 @@ export function IndexPage({ isSignedIn }) {
       }}
       className={'bg-no-repeat home_bg_image'}
     >
+      {typeof activeTabIndex !== 'number' && <ProgressTracker />}
       <div
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
@@ -131,7 +196,7 @@ export function IndexPage({ isSignedIn }) {
           <>
             {typeof activeTabIndex !== 'number' ? (
               <>
-                <div className="mt-[50px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+                <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
                     <div className="flex-1 min-w-[300px]">
                       <h1 className="font-bold text-5xl">
@@ -153,7 +218,7 @@ export function IndexPage({ isSignedIn }) {
                           {TabsData.map((tab, index) => {
                             return (
                               <div className="flex items-center gap-1 md:gap-2">
-                                <div className="rounded-full border border-2 border-purple-400 w-fit p-1">
+                                <div className="rounded-full border border-2 border-themeColor svg-themeColor w-fit p-2">
                                   {tab.header}
                                 </div>
                                 {index < 2 ? (
@@ -176,30 +241,29 @@ export function IndexPage({ isSignedIn }) {
                           })}
                         </div>
                       </div>
-                      <div className="flex justify-between md:justify-start flex-wrap gap-x-10 gap-y-5">
+                      <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
-                        {!kycTokens && !fvTokens && (
+                        {!kycTokens && !fvTokens && !ogTokens && (
                           <button
                             onClick={() => getStarted()}
-                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
                             Get Started
                           </button>
                         )}
-                        {kycTokens ||
-                          (fvTokens && (
-                            <button
-                              onClick={() =>
-                                window.open(
-                                  'https://t.me/+fcNhYGxK891lMjMx',
-                                  '_blank'
-                                )
-                              }
-                              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-7 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                            >
-                              Join the Community
-                            </button>
-                          ))}
+                        {(kycTokens || fvTokens || ogTokens) && (
+                          <button
+                            onClick={() =>
+                              window.open(
+                                'https://t.me/+fcNhYGxK891lMjMx',
+                                '_blank'
+                              )
+                            }
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          >
+                            Join the Community
+                          </button>
+                        )}
                         <button
                           onClick={() =>
                             window.open(
@@ -207,13 +271,13 @@ export function IndexPage({ isSignedIn }) {
                               '_blank'
                             )
                           }
-                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-7 md:px-10 py-2 text-base font-light text-black shadow-sm"
+                          className="rounded-md border border-purple-500 text-purple-500 border-1 px-5 md:px-10 py-2 text-base font-light text-black shadow-sm"
                         >
                           Learn More
                         </button>
                       </div>
                     </div>
-                    <div className="flex-1 min-w-[300px] order-first md:order-last">
+                    <div className="flex-1 min-w-[300px] order-last">
                       <img
                         src={Design}
                         className="w-full object-fill hidden md:invisible"
@@ -225,6 +289,7 @@ export function IndexPage({ isSignedIn }) {
                       setActiveTabIndex={setActiveTabIndex}
                       sendFVTokensDetails={setFVTokens}
                       sendKYCTokensDetails={setKYCTokens}
+                      sendOGTokenDetails={setOGTokens}
                     />
                   ) : (
                     <Landing setActiveTabIndex={setActiveTabIndex} />

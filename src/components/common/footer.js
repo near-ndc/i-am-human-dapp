@@ -53,7 +53,7 @@ const navigation = [
       },
       {
         name: 'Join Other Humans',
-        href: 'https://near.social/#/neardigitalcollective.near/widget/ProgressMeterBarWidget',
+        href: 'https://near.social/#/neardigitalcollective.near/widget/HumansOnNearMeter',
       },
     ],
   },
@@ -210,7 +210,7 @@ export function Footer() {
                   name="EMAIL"
                   id="mce-EMAIL"
                   type="text"
-                  className="p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
+                  className="w-webkit-fill p-2 bg-gray-100 border border-grey-light round text-grey-dark text-sm h-auto rounded-tl-md rounded-bl-md"
                   placeholder="Your email"
                 />
                 <button

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
+import OGSBT from '../../images/OGSBT.png';
 import {
   TokenDetails,
   ValidTokenComponent,
@@ -11,20 +12,50 @@ import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
-import { TWITTER_URL } from '../../utils/constants';
+import { LSKeys } from '../../utils/constants';
 
 export const Home = ({
   setActiveTabIndex,
   sendFVTokensDetails,
   sendKYCTokensDetails,
+  sendOGTokenDetails,
 }) => {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
+  const [ogTokens, setOGTokens] = useState(null);
 
   useEffect(() => {
     // fetching only when logged in (without steps) state active
-    if (!isNumber(setActiveTabIndex)) fetchTokens();
+    if (!isNumber(setActiveTabIndex)) {
+      // fetchOGSBTTokens(); // TO BE UNCOMMENTED WHEN MAINNET CONTRACT IS DEPLOYED
+      fetchTokens();
+    }
   }, [setActiveTabIndex]);
+
+  const fetchOGSBTTokens = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: getConfig().app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: getConfig().og_contract, // issuer is community sbt contract
+        },
+      });
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => OG token
+          if (token.metadata.class === 1) {
+            sendOGTokenDetails(token);
+            setOGTokens(token);
+            localStorage.setItem('ogTokens', JSON.stringify(token));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching OG Token details');
+    }
+  };
 
   const fetchTokens = async () => {
     try {
@@ -33,7 +64,7 @@ export const Home = ({
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().fractal_contract,
+          issuer: getConfig().fractal_contract, // issuer is fractal
         },
       });
       if (data?.[0]?.[1]) {
@@ -49,6 +80,9 @@ export const Home = ({
             localStorage.setItem('kycTokens', JSON.stringify(token));
           }
         }
+      } else {
+        // user logged in, no tokens found, setting LS to show success SBT page whenever tokens exists
+        localStorage.setItem(LSKeys.SHOW_SBT_PAGE, true);
       }
     } catch (error) {
       toast.error(
@@ -66,21 +100,7 @@ export const Home = ({
             className="object-cover rounded-lg max-h-[350px]"
           />
         </div>
-        <div>
-          {children}
-          <div className="flex items-center mt-5">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              class="twitter-share-button"
-              href={TWITTER_URL}
-              data-size="large"
-              className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-            >
-              <p className="mx-auto w-[fit-content]">Share on Twitter</p>
-            </a>
-          </div>
-        </div>
+        <div>{children}</div>
       </div>
     );
   };
@@ -91,7 +111,7 @@ export const Home = ({
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
       <div className="flex flex-col gap-32">
-        {!fvTokens && !kycTokens ? (
+        {!fvTokens && !kycTokens && !ogTokens ? (
           <div>
             <div
               style={{ backgroundImage: `url(${BgImage})` }}
@@ -116,7 +136,7 @@ export const Home = ({
             </div>
           </div>
         ) : (
-          <div className="flex gap-y-10 flex-wrap md:flex-nowrap gap-5">
+          <div className="flex flex-col gap-y-10 flex-wrap gap-5">
             {fvTokens && (
               <Item imageSrc={FVSBTImage}>
                 <ValidTokenComponent />
@@ -133,13 +153,26 @@ export const Home = ({
             {kycTokens && (
               <Item imageSrc={KYCSBTImage}>
                 <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1">
+                <h2 className="font-bold text-3xl my-1 mb-5">
                   My KYC Soul Bound Token
                 </h2>
                 <TokenDetails
                   tokenID={kycTokens?.token}
                   issuedDate={kycTokens?.metadata?.issued_at}
                   expireDate={kycTokens?.metadata?.expires_at}
+                />
+              </Item>
+            )}
+            {ogTokens && (
+              <Item imageSrc={OGSBT}>
+                <ValidTokenComponent />
+                <h2 className="font-bold text-3xl my-1 mb-5">
+                  My OG Soul Bound Token
+                </h2>
+                <TokenDetails
+                  tokenID={ogTokens?.token}
+                  issuedDate={ogTokens?.metadata?.issued_at}
+                  expireDate={ogTokens?.metadata?.expires_at}
                 />
               </Item>
             )}

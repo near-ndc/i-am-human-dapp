@@ -7,7 +7,7 @@ import {
   ValidTokenComponent,
 } from '../../../common/TokenDetails';
 import ReactConfetti from 'react-confetti';
-import { TWITTER_URL } from '../../../../utils/constants';
+import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
 
 export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
@@ -49,7 +49,7 @@ export const SuccesVerification = () => {
       <div>
         <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-green-400">
           <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-green-500 bg-green-200 shadow-green-400 shadow-[inset_0_0px_4px_#FFFFFF]">
-            <MintSVG styles={'w-12 h-12 stroke-green-300'} />
+            <CircleWavyCheck styles={'w-12 h-12 stroke-black-300 svg-green'} />
           </div>
         </div>
         <h2 className="text-4xl font-bold	my-4">Success!</h2>
@@ -62,7 +62,7 @@ export const SuccesVerification = () => {
           {fvTokens && (
             <Item imageSrc={FVSBTImage}>
               <ValidTokenComponent />
-              <h2 className="font-bold text-3xl my-1">
+              <h2 className="font-bold text-3xl my-1 mb-5">
                 My Face Verification Soul Bound Token
               </h2>
               <TokenDetails
@@ -75,7 +75,7 @@ export const SuccesVerification = () => {
           {kycTokens && (
             <Item imageSrc={KYCSBTImage}>
               <ValidTokenComponent />
-              <h2 className="font-bold text-3xl my-1">
+              <h2 className="font-bold text-3xl my-1 mb-5">
                 My KYC Soul Bound Token
               </h2>
               <TokenDetails
@@ -85,19 +85,6 @@ export const SuccesVerification = () => {
               />
             </Item>
           )}
-        </div>
-
-        <div className="flex items-center">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            class="twitter-share-button"
-            href={TWITTER_URL}
-            data-size="large"
-            className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-          >
-            <p className="mx-auto w-[fit-content]">Share on Twitter</p>
-          </a>
         </div>
       </div>
 

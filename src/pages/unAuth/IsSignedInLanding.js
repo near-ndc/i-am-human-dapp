@@ -18,7 +18,9 @@ export const IsSignedInLanding = ({
 }) => {
   const [error, setError] = useState(false);
   const activeTab = (index) =>
-    activeTabIndex >= index ? 'stroke-purple-400' : 'stroke-gray-300';
+    activeTabIndex >= index
+      ? 'stroke-themeColor svg-themeColor'
+      : 'stroke-gray-300 svg-gray';
 
   const TabsData = [
     {
@@ -29,7 +31,13 @@ export const IsSignedInLanding = ({
     {
       name: 'Face Scan',
       header: <FaceSVG styles={`w-12 h-12 ${activeTab(1)}`} />,
-      content: <ScanFace setError={setError} isError={error} />,
+      content: (
+        <ScanFace
+          setError={setError}
+          isError={error}
+          setActiveTabIndex={setActiveTabIndex}
+        />
+      ),
     },
     {
       name: 'Mint SBT',
@@ -62,7 +70,7 @@ export const IsSignedInLanding = ({
             activeTabIndex={activeTabIndex}
             error={error}
             successSBT={successSBT}
-            setActiveTabIndex={() => null}
+            setActiveTabIndex={setActiveTabIndex}
           />
         )}
       </div>
