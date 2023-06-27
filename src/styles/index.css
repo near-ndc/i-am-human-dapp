@@ -75,3 +75,8 @@ html {
 .svg-green {
   fill: #4ade80;
 }
+.text-gradient {
+  background: linear-gradient(to right, #8b5cf6, #6b46c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
