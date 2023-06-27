@@ -34,6 +34,22 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
     }
   };
 
+  const ApplyToOGSBT = ({ className }) => {
+    return (
+      <div
+        onClick={() =>
+          window.open(
+            'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
+            '_blank'
+          )
+        }
+        className={className}
+      >
+        Apply to OG SBT
+      </div>
+    );
+  };
+
   return (
     <>
       <div>
@@ -69,13 +85,16 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   </button>
                 </>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => wallet.signIn()}
-                  className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
-                >
-                  Connect Wallet
-                </button>
+                <div className="flex flex-wrap justify-end gap-4">
+                  <button
+                    type="button"
+                    onClick={() => wallet.signIn()}
+                    className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
+                  >
+                    Connect Wallet
+                  </button>
+                  <ApplyToOGSBT className="text-gradient font-semibold self-center" />
+                </div>
               )}
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12"></div>
@@ -96,17 +115,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   {wallet.accountId}
                 </p>
               )}
-              <div
-                onClick={() =>
-                  window.open(
-                    'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
-                    '_blank'
-                  )
-                }
-                className="text-gradient font-semibold self-center"
-              >
-                Apply to OG SBT
-              </div>
+              <ApplyToOGSBT className="text-gradient font-semibold self-center" />
               <button
                 type="button"
                 onClick={() => signOut()}
@@ -164,16 +173,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                         {wallet.accountId}
                       </div>
                     )}
-                    <div
-                      onClick={() =>
-                        window.open(
-                          'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
-                          '_blank'
-                        )
-                      }
-                    >
-                      Apply to OG SBT
-                    </div>
+                    <ApplyToOGSBT />
                     <div
                       onClick={
                         isSignedIn
