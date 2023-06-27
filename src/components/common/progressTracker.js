@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
+import { formatNumberWithComma } from '../../utils/utilityFunctions';
 
 const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
@@ -68,7 +69,7 @@ const ProgressTracker = () => {
           <h4 className="text-yellow-400 font-bold">JOIN THE HUMANS OF NEAR</h4>
           <p className="text-gray-300">
             Unlock Elections, Governance, & Community Treasury with{' '}
-            {ProgressMeterMax} Humans on NEAR
+            {formatNumberWithComma(ProgressMeterMax)} Humans on NEAR
           </p>
         </div>
       </>

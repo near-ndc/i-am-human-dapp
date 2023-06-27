@@ -85,7 +85,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   </button>
                 </>
               ) : (
-                <div className="flex flex-wrap justify-end gap-4">
+                <div className="flex flex-wrap justify-end gap-6">
                   <button
                     type="button"
                     onClick={() => wallet.signIn()}
