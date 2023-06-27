@@ -106,7 +106,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                 }
                 className="text-gradient font-semibold"
               >
-                Apply for OG SBT
+                Apply to OG SBT
               </button>
               <button
                 type="button"
@@ -153,23 +153,19 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                       </a>
                     ))} */}
                   </div>
-                  <div className="py-6 text-base font-semibold leading-6 text-gray-900">
+                  <div className="flex flex-col gap-7 py-6 text-base font-semibold leading-6 text-gray-900">
                     {isSignedIn && isAdmin && (
-                      <button
-                        onClick={() => setShowAdmin(true)}
-                        className="-mx-3 block rounded-lg py-2.5 px-3 hover:bg-gray-400/10 flex items-center space-x-2"
-                      >
+                      <button onClick={() => setShowAdmin(true)}>
                         <p>Admin Console</p>
                         <CheckCircleIcon className="h-4 w-4 text-green-600" />
                       </button>
                     )}
                     {wallet.accountId && (
-                      <div className="text-container truncate -mx-3 block rounded-lg py-2.5 px-3 hover:bg-gray-400/10">
+                      <div className="text-container truncate">
                         {wallet.accountId}
                       </div>
                     )}
-                    <button
-                      type="button"
+                    <div
                       onClick={() =>
                         window.open(
                           'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
@@ -177,19 +173,17 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                         )
                       }
                     >
-                      Apply for OG SBT
-                    </button>
-                    <button
-                      type="button"
+                      Apply to OG SBT
+                    </div>
+                    <div
                       onClick={
                         isSignedIn
                           ? () => wallet.signOut()
                           : () => wallet.signIn()
                       }
-                      className="-mx-3 block rounded-lg py-2.5 px-3 hover:bg-gray-400/10"
                     >
                       {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
