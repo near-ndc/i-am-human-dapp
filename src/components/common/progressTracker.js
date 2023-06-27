@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
+import { formatNumberWithComma } from '../../utils/utilityFunctions';
 
 const ProgressTracker = () => {
+  const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
   const [humansRegistered, setHumansRegistered] = useState(0);
   const fetchHumansRegistered = async () => {
     try {
@@ -28,9 +30,7 @@ const ProgressTracker = () => {
   }, []);
 
   const getRegisteredPercentage = useCallback(
-    () =>
-      (humansRegistered / (process.env.REACT_APP_PROGRESS_METER_MAX ?? 1000)) *
-      100,
+    () => (humansRegistered / ProgressMeterMax) * 100,
     [humansRegistered]
   );
 
@@ -68,8 +68,8 @@ const ProgressTracker = () => {
         <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex justify-center gap-5">
           <h4 className="text-yellow-400 font-bold">JOIN THE HUMANS OF NEAR</h4>
           <p className="text-gray-300">
-            Unlock Elections, Governance, & Community Treasury with 1000 Humans
-            on NEAR
+            Unlock Elections, Governance, & Community Treasury with{' '}
+            {formatNumberWithComma(ProgressMeterMax)} Humans on NEAR
           </p>
         </div>
       </>

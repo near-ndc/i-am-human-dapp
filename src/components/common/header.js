@@ -34,6 +34,22 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
     }
   };
 
+  const ApplyToOGSBT = ({ className }) => {
+    return (
+      <div
+        onClick={() =>
+          window.open(
+            'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
+            '_blank'
+          )
+        }
+        className={className}
+      >
+        Apply to OG SBT
+      </div>
+    );
+  };
+
   return (
     <>
       <div>
@@ -69,13 +85,16 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   </button>
                 </>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => wallet.signIn()}
-                  className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
-                >
-                  Connect Wallet
-                </button>
+                <div className="flex flex-wrap justify-end gap-6">
+                  <button
+                    type="button"
+                    onClick={() => wallet.signIn()}
+                    className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
+                  >
+                    Connect Wallet
+                  </button>
+                  <ApplyToOGSBT className="text-gradient font-semibold self-center" />
+                </div>
               )}
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12"></div>
@@ -96,6 +115,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   {wallet.accountId}
                 </p>
               )}
+              <ApplyToOGSBT className="text-gradient font-semibold self-center" />
               <button
                 type="button"
                 onClick={() => signOut()}
@@ -141,32 +161,28 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                       </a>
                     ))} */}
                   </div>
-                  <div className="py-6">
+                  <div className="flex flex-col gap-7 py-6 text-base font-semibold leading-6 text-gray-900">
                     {isSignedIn && isAdmin && (
-                      <button
-                        onClick={() => setShowAdmin(true)}
-                        className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10 flex items-center space-x-2"
-                      >
+                      <button onClick={() => setShowAdmin(true)}>
                         <p>Admin Console</p>
                         <CheckCircleIcon className="h-4 w-4 text-green-600" />
                       </button>
                     )}
                     {wallet.accountId && (
-                      <div className="text-container truncate -mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">
+                      <div className="text-container truncate">
                         {wallet.accountId}
                       </div>
                     )}
-                    <button
-                      type="button"
+                    <ApplyToOGSBT />
+                    <div
                       onClick={
                         isSignedIn
                           ? () => wallet.signOut()
                           : () => wallet.signIn()
                       }
-                      className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
                     >
                       {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>

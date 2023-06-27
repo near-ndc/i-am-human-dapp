@@ -15,7 +15,7 @@ const navigation = [
       },
       {
         name: 'Product Feedback',
-        href: 'https://i-am-human.canny.io/feature-requests',
+        href: 'https://near-digital-collective.canny.io/bugs-and-feature-requests',
       },
       {
         name: 'Bug Report',
