@@ -96,18 +96,17 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   {wallet.accountId}
                 </p>
               )}
-              <button
-                type="button"
+              <div
                 onClick={() =>
                   window.open(
                     'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
                     '_blank'
                   )
                 }
-                className="text-gradient font-semibold"
+                className="text-gradient font-semibold self-center"
               >
                 Apply to OG SBT
-              </button>
+              </div>
               <button
                 type="button"
                 onClick={() => signOut()}
