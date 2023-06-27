@@ -59,9 +59,13 @@ export const Landing = () => {
         <div className="flex-1 min-w-[300px] md:mt-10">
           <h2 className="font-bold text-4xl">Get Your OG Soul Bound Token</h2>
           <p className="my-5">
-            Are you someone who stands out in the NEAR ecosystem? Get the OG
-            Soul Bound Token. We will create a "seed group" of OGs and trusted
-            individuals to bootstrap the next iteration of NEAR Community.
+            Are you an esteemed member of the NEAR community? It's time to
+            showcase your contribution to NEAR. By acquiring the OG Soul Bound
+            Token, the first reputation-based token, you'll join a select
+            community of trusted individuals who are actively shaping the future
+            of the NEAR ecosystem. The OG SBT represents your commitment and
+            dedication to NEAR, highlighting your continuous presence and
+            involvement in shaping the NEAR ecosystem.
           </p>
           <div className="flex flex-wrap gap-5">
             <button
@@ -157,14 +161,15 @@ export const Landing = () => {
           Sneak Peek on Upcoming Soul Bound Tokens
         </h2>
         <p>
-          We're thrilled to announce that more Soul Bound Tokens are launching
-          soon, bringing with them a groundbreaking feature – the power of
-          onchain reputation! Embrace the power of reputation on the blockchain,
-          where your contributions are valued, acknowledged, and rewarded. Join
-          us as we forge ahead, united by a shared vision of trust,
-          transparency, and innovation.
+          Are you an esteemed member of the NEAR community? It's time to
+          showcase your contribution to NEAR. By acquiring the OG Soul Bound
+          Token, the first reputation-based token, you'll join a select
+          community of trusted individuals who are actively shaping the future
+          of the NEAR ecosystem. The OG SBT represents your commitment and
+          dedication to NEAR, highlighting your continuous presence and
+          involvement in shaping the NEAR ecosystem.
         </p>
-        <div className="grid grid-cols-5 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
           <BadgeItem imageSrc={ProofOfKudos} />
           <BadgeItem imageSrc={ProofOfVibeOGSBT} />
           <BadgeItem imageSrc={ProofOfDevOGSBT} />
