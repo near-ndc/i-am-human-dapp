@@ -40,3 +40,8 @@ export const insertUserData = async (dataToInsert) => {
     });
   }
 };
+
+export const formatNumberWithComma = (number) => {
+  let nf = new Intl.NumberFormat('en-US');
+  return nf.format(number);
+};
