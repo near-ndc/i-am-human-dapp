@@ -54,7 +54,7 @@ const ProgressTracker = () => {
   return (
     <div className="text-center text-md">
       <>
-        <div className="bg-purple-400 h-[40px] relative">
+        <div className="bg-purple-400 h-[45px] md:h-[40px] relative">
           <div
             className="bg-yellow-400 absolute left-0 top-0 h-full"
             style={{
