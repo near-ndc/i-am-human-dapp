@@ -1,4 +1,4 @@
-const environment = process.env.REACT_APP_ENV ?? 'prod';
+const environment = 'prod';
 
 export function getConfig() {
   const commonConfig = {
@@ -9,7 +9,7 @@ export function getConfig() {
       return {
         network_id: 'mainnet',
         app_contract: 'registry.i-am-human.near',
-        og_contract: 'og-sbt.i-am-human.near',
+        og_contract: 'community.i-am-human.near',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.near',
         // fractal_contract: 'fractal-1.i-am-human.testnet',
         fractal_contract: 'fractal.i-am-human.near',

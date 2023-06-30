@@ -43,7 +43,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
             '_blank'
           )
         }
-        className={className}
+        className={className + ' cursor-pointer'}
       >
         Apply to OG SBT
       </div>

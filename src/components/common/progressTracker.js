@@ -49,6 +49,8 @@ const ProgressTracker = () => {
     return 1;
   }
 
+  const ReadableNumber = formatNumberWithComma(ProgressMeterMax);
+
   return (
     <div className="text-center text-md">
       <>
@@ -61,7 +63,7 @@ const ProgressTracker = () => {
             }}
           ></div>
           <h2 className="relative flex h-full justify-center items-center z-10 font-bold">
-            Join {humansRegistered} HUMANS ON NEAR
+            JOIN {humansRegistered} HUMANS TO REACH {ReadableNumber} VOTERS
           </h2>
         </div>
 
@@ -69,7 +71,7 @@ const ProgressTracker = () => {
           <h4 className="text-yellow-400 font-bold">JOIN THE HUMANS OF NEAR</h4>
           <p className="text-gray-300">
             Unlock Elections, Governance, & Community Treasury with{' '}
-            {formatNumberWithComma(ProgressMeterMax)} Humans on NEAR
+            {ReadableNumber} Humans on NEAR
           </p>
         </div>
       </>

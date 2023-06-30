@@ -27,7 +27,7 @@ export const Home = ({
   useEffect(() => {
     // fetching only when logged in (without steps) state active
     if (!isNumber(setActiveTabIndex)) {
-      // fetchOGSBTTokens(); // TO BE UNCOMMENTED WHEN MAINNET CONTRACT IS DEPLOYED
+      fetchOGSBTTokens();
       fetchTokens();
     }
   }, [setActiveTabIndex]);
