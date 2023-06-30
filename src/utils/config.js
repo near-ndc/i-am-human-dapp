@@ -1,4 +1,4 @@
-const environment = 'prod';
+const environment = process.env.REACT_APP_ENV ?? 'prod';
 
 export function getConfig() {
   const commonConfig = {
