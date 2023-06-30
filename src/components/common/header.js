@@ -8,7 +8,10 @@ import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
+export const Header = ({
+  setShowAdmin = () => {},
+  setActiveTabIndex = () => {},
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
   const [isAdmin] = useAdmin({ address: wallet.accountId });
@@ -34,18 +37,27 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
     }
   };
 
-  const ApplyToOGSBT = ({ className }) => {
+  const HomeMenu = ({ isDialog }) => {
+    const activeHomePage =
+      window.location.href.indexOf('community-sbts') === -1;
     return (
       <div
-        onClick={() =>
-          window.open(
-            'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
-            '_blank'
-          )
+        className={
+          isDialog
+            ? 'flex flex-col gap-7'
+            : 'hidden md:flex gap-12 font-semibold self-center'
         }
         className={className + ' cursor-pointer'}
       >
-        Apply to OG SBT
+        <Link to={'/'} className={activeHomePage ? 'text-gradient' : ''}>
+          Home
+        </Link>
+        <Link
+          to={'community-sbts'}
+          className={activeHomePage ? '' : 'text-gradient'}
+        >
+          Community SBTs
+        </Link>
       </div>
     );
   };
@@ -86,6 +98,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                 </>
               ) : (
                 <div className="flex flex-wrap justify-end gap-6">
+                  <HomeMenu />
                   <button
                     type="button"
                     onClick={() => wallet.signIn()}
@@ -93,12 +106,11 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   >
                     Connect Wallet
                   </button>
-                  <ApplyToOGSBT className="text-gradient font-semibold self-center" />
                 </div>
               )}
             </div>
-            <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12"></div>
-            <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end">
+
+            <div className="hidden lg:flex lg:min-w-0 space-x-4 lg:justify-end gap-6">
               {isSignedIn && isAdmin && (
                 <>
                   <button
@@ -115,7 +127,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                   {wallet.accountId}
                 </p>
               )}
-              <ApplyToOGSBT className="text-gradient font-semibold self-center" />
+              <HomeMenu className="text-gradient font-semibold self-center" />
               <button
                 type="button"
                 onClick={() => signOut()}
@@ -162,6 +174,7 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                     ))} */}
                   </div>
                   <div className="flex flex-col gap-7 py-6 text-base font-semibold leading-6 text-gray-900">
+                    <HomeMenu isDialog={true} />
                     {isSignedIn && isAdmin && (
                       <button onClick={() => setShowAdmin(true)}>
                         <p>Admin Console</p>
@@ -173,7 +186,6 @@ export const Header = ({ setShowAdmin, setActiveTabIndex }) => {
                         {wallet.accountId}
                       </div>
                     )}
-                    <ApplyToOGSBT />
                     <div
                       onClick={
                         isSignedIn

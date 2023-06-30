@@ -10,6 +10,7 @@ import {
 import { IndexPage } from './pages/index';
 import { CommunityApplicationPage } from './pages/communtiyapplication';
 import { ScoreboardPage } from './pages/scoreboard';
+import { CommunitySBTPage } from './pages/communitySBT';
 
 const RedirectComponent = () => {
   return <Redirect to="/" />;
@@ -25,6 +26,9 @@ export function App({ isSignedIn }) {
           </Route>
           <Route exact path="/community-scoreboard">
             <ScoreboardPage isSignedIn={isSignedIn} />
+          </Route>
+          <Route exact path="/community-sbts">
+            <CommunitySBTPage />
           </Route>
           <Route exact path="/">
             <IndexPage isSignedIn={isSignedIn} />
