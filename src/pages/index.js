@@ -205,12 +205,9 @@ export function IndexPage({ isSignedIn }) {
                         I-AM-HUMAN
                       </h1>
                       <p className="my-5 mt-10">
-                        Welcome, I-AM-HUMAN is your launchpad for several
-                        different types of Soul Bound Tokens (SBTs). Each of
-                        which will identify you as a human. With enough of these
-                        SBTs, you will have a strong proof-of-personhood, which
-                        give you access to voting on governance, on-chain
-                        reputation, DAOs, grassroots funding, and much more.
+                        {wallet.accountId
+                          ? 'Join the NEAR Digital Collective (NDC) community. Engage in governance, voting, build a strong on-chain reputation, unlock DAO potential, and drive grassroots funding. Shape the future of NEAR with meaningful and impactful actions.'
+                          : 'Welcome, I-AM-HUMAN is your launchpad for several different types of Soul Bound Tokens (SBTs). Each of which will identify you as a human. With enough of these SBTs, you will have a strong proof-of-personhood, which give you access to voting on governance, on-chain reputation, DAOs, grassroots funding, and much more.'}
                       </p>
                       <p>All you need to do is 3 easy steps.</p>
                       <div className="my-10">
@@ -261,7 +258,7 @@ export function IndexPage({ isSignedIn }) {
                             }
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
-                            Join the Community
+                            Join the NDC Community
                           </button>
                         )}
                         <button
