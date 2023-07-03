@@ -12,9 +12,56 @@ html {
   }
 }
 
-@media (min-width: 680px) and (max-width: 1000px) {
+@media (min-width: 680px) and (max-width: 850px) {
   .home_bg_image {
-    background-position: 14rem 15rem;
+    background-position: 12rem 21rem;
+  }
+}
+
+@media (min-width: 850px) and (max-width: 1100px) {
+  .home_bg_image {
+    background-position: 18rem 11rem;
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1350px) {
+  .home_bg_image {
+    background-position: 20rem 7rem;
+  }
+}
+
+@media (min-width: 1350px) and (max-width: 1550px) {
+  .home_bg_image {
+    background-position: 28rem -10rem;
+    background-size: 80rem 80rem;
+  }
+}
+
+@media (min-width: 1550px) and (max-width: 2000px) {
+  .home_bg_image {
+    background-position: 39rem -7rem;
+    background-size: 80rem 80rem;
+  }
+}
+
+@media (min-width: 2000px) and (max-width: 2400px) {
+  .home_bg_image {
+    background-position: 47rem -7rem;
+    background-size: 80rem 80rem;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2750px) {
+  .home_bg_image {
+    background-position: 60rem -7rem;
+    background-size: 80rem 80rem;
+  }
+}
+
+@media (min-width: 2750px) {
+  .home_bg_image {
+    background-position: 80rem -7rem;
+    background-size: 80rem 80rem;
   }
 }
 
