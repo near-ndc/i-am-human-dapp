@@ -37,17 +37,18 @@ export const Header = ({
     }
   };
 
-  const HomeMenu = ({ isDialog }) => {
+  const HomeMenu = ({ isDialog = false }) => {
     const activeHomePage =
       window.location.href.indexOf('community-sbts') === -1;
+
     return (
       <div
         className={
-          isDialog
+          'cursor-pointer ' +
+          (isDialog
             ? 'flex flex-col gap-7'
-            : 'hidden md:flex gap-12 font-semibold self-center'
+            : 'hidden md:flex gap-12 font-semibold self-center')
         }
-        className={className + ' cursor-pointer'}
       >
         <Link to={'/'} className={activeHomePage ? 'text-gradient' : ''}>
           Home
@@ -100,7 +101,7 @@ export const Header = ({
           </>
         )}
         <div className="self-end flex gap-12">
-          <HomeMenu className="text-gradient font-semibold self-center" />
+          <HomeMenu />
           {wallet.accountId && (
             <p className="hidden md:inline-block px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900">
               {wallet.accountId}
