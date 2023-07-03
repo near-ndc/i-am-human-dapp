@@ -28,7 +28,7 @@ export const CommunitySBTPage = () => {
     onClick,
   }) => {
     return (
-      <div className="flex gap-6 hover-card p-2 md:p-5">
+      <div className="flex gap-6 hover-card p-4 md:p-5">
         <img
           className="max-w-[130px] md:max-w-[160px] md:h-auto rounded-lg object-cover"
           src={imageSrc}
@@ -80,7 +80,7 @@ export const CommunitySBTPage = () => {
               Bound Token to be minted.
             </h4>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 my-16">
+          <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-16">
             <Item
               imageSrc={OGSBT}
               isAvailable={true}
