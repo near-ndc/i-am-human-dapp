@@ -148,3 +148,12 @@ html {
     background-image: none !important;
   }
 }
+
+.text-decoration-red {
+  text-decoration: solid 1px red;
+}
+
+.large-svg svg {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+}

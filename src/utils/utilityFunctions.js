@@ -46,3 +46,13 @@ export const formatNumberWithComma = (number) => {
   let nf = new Intl.NumberFormat('en-US');
   return nf.format(number);
 };
+
+export const deleteUserDataFromSupabase = async () => {
+  // delete all rows with particular wallet id from events and users table
+  await supabase.delete('users', {
+    wallet_identifier: wallet.accountId,
+  });
+  await supabase.delete('events', {
+    wallet_identifier: wallet.accountId,
+  });
+};

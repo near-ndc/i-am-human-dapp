@@ -20,6 +20,7 @@ import { isNumber, log_event } from '../utils/utilityFunctions';
 import { isEqual } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
+import RevokeSBTs from '../components/common/RevokeSBTs';
 
 const URL = window.location;
 
@@ -302,6 +303,7 @@ export function IndexPage({ isSignedIn }) {
                   )}
                 </div>
                 <PrivacyComponent />
+                {isSignedIn && <RevokeSBTs />}
               </>
             ) : (
               <IsSignedInLanding

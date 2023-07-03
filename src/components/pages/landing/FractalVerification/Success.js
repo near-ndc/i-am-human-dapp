@@ -8,6 +8,7 @@ import {
 } from '../../../common/TokenDetails';
 import ReactConfetti from 'react-confetti';
 import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
+import RevokeSBTs from '../../../common/RevokeSBTs';
 
 export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
@@ -87,48 +88,7 @@ export const SuccesVerification = () => {
           )}
         </div>
       </div>
-
-      <p className="text-s mt-8">
-        Please note that you can request for your SBTs to be revoked (along with
-        deletion of any identifying data stored by I-AM-HUMAN and Fractal).
-      </p>
-
-      <div class="relative py-3 sm:max-w-xl">
-        <div
-          class="group cursor-pointer relative inline-block border-b border-gray-400 text-center text-gray-600"
-          onClick={() => setShowtooltip(!showTooltip)}
-        >
-          Revoke my SBT's
-        </div>
-        {showTooltip && (
-          <div class="w-48 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10  bottom-full -left-8 px-3">
-            <div className="flex flex-col">
-              <a
-                className="underline mb-1"
-                target="_top"
-                href="mailto:privacy@fractal.id?subject=Delete%20my%20Fractal"
-              >
-                Delete from Fractal
-              </a>
-              <a
-                className="underline"
-                href="mailto:iah.privacy@gmail.com?subject=Delete%20my%20IAM"
-              >
-                Delete from I-AM-HUMAN
-              </a>
-            </div>
-            <svg
-              class="absolute text-black h-2 w-full left-0 top-full"
-              x="0px"
-              y="0px"
-              viewBox="0 0 255 255"
-              xmlSpace="preserve"
-            >
-              <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-            </svg>
-          </div>
-        )}
-      </div>
+      <RevokeSBTs />
     </div>
   );
 };
