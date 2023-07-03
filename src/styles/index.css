@@ -75,8 +75,23 @@ html {
 .svg-green {
   fill: #4ade80;
 }
+
 .text-gradient {
-  background: linear-gradient(to right, #8b5cf6, #6b46c1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(to right, #8b5cf6, #6b46c1) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.hover-card:hover {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+@media (max-width: 900px) {
+  .bg-image {
+    background-image: none !important;
+  }
 }
