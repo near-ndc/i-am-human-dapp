@@ -8,7 +8,7 @@ import {
 } from '../../../common/TokenDetails';
 import ReactConfetti from 'react-confetti';
 import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
-import RevokeSBTs from '../../../common/RevokeSBTs';
+import BurnSBT from '../../../common/BurnSBT';
 
 export const SuccesVerification = () => {
   const [showTooltip, setShowtooltip] = useState(false);
@@ -88,7 +88,7 @@ export const SuccesVerification = () => {
           )}
         </div>
       </div>
-      <RevokeSBTs />
+      <BurnSBT />
     </div>
   );
 };

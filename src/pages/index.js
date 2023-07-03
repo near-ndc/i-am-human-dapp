@@ -26,8 +26,8 @@ const URL = window.location;
 
 export function IndexPage({ isSignedIn }) {
   const [showAdmin, setShowAdmin] = useState(false);
-  const [activeTabIndex, setActiveTabIndex] = useState(null);
-  const [successSBT, setSuccessSBT] = useState(false);
+  const [activeTabIndex, setActiveTabIndex] = useState(2);
+  const [successSBT, setSuccessSBT] = useState(true);
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
   const [ogTokens, setOGTokens] = useState(null);

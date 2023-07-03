@@ -4,7 +4,7 @@ import { Warning } from '../../images/Warning';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 
-const RevokeSBTs = () => {
+const BurnSBT = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModal] = useState(false);
 
@@ -138,4 +138,4 @@ const RevokeSBTs = () => {
   );
 };
 
-export default RevokeSBTs;
+export default BurnSBT;
