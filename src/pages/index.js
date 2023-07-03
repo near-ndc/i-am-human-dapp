@@ -303,7 +303,6 @@ export function IndexPage({ isSignedIn }) {
                   )}
                 </div>
                 <PrivacyComponent />
-                {isSignedIn && <RevokeSBTs />}
               </>
             ) : (
               <IsSignedInLanding

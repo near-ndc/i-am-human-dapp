@@ -109,10 +109,10 @@ const RevokeSBTs = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <div className="justify-center px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                      className="w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
                         revokeSBTs();
                       }}
@@ -121,7 +121,7 @@ const RevokeSBTs = () => {
                     </button>
                     <button
                       type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                      className="mt-4 md:mt-0 w-full justify-center rounded-md border border-purple-500 text-purple-500 border-1 px-3 py-2 text-base font-light text-black shadow-sm sm:ml-3 sm:w-auto"
                       onClick={() => setConfirmationModal(false)}
                       ref={cancelButtonRef}
                     >
