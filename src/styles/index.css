@@ -32,8 +32,7 @@ html {
 
 @media (min-width: 1350px) and (max-width: 1550px) {
   .home_bg_image {
-    background-position: 28rem -10rem;
-    background-size: 80rem 80rem;
+    background-position: 30rem 3rem;
   }
 }
 
