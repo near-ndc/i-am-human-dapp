@@ -58,7 +58,6 @@ export function IndexPage({ isSignedIn }) {
   async function createFVEventLog() {
     const { data } = await supabase.select('users', {
       wallet_identifier: wallet.accountId,
-      fv_token_id: fvTokens.token,
     });
     if (!data?.length) {
       const userData = {

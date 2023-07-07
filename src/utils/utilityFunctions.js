@@ -17,6 +17,7 @@ export const log_event = async ({ event_log }) => {
   });
 
   if (error) {
+    console.log('Error occured in event log', error);
     throw new Error(error?.message);
   }
 };
