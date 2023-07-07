@@ -50,6 +50,7 @@ export function IndexPage({ isSignedIn }) {
         localStorage.removeItem(CommunityDataKeys.COMMUNITY_VERTICAL);
       }
     } catch (error) {
+      log_event({ event_log: 'Scoreboard Error: ' + JSON.stringify(error) });
       console.log('Error occurred while saving data in scoreboard db', error);
     }
   }
