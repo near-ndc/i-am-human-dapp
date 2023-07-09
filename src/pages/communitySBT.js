@@ -41,7 +41,7 @@ export const CommunitySBTPage = () => {
                 <p className="text-sm">Apply Now</p>
               </PrimaryButton>
             ) : (
-              <OutlineButton>
+              <OutlineButton classes="cursor-auto">
                 <p className="text-sm">Coming Soon</p>
               </OutlineButton>
             )}

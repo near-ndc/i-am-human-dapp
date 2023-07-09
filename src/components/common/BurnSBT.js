@@ -3,6 +3,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Warning } from '../../images/Warning';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
+import { PrimaryButton } from './PrimaryButton';
+import { OutlineButton } from './OutlineButton';
 
 const BurnSBT = () => {
   const [showTooltip, setShowtooltip] = useState(false);
@@ -109,24 +111,22 @@ const BurnSBT = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="justify-center px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button
-                      type="button"
-                      className="w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  <div className="justify-center md:gap-3 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <OutlineButton
+                      classes="border-red-600 text-red-600 w-full"
                       onClick={() => {
                         revokeSBTs();
                       }}
                     >
                       Confirm
-                    </button>
-                    <button
-                      type="button"
-                      className="mt-4 md:mt-0 w-full justify-center rounded-md border border-purple-500 text-purple-500 border-1 px-3 py-2 text-base font-light text-black shadow-sm sm:ml-3 sm:w-auto"
+                    </OutlineButton>
+                    <PrimaryButton
+                      classes="w-full mt-4 md:mt-0"
                       onClick={() => setConfirmationModal(false)}
                       ref={cancelButtonRef}
                     >
                       Cancel
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
