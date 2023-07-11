@@ -12,6 +12,7 @@ import { CommunityApplicationPage } from './pages/communtiyapplication';
 import { ScoreboardPage } from './pages/scoreboard';
 import { CommunitySBTPage } from './pages/communitySBT';
 import { URLs } from './utils/constants';
+import ProgressTracker from './components/common/progressTracker';
 
 const RedirectComponent = () => {
   return <Redirect to="/" />;
@@ -20,6 +21,7 @@ const RedirectComponent = () => {
 export function App({ isSignedIn }) {
   return (
     <>
+      <ProgressTracker />
       <Router>
         <Switch>
           <Route exact path={URLs.APPLICATION}>

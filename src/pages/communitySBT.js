@@ -17,7 +17,6 @@ import { PrimaryButton } from '../components/common/PrimaryButton';
 import { OutlineButton } from '../components/common/OutlineButton';
 import { Header } from '../components/common/header';
 import { Footer } from '../components/common/footer';
-import ProgressTracker from '../components/common/progressTracker';
 
 export const CommunitySBTPage = () => {
   const Item = ({
@@ -53,7 +52,6 @@ export const CommunitySBTPage = () => {
   };
   return (
     <div>
-      <ProgressTracker />
       <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10">
         <Header />
         <div
