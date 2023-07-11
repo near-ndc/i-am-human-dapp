@@ -94,15 +94,20 @@ export const CommunitySBTPage = () => {
               }
             />
             <Item
-              imageSrc={ProofOfKudos}
-              title="Proof of Kudos"
-              description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."
-            />
-            <Item
+              isAvailable={true}
+              onClick={() =>
+                window.open('https://t.me/+tY_MwkD4EJcwOTM5', '_blank')
+              }
               imageSrc={ProofOfVibeOGSBT}
               title="Proof of Vibe"
               description="This SBT is a unique badge earned by attending special events and passing vibe checks. It grants exclusive access to high-caliber gatherings, turning them into celebrations of our collective spirit."
             />
+            <Item
+              imageSrc={ProofOfKudos}
+              title="Proof of Kudos"
+              description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."
+            />
+
             <Item
               imageSrc={CreativeOGSBT}
               title="Creative"
