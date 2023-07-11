@@ -17,3 +17,10 @@ export function hasTwoDots(str) {
   const regex = /\.\.*\./;
   return regex.test(str);
 }
+
+export const URLs = {
+  SCOREBOARD: '/community-scoreboard',
+  SBTs: '/community-sbts',
+  HOME: '/',
+  APPLICATION: '/community-application',
+};
