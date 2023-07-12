@@ -61,12 +61,6 @@ export const Header = ({
         >
           Home
         </Link>
-        <Link
-          to={'/community-scoreboard'}
-          className={isActive(URLs.SCOREBOARD)}
-        >
-          Scoreboard
-        </Link>
         <Link to={'/community-sbts'} className={isActive(URLs.SBTs)}>
           Community SBTs
         </Link>
