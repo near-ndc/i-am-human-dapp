@@ -53,7 +53,7 @@ const navigation = [
       },
       {
         name: 'Join Other Humans',
-        href: 'https://near.social/#/neardigitalcollective.near/widget/HumansOnNearMeter',
+        href: 'https://near.org/hack.near/widget/verified.humans',
       },
     ],
   },
