@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { MintSVG } from '../../../../images/MintSVG';
-import FVSBTImage from '../../../../images/FvSBT.png';
-import KYCSBTImage from '../../../../images/KYCSBT.png';
-import {
-  TokenDetails,
-  ValidTokenComponent,
-} from '../../../common/TokenDetails';
 import ReactConfetti from 'react-confetti';
 import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
 import BurnSBT from '../../../common/BurnSBT';
+import TokensGrid from '../../../common/TokensGrid';
 
 export const SuccesVerification = () => {
-  const [showTooltip, setShowtooltip] = useState(false);
-  const fvTokens = JSON.parse(localStorage.getItem('fvTokens'));
-  const kycTokens = JSON.parse(localStorage.getItem('kycTokens'));
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
@@ -24,20 +15,6 @@ export const SuccesVerification = () => {
       clearTimeout(timer);
     };
   }, []);
-
-  const Item = ({ imageSrc, children }) => {
-    return (
-      <div className="bg-gray-100 flex flex-grow flex-1 flex-wrap lg:flex-nowrap gap-10 p-5 mb-6 rounded-lg">
-        <div className="flex items-start justify-center">
-          <img
-            src={imageSrc}
-            className="object-cover rounded-lg max-h-[350px]"
-          />
-        </div>
-        <div>{children}</div>
-      </div>
-    );
-  };
 
   return (
     <div className="w-full">
@@ -58,35 +35,7 @@ export const SuccesVerification = () => {
           Check out your newly minted Soul Bound Tokens! You can now participate
           in Near Digital Collective (NDC) governance. Share the good news!
         </p>
-
-        <div className="flex flex-wrap md:flex-nowrap gap-5">
-          {fvTokens && (
-            <Item imageSrc={FVSBTImage}>
-              <ValidTokenComponent />
-              <h2 className="font-bold text-3xl my-1 mb-5">
-                My Face Verification Soul Bound Token
-              </h2>
-              <TokenDetails
-                tokenID={fvTokens.token}
-                issuedDate={fvTokens?.metadata?.issued_at}
-                expireDate={fvTokens?.metadata?.expires_at}
-              />
-            </Item>
-          )}
-          {kycTokens && (
-            <Item imageSrc={KYCSBTImage}>
-              <ValidTokenComponent />
-              <h2 className="font-bold text-3xl my-1 mb-5">
-                My KYC Soul Bound Token
-              </h2>
-              <TokenDetails
-                tokenID={kycTokens?.token}
-                issuedDate={kycTokens?.metadata?.issued_at}
-                expireDate={kycTokens?.metadata?.expires_at}
-              />
-            </Item>
-          )}
-        </div>
+        <TokensGrid />
       </div>
       <BurnSBT />
     </div>

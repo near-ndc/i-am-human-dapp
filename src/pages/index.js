@@ -15,22 +15,26 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
-import { LSKeys, convertToTimestamptz } from '../utils/constants';
-import { isNumber, log_event } from '../utils/utilityFunctions';
+import { LSKeys, ReducerNames, convertToTimestamptz } from '../utils/constants';
+import { log_event } from '../utils/utilityFunctions';
+import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
-import { useDispatch } from 'react-redux';
-import { updateTrackerStatus } from '../redux/reducer/tracker';
-import RevokeSBTs from '../components/common/RevokeSBTs';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setActivePageIndex,
+  setSuccessSBTPage,
+} from '../redux/reducer/commonReducer';
 
 const URL = window.location;
 
-export function IndexPage({ isSignedIn }) {
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [activeTabIndex, setActiveTabIndex] = useState(null);
-  const [successSBT, setSuccessSBT] = useState(false);
-  const [fvTokens, setFVTokens] = useState(null);
-  const [kycTokens, setKYCTokens] = useState(null);
-  const [ogTokens, setOGTokens] = useState(null);
+export function IndexPage() {
+  const { fvTokens, kycTokens, ogTokens } = useSelector(
+    (state) => state[ReducerNames.SBT]
+  );
+  const { isUserLogin, isAdmin, activePageIndex } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
+
   const dispatch = useDispatch();
 
   async function storeCommunityVerticalData() {
@@ -119,12 +123,12 @@ export function IndexPage({ isSignedIn }) {
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
     if (URL_state === succes_fractal_state && wallet?.accountId) {
-      setActiveTabIndex(2);
+      dispatch(setActivePageIndex(2));
     }
     if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
-      setSuccessSBT(true);
+      dispatch(setSuccessSBTPage(true));
       localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
-      setActiveTabIndex(2);
+      dispatch(setActivePageIndex(2));
     }
     if (fvTokens) {
       createFVEventLog();
@@ -165,10 +169,10 @@ export function IndexPage({ isSignedIn }) {
   ];
 
   const getStarted = () => {
-    if (wallet?.accountId) {
-      setActiveTabIndex(1);
+    if (isUserLogin) {
+      dispatch(setActivePageIndex(1));
     } else {
-      setActiveTabIndex(0);
+      dispatch(setActivePageIndex(0));
     }
   };
 
@@ -184,7 +188,7 @@ export function IndexPage({ isSignedIn }) {
     <div
       style={{
         backgroundImage:
-          typeof activeTabIndex !== 'number' && !showAdmin
+          typeof activePageIndex !== 'number' && !isAdmin
             ? `url(${Design})`
             : 'none',
         zIndex: 10,
@@ -195,16 +199,12 @@ export function IndexPage({ isSignedIn }) {
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
       >
-        <Header
-          setActiveTabIndex={setActiveTabIndex}
-          setShowAdmin={setShowAdmin}
-          isAdmin={false}
-        />
-        {showAdmin ? (
-          <Tabs isAdmin={showAdmin} />
+        <Header />
+        {isAdmin ? (
+          <Tabs />
         ) : (
           <>
-            {typeof activeTabIndex !== 'number' ? (
+            {typeof activePageIndex !== 'number' ? (
               <>
                 <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
@@ -291,26 +291,12 @@ export function IndexPage({ isSignedIn }) {
                       />
                     </div>
                   </div>
-                  {isSignedIn ? (
-                    <Home
-                      setActiveTabIndex={setActiveTabIndex}
-                      sendFVTokensDetails={setFVTokens}
-                      sendKYCTokensDetails={setKYCTokens}
-                      sendOGTokenDetails={setOGTokens}
-                    />
-                  ) : (
-                    <Landing setActiveTabIndex={setActiveTabIndex} />
-                  )}
+                  {isUserLogin ? <Home /> : <Landing />}
                 </div>
                 <PrivacyComponent />
               </>
             ) : (
-              <IsSignedInLanding
-                activeTabIndex={activeTabIndex}
-                setActiveTabIndex={setActiveTabIndex}
-                successSBT={successSBT}
-                setSuccessSBT={setSuccessSBT}
-              />
+              <IsSignedInLanding />
             )}
             <Footer />
           </>

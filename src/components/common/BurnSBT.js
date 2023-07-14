@@ -5,22 +5,31 @@ import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 import { PrimaryButton } from './PrimaryButton';
 import { OutlineButton } from './OutlineButton';
+import { decodeBase64 } from '../../utils/constants';
 
 const BurnSBT = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModal] = useState(false);
 
   async function revokeSBTs() {
-    const data = await wallet.callMethod({
-      contractId: getConfig().app_contract,
-      method: 'sbt_revoke_by_owner',
-      args: {
-        account: wallet.accountId,
-      },
-    });
+    let runLoop = true;
+    while (runLoop) {
+      const data = await wallet.callMethod({
+        contractId: getConfig().app_contract,
+        method: 'sbt_burn_all',
+        args: {},
+      });
+      // breaking the loop when all tokens are burned or when there is an error
+      if (
+        decodeBase64(data?.status?.SuccessValue) === true ||
+        data?.status?.Failure
+      ) {
+        runLoop = false;
+        break;
+      }
+    }
   }
 
-  const cancelButtonRef = useRef(null);
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-2">
@@ -72,7 +81,6 @@ const BurnSBT = () => {
         <Dialog
           as="div"
           className="relative z-10"
-          initialFocus={cancelButtonRef}
           onClose={setConfirmationModal}
         >
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -123,7 +131,6 @@ const BurnSBT = () => {
                     <PrimaryButton
                       classes="w-full mt-4 md:mt-0"
                       onClick={() => setConfirmationModal(false)}
-                      ref={cancelButtonRef}
                     >
                       Cancel
                     </PrimaryButton>

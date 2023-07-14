@@ -10,7 +10,7 @@ import { VerticalScoreboard } from '../components/pages/scoreboard/verticalScore
 import { UserDataTable } from '../components/pages/scoreboard/userDataTable';
 import moment from 'moment';
 
-export const ScoreboardPage = ({ isSignedIn }) => {
+export const ScoreboardPage = () => {
   const ref = React.useRef();
   const [communities, setCommunities] = useState({
     data: [],
@@ -84,7 +84,7 @@ export const ScoreboardPage = ({ isSignedIn }) => {
 
   return (
     <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10" ref={ref}>
-      <Header setShowAdmin={() => {}} setActiveTabIndex={() => {}} />
+      <Header />
       <div className="lg:mx-auto mt-20 lg:max-w-7xl lg:px-8 px-6 mb-20">
         <>
           {loading ? (

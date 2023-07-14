@@ -11,7 +11,18 @@ export const ValidTokenComponent = () => {
   );
 };
 
-export const TokenDetails = ({ tokenID, issuedDate, expireDate }) => {
+export const Item = ({ imageSrc, children }) => {
+  return (
+    <div className="bg-gray-100 flex flex-grow flex-1 flex-wrap lg:flex-nowrap gap-10 p-5 mb-6 rounded-lg">
+      <div className="flex items-start justify-center">
+        <img src={imageSrc} className="object-cover rounded-lg max-h-[350px]" />
+      </div>
+      <div>{children}</div>
+    </div>
+  );
+};
+
+export const TokenDetails = ({ data }) => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
@@ -23,13 +34,15 @@ export const TokenDetails = ({ tokenID, issuedDate, expireDate }) => {
         >
           <path d="M256,62.061c-125.673,0-256,32.97-256,100.849v186.182c0,67.879,130.327,100.848,256,100.848s256-32.97,256-100.848 V162.909C512,95.03,381.673,62.061,256,62.061z M465.455,349.091c0,22.885-100.848,54.303-209.455,54.303 S46.545,371.976,46.545,349.091v-32.075C95.646,343.729,176.742,356.849,256,356.849s160.354-13.12,209.455-39.832V349.091z M465.455,256c0,22.885-100.848,54.303-209.455,54.303S46.545,278.885,46.545,256v-32.074 C95.646,250.638,176.742,263.758,256,263.758s160.354-13.12,209.455-39.832V256z M256,217.212 c-108.606,0-209.455-31.418-209.455-54.303c0-22.885,100.848-54.303,209.455-54.303s209.455,31.418,209.455,54.303 C465.455,185.794,364.606,217.212,256,217.212z"></path>{' '}
         </svg>
-        <p>Token ID: {tokenID}</p>
+        <p>Token ID: {data?.token}</p>
       </div>
       <div className="flex items-center gap-2">
         <svg height="20px" fill="#000000" viewBox="0 0 24 24">
           <path d="M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM17.737,8.824a1,1,0,0,1-.061,1.413l-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,0,1,1.415-1.414l2.323,2.323,5.294-4.853A1,1,0,0,1,17.737,8.824Z"></path>
         </svg>
-        <p>Issued on: {dayjs(issuedDate).format('DD MMMM YYYY')}</p>
+        <p>
+          Issued on: {dayjs(data?.metadata?.issued_at).format('DD MMMM YYYY')}
+        </p>
       </div>
       <div className="flex items-center gap-2">
         <svg height="20px" viewBox="0 0 24 24" fill="none">
@@ -42,7 +55,9 @@ export const TokenDetails = ({ tokenID, issuedDate, expireDate }) => {
             stroke-linejoin="round"
           ></path>
         </svg>
-        <p>Expires on: {dayjs(expireDate).format('DD MMMM YYYY')}</p>
+        <p>
+          Expires on: {dayjs(data?.metadata?.expires_at).format('DD MMMM YYYY')}
+        </p>
       </div>
       <div className="flex items-center gap-2">
         <svg
@@ -58,7 +73,7 @@ export const TokenDetails = ({ tokenID, issuedDate, expireDate }) => {
         </svg>
         <p>
           Days until expiration :{' '}
-          {Math.abs(dayjs(expireDate).diff(Date.now(), 'days'))}
+          {Math.abs(dayjs(data?.metadata?.expires_at).diff(Date.now(), 'days'))}
         </p>
       </div>
       <div className="flex items-center">

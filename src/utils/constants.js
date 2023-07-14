@@ -24,3 +24,20 @@ export const URLs = {
   HOME: '/',
   APPLICATION: '/community-application',
 };
+
+export function decodeBase64(str) {
+  return Buffer.from(str, 'base64').toString('ascii');
+}
+
+export const TokenTypes = {
+  KYC: 'KYC',
+  OG: 'OG',
+  FV: 'FV',
+  VIBE: 'Vibe',
+};
+
+export const ReducerNames = {
+  ORACLE: 'Oracle',
+  SBT: 'SBT',
+  COMMON: 'common',
+};
