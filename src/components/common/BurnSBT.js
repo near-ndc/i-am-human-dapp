@@ -10,6 +10,8 @@ import { decodeBase64 } from '../../utils/constants';
 const BurnSBT = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModal] = useState(false);
+  const [isTransferCalled, setTransfer] = useState(false);
+  const [transferAddr, setTransferAddr] = useState(null);
 
   async function revokeSBTs() {
     let runLoop = true;
@@ -18,6 +20,25 @@ const BurnSBT = () => {
         contractId: getConfig().app_contract,
         method: 'sbt_burn_all',
         args: {},
+      });
+      // breaking the loop when all tokens are burned or when there is an error
+      if (
+        decodeBase64(data?.status?.SuccessValue) === true ||
+        data?.status?.Failure
+      ) {
+        runLoop = false;
+        break;
+      }
+    }
+  }
+
+  async function soulTransfer() {
+    let runLoop = true;
+    while (runLoop) {
+      const data = await wallet.callMethod({
+        contractId: getConfig().app_contract,
+        method: 'sbt_soul_transfer',
+        args: { recipient: transferAddr },
       });
       // breaking the loop when all tokens are burned or when there is an error
       if (
@@ -54,7 +75,10 @@ const BurnSBT = () => {
                   </a>
                   <a
                     className="underline"
-                    onClick={() => setConfirmationModal(true)}
+                    onClick={() => {
+                      setTransfer(false);
+                      setConfirmationModal(true);
+                    }}
                   >
                     Delete from I-AM-HUMAN
                   </a>
@@ -74,6 +98,15 @@ const BurnSBT = () => {
               </div>
             )}
           </span>
+        </p>
+        <p
+          className="text-red-500 font-semibold text-lg cursor-pointer"
+          onClick={() => {
+            setTransfer(true);
+            setConfirmationModal(true);
+          }}
+        >
+          Soul Transfer
         </p>
       </div>
 
@@ -102,19 +135,54 @@ const BurnSBT = () => {
                           <Warning />
                         </Dialog.Title>
                         <div className="mt-2">
-                          <p className="text-sm text-gray-500">
-                            You are about to delete your data from I-AM-HUMAN
-                            app and to revoke your Soul Bound Tokens.
-                            <br />
-                            <br />
-                            You will lose privileges including the ability to
-                            vote in the NEAR Digital Collective ecosystem
-                            elections and lose the ability to obtain
-                            reputation-based soul bound tokens.
-                            <br />
-                            <br />
-                            Are you sure you want to continue?
-                          </p>
+                          {isTransferCalled ? (
+                            <p className="text-sm text-gray-500">
+                              You are about to soul transfer your SBTs to
+                              another account. Please confirm the account name
+                              that you are transferring to is correct and is an
+                              account you have access to.
+                              <br />
+                              <br />
+                              I-AM-HUMAN will not be able to reverse this
+                              transaction if you enter the wrong address.
+                              <br />
+                              <br />
+                              <div className="sm:col-span-4">
+                                <label
+                                  htmlFor="Address"
+                                  className="block text-sm font-medium leading-6"
+                                >
+                                  Address
+                                </label>
+                                <div className="mt-1">
+                                  <div className="flex w-full rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-purple-600 sm:max-w-md">
+                                    <input
+                                      type="text"
+                                      onChange={(event) => {
+                                        setTransferAddr(event.target.value);
+                                      }}
+                                      autoComplete="username"
+                                      className="block w-full flex-1 border-0 bg-transparent py-2 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500">
+                              You are about to delete your data from I-AM-HUMAN
+                              app and to revoke your Soul Bound Tokens.
+                              <br />
+                              <br />
+                              You will lose privileges including the ability to
+                              vote in the NEAR Digital Collective ecosystem
+                              elections and lose the ability to obtain
+                              reputation-based soul bound tokens.
+                              <br />
+                              <br />
+                              Are you sure you want to continue?
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -123,7 +191,7 @@ const BurnSBT = () => {
                     <OutlineButton
                       classes="border-red-600 text-red-600 w-full"
                       onClick={() => {
-                        revokeSBTs();
+                        isTransferCalled ? soulTransfer() : revokeSBTs();
                       }}
                     >
                       Confirm
