@@ -4,6 +4,7 @@ export function getConfig() {
   const commonConfig = {
     succes_fractal_state: 'facescan',
     regen_issuer_contract: 'issuer.regens.near',
+    vibe_issuer_contract: 'issuer.proofofvibes.near',
   };
   switch (environment) {
     case 'prod':

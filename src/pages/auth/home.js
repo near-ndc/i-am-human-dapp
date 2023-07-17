@@ -19,14 +19,20 @@ export const Home = () => {
     (state) => state[ReducerNames.COMMON]
   );
   const dispatch = useDispatch();
-  const { app_contract, fractal_contract, og_contract, regen_issuer_contract } =
-    getConfig();
+  const {
+    app_contract,
+    fractal_contract,
+    og_contract,
+    regen_issuer_contract,
+    vibe_issuer_contract,
+  } = getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
     if (!isNumber(activePageIndex)) {
       fetchOGSBTTokens();
       fetchTokens();
       fetchRegenToken();
+      fetchVibeToken();
     }
   }, [activePageIndex]);
 
@@ -46,10 +52,6 @@ export const Home = () => {
           // if class = 1 => OG token
           if (token.metadata.class === 1) {
             dispatch(updateTokens({ type: TokenTypes.OG, value: token }));
-          }
-          // if class = 2 => Vibe token
-          if (token.metadata.class === 2) {
-            dispatch(updateTokens({ type: TokenTypes.VIBE, value: token }));
           }
         }
       }
@@ -79,6 +81,29 @@ export const Home = () => {
       }
     } catch (error) {
       toast.error('An error occured while fetching Regen SBT details');
+    }
+  };
+
+  const fetchVibeToken = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: vibe_issuer_contract,
+        },
+      });
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => Regen token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.VIBE, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Vibe SBT details');
     }
   };
 
