@@ -21,7 +21,11 @@ import {
   ReducerNames,
   convertToTimestamptz,
 } from '../utils/constants';
-import { isNumber, log_event } from '../utils/utilityFunctions';
+import {
+  deleteUserDataFromSupabase,
+  isNumber,
+  log_event,
+} from '../utils/utilityFunctions';
 import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -160,10 +164,12 @@ export function IndexPage() {
   //         case ContractMethodNames.BURN: {
   //           if (resp.result === false) {
   //             return dispatch(revokeSBTs());
+  //           } else if (resp.result === true) {
+  //             // all tokens are deleted, deleting data from db also
+  //             return deleteUserDataFromSupabase();
   //           }
   //           return;
   //         }
-
   //         case ContractMethodNames.TRANSFER: {
   //           if (resp.result === false) {
   //             const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
