@@ -35,7 +35,7 @@ import { updateTrackerStatus } from '../redux/reducer/tracker';
 const URL = window.location;
 
 export function IndexPage() {
-  const { fvTokens, kycTokens, ogTokens } = useSelector(
+  const { fvToken, kycToken, ogToken } = useSelector(
     (state) => state[ReducerNames.SBT]
   );
   const { isUserLogin, isAdmin, activePageIndex } = useSelector(
@@ -48,7 +48,7 @@ export function IndexPage() {
     try {
       const communityName = localStorage.getItem('community-name');
       const communityVertical = localStorage.getItem('community-vertical');
-      if (communityName && fvTokens) {
+      if (communityName && fvToken) {
         const { data } = await supabase.select('scoreboard', {
           account: wallet.accountId,
         });
@@ -76,22 +76,22 @@ export function IndexPage() {
     });
     if (!data?.length) {
       const userData = {
-        fv_token_id: fvTokens.token,
-        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
-        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_token_id: fvToken.token,
+        fv_issued_date: convertToTimestamptz(fvToken?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvToken?.metadata?.expires_at),
         fv_status: 'Mint Success',
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
       log_event({
-        event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+        event_log: `User successfully minted their FV SBT token: ${fvToken.token}`,
       });
     } else if (data.length > 0 && !data[0]?.['fv_token_id']) {
       // update data
       const userData = {
-        fv_token_id: fvTokens.token,
-        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
-        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_token_id: fvToken.token,
+        fv_issued_date: convertToTimestamptz(fvToken?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvToken?.metadata?.expires_at),
         fv_status: 'Mint Success',
       };
       await supabase.update('users', userData, {
@@ -107,17 +107,17 @@ export function IndexPage() {
     if (!data?.length) {
       // no entry exists, insert data
       const userData = {
-        og_tokens_metadata: ogTokens,
+        og_tokens_metadata: ogToken,
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
     } else if (
       !data[0]?.['og_tokens_metadata'] ||
-      !isEqual(data[0]?.['og_tokens_metadata'], ogTokens) // some new type of OG token can be issued
+      !isEqual(data[0]?.['og_tokens_metadata'], ogToken) // some new type of OG token can be issued
     ) {
       // update data
       const userData = {
-        og_tokens_metadata: ogTokens,
+        og_tokens_metadata: ogToken,
       };
       await supabase.update('users', userData, {
         wallet_identifier: wallet.accountId,
@@ -132,21 +132,21 @@ export function IndexPage() {
     if (URL_state === succes_fractal_state && wallet?.accountId) {
       dispatch(setActivePageIndex(2));
     }
-    if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
+    if (fvToken && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
       dispatch(setSuccessSBTPage(true));
       localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
       dispatch(setActivePageIndex(2));
     }
-    if (fvTokens) {
+    if (fvToken) {
       createFVEventLog();
     }
-  }, [fvTokens]);
+  }, [fvToken]);
 
   useEffect(() => {
-    if (ogTokens) {
+    if (ogToken) {
       createOGEventLog();
     }
-  }, [ogTokens]);
+  }, [ogToken]);
 
   // TODO: ADD AFTER CONFIRMATION
   // useEffect(() => {
@@ -287,7 +287,7 @@ export function IndexPage() {
                       </div>
                       <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
-                        {!kycTokens && !fvTokens && !ogTokens && (
+                        {!kycToken && !fvToken && !ogToken && (
                           <button
                             onClick={() => getStarted()}
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -295,7 +295,7 @@ export function IndexPage() {
                             Get Started
                           </button>
                         )}
-                        {(kycTokens || fvTokens || ogTokens) && (
+                        {(kycToken || fvToken || ogToken) && (
                           <button
                             onClick={() =>
                               window.open(

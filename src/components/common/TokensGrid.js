@@ -7,54 +7,55 @@ import OGSBT from '../../images/OGSBT.png';
 import ProofOfVibeOGSBT from '../../images/PROOF_OF_VIBE.png';
 
 const TokensGrid = () => {
-  const { fvTokens, kycTokens, ogTokens, vibeTokens, regenTokens } =
-    useSelector((state) => state[ReducerNames.SBT]);
+  const { fvToken, kycToken, ogToken, vibeToken, regenToken } = useSelector(
+    (state) => state[ReducerNames.SBT]
+  );
 
   return (
     <div className="flex flex-col gap-y-10 flex-wrap gap-5">
-      {fvTokens && (
+      {fvToken && (
         <Item imageSrc={FVSBTImage}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My Face Verification Soul Bound Token
           </h2>
-          <TokenDetails data={fvTokens} />
+          <TokenDetails data={fvToken} />
         </Item>
       )}
-      {kycTokens && (
+      {kycToken && (
         <Item imageSrc={KYCSBTImage}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My KYC Soul Bound Token
           </h2>
-          <TokenDetails data={kycTokens} />
+          <TokenDetails data={kycToken} />
         </Item>
       )}
-      {ogTokens && (
+      {ogToken && (
         <Item imageSrc={OGSBT}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My OG Soul Bound Token
           </h2>
-          <TokenDetails data={ogTokens} />
+          <TokenDetails data={ogToken} />
         </Item>
       )}
-      {vibeTokens && (
+      {vibeToken && (
         <Item imageSrc={ProofOfVibeOGSBT}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My Vibe Soul Bound Token
           </h2>
-          <TokenDetails data={vibeTokens} />
+          <TokenDetails data={vibeToken} />
         </Item>
       )}
-      {regenTokens && (
+      {regenToken && (
         <Item imageSrc={ProofOfVibeOGSBT}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My Regen Soul Bound Token
           </h2>
-          <TokenDetails data={regenTokens} />
+          <TokenDetails data={regenToken} />
         </Item>
       )}
     </div>

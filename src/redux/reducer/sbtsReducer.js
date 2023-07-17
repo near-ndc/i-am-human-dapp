@@ -12,30 +12,30 @@ const { app_contract } = getConfig();
 export const sbtReducer = createSlice({
   name: [ReducerNames.SBT],
   initialState: {
-    fvTokens: null,
-    kycTokens: null,
-    ogTokens: null,
-    vibeTokens: null,
-    regenTokens: null,
+    fvToken: null,
+    kycToken: null,
+    ogToken: null,
+    vibeToken: null,
+    regenToken: null,
   },
   reducers: {
     updateTokens: (state, action) => {
       const { type, value } = action.payload;
       switch (type) {
         case TokenTypes.FV:
-          state.fvTokens = value;
+          state.fvToken = value;
           break;
         case TokenTypes.KYC:
-          state.kycTokens = value;
+          state.kycToken = value;
           break;
         case TokenTypes.OG:
-          state.ogTokens = value;
+          state.ogToken = value;
           break;
         case TokenTypes.VIBE:
-          state.vibeTokens = value;
+          state.vibeToken = value;
           break;
         case TokenTypes.REGEN:
-          state.regenTokens = value;
+          state.regenToken = value;
           break;
         default:
           break;
@@ -43,11 +43,11 @@ export const sbtReducer = createSlice({
     },
     // when burned or signed out
     removeAllTokens: (state, action) => {
-      state.fvTokens = null;
-      state.kycTokens = null;
-      state.ogTokens = null;
-      state.vibeTokens = null;
-      state.regenTokens = null;
+      state.fvToken = null;
+      state.kycToken = null;
+      state.ogToken = null;
+      state.vibeToken = null;
+      state.regenToken = null;
     },
     revokeSBTs: (state, action) => {
       wallet.callMethod({

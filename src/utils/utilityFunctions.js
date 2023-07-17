@@ -55,4 +55,7 @@ export const deleteUserDataFromSupabase = async () => {
   await supabase.delete('events', {
     wallet_identifier: wallet.accountId,
   });
+  await supabase.delete('scoreboard', {
+    account: wallet.accountId,
+  });
 };
