@@ -72,7 +72,7 @@ export const TokenDetails = ({ data }) => {
           <polygon points="24.264,21.305 24.164,19.5 26.991,23.812 29.422,23.812 29.422,15.891 26.936,15.891 26.936,18.41 27.035,20.214 24.208,15.891 21.775,15.891 21.775,23.812 24.264,23.812 "></polygon>{' '}
         </svg>
         <p>
-          Days until expiration :{' '}
+          Days until expiration:{' '}
           {Math.abs(dayjs(data?.metadata?.expires_at).diff(Date.now(), 'days'))}
         </p>
       </div>
