@@ -16,9 +16,10 @@ import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
 import { LSKeys, convertToTimestamptz } from '../utils/constants';
-import { log_event } from '../utils/utilityFunctions';
-import ProgressTracker from '../components/common/progressTracker';
+import { isNumber, log_event } from '../utils/utilityFunctions';
 import { isEqual } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { updateTrackerStatus } from '../redux/reducer/tracker';
 
 const URL = window.location;
 
@@ -29,6 +30,7 @@ export function IndexPage({ isSignedIn }) {
   const [fvTokens, setFVTokens] = useState(null);
   const [kycTokens, setKYCTokens] = useState(null);
   const [ogTokens, setOGTokens] = useState(null);
+  const dispatch = useDispatch();
 
   async function storeCommunityVerticalData() {
     try {
@@ -169,6 +171,14 @@ export function IndexPage({ isSignedIn }) {
     }
   };
 
+  useEffect(() => {
+    if (isNumber(activeTabIndex)) {
+      dispatch(updateTrackerStatus(false));
+    } else {
+      dispatch(updateTrackerStatus(true));
+    }
+  }, [activeTabIndex]);
+
   return (
     <div
       style={{
@@ -180,7 +190,6 @@ export function IndexPage({ isSignedIn }) {
       }}
       className={'bg-no-repeat home_bg_image'}
     >
-      {typeof activeTabIndex !== 'number' && <ProgressTracker />}
       <div
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"

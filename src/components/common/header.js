@@ -7,6 +7,7 @@ import { wallet } from '../../index';
 import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { URLs } from '../../utils/constants';
 
 export const Header = ({
   setShowAdmin = () => {},
@@ -38,8 +39,8 @@ export const Header = ({
   };
 
   const HomeMenu = ({ isDialog = false }) => {
-    const activeHomePage =
-      window.location.href.indexOf('community-sbts') === -1;
+    const isActive = (currentPage) =>
+      window.location.href.indexOf(currentPage) !== -1 ? 'text-gradient' : '';
 
     return (
       <div
@@ -50,13 +51,17 @@ export const Header = ({
             : 'hidden md:flex gap-12 font-semibold self-center')
         }
       >
-        <Link to={'/'} className={activeHomePage ? 'text-gradient' : ''}>
+        <Link
+          to={'/'}
+          className={
+            !isActive(URLs.SCOREBOARD) && !isActive(URLs.SBTs)
+              ? 'text-gradient'
+              : ''
+          }
+        >
           Home
         </Link>
-        <Link
-          to={'community-sbts'}
-          className={activeHomePage ? '' : 'text-gradient'}
-        >
+        <Link to={'/community-sbts'} className={isActive(URLs.SBTs)}>
           Community SBTs
         </Link>
       </div>
