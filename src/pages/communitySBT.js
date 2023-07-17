@@ -96,7 +96,7 @@ export const CommunitySBTPage = () => {
             <Item
               isAvailable={true}
               onClick={() =>
-                window.open('https://t.me/+tY_MwkD4EJcwOTM5', '_blank')
+                window.open('https://www.proofofvibes.com/telegram', '_blank')
               }
               imageSrc={ProofOfVibeOGSBT}
               title="Proof of Vibe"
