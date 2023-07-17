@@ -3,6 +3,7 @@ const environment = process.env.REACT_APP_ENV ?? 'prod';
 export function getConfig() {
   const commonConfig = {
     succes_fractal_state: 'facescan',
+    regen_issuer_contract: 'issuer.regens.near',
   };
   switch (environment) {
     case 'prod':
@@ -23,7 +24,7 @@ export function getConfig() {
     case 'dev':
       return {
         network_id: 'testnet',
-        app_contract: 'registry-1.i-am-human.testnet',
+        app_contract: 'registry-unstable.i-am-human.testnet',
         og_contract: 'community-v1.i-am-human.testnet',
         // gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         // fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV

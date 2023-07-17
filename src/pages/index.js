@@ -15,7 +15,12 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
-import { LSKeys, ReducerNames, convertToTimestamptz } from '../utils/constants';
+import {
+  ContractMethodNames,
+  LSKeys,
+  ReducerNames,
+  convertToTimestamptz,
+} from '../utils/constants';
 import { log_event } from '../utils/utilityFunctions';
 import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
@@ -24,6 +29,7 @@ import {
   setActivePageIndex,
   setSuccessSBTPage,
 } from '../redux/reducer/commonReducer';
+import { revokeSBTs, soulTransfer } from '../redux/reducer/sbtsReducer';
 
 const URL = window.location;
 
@@ -140,6 +146,36 @@ export function IndexPage() {
       createOGEventLog();
     }
   }, [ogTokens]);
+
+  // TODO: ADD AFTER CONFIRMATION
+  // useEffect(() => {
+  //   // to check for sbt_burn_all and transfer response since we need to call them in loop till we get true as response
+  //   const txnHash = new URLSearchParams(window.location.search).get(
+  //     'transactionHashes'
+  //   );
+  //   if (txnHash) {
+  //     wallet.getTransactionMethodAndResult(txnHash).then((resp) => {
+  //       switch (resp.method) {
+  //         case ContractMethodNames.BURN: {
+  //           if (resp.result === false) {
+  //             return dispatch(revokeSBTs());
+  //           }
+  //           return;
+  //         }
+
+  //         case ContractMethodNames.TRANSFER: {
+  //           if (resp.result === false) {
+  //             const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
+  //             return dispatch(soulTransfer(addr));
+  //           } else localStorage.removeItem(LSKeys.TRANSFER_ADDR);
+  //           return;
+  //         }
+  //         default:
+  //           return;
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)

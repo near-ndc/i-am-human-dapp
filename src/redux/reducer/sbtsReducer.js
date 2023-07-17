@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReducerNames, TokenTypes } from '../../utils/constants';
+import {
+  ContractMethodNames,
+  ReducerNames,
+  TokenTypes,
+} from '../../utils/constants';
+import { wallet } from '../..';
+import { getConfig } from '../../utils/config';
+
+const { app_contract } = getConfig();
 
 export const sbtReducer = createSlice({
   name: [ReducerNames.SBT],
@@ -8,6 +16,7 @@ export const sbtReducer = createSlice({
     kycTokens: null,
     ogTokens: null,
     vibeTokens: null,
+    regenTokens: null,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -25,6 +34,9 @@ export const sbtReducer = createSlice({
         case TokenTypes.VIBE:
           state.vibeTokens = value;
           break;
+        case TokenTypes.REGEN:
+          state.regenTokens = value;
+          break;
         default:
           break;
       }
@@ -35,10 +47,26 @@ export const sbtReducer = createSlice({
       state.kycTokens = null;
       state.ogTokens = null;
       state.vibeTokens = null;
+      state.regenTokens = null;
+    },
+    revokeSBTs: (state, action) => {
+      wallet.callMethod({
+        contractId: app_contract,
+        method: ContractMethodNames.BURN,
+        args: {},
+      });
+    },
+    soulTransfer: (state, action) => {
+      wallet.callMethod({
+        contractId: app_contract,
+        method: ContractMethodNames.TRANSFER,
+        args: { recipient: action.payload },
+      });
     },
   },
 });
 
-export const { updateTokens, removeAllTokens } = sbtReducer.actions;
+export const { updateTokens, removeAllTokens, revokeSBTs, soulTransfer } =
+  sbtReducer.actions;
 
 export default sbtReducer.reducer;

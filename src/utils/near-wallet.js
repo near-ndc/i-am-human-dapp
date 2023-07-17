@@ -162,4 +162,17 @@ export class Wallet {
     const transaction = await provider.txStatus(txhash, 'unnused');
     return providers.getTransactionLastResult(transaction);
   }
+
+  async getTransactionMethodAndResult(txhash) {
+    const { network } = this.walletSelector.options;
+    const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+
+    // Retrieve transaction result from the network
+    const transaction = await provider.txStatus(txhash, 'unnused');
+    return {
+      method:
+        transaction.transaction.actions?.[0]?.['FunctionCall']?.['method_name'],
+      result: providers.getTransactionLastResult(transaction),
+    };
+  }
 }

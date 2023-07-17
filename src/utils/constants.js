@@ -6,6 +6,7 @@ export const TWITTER_URL = `https://twitter.com/intent/tweet?text=${TWITTER_TEXT
 
 export const LSKeys = {
   SHOW_SBT_PAGE: 'showSuccessSBTPage',
+  TRANSFER_ADDR: 'Transfer Address',
 };
 
 // used in supabase column type for date
@@ -34,10 +35,16 @@ export const TokenTypes = {
   OG: 'OG',
   FV: 'FV',
   VIBE: 'Vibe',
+  REGEN: 'Regen',
 };
 
 export const ReducerNames = {
   ORACLE: 'Oracle',
   SBT: 'SBT',
   COMMON: 'common',
+};
+
+export const ContractMethodNames = {
+  BURN: 'sbt_burn_all',
+  TRANSFER: 'sbt_soul_transfer',
 };

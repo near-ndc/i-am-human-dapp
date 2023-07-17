@@ -1,55 +1,18 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Warning } from '../../images/Warning';
-import { wallet } from '../..';
-import { getConfig } from '../../utils/config';
 import { PrimaryButton } from './PrimaryButton';
 import { OutlineButton } from './OutlineButton';
-import { decodeBase64 } from '../../utils/constants';
+import { useDispatch } from 'react-redux';
+import { revokeSBTs, soulTransfer } from '../../redux/reducer/sbtsReducer';
+import { LSKeys } from '../../utils/constants';
 
 const BurnSBT = () => {
   const [showTooltip, setShowtooltip] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModal] = useState(false);
   const [isTransferCalled, setTransfer] = useState(false);
   const [transferAddr, setTransferAddr] = useState(null);
-
-  async function revokeSBTs() {
-    let runLoop = true;
-    while (runLoop) {
-      const data = await wallet.callMethod({
-        contractId: getConfig().app_contract,
-        method: 'sbt_burn_all',
-        args: {},
-      });
-      // breaking the loop when all tokens are burned or when there is an error
-      if (
-        decodeBase64(data?.status?.SuccessValue) === true ||
-        data?.status?.Failure
-      ) {
-        runLoop = false;
-        break;
-      }
-    }
-  }
-
-  async function soulTransfer() {
-    let runLoop = true;
-    while (runLoop) {
-      const data = await wallet.callMethod({
-        contractId: getConfig().app_contract,
-        method: 'sbt_soul_transfer',
-        args: { recipient: transferAddr },
-      });
-      // breaking the loop when all tokens are burned or when there is an error
-      if (
-        decodeBase64(data?.status?.SuccessValue) === true ||
-        data?.status?.Failure
-      ) {
-        runLoop = false;
-        break;
-      }
-    }
-  }
+  const dispatch = useDispatch();
 
   return (
     <div className="mb-6">
@@ -191,7 +154,16 @@ const BurnSBT = () => {
                     <OutlineButton
                       classes="border-red-600 text-red-600 w-full"
                       onClick={() => {
-                        isTransferCalled ? soulTransfer() : revokeSBTs();
+                        isTransferCalled
+                          ? () => {
+                              // TODO: make sure the addr is valid
+                              dispatch(soulTransfer(transferAddr));
+                              localStorage.setItem(
+                                LSKeys.TRANSFER_ADDR,
+                                transferAddr
+                              );
+                            }
+                          : dispatch(revokeSBTs());
                       }}
                     >
                       Confirm

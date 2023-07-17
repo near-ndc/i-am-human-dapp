@@ -12,30 +12,32 @@ import TokensGrid from '../../components/common/TokensGrid';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
 export const Home = () => {
-  const { fvTokens, kycTokens, ogTokens } = useSelector(
+  const { fvTokens, kycTokens, ogTokens, regenTokens } = useSelector(
     (state) => state[ReducerNames.SBT]
   );
   const { activePageIndex } = useSelector(
     (state) => state[ReducerNames.COMMON]
   );
   const dispatch = useDispatch();
-
+  const { app_contract, fractal_contract, og_contract, regen_issuer_contract } =
+    getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
     if (!isNumber(activePageIndex)) {
       fetchOGSBTTokens();
       fetchTokens();
+      fetchRegenToken();
     }
   }, [activePageIndex]);
 
   const fetchOGSBTTokens = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().app_contract,
+        contractId: app_contract,
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().og_contract, // issuer is community sbt contract
+          issuer: og_contract, // issuer is community sbt contract
         },
       });
 
@@ -56,14 +58,38 @@ export const Home = () => {
     }
   };
 
-  const fetchTokens = async () => {
+  const fetchRegenToken = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().app_contract,
+        contractId: app_contract,
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().fractal_contract, // issuer is fractal
+          issuer: regen_issuer_contract,
+        },
+      });
+
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => Regen token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.REGEN, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Regen SBT details');
+    }
+  };
+
+  const fetchTokens = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: fractal_contract, // issuer is fractal
         },
       });
       if (data?.[0]?.[1]) {
@@ -92,7 +118,7 @@ export const Home = () => {
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
       <div className="flex flex-col gap-32">
-        {!fvTokens && !kycTokens && !ogTokens ? (
+        {!fvTokens && !kycTokens && !ogTokens && !regenTokens ? (
           <div>
             <div
               style={{ backgroundImage: `url(${BgImage})` }}
