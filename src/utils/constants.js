@@ -41,7 +41,8 @@ export const TokenTypes = {
 export const ReducerNames = {
   ORACLE: 'Oracle',
   SBT: 'SBT',
-  COMMON: 'common',
+  COMMON: 'Common',
+  PROGRESS: 'Progress Tracker',
 };
 
 export const ContractMethodNames = {

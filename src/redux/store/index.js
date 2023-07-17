@@ -10,6 +10,6 @@ export default configureStore({
     [ReducerNames.ORACLE]: oracleReducer,
     [ReducerNames.SBT]: sbtReducer,
     [ReducerNames.COMMON]: commonReducer,
-    progressTracker: trackerReducer,
+    [ReducerNames.PROGRESS]: trackerReducer,
   },
 });

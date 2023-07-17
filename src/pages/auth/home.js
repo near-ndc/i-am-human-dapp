@@ -12,9 +12,8 @@ import TokensGrid from '../../components/common/TokensGrid';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
 export const Home = () => {
-  const { fvTokens, kycTokens, ogTokens, regenTokens } = useSelector(
-    (state) => state[ReducerNames.SBT]
-  );
+  const { fvTokens, kycTokens, ogTokens, regenTokens, vibeTokens } =
+    useSelector((state) => state[ReducerNames.SBT]);
   const { activePageIndex } = useSelector(
     (state) => state[ReducerNames.COMMON]
   );
@@ -143,7 +142,7 @@ export const Home = () => {
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
       <div className="flex flex-col gap-32">
-        {!fvTokens && !kycTokens && !ogTokens && !regenTokens ? (
+        {!fvTokens && !kycTokens && !ogTokens && !regenTokens && !vibeTokens ? (
           <div>
             <div
               style={{ backgroundImage: `url(${BgImage})` }}

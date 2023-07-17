@@ -3,11 +3,12 @@ import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 import { formatNumberWithComma } from '../../utils/utilityFunctions';
 import { useSelector } from 'react-redux';
+import { ReducerNames } from '../../utils/constants';
 
 const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
   const [humansRegistered, setHumansRegistered] = useState(0);
-  const { showTracker } = useSelector((state) => state.progressTracker);
+  const { showTracker } = useSelector((state) => state[ReducerNames.PROGRESS]);
 
   const fetchHumansRegistered = async () => {
     try {

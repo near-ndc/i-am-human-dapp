@@ -21,7 +21,7 @@ import {
   ReducerNames,
   convertToTimestamptz,
 } from '../utils/constants';
-import { log_event } from '../utils/utilityFunctions';
+import { isNumber, log_event } from '../utils/utilityFunctions';
 import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,7 @@ import {
   setSuccessSBTPage,
 } from '../redux/reducer/commonReducer';
 import { revokeSBTs, soulTransfer } from '../redux/reducer/sbtsReducer';
+import { updateTrackerStatus } from '../redux/reducer/tracker';
 
 const URL = window.location;
 
@@ -213,12 +214,12 @@ export function IndexPage() {
   };
 
   useEffect(() => {
-    if (isNumber(activeTabIndex)) {
+    if (isNumber(activePageIndex)) {
       dispatch(updateTrackerStatus(false));
     } else {
       dispatch(updateTrackerStatus(true));
     }
-  }, [activeTabIndex]);
+  }, [activePageIndex]);
 
   return (
     <div
