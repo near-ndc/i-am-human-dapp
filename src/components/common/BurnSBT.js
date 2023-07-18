@@ -62,7 +62,7 @@ const BurnSBT = () => {
             )}
           </span>
         </p>
-        <p
+        {/* <p
           className="text-red-500 font-semibold text-lg cursor-pointer"
           onClick={() => {
             setTransfer(true);
@@ -70,7 +70,7 @@ const BurnSBT = () => {
           }}
         >
           Soul Transfer
-        </p>
+        </p> */}
       </div>
 
       <Transition.Root show={isConfirmationModalOpen} as={Fragment}>
