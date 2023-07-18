@@ -5,6 +5,7 @@ import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
 import OGSBT from '../../images/OGSBT.png';
 import ProofOfVibeOGSBT from '../../images/PROOF_OF_VIBE.png';
+import ProofOfRegenOGSBT from '../../images/PROOF_OF_REGEN.png';
 
 const TokensGrid = () => {
   const { fvToken, kycToken, ogToken, vibeToken, regenToken } = useSelector(
@@ -50,7 +51,7 @@ const TokensGrid = () => {
         </Item>
       )}
       {regenToken && (
-        <Item imageSrc={ProofOfVibeOGSBT}>
+        <Item imageSrc={ProofOfRegenOGSBT}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My Regen Soul Bound Token

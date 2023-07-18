@@ -152,37 +152,38 @@ export function IndexPage() {
     }
   }, [ogToken]);
 
-  // TODO: ADD AFTER CONFIRMATION
-  // useEffect(() => {
-  //   // to check for sbt_burn_all and transfer response since we need to call them in loop till we get true as response
-  //   const txnHash = new URLSearchParams(window.location.search).get(
-  //     'transactionHashes'
-  //   );
-  //   if (txnHash) {
-  //     wallet.getTransactionMethodAndResult(txnHash).then((resp) => {
-  //       switch (resp.method) {
-  //         case ContractMethodNames.BURN: {
-  //           if (resp.result === false) {
-  //             return dispatch(revokeSBTs());
-  //           } else if (resp.result === true) {
-  //             // all tokens are deleted, deleting data from db also
-  //             return deleteUserDataFromSupabase();
-  //           }
-  //           return;
-  //         }
-  //         case ContractMethodNames.TRANSFER: {
-  //           if (resp.result === false) {
-  //             const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
-  //             return dispatch(soulTransfer(addr));
-  //           } else localStorage.removeItem(LSKeys.TRANSFER_ADDR);
-  //           return;
-  //         }
-  //         default:
-  //           return;
-  //       }
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    // to check for sbt_burn_all and transfer response since we need to call them in loop till we get true as response
+    const txnHash = new URLSearchParams(window.location.search).get(
+      'transactionHashes'
+    );
+    if (txnHash) {
+      wallet.getTransactionMethodAndResult(txnHash).then((resp) => {
+        switch (resp.method) {
+          case ContractMethodNames.BURN: {
+            if (resp.result === 'false' || resp.result === false) {
+              return dispatch(revokeSBTs());
+            } else if (resp.result === 'true' || resp.result === true) {
+              // all tokens are deleted, deleting data from db also
+              return deleteUserDataFromSupabase();
+            }
+            return;
+          }
+          case ContractMethodNames.TRANSFER: {
+            if (resp.result === 'false' || resp.result === false) {
+              const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
+              return dispatch(soulTransfer(addr));
+            } else if (resp.result === 'true' || resp.result === true) {
+              localStorage.removeItem(LSKeys.TRANSFER_ADDR);
+            }
+            return;
+          }
+          default:
+            return;
+        }
+      });
+    }
+  }, []);
 
   useEffect(() => {
     // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)
