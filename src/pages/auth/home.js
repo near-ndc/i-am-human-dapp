@@ -1,54 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import FVSBTImage from '../../images/FvSBT.png';
-import KYCSBTImage from '../../images/KYCSBT.png';
-import OGSBT from '../../images/OGSBT.png';
-import {
-  TokenDetails,
-  ValidTokenComponent,
-} from '../../components/common/TokenDetails';
+import React, { useEffect } from 'react';
 import { wallet } from '../../index';
 import { getConfig } from '../../utils/config';
 import { toast } from 'react-toastify';
 import EmptyImage from '../../images/empty.png';
 import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
-import { LSKeys } from '../../utils/constants';
+import { LSKeys, ReducerNames, TokenTypes } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTokens } from '../../redux/reducer/sbtsReducer';
+import TokensGrid from '../../components/common/TokensGrid';
+import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
-export const Home = ({
-  setActiveTabIndex,
-  sendFVTokensDetails,
-  sendKYCTokensDetails,
-  sendOGTokenDetails,
-}) => {
-  const [fvTokens, setFVTokens] = useState(null);
-  const [kycTokens, setKYCTokens] = useState(null);
-  const [ogTokens, setOGTokens] = useState(null);
-
+export const Home = () => {
+  const { fvToken, kycToken, ogToken, regenToken, vibeToken } = useSelector(
+    (state) => state[ReducerNames.SBT]
+  );
+  const { activePageIndex } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
+  const dispatch = useDispatch();
+  const {
+    app_contract,
+    fractal_contract,
+    og_contract,
+    regen_issuer_contract,
+    vibe_issuer_contract,
+  } = getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
-    if (!isNumber(setActiveTabIndex)) {
+    if (!isNumber(activePageIndex)) {
       fetchOGSBTTokens();
       fetchTokens();
+      fetchRegenToken();
+      // fetchVibeToken(); // Waiting for issuer changes to be deployed on mainnet registry
     }
-  }, [setActiveTabIndex]);
+  }, [activePageIndex]);
 
   const fetchOGSBTTokens = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().app_contract,
+        contractId: app_contract,
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().og_contract, // issuer is community sbt contract
+          issuer: og_contract, // issuer is community sbt contract
         },
       });
+
       if (data?.[0]?.[1]) {
         for (const token of data[0][1]) {
           // if class = 1 => OG token
           if (token.metadata.class === 1) {
-            sendOGTokenDetails(token);
-            setOGTokens(token);
-            localStorage.setItem('ogTokens', JSON.stringify(token));
+            dispatch(updateTokens({ type: TokenTypes.OG, value: token }));
           }
         }
       }
@@ -57,27 +60,70 @@ export const Home = ({
     }
   };
 
-  const fetchTokens = async () => {
+  const fetchRegenToken = async () => {
     try {
       const data = await wallet.viewMethod({
-        contractId: getConfig().app_contract,
+        contractId: app_contract,
         method: 'sbt_tokens_by_owner',
         args: {
           account: wallet.accountId,
-          issuer: getConfig().fractal_contract, // issuer is fractal
+          issuer: regen_issuer_contract,
+        },
+      });
+
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => Regen token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.REGEN, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Regen SBT details');
+    }
+  };
+
+  const fetchVibeToken = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: vibe_issuer_contract,
+        },
+      });
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => Regen token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.VIBE, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Vibe SBT details');
+    }
+  };
+
+  const fetchTokens = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: fractal_contract, // issuer is fractal
         },
       });
       if (data?.[0]?.[1]) {
         for (const token of data[0][1]) {
           // if class = 1 => FV token
           if (token.metadata.class === 1) {
-            setFVTokens(token);
-            sendFVTokensDetails(token);
-            localStorage.setItem('fvTokens', JSON.stringify(token));
+            dispatch(updateTokens({ type: TokenTypes.FV, value: token }));
           } else {
-            sendKYCTokensDetails(token);
-            setKYCTokens(token);
-            localStorage.setItem('kycTokens', JSON.stringify(token));
+            dispatch(updateTokens({ type: TokenTypes.KYC, value: token }));
           }
         }
       } else {
@@ -91,27 +137,13 @@ export const Home = ({
     }
   };
 
-  const Item = ({ imageSrc, children }) => {
-    return (
-      <div className="bg-gray-100 flex flex-grow flex-1 flex-wrap lg:flex-nowrap gap-10 p-5 rounded-lg items-center">
-        <div className="flex items-start justify-center">
-          <img
-            src={imageSrc}
-            className="object-cover rounded-lg max-h-[350px]"
-          />
-        </div>
-        <div>{children}</div>
-      </div>
-    );
-  };
-
   return (
     <div className="mb-20">
       <h1 className="text-center text-2xl font-semibold mb-10">
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
       <div className="flex flex-col gap-32">
-        {!fvTokens && !kycTokens && !ogTokens ? (
+        {!fvToken && !kycToken && !ogToken && !regenToken && !vibeToken ? (
           <div>
             <div
               style={{ backgroundImage: `url(${BgImage})` }}
@@ -127,7 +159,7 @@ export const Home = ({
                   mint your first SBTs.
                 </p>
                 <button
-                  onClick={() => setActiveTabIndex(1)}
+                  onClick={() => dispatch(setActivePageIndex(1))}
                   className="rounded-md border mt-5 mb-2 border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                 >
                   Mint your SBTs Now
@@ -136,47 +168,7 @@ export const Home = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-y-10 flex-wrap gap-5">
-            {fvTokens && (
-              <Item imageSrc={FVSBTImage}>
-                <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1 mb-5">
-                  My Face Verification Soul Bound Token
-                </h2>
-                <TokenDetails
-                  tokenID={fvTokens.token}
-                  issuedDate={fvTokens?.metadata?.issued_at}
-                  expireDate={fvTokens?.metadata?.expires_at}
-                />
-              </Item>
-            )}
-            {kycTokens && (
-              <Item imageSrc={KYCSBTImage}>
-                <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1 mb-5">
-                  My KYC Soul Bound Token
-                </h2>
-                <TokenDetails
-                  tokenID={kycTokens?.token}
-                  issuedDate={kycTokens?.metadata?.issued_at}
-                  expireDate={kycTokens?.metadata?.expires_at}
-                />
-              </Item>
-            )}
-            {ogTokens && (
-              <Item imageSrc={OGSBT}>
-                <ValidTokenComponent />
-                <h2 className="font-bold text-3xl my-1 mb-5">
-                  My OG Soul Bound Token
-                </h2>
-                <TokenDetails
-                  tokenID={ogTokens?.token}
-                  issuedDate={ogTokens?.metadata?.issued_at}
-                  expireDate={ogTokens?.metadata?.expires_at}
-                />
-              </Item>
-            )}
-          </div>
+          <TokensGrid />
         )}
       </div>
     </div>

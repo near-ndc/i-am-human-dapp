@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ReducerNames } from '../../utils/constants';
 
 export const oracleReducer = createSlice({
-  name: 'oracle',
+  name: ReducerNames.ORACLE,
   initialState: {
     responseData: null,
   },

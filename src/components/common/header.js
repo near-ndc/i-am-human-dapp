@@ -7,39 +7,47 @@ import { wallet } from '../../index';
 import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { URLs } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAllTokens } from '../../redux/reducer/sbtsReducer';
+import {
+  setActivePageIndex,
+  updateAdminLogin,
+  updateUserLogin,
+} from '../../redux/reducer/commonReducer';
+import { ReducerNames } from '../../utils/constants';
 
-export const Header = ({
-  setShowAdmin = () => {},
-  setActiveTabIndex = () => {},
-}) => {
+export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [isSignedIn, setIsSignedIn] = React.useState(false);
-  const [isAdmin] = useAdmin({ address: wallet.accountId });
+  const dispatch = useDispatch();
+  const { isUserLogin, isAdmin } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
+  const [admin] = useAdmin();
 
   useEffect(() => {
     wallet
       .startUp()
       .then((value) => {
-        setIsSignedIn(value);
+        dispatch(updateUserLogin(value));
       })
       .catch(() => {
-        setIsSignedIn(false);
+        dispatch(updateUserLogin(false));
       });
   });
 
   const signOut = () => {
-    if (isSignedIn) {
+    if (isUserLogin) {
       wallet.signOut();
-      localStorage.removeItem('fvTokens');
-      localStorage.removeItem('kycTokens');
+      dispatch(removeAllTokens());
     } else {
       wallet.signIn();
     }
   };
 
   const HomeMenu = ({ isDialog = false }) => {
-    const activeHomePage =
-      window.location.href.indexOf('community-sbts') === -1;
+    const isActive = (currentPage) =>
+      window.location.href.indexOf(currentPage) !== -1 ? 'text-gradient' : '';
 
     return (
       <div
@@ -50,13 +58,17 @@ export const Header = ({
             : 'hidden md:flex gap-12 font-semibold self-center')
         }
       >
-        <Link to={'/'} className={activeHomePage ? 'text-gradient' : ''}>
+        <Link
+          to={'/'}
+          className={
+            !isActive(URLs.SCOREBOARD) && !isActive(URLs.SBTs)
+              ? 'text-gradient'
+              : ''
+          }
+        >
           Home
         </Link>
-        <Link
-          to={'community-sbts'}
-          className={activeHomePage ? '' : 'text-gradient'}
-        >
+        <Link to={'/community-sbts'} className={isActive(URLs.SBTs)}>
           Community SBTs
         </Link>
       </div>
@@ -77,22 +89,22 @@ export const Header = ({
           <span className="sr-only">Open main menu</span>
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
-        <div onClick={() => setActiveTabIndex(null)}>
+        <div onClick={() => dispatch(setActivePageIndex(null))}>
           <Link to="/" className="-m-1.5 p-1.5 font-bold tracking-tight">
             <img
               src={Logo}
               onClick={() => {
-                setShowAdmin?.(false);
+                dispatch(updateAdminLogin(false));
               }}
               alt="logo"
               className="h-[80px] md:h-[120px] md:w-[100px] mt-6 object-cover"
             />
           </Link>
         </div>
-        {isSignedIn && isAdmin && (
+        {isUserLogin && isAdmin && (
           <>
             <button
-              onClick={() => setShowAdmin(true)}
+              onClick={() => dispatch(updateAdminLogin(true))}
               className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 flex items-center space-x-2"
             >
               <p>Admin Console</p>
@@ -112,7 +124,7 @@ export const Header = ({
             onClick={() => signOut()}
             className="inline-block bg-yellow-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm"
           >
-            {isSignedIn ? 'Sign Out' : 'Connect Wallet'}
+            {isUserLogin ? 'Sign Out' : 'Connect Wallet'}
           </button>
         </div>
       </nav>
@@ -144,8 +156,8 @@ export const Header = ({
               <div className="space-y-2 py-6"></div>
               <div className="flex flex-col gap-7 py-6 text-base font-semibold leading-6 text-gray-900">
                 <HomeMenu isDialog={true} />
-                {isSignedIn && isAdmin && (
-                  <button onClick={() => setShowAdmin(true)}>
+                {isUserLogin && isAdmin && (
+                  <button onClick={() => dispatch(updateAdminLogin(true))}>
                     <p>Admin Console</p>
                     <CheckCircleIcon className="h-4 w-4 text-green-600" />
                   </button>

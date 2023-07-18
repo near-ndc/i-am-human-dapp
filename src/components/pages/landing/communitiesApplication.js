@@ -2,8 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CommunityApplicationPanel } from './communityApplicationPanel/index';
 import { supabase } from '../../../utils/supabase';
 import { wallet } from '../../..';
+import { ReducerNames } from '../../../utils/constants';
+import { useSelector } from 'react-redux';
 
-export const CommunitiesApplication = ({ isSignedIn }) => {
+export const CommunitiesApplication = () => {
+  const { isUserLogin } = useSelector((state) => state[ReducerNames.COMMON]);
   const [communityApplication, setCommunityApplication] = useState(false);
   const [isOpenPanel, setIsOpenPanel] = useState(false);
 
@@ -31,7 +34,7 @@ export const CommunitiesApplication = ({ isSignedIn }) => {
             Create your own community on I-AM-HUMAN and have the ability to
             verify that all the members of your community are real humans !
           </p>
-          {isSignedIn ? (
+          {isUserLogin ? (
             <>
               {!isOpenPanel && communityApplication !== false ? (
                 <div className="mt-6">

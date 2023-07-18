@@ -1,26 +1,30 @@
 import { useState, useEffect, useCallback } from 'react';
 import { checkAdmin } from './utilityFunctions';
+import { wallet } from '..';
+import { useDispatch } from 'react-redux';
+import { updateAdminLogin } from '../redux/reducer/commonReducer';
 
-export const useAdmin = ({ address }) => {
+export const useAdmin = () => {
   const [isAdmin, setIsAdmin] = useState(null);
-
+  const dispatch = useDispatch();
   const checkAdminStatus = useCallback(async () => {
-    if (address) {
+    if (wallet.accountId) {
       try {
-        const data = await checkAdmin(address);
+        const data = await checkAdmin(wallet.accountId);
         if (data) {
-          setIsAdmin(true);
+          dispatch(updateAdminLogin(true));
         } else {
-          setIsAdmin(false);
+          dispatch(updateAdminLogin(false));
         }
       } catch {
-        setIsAdmin(false);
+        dispatch(updateAdminLogin(false));
       }
     }
-  }, [address]);
+  }, [wallet.accountId]);
 
   useEffect(() => {
     checkAdminStatus();
   }, [checkAdminStatus]);
+
   return [isAdmin];
 };
