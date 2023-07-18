@@ -1,13 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ContractMethodNames,
   ReducerNames,
   TokenTypes,
+  decodeBase64,
 } from '../../utils/constants';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 
 const { app_contract } = getConfig();
+
+export const revokeSBTs = createAsyncThunk('SBT/revokeSBTs', async () => {
+  try {
+    const response = await wallet.callMethod({
+      contractId: app_contract,
+      method: ContractMethodNames.BURN,
+      args: {},
+    });
+    return response;
+  } catch (error) {
+    console.error('Error occured in revoking user tokens: ', error);
+    throw error;
+  }
+});
+
+export const soulTransfer = createAsyncThunk(
+  'SBT/soulTransfer',
+  async (address) => {
+    try {
+      const response = await wallet.callMethod({
+        contractId: app_contract,
+        method: ContractMethodNames.TRANSFER,
+        args: { recipient: address },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error occured in transferring user tokens: ', error);
+      throw error;
+    }
+  }
+);
 
 export const sbtReducer = createSlice({
   name: [ReducerNames.SBT],
@@ -17,6 +49,9 @@ export const sbtReducer = createSlice({
     ogToken: null,
     vibeToken: null,
     regenToken: null,
+    isLoading: false,
+    error: null,
+    tokenRemoveSuccess: false,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -49,24 +84,47 @@ export const sbtReducer = createSlice({
       state.vibeToken = null;
       state.regenToken = null;
     },
-    revokeSBTs: (state, action) => {
-      wallet.callMethod({
-        contractId: app_contract,
-        method: ContractMethodNames.BURN,
-        args: {},
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(revokeSBTs.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(revokeSBTs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const response = decodeBase64(action.payload?.status?.SuccessValue);
+        if (response === 'false' || response === false) {
+          revokeSBTs();
+        } else if (response === 'true' || response === true) {
+          state.tokenRemoveSuccess = true;
+        }
+      })
+      .addCase(revokeSBTs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
-    },
-    soulTransfer: (state, action) => {
-      wallet.callMethod({
-        contractId: app_contract,
-        method: ContractMethodNames.TRANSFER,
-        args: { recipient: action.payload },
+    builder
+      .addCase(soulTransfer.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(soulTransfer.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const response = decodeBase64(action.payload?.status?.SuccessValue);
+        if (response === 'false' || response === false) {
+          soulTransfer();
+        } else if (response === 'true' || response === true) {
+          state.tokenRemoveSuccess = true;
+        }
+      })
+      .addCase(soulTransfer.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
-    },
   },
 });
 
-export const { updateTokens, removeAllTokens, revokeSBTs, soulTransfer } =
-  sbtReducer.actions;
+export const { updateTokens, removeAllTokens } = sbtReducer.actions;
 
 export default sbtReducer.reducer;

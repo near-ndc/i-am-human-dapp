@@ -1,13 +1,22 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Warning } from '../../images/Warning';
 import { PrimaryButton } from './PrimaryButton';
 import { OutlineButton } from './OutlineButton';
-import { useDispatch } from 'react-redux';
-import { revokeSBTs, soulTransfer } from '../../redux/reducer/sbtsReducer';
-import { LSKeys } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  removeAllTokens,
+  revokeSBTs,
+  soulTransfer,
+} from '../../redux/reducer/sbtsReducer';
+import { LSKeys, ReducerNames } from '../../utils/constants';
+import { CircleSpinner } from 'react-spinners-kit';
+import { deleteUserDataFromSupabase } from '../../utils/utilityFunctions';
 
 const BurnSBT = () => {
+  const { isLoading, error, tokenRemoveSuccess } = useSelector(
+    (state) => state[ReducerNames.SBT]
+  );
   const [showTooltip, setShowtooltip] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModal] = useState(false);
   const [isTransferCalled, setTransfer] = useState(false);
@@ -16,9 +25,17 @@ const BurnSBT = () => {
 
   function transferSBT() {
     // TODO: make sure the addr is valid
-    dispatch(soulTransfer(transferAddr));
     localStorage.setItem(LSKeys.TRANSFER_ADDR, transferAddr);
+    dispatch(soulTransfer(transferAddr));
   }
+
+  useEffect(() => {
+    if (tokenRemoveSuccess && isConfirmationModalOpen) {
+      deleteUserDataFromSupabase();
+      dispatch(removeAllTokens());
+      setConfirmationModal(false);
+    }
+  }, [tokenRemoveSuccess]);
 
   return (
     <div className="mb-6">
@@ -104,6 +121,9 @@ const BurnSBT = () => {
                           <Warning />
                         </Dialog.Title>
                         <div className="mt-2">
+                          {error && (
+                            <div className="text-red-500"> {error} </div>
+                          )}
                           {isTransferCalled ? (
                             <p className="text-sm text-gray-500">
                               You are about to soul transfer your SBTs to
@@ -164,8 +184,12 @@ const BurnSBT = () => {
                           ? transferSBT()
                           : dispatch(revokeSBTs());
                       }}
+                      disabled={isLoading}
                     >
-                      Confirm
+                      <p className="flex justify-center items-center gap-2">
+                        Confirm
+                        {isLoading && <CircleSpinner size={20} color="red" />}
+                      </p>
                     </OutlineButton>
                     <PrimaryButton
                       classes="w-full mt-4 md:mt-0"

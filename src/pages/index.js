@@ -161,19 +161,21 @@ export function IndexPage() {
       wallet.getTransactionMethodAndResult(txnHash).then((resp) => {
         switch (resp.method) {
           case ContractMethodNames.BURN: {
-            if (resp.result === false) {
+            if (resp.result === 'false' || resp.result === false) {
               return dispatch(revokeSBTs());
-            } else if (resp.result === true) {
+            } else if (resp.result === 'true' || resp.result === true) {
               // all tokens are deleted, deleting data from db also
               return deleteUserDataFromSupabase();
             }
             return;
           }
           case ContractMethodNames.TRANSFER: {
-            if (resp.result === false) {
+            if (resp.result === 'false' || resp.result === false) {
               const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
               return dispatch(soulTransfer(addr));
-            } else localStorage.removeItem(LSKeys.TRANSFER_ADDR);
+            } else if (resp.result === 'true' || resp.result === true) {
+              localStorage.removeItem(LSKeys.TRANSFER_ADDR);
+            }
             return;
           }
           default:
