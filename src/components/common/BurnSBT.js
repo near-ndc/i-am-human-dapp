@@ -14,6 +14,12 @@ const BurnSBT = () => {
   const [transferAddr, setTransferAddr] = useState(null);
   const dispatch = useDispatch();
 
+  function transferSBT() {
+    // TODO: make sure the addr is valid
+    dispatch(soulTransfer(transferAddr));
+    localStorage.setItem(LSKeys.TRANSFER_ADDR, transferAddr);
+  }
+
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-2">
@@ -155,14 +161,7 @@ const BurnSBT = () => {
                       classes="border-red-600 text-red-600 w-full"
                       onClick={() => {
                         isTransferCalled
-                          ? () => {
-                              // TODO: make sure the addr is valid
-                              dispatch(soulTransfer(transferAddr));
-                              localStorage.setItem(
-                                LSKeys.TRANSFER_ADDR,
-                                transferAddr
-                              );
-                            }
+                          ? transferSBT()
                           : dispatch(revokeSBTs());
                       }}
                     >
