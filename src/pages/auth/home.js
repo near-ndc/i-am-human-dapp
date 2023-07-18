@@ -32,7 +32,7 @@ export const Home = () => {
       fetchOGSBTTokens();
       fetchTokens();
       fetchRegenToken();
-      // fetchVibeToken(); // Waiting for issuer changes to be deployed on mainnet registry
+      fetchVibeToken();
     }
   }, [activePageIndex]);
 
