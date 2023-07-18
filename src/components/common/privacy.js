@@ -29,15 +29,14 @@ export const PrivacyComponent = () => {
           >
             Learn More
           </button>
-          {/* Commenting it for now */}
-          {/* {wallet.accountId && (
+          {wallet.accountId && (
             <button
               onClick={() => setRevoke(!isRevokeOpen)}
               className="mt-5 rounded-lg text-white p-2 px-4 border border-white"
             >
               Delete My Data
             </button>
-          )} */}
+          )}
         </div>
       </div>
       {isRevokeOpen && <BurnSBT />}

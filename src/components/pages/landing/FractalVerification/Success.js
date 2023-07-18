@@ -37,7 +37,6 @@ export const SuccesVerification = () => {
         </p>
         <TokensGrid />
       </div>
-      {/* <BurnSBT /> */}
     </div>
   );
 };
