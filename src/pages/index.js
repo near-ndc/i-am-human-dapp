@@ -15,28 +15,44 @@ import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
 import { Tabs } from '../components/pages/home/tabs';
 import { supabase } from '../utils/supabase';
-import { LSKeys, convertToTimestamptz } from '../utils/constants';
-import { isNumber, log_event } from '../utils/utilityFunctions';
+import {
+  ContractMethodNames,
+  LSKeys,
+  ReducerNames,
+  convertToTimestamptz,
+} from '../utils/constants';
+import {
+  deleteUserDataFromSupabase,
+  isNumber,
+  log_event,
+} from '../utils/utilityFunctions';
+import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setActivePageIndex,
+  setSuccessSBTPage,
+} from '../redux/reducer/commonReducer';
+import { revokeSBTs, soulTransfer } from '../redux/reducer/sbtsReducer';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
 
 const URL = window.location;
 
-export function IndexPage({ isSignedIn }) {
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [activeTabIndex, setActiveTabIndex] = useState(null);
-  const [successSBT, setSuccessSBT] = useState(false);
-  const [fvTokens, setFVTokens] = useState(null);
-  const [kycTokens, setKYCTokens] = useState(null);
-  const [ogTokens, setOGTokens] = useState(null);
+export function IndexPage() {
+  const { fvToken, kycToken, ogToken } = useSelector(
+    (state) => state[ReducerNames.SBT]
+  );
+  const { isUserLogin, isAdmin, activePageIndex } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
+
   const dispatch = useDispatch();
 
   async function storeCommunityVerticalData() {
     try {
       const communityName = localStorage.getItem('community-name');
       const communityVertical = localStorage.getItem('community-vertical');
-      if (communityName && fvTokens) {
+      if (communityName && fvToken) {
         const { data } = await supabase.select('scoreboard', {
           account: wallet.accountId,
         });
@@ -64,22 +80,22 @@ export function IndexPage({ isSignedIn }) {
     });
     if (!data?.length) {
       const userData = {
-        fv_token_id: fvTokens.token,
-        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
-        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_token_id: fvToken.token,
+        fv_issued_date: convertToTimestamptz(fvToken?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvToken?.metadata?.expires_at),
         fv_status: 'Mint Success',
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
       log_event({
-        event_log: `User successfully minted their FV SBT token: ${fvTokens.token}`,
+        event_log: `User successfully minted their FV SBT token: ${fvToken.token}`,
       });
     } else if (data.length > 0 && !data[0]?.['fv_token_id']) {
       // update data
       const userData = {
-        fv_token_id: fvTokens.token,
-        fv_issued_date: convertToTimestamptz(fvTokens?.metadata?.issued_at),
-        fv_expire_date: convertToTimestamptz(fvTokens?.metadata?.expires_at),
+        fv_token_id: fvToken.token,
+        fv_issued_date: convertToTimestamptz(fvToken?.metadata?.issued_at),
+        fv_expire_date: convertToTimestamptz(fvToken?.metadata?.expires_at),
         fv_status: 'Mint Success',
       };
       await supabase.update('users', userData, {
@@ -95,17 +111,17 @@ export function IndexPage({ isSignedIn }) {
     if (!data?.length) {
       // no entry exists, insert data
       const userData = {
-        og_tokens_metadata: ogTokens,
+        og_tokens_metadata: ogToken,
         wallet_identifier: wallet.accountId,
       };
       await supabase.insert('users', userData);
     } else if (
       !data[0]?.['og_tokens_metadata'] ||
-      !isEqual(data[0]?.['og_tokens_metadata'], ogTokens) // some new type of OG token can be issued
+      !isEqual(data[0]?.['og_tokens_metadata'], ogToken) // some new type of OG token can be issued
     ) {
       // update data
       const userData = {
-        og_tokens_metadata: ogTokens,
+        og_tokens_metadata: ogToken,
       };
       await supabase.update('users', userData, {
         wallet_identifier: wallet.accountId,
@@ -118,23 +134,55 @@ export function IndexPage({ isSignedIn }) {
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
     if (URL_state === succes_fractal_state && wallet?.accountId) {
-      setActiveTabIndex(2);
+      dispatch(setActivePageIndex(2));
     }
-    if (fvTokens && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
-      setSuccessSBT(true);
+    if (fvToken && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {
+      dispatch(setSuccessSBTPage(true));
       localStorage.removeItem(LSKeys.SHOW_SBT_PAGE);
-      setActiveTabIndex(2);
+      dispatch(setActivePageIndex(2));
     }
-    if (fvTokens) {
+    if (fvToken) {
       createFVEventLog();
     }
-  }, [fvTokens]);
+  }, [fvToken]);
 
   useEffect(() => {
-    if (ogTokens) {
+    if (ogToken) {
       createOGEventLog();
     }
-  }, [ogTokens]);
+  }, [ogToken]);
+
+  // TODO: ADD AFTER CONFIRMATION
+  // useEffect(() => {
+  //   // to check for sbt_burn_all and transfer response since we need to call them in loop till we get true as response
+  //   const txnHash = new URLSearchParams(window.location.search).get(
+  //     'transactionHashes'
+  //   );
+  //   if (txnHash) {
+  //     wallet.getTransactionMethodAndResult(txnHash).then((resp) => {
+  //       switch (resp.method) {
+  //         case ContractMethodNames.BURN: {
+  //           if (resp.result === false) {
+  //             return dispatch(revokeSBTs());
+  //           } else if (resp.result === true) {
+  //             // all tokens are deleted, deleting data from db also
+  //             return deleteUserDataFromSupabase();
+  //           }
+  //           return;
+  //         }
+  //         case ContractMethodNames.TRANSFER: {
+  //           if (resp.result === false) {
+  //             const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
+  //             return dispatch(soulTransfer(addr));
+  //           } else localStorage.removeItem(LSKeys.TRANSFER_ADDR);
+  //           return;
+  //         }
+  //         default:
+  //           return;
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     // setting vertical and community in LS till user mint the token (after which we store the data in supbase db)
@@ -164,26 +212,26 @@ export function IndexPage({ isSignedIn }) {
   ];
 
   const getStarted = () => {
-    if (wallet?.accountId) {
-      setActiveTabIndex(1);
+    if (isUserLogin) {
+      dispatch(setActivePageIndex(1));
     } else {
-      setActiveTabIndex(0);
+      dispatch(setActivePageIndex(0));
     }
   };
 
   useEffect(() => {
-    if (isNumber(activeTabIndex)) {
+    if (isNumber(activePageIndex)) {
       dispatch(updateTrackerStatus(false));
     } else {
       dispatch(updateTrackerStatus(true));
     }
-  }, [activeTabIndex]);
+  }, [activePageIndex]);
 
   return (
     <div
       style={{
         backgroundImage:
-          typeof activeTabIndex !== 'number' && !showAdmin
+          typeof activePageIndex !== 'number' && !isAdmin
             ? `url(${Design})`
             : 'none',
         zIndex: 10,
@@ -194,16 +242,12 @@ export function IndexPage({ isSignedIn }) {
         style={{ background: 'transparent' }}
         className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
       >
-        <Header
-          setActiveTabIndex={setActiveTabIndex}
-          setShowAdmin={setShowAdmin}
-          isAdmin={false}
-        />
-        {showAdmin ? (
-          <Tabs isAdmin={showAdmin} />
+        <Header />
+        {isAdmin ? (
+          <Tabs />
         ) : (
           <>
-            {typeof activeTabIndex !== 'number' ? (
+            {typeof activePageIndex !== 'number' ? (
               <>
                 <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
@@ -249,7 +293,7 @@ export function IndexPage({ isSignedIn }) {
                       </div>
                       <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
-                        {!kycTokens && !fvTokens && !ogTokens && (
+                        {!kycToken && !fvToken && !ogToken && (
                           <button
                             onClick={() => getStarted()}
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -257,7 +301,7 @@ export function IndexPage({ isSignedIn }) {
                             Get Started
                           </button>
                         )}
-                        {(kycTokens || fvTokens || ogTokens) && (
+                        {(kycToken || fvToken || ogToken) && (
                           <button
                             onClick={() =>
                               window.open(
@@ -290,26 +334,12 @@ export function IndexPage({ isSignedIn }) {
                       />
                     </div>
                   </div>
-                  {isSignedIn ? (
-                    <Home
-                      setActiveTabIndex={setActiveTabIndex}
-                      sendFVTokensDetails={setFVTokens}
-                      sendKYCTokensDetails={setKYCTokens}
-                      sendOGTokenDetails={setOGTokens}
-                    />
-                  ) : (
-                    <Landing setActiveTabIndex={setActiveTabIndex} />
-                  )}
+                  {isUserLogin ? <Home /> : <Landing />}
                 </div>
                 <PrivacyComponent />
               </>
             ) : (
-              <IsSignedInLanding
-                activeTabIndex={activeTabIndex}
-                setActiveTabIndex={setActiveTabIndex}
-                successSBT={successSBT}
-                setSuccessSBT={setSuccessSBT}
-              />
+              <IsSignedInLanding />
             )}
             <Footer />
           </>

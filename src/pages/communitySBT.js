@@ -41,7 +41,7 @@ export const CommunitySBTPage = () => {
                 <p className="text-sm">Apply Now</p>
               </PrimaryButton>
             ) : (
-              <OutlineButton>
+              <OutlineButton classes="cursor-auto">
                 <p className="text-sm">Coming Soon</p>
               </OutlineButton>
             )}
@@ -90,6 +90,15 @@ export const CommunitySBTPage = () => {
                   '_blank'
                 )
               }
+            />
+            <Item
+              isAvailable={true}
+              onClick={() =>
+                window.open('https://NEAReFi.org/telegram', '_blank')
+              }
+              imageSrc={ProofOfRegen}
+              title="Regen"
+              description="This SBT symbolizes regenerative potential and the power to heal the world, one act at a time. It's a declaration, proclaiming the bearer as an active participant in creating a compassionate, sustainable world."
             />
             <Item
               isAvailable={true}
@@ -155,11 +164,6 @@ export const CommunitySBTPage = () => {
               imageSrc={GeniusOGSBT}
               title="Genius"
               description="This SBT is a testament to your genius and visionary prowess, propelling the NEAR ecosystem to new heights with brilliant ideas. Unleash its power and shape the future like never before!"
-            />
-            <Item
-              imageSrc={ProofOfRegen}
-              title="Regen"
-              description="This SBT symbolizes regenerative potential and the power to heal the world, one act at a time. It's a declaration, proclaiming the bearer as an active participant in creating a compassionate, sustainable world."
             />
           </div>
         </div>

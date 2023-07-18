@@ -1,10 +1,14 @@
 import React from 'react';
 
-export const OutlineButton = ({ onClick, children }) => {
+export const OutlineButton = ({ onClick, children, classes }) => {
   return (
     <button
+      type="button"
       onClick={onClick}
-      className="cursor-auto rounded-md border border-gray-500 border-1 px-5 text-center py-2 font-light text-black shadow-sm"
+      className={
+        `rounded-md border border-gray-500 border-1 px-5 text-center py-2 font-light text-black shadow-sm ` +
+        classes
+      }
     >
       {children}
     </button>

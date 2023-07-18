@@ -6,18 +6,17 @@ import { wallet } from '../..';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { verifyUser } from '../../services/api';
 import { CircleSpinner } from 'react-spinners-kit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { insertUserData, log_event } from '../../utils/utilityFunctions';
 import ReactConfetti from 'react-confetti';
+import { ReducerNames } from '../../utils/constants';
+import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
-export const Tabs = ({
-  tabs,
-  activeTabIndex,
-  setActiveTabIndex,
-  error,
-  successSBT,
-}) => {
+export const Tabs = ({ tabs, error }) => {
+  const { activePageIndex, isSuccessSBTPage } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
   const dispatch = useDispatch();
   const [editableFields, setEditableFields] = useState({
     code: '',
@@ -48,7 +47,7 @@ export const Tabs = ({
           insertUserData({
             fv_status: 'Fractal Pending Authorization',
           });
-          setActiveTabIndex(1);
+          dispatch(setActivePageIndex(1));
         }
         // success response,
         if (resp?.m) {
@@ -58,13 +57,13 @@ export const Tabs = ({
           log_event({
             event_log: 'User is approved from Fractal',
           });
-          setActiveTabIndex(2);
+          dispatch(setActivePageIndex(2));
         }
         if (resp?.error) {
           log_event({
             event_log: resp?.error,
           });
-          setActiveTabIndex(1);
+          dispatch(setActivePageIndex(1));
         }
         setLoading(false);
       })
@@ -86,7 +85,7 @@ export const Tabs = ({
   }, []);
 
   useEffect(() => {
-    if (activeTabIndex === 2 && !successSBT) {
+    if (activePageIndex === 2 && !isSuccessSBTPage) {
       checkIsUserVerified();
     } else {
       setLoading(false);
@@ -94,7 +93,7 @@ export const Tabs = ({
   }, [executeRecaptcha]);
 
   useEffect(() => {
-    if (successSBT) {
+    if (isSuccessSBTPage) {
       setShowConfetti(true);
       let timer = setTimeout(() => {
         setShowConfetti(false);
@@ -103,7 +102,7 @@ export const Tabs = ({
         clearTimeout(timer);
       };
     }
-  }, [successSBT]);
+  }, [isSuccessSBTPage]);
 
   return (
     <>
@@ -120,7 +119,7 @@ export const Tabs = ({
               <div className="flex flex-col">
                 <div
                   className={`bg-gray-100 absolute top-0 left-0 ${
-                    successSBT ? 'h-[75rem]' : 'h-full'
+                    isSuccessSBTPage ? 'h-[75rem]' : 'h-full'
                   } w-[38%] -z-50`}
                 />
                 {tabs.map((tab, index) => (
@@ -131,7 +130,7 @@ export const Tabs = ({
                     >
                       <div
                         className={`rounded-full border-2 ${
-                          index <= activeTabIndex
+                          index <= activePageIndex
                             ? 'border-purple-400'
                             : 'border-gray-300'
                         } p-3`}
@@ -140,23 +139,23 @@ export const Tabs = ({
                       </div>
                       <p
                         className={`text-m font-medium ml-4 mr-2 ${
-                          index === activeTabIndex && 'text-purple-600'
+                          index === activePageIndex && 'text-purple-600'
                         }`}
                       >
                         {tab.name}
                       </p>
-                      {activeTabIndex === index && !!error ? (
+                      {activePageIndex === index && !!error ? (
                         <Warning />
                       ) : (
-                        activeTabIndex === index &&
-                        successSBT && <CheckCircle />
+                        activePageIndex === index &&
+                        isSuccessSBTPage && <CheckCircle />
                       )}
-                      {activeTabIndex > index && <CheckCircle />}
+                      {activePageIndex > index && <CheckCircle />}
                     </div>
                     {tabs.length !== index + 1 && (
                       <hr
                         class={`h-8 w-0.5 ml-9 ${
-                          activeTabIndex >= index
+                          activePageIndex >= index
                             ? 'bg-gradient-to-r from-purple-600 to-indigo-600'
                             : 'bg-gray-300'
                         } border-0 rounded-full	my-1`}
@@ -167,7 +166,7 @@ export const Tabs = ({
               </div>
             </div>
             <div className="col-span-2 pt-32 pl-12">
-              <p className="relative z-10">{tabs[activeTabIndex].content}</p>
+              <p className="relative z-10">{tabs[activePageIndex].content}</p>
               <img
                 src={Logo}
                 alt="logo"
@@ -194,11 +193,11 @@ export const Tabs = ({
                     <div className="flex gap-2">
                       <div
                         className={`rounded-full border-2 ${
-                          index <= activeTabIndex
+                          index <= activePageIndex
                             ? 'border-purple-400'
                             : 'border-gray-300'
                         } ${
-                          index <= activeTabIndex
+                          index <= activePageIndex
                             ? 'stoke-purple-400'
                             : 'stroke-gray-300'
                         } p-1.5`}
@@ -213,7 +212,7 @@ export const Tabs = ({
                     </div>
                     <p
                       className={`text-m font-medium ${
-                        index <= activeTabIndex
+                        index <= activePageIndex
                           ? 'text-purple-600'
                           : 'text-black'
                       }`}
@@ -224,7 +223,7 @@ export const Tabs = ({
                 </>
               ))}
             </div>
-            <div className="my-10 flex">{tabs[activeTabIndex].content}</div>
+            <div className="my-10 flex">{tabs[activePageIndex].content}</div>
           </div>
         </>
       )}

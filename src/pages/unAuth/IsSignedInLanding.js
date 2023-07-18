@@ -9,16 +9,16 @@ import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { ReducerNames } from '../../utils/constants';
+import { useSelector } from 'react-redux';
 
-export const IsSignedInLanding = ({
-  activeTabIndex,
-  setActiveTabIndex,
-  successSBT,
-  setSuccessSBT,
-}) => {
+export const IsSignedInLanding = () => {
+  const { activePageIndex } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
   const [error, setError] = useState(false);
   const activeTab = (index) =>
-    activeTabIndex >= index
+    activePageIndex >= index
       ? 'stroke-themeColor svg-themeColor'
       : 'stroke-gray-300 svg-gray';
 
@@ -31,26 +31,12 @@ export const IsSignedInLanding = ({
     {
       name: 'Face Scan',
       header: <FaceSVG styles={`w-12 h-12 ${activeTab(1)}`} />,
-      content: (
-        <ScanFace
-          setError={setError}
-          isError={error}
-          setActiveTabIndex={setActiveTabIndex}
-        />
-      ),
+      content: <ScanFace setError={setError} isError={error} />,
     },
     {
       name: 'Mint SBT',
       header: <MintSVG styles={`w-12 h-12 ${activeTab(2)}`} />,
-      content: (
-        <MintSBT
-          setActiveTabIndex={setActiveTabIndex}
-          successSBT={successSBT}
-          setSuccessSBT={setSuccessSBT}
-          setError={setError}
-          isError={error}
-        />
-      ),
+      content: <MintSBT setError={setError} isError={error} />,
     },
   ];
 
@@ -64,14 +50,8 @@ export const IsSignedInLanding = ({
       language="en"
     >
       <div className="lg:mx-auto lg:max-w-7xl">
-        {typeof activeTabIndex === 'number' && (
-          <Tabs
-            tabs={TabsData}
-            activeTabIndex={activeTabIndex}
-            error={error}
-            successSBT={successSBT}
-            setActiveTabIndex={setActiveTabIndex}
-          />
+        {typeof activePageIndex === 'number' && (
+          <Tabs tabs={TabsData} error={error} />
         )}
       </div>
     </GoogleReCaptchaProvider>

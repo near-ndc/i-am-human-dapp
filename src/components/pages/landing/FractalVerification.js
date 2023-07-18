@@ -16,7 +16,8 @@ import { SuccesVerification } from './FractalVerification/Success';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../../services/api';
 import { updateResponse } from '../../../redux/reducer/oracleReducer';
-import { hasTwoDots } from '../../../utils/constants';
+import { ReducerNames, hasTwoDots } from '../../../utils/constants';
+import { setActivePageIndex } from '../../../redux/reducer/commonReducer';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -42,15 +43,14 @@ export const ConnectWallet = () => (
   </div>
 );
 
-export const MintSBT = ({
-  setActiveTabIndex,
-  setError,
-  isError,
-  successSBT,
-}) => {
-  const { responseData } = useSelector((state) => state.oracle);
+export const MintSBT = ({ setError, isError }) => {
+  const { responseData } = useSelector((state) => state[ReducerNames.ORACLE]);
   const [submit, setSubmit] = useState(null);
   const [errorMessage, setErrorMessage] = useState(DEFAULT_ERROR_MESSAGE);
+  const dispatch = useDispatch();
+  const { isSuccessSBTPage } = useSelector(
+    (state) => state[ReducerNames.COMMON]
+  );
 
   const mintSBT = async () => {
     window.history.replaceState({}, '', window.location.origin);
@@ -94,12 +94,12 @@ export const MintSBT = ({
   };
 
   const tryAgain = () => {
-    setActiveTabIndex(1);
+    dispatch(setActivePageIndex(1));
     setError(false);
     setErrorMessage(DEFAULT_ERROR_MESSAGE);
   };
 
-  return successSBT ? (
+  return isSuccessSBTPage ? (
     <SuccesVerification />
   ) : (
     <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center">
@@ -152,7 +152,7 @@ export const MintSBT = ({
 
             <div className="flex items-center ml-4">
               <p className="mr-1">Expire in</p>
-              <Timer delayResend="600" setActiveTabIndex={setActiveTabIndex} />
+              <Timer delayResend="600" />
             </div>
           </div>
         )}
@@ -165,10 +165,10 @@ export const MintSBT = ({
   );
 };
 
-export const ScanFace = ({ setActiveTabIndex }) => {
+export const ScanFace = () => {
   const [submit, setSubmit] = useState(null);
   const [isApprovalAwait, setApprovalWait] = useState(false);
-  const { responseData } = useSelector((state) => state.oracle);
+  const { responseData } = useSelector((state) => state[ReducerNames.ORACLE]);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const [isUserRedirected, setUserRedirect] = useState(false);
@@ -203,13 +203,13 @@ export const ScanFace = ({ setActiveTabIndex }) => {
           log_event({
             event_log: 'Fractal: User is approved! ' + JSON.stringify(resp),
           });
-          setActiveTabIndex(2);
+          dispatch(setActivePageIndex(2));
         }
         if (resp?.error) {
           log_event({
             event_log: 'Oracle: API Error. ' + resp?.error,
           });
-          setActiveTabIndex(1);
+          dispatch(setActivePageIndex(1));
         }
         setSubmit(false);
       })
