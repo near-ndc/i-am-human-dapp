@@ -21,6 +21,16 @@ import senderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import HereWalletIconUrl from '@near-wallet-selector/here-wallet/assets/here-wallet-icon.png';
 import { getConfig } from './config';
+import { connect, keyStores } from 'near-api-js';
+
+const connectionConfig = {
+  networkId: 'testnet',
+  keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+  nodeUrl: 'https://rpc.testnet.near.org',
+  walletUrl: 'https://wallet.testnet.near.org',
+  helperUrl: 'https://helper.testnet.near.org',
+  explorerUrl: 'https://explorer.testnet.near.org',
+};
 
 const sender = setupSender({
   iconUrl: senderIconUrl,
@@ -160,6 +170,7 @@ export class Wallet {
 
     // Retrieve transaction result from the network
     const transaction = await provider.txStatus(txhash, 'unnused');
+
     return providers.getTransactionLastResult(transaction);
   }
 
@@ -174,5 +185,15 @@ export class Wallet {
         transaction.transaction.actions?.[0]?.['FunctionCall']?.['method_name'],
       result: providers.getTransactionLastResult(transaction),
     };
+  }
+
+  async isAccountValid(addr) {
+    let isAccountValid = true;
+    const nearConnection = await connect(connectionConfig);
+    const account = await nearConnection.account(addr);
+    await account.state().catch((err) => {
+      isAccountValid = false;
+    });
+    return isAccountValid;
   }
 }

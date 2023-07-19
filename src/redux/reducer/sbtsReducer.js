@@ -76,6 +76,9 @@ export const sbtReducer = createSlice({
           break;
       }
     },
+    handleErrorMessage: (state, action) => {
+      state.error = action.payload;
+    },
     // when burned or signed out
     removeAllTokens: (state, action) => {
       state.fvToken = null;
@@ -125,6 +128,7 @@ export const sbtReducer = createSlice({
   },
 });
 
-export const { updateTokens, removeAllTokens } = sbtReducer.actions;
+export const { updateTokens, removeAllTokens, handleErrorMessage } =
+  sbtReducer.actions;
 
 export default sbtReducer.reducer;
