@@ -27,7 +27,7 @@ export const URLs = {
 };
 
 export function decodeBase64(str) {
-  return Buffer.from(str, 'base64').toString('ascii');
+  return JSON.parse(Buffer.from(str, 'base64').toString('ascii'));
 }
 
 export const TokenTypes = {
@@ -49,3 +49,5 @@ export const ContractMethodNames = {
   BURN: 'sbt_burn_all',
   TRANSFER: 'sbt_soul_transfer',
 };
+
+export const BrandColor = '#9333EA';

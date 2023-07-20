@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactConfetti from 'react-confetti';
 import { CircleWavyCheck } from '../../../../images/CircleWavyCheck';
-import BurnSBT from '../../../common/BurnSBT';
 import TokensGrid from '../../../common/TokensGrid';
 
 export const SuccesVerification = () => {
