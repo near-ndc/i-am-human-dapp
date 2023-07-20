@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BurnSBT from './BurnSBT';
+import DangerZone from './DangerZone';
 import { wallet } from '../..';
 
 export const PrivacyComponent = () => {
@@ -39,7 +39,7 @@ export const PrivacyComponent = () => {
           )}
         </div>
       </div>
-      {isRevokeOpen && <BurnSBT />}
+      {isRevokeOpen && <DangerZone />}
     </div>
   );
 };
