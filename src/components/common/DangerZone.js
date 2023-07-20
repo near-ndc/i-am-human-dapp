@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { Warning } from '../../images/Warning';
+import { ExclamationIcon } from '../../images/ExclamationIcon';
 import { PrimaryButton } from './PrimaryButton';
 import { OutlineButton } from './OutlineButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import {
   revokeSBTs,
   soulTransfer,
 } from '../../redux/reducer/sbtsReducer';
-import { LSKeys, ReducerNames } from '../../utils/constants';
+import { BrandColor, LSKeys, ReducerNames } from '../../utils/constants';
 import { CircleSpinner } from 'react-spinners-kit';
 import { deleteUserDataFromSupabase } from '../../utils/utilityFunctions';
 import { wallet } from '../..';
@@ -129,12 +129,12 @@ const DangerZone = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                  <div className="bg-white p-5">
                     <div className="sm:flex sm:items-start">
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 text-center">
                         <Dialog.Title className="flex items-center justify-center large-svg">
-                          <Warning />
+                          <ExclamationIcon />
                         </Dialog.Title>
                         <div className="mt-2">
                           {error && (
@@ -161,7 +161,7 @@ const DangerZone = () => {
                               <div className="sm:col-span-4">
                                 <label
                                   htmlFor="Address"
-                                  className="block text-sm font-medium leading-6 text-gray-500"
+                                  className="block text-sm font-medium leading-6 text-gray-500 text-left"
                                 >
                                   Account to Transfer SBTs:
                                 </label>
@@ -181,7 +181,7 @@ const DangerZone = () => {
                                         setValidAddr(true);
                                       }}
                                       autoComplete="username"
-                                      className="block w-full flex-1 border-0 bg-transparent py-2 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                      class="block w-full flex-1 border-0 bg-black-100 py-2 pl-2 text-gray-900 placeholder:text-gray-400"
                                     />
                                   </div>
                                   <p className="text-red-500">
@@ -222,7 +222,10 @@ const DangerZone = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="justify-center md:gap-3 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <div className="flex justify-center md:gap-3 px-4 pb-6 items-stretch gap-2">
+                    <PrimaryButton onClick={() => setConfirmationModal(false)}>
+                      Cancel
+                    </PrimaryButton>
                     <OutlineButton
                       classes="border-purple-600 text-purple-600"
                       onClick={() => {
@@ -234,15 +237,11 @@ const DangerZone = () => {
                     >
                       <p className="flex justify-center items-center gap-2">
                         Confirm
-                        {isLoading && <CircleSpinner size={20} color="red" />}
+                        {isLoading && (
+                          <CircleSpinner size={20} color={BrandColor} />
+                        )}
                       </p>
                     </OutlineButton>
-                    <PrimaryButton
-                      classes="mt-4 md:mt-0"
-                      onClick={() => setConfirmationModal(false)}
-                    >
-                      Cancel
-                    </PrimaryButton>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

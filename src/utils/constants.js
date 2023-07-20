@@ -49,3 +49,5 @@ export const ContractMethodNames = {
   BURN: 'sbt_burn_all',
   TRANSFER: 'sbt_soul_transfer',
 };
+
+export const BrandColor = '#9333EA';
