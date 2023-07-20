@@ -9,6 +9,7 @@ import {
   removeAllTokens,
   revokeSBTs,
   soulTransfer,
+  updateTokenRemoveStatus,
 } from '../../redux/reducer/sbtsReducer';
 import { BrandColor, LSKeys, ReducerNames } from '../../utils/constants';
 import { CircleSpinner } from 'react-spinners-kit';
@@ -28,7 +29,8 @@ const DangerZone = () => {
 
   async function transferSBT() {
     const isAccountValid = await wallet.isAccountValid(transferAddr);
-    if (isAccountValid) {
+    // also check if the address is not same as current account
+    if (isAccountValid && transferAddr !== wallet.accountId) {
       localStorage.setItem(LSKeys.TRANSFER_ADDR, transferAddr);
       dispatch(soulTransfer(transferAddr));
     } else {
@@ -40,9 +42,10 @@ const DangerZone = () => {
     if (tokenRemoveSuccess && isConfirmationModalOpen) {
       deleteUserDataFromSupabase();
       dispatch(removeAllTokens());
+      dispatch(updateTokenRemoveStatus());
       setConfirmationModal(false);
     }
-  }, [tokenRemoveSuccess]);
+  }, [tokenRemoveSuccess, isConfirmationModalOpen]);
 
   return (
     <div className="mb-6">
@@ -223,7 +226,10 @@ const DangerZone = () => {
                     </div>
                   </div>
                   <div className="flex justify-center md:gap-3 px-4 pb-6 items-stretch gap-2">
-                    <PrimaryButton onClick={() => setConfirmationModal(false)}>
+                    <PrimaryButton
+                      onClick={() => setConfirmationModal(false)}
+                      disabled={isLoading}
+                    >
                       Cancel
                     </PrimaryButton>
                     <OutlineButton

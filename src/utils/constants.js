@@ -27,7 +27,7 @@ export const URLs = {
 };
 
 export function decodeBase64(str) {
-  return Buffer.from(str, 'base64').toString('ascii');
+  return JSON.parse(Buffer.from(str, 'base64').toString('ascii'));
 }
 
 export const TokenTypes = {

@@ -87,12 +87,16 @@ export const sbtReducer = createSlice({
       state.vibeToken = null;
       state.regenToken = null;
     },
+    updateTokenRemoveStatus: (state, action) => {
+      state.tokenRemoveSuccess = !state.tokenRemoveSuccess;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(revokeSBTs.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+        state.tokenRemoveSuccess = false;
       })
       .addCase(revokeSBTs.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -111,10 +115,13 @@ export const sbtReducer = createSlice({
       .addCase(soulTransfer.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+        state.tokenRemoveSuccess = false;
       })
       .addCase(soulTransfer.fulfilled, (state, action) => {
         state.isLoading = false;
-        const response = decodeBase64(action.payload?.status?.SuccessValue);
+        const response = decodeBase64(
+          action.payload?.status?.SuccessValue
+        )?.[1];
         if (response === 'false' || response === false) {
           soulTransfer();
         } else if (response === 'true' || response === true) {
@@ -128,7 +135,11 @@ export const sbtReducer = createSlice({
   },
 });
 
-export const { updateTokens, removeAllTokens, handleErrorMessage } =
-  sbtReducer.actions;
+export const {
+  updateTokens,
+  removeAllTokens,
+  handleErrorMessage,
+  updateTokenRemoveStatus,
+} = sbtReducer.actions;
 
 export default sbtReducer.reducer;
