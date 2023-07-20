@@ -23,13 +23,15 @@ import HereWalletIconUrl from '@near-wallet-selector/here-wallet/assets/here-wal
 import { getConfig } from './config';
 import { connect, keyStores } from 'near-api-js';
 
+const { network_id } = getConfig();
+
 const connectionConfig = {
-  networkId: 'testnet',
+  networkId: network_id,
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-  nodeUrl: 'https://rpc.testnet.near.org',
-  walletUrl: 'https://wallet.testnet.near.org',
-  helperUrl: 'https://helper.testnet.near.org',
-  explorerUrl: 'https://explorer.testnet.near.org',
+  nodeUrl: `https://rpc.${network_id}.near.org`,
+  walletUrl: `https://wallet.${network_id}.near.org`,
+  helperUrl: `https://helper.${network_id}.near.org`,
+  explorerUrl: `https://explorer.${network_id}.near.org`,
 };
 
 const sender = setupSender({
