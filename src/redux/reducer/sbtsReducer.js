@@ -52,6 +52,7 @@ export const sbtReducer = createSlice({
     isLoading: false,
     error: null,
     tokenRemoveSuccess: false,
+    continueLoop: false, // for transfer and burn
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -97,12 +98,13 @@ export const sbtReducer = createSlice({
         state.isLoading = true;
         state.error = null;
         state.tokenRemoveSuccess = false;
+        state.continueLoop = false;
       })
       .addCase(revokeSBTs.fulfilled, (state, action) => {
         state.isLoading = false;
         const response = decodeBase64(action.payload?.status?.SuccessValue);
         if (response === 'false' || response === false) {
-          revokeSBTs();
+          state.continueLoop = true;
         } else if (response === 'true' || response === true) {
           state.tokenRemoveSuccess = true;
         }
@@ -116,6 +118,7 @@ export const sbtReducer = createSlice({
         state.isLoading = true;
         state.error = null;
         state.tokenRemoveSuccess = false;
+        state.continueLoop = false;
       })
       .addCase(soulTransfer.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -123,7 +126,7 @@ export const sbtReducer = createSlice({
           action.payload?.status?.SuccessValue
         )?.[1];
         if (response === 'false' || response === false) {
-          soulTransfer();
+          state.continueLoop = true;
         } else if (response === 'true' || response === true) {
           state.tokenRemoveSuccess = true;
         }

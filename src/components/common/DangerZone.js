@@ -17,7 +17,7 @@ import { deleteUserDataFromSupabase } from '../../utils/utilityFunctions';
 import { wallet } from '../..';
 
 const DangerZone = () => {
-  const { isLoading, error, tokenRemoveSuccess } = useSelector(
+  const { isLoading, error, tokenRemoveSuccess, continueLoop } = useSelector(
     (state) => state[ReducerNames.SBT]
   );
   const [showTooltip, setShowtooltip] = useState(false);
@@ -37,6 +37,16 @@ const DangerZone = () => {
       setValidAddr(false);
     }
   }
+
+  useEffect(() => {
+    if (continueLoop) {
+      if (isTransferCalled) {
+        dispatch(soulTransfer(transferAddr));
+      } else {
+        dispatch(revokeSBTs());
+      }
+    }
+  }, [continueLoop]);
 
   useEffect(() => {
     if (tokenRemoveSuccess && isConfirmationModalOpen) {

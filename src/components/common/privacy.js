@@ -34,7 +34,7 @@ export const PrivacyComponent = () => {
               onClick={() => setRevoke(!isRevokeOpen)}
               className="mt-5 rounded-lg text-white p-2 px-4 border border-white"
             >
-              Delete My Data
+              Manage My Privacy
             </button>
           )}
         </div>

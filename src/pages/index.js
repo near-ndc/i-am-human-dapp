@@ -170,10 +170,11 @@ export function IndexPage() {
             return;
           }
           case ContractMethodNames.TRANSFER: {
-            if (resp.result === 'false' || resp.result === false) {
+            const value = resp?.result?.[1];
+            if (value === 'false' || value === false) {
               const addr = localStorage.getItem(LSKeys.TRANSFER_ADDR);
               return dispatch(soulTransfer(addr));
-            } else if (resp.result === 'true' || resp.result === true) {
+            } else if (value === 'true' || value === true) {
               localStorage.removeItem(LSKeys.TRANSFER_ADDR);
             }
             return;
