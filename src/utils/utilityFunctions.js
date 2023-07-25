@@ -1,6 +1,7 @@
 import { wallet } from '../index';
 import { getConfig } from './config';
 import { supabase } from './supabase';
+import moment from 'moment';
 
 export const checkAdmin = (walletAddress) => {
   return wallet.viewMethod({
@@ -59,3 +60,17 @@ export const deleteUserDataFromSupabase = async () => {
     account: wallet.accountId,
   });
 };
+
+export function decodeBase64(str) {
+  return JSON.parse(Buffer.from(str, 'base64').toString('ascii'));
+}
+
+// used in supabase column type for date
+export const convertToTimestamptz = (timestamp) => {
+  return moment.utc(timestamp).format('YYYY-MM-DDTHH:mm:ssZ');
+};
+
+export function hasTwoDots(str) {
+  const regex = /\.\.*\./;
+  return regex.test(str);
+}

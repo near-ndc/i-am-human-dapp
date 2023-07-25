@@ -3,7 +3,7 @@ import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
 import OGSBT from '../../images/OGSBT.png';
 
-export const Landing = () => {
+const Landing = () => {
   return (
     <div className="flex flex-col gap-10 md:gap-32 mb-20">
       <div className="flex flex-wrap gap-10">
@@ -141,3 +141,5 @@ export const Landing = () => {
     </div>
   );
 };
+
+export default Landing;

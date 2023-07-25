@@ -3,10 +3,10 @@ import {
   ContractMethodNames,
   ReducerNames,
   TokenTypes,
-  decodeBase64,
 } from '../../utils/constants';
 import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
+import { decodeBase64 } from '../../utils/utilityFunctions';
 
 const { app_contract } = getConfig();
 
