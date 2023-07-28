@@ -11,6 +11,7 @@ export const URLs = {
   SCOREBOARD: '/community-scoreboard',
   SBTs: '/community-sbts',
   HOME: '/',
+  ACTIVATE: '/activate',
 };
 
 export const TokenTypes = {

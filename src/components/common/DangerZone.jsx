@@ -1,8 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '../../images/ExclamationIcon';
-import { PrimaryButton } from './PrimaryButton';
-import { OutlineButton } from './OutlineButton';
+import { PrimaryButton, OutlineButton } from '../common/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   handleErrorMessage,
