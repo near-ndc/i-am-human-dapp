@@ -41,7 +41,12 @@ const ActivatePage = () => {
             isAvailable={true}
             title="NDC Nomination"
             description="Are you a dedicated OG member of the NEAR community? Nominate yourself for a seat in the NDC General Election. Realize your vision to grow the NEAR ecosystem. Verified humans, comment and upvote on your favorite candidates."
-            onClick={() => {}}
+            onClick={() =>
+              window.open(
+                'https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Page',
+                '_blank'
+              )
+            }
             buttonText="Participate Now"
           />
           <ImageTextBlock
@@ -49,16 +54,26 @@ const ActivatePage = () => {
             isAvailable={true}
             title="NDC Official Polls"
             description="Explore polls officially conducted by the NDC. These polls are verified, authoritative, and can provide valuable insights on the ecosystem! Participating in the Official Polls will eventually contribute to your on-chain reputation. Your opinions matter. #Vote"
-            onClick={() => {}}
             buttonText="Vote in Polls"
+            onClick={() =>
+              window.open(
+                'https://near.org/easypoll-v0.ndc-widgets.near/widget/EasyPoll?page=official_polls',
+                '_blank'
+              )
+            }
           />
           <ImageTextBlock
             //   imageSrc={}
             isAvailable={true}
             title="NDC Gigs"
             description="NDC regularly engages the community with NDC Gigs to onboard more contributors and to engage with community members who have a desire to support Open Source Development and to build public goods. Try your hand at a gig today!"
-            onClick={() => {}}
             buttonText="Do a Gig"
+            onClick={() =>
+              window.open(
+                'https://near.org/neardigitalcollective.near/widget/Gigs',
+                '_blank'
+              )
+            }
           />
           <ImageTextBlock
             //   imageSrc={}
@@ -78,7 +93,9 @@ const ActivatePage = () => {
             isAvailable={true}
             title="Join NDC @ Events"
             description="Attend NDC sponsored blockchain events, hang out with the NEAR Digital Collective contributors, and collect the unique “Proof of Vibe” Soul Bound Tokens by passing vibe checks. It grants exclusive access to high-caliber gatherings, turning them into celebrations of our collective spirit."
-            onClick={() => {}}
+            onClick={() =>
+              window.open('https://t.me/+NjNy-5yl_KllNmYx', '_blank')
+            }
             buttonText="See you IRL"
           />
           <ImageTextBlock
