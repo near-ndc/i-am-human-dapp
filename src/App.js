@@ -9,6 +9,7 @@ import { URLs } from './utils/constants';
 import ProgressTracker from './components/common/ProgressTracker';
 import CustomHeader from './components/common/Header';
 import CustomFooter from './components/common/Footer';
+import ActivatePage from './pages/Activate';
 
 const Wrapper = ({ children }) => {
   return (
@@ -61,6 +62,14 @@ export function App() {
             element={
               <Wrapper>
                 <IndexPage />
+              </Wrapper>
+            }
+          />
+          <Route
+            path={URLs.ACTIVATE}
+            element={
+              <Wrapper>
+                <ActivatePage />
               </Wrapper>
             }
           />

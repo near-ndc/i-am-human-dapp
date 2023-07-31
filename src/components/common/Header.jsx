@@ -64,11 +64,13 @@ const CustomHeader = () => {
           onClick={() => {
             dispatch(setActivePageIndex(null));
             navigate('/');
+            setMobileMenuOpen(false);
           }}
           className={
             !isActive(URLs.SCOREBOARD) &&
             !isActive(URLs.SBTs) &&
-            !isNumber(activePageIndex)
+            !isNumber(activePageIndex) &&
+            !isActive(URLs.ACTIVATE)
               ? 'text-gradient'
               : ''
           }
@@ -76,17 +78,29 @@ const CustomHeader = () => {
           Home
         </div>
         <div
-          onClick={() => navigate('/community-sbts')}
+          onClick={() => {
+            navigate(URLs.SBTs);
+            setMobileMenuOpen(false);
+          }}
           className={isActive(URLs.SBTs)}
         >
           Community SBTs
+        </div>
+        <div
+          onClick={() => {
+            navigate(URLs.ACTIVATE);
+            setMobileMenuOpen(false);
+          }}
+          className={isActive(URLs.ACTIVATE)}
+        >
+          Activate
         </div>
       </div>
     );
   };
 
   return (
-    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10 mb-[20px] md:mb-[50px]">
+    <div className="isolate bg-white mx-auto max-w-7xl px-5 pt-10 mb-[50px] md:mb-[70px]">
       <nav
         className="flex h-9 items-center justify-between"
         aria-label="Global"

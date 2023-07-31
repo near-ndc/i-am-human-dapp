@@ -240,7 +240,7 @@ const IndexPage = () => {
     >
       <div
         style={{ background: 'transparent' }}
-        className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
+        className="isolate bg-white mx-auto max-w-7xl px-5 md:pt-10"
       >
         {isAdmin ? (
           <Tabs />
