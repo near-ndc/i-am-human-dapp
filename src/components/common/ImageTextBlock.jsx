@@ -12,7 +12,7 @@ const ImageTextBlock = ({
   return (
     <div className="flex gap-6 hover-card p-4 md:p-5">
       <img
-        className="max-w-[130px] md:max-w-[160px] md:h-auto rounded-lg object-cover"
+        className="max-w-[130px] object-cover md:max-w-[160px] md:h-auto rounded-lg object-cover"
         src={imageSrc}
       />
       <div className="flex flex-col gap-1 leading-1">

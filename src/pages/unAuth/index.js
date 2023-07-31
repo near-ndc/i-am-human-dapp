@@ -1,7 +1,7 @@
 import React from 'react';
 import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
-import OGSBT from '../../images/OGSBT.png';
+import IVotedSBT from '../../images/I_voted_SBT.png';
 
 const Landing = () => {
   return (
@@ -75,7 +75,10 @@ const Landing = () => {
           </div>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
-          <img src={OGSBT} className="object-fill rounded-lg md:w-2/3 badge" />
+          <img
+            src={IVotedSBT}
+            className="object-cover rounded-lg md:w-2/3 badge"
+          />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
