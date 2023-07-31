@@ -1,9 +1,10 @@
 import React from 'react';
 import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
+import IVotedSBT from '../../images/I_voted_SBT.png';
 import OGSBT from '../../images/OGSBT.png';
 
-export const Landing = () => {
+const Landing = () => {
   return (
     <div className="flex flex-col gap-10 md:gap-32 mb-20">
       <div className="flex flex-wrap gap-10">
@@ -80,6 +81,40 @@ export const Landing = () => {
       </div>
       <div className="flex flex-wrap gap-10">
         <div className="flex-1 min-w-[300px] md:mt-10">
+          <h2 className="font-bold text-4xl">
+            Get Your “I Voted” Soul Bound Token
+          </h2>
+          <p className="my-5">
+            Gear up for the inaugural NDC General Election on September 8! Cast
+            your votes for the three governance houses and claim the important
+            "I VOTED" Soul Bound Token. This is a reputation Soul Bound Token.
+            Unlock the ability to participate in government referendums and
+            showcase your participation in the NEAR Ecosystem NDC Election. Mark
+            September 8 on your calendar and be part of this history of
+            governance on NEAR.
+          </p>
+
+          <button
+            onClick={() =>
+              window.open(
+                'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
+                '_blank'
+              )
+            }
+            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
+          >
+            Learn More
+          </button>
+        </div>
+        <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
+          <img
+            src={IVotedSBT}
+            className="object-cover rounded-lg md:w-2/3 badge"
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-10">
+        <div className="flex-1 min-w-[300px] md:mt-10">
           <h2 className="font-bold text-4xl">Get Your KYC Soul Bound Token</h2>
           <p className="my-5">
             Have you already KYC with Fractal? You are in luck. If you have
@@ -101,7 +136,7 @@ export const Landing = () => {
             Learn More
           </button>
         </div>
-        <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
+        <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
           <img
             src={KYCSBTImage}
             className="object-fill rounded-lg md:w-2/3 badge"
@@ -141,3 +176,5 @@ export const Landing = () => {
     </div>
   );
 };
+
+export default Landing;

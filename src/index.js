@@ -7,7 +7,7 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'; // 
 import { Provider as ReduxProvider } from 'react-redux';
 
 // NEAR
-import { Wallet } from './utils/near-wallet';
+import { Wallet } from './utils/nearWallet';
 import { getConfig } from './utils/config';
 import './styles/index.css';
 import store from './redux/store';

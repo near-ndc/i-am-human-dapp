@@ -1,32 +1,30 @@
 import 'regenerator-runtime/runtime';
-import React, { useState, useEffect } from 'react';
-import { CommunityDataKeys } from '../utils/campaign';
-import { Header } from '../components/common/header';
-import { PrivacyComponent } from '../components/common/privacy';
-import { Footer } from '../components/common/footer';
+import React, { useEffect } from 'react';
+
+import PrivacyComponent from '../components/common/PrivacyCard';
 import Design from '../images/NDC-Lines.svg';
-import { Landing } from './unAuth';
-import { Home } from './auth/home';
-import { IsSignedInLanding } from './unAuth/IsSignedInLanding';
+import Landing from './unAuth';
+import Home from './auth/Home';
+import GoogleCaptchaWrapper from './auth/GoogleCaptchaWrapper';
 import { getConfig } from '../utils/config';
 import { wallet } from '..';
 import { WalletSVG } from '../images/WalletSVG';
 import { FaceSVG } from '../images/FaceSVG';
 import { MintSVG } from '../images/MintSVG';
-import { Tabs } from '../components/pages/home/tabs';
+import Tabs from '../components/fractalVerification/FvVerificationTabs';
 import { supabase } from '../utils/supabase';
 import {
   ContractMethodNames,
   LSKeys,
   ReducerNames,
-  convertToTimestamptz,
+  CommunityDataKeys,
 } from '../utils/constants';
 import {
   deleteUserDataFromSupabase,
   isNumber,
   log_event,
+  convertToTimestamptz,
 } from '../utils/utilityFunctions';
-import ProgressTracker from '../components/common/progressTracker';
 import { isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -38,7 +36,7 @@ import { updateTrackerStatus } from '../redux/reducer/tracker';
 
 const URL = window.location;
 
-export function IndexPage() {
+const IndexPage = () => {
   const { fvToken, kycToken, ogToken } = useSelector(
     (state) => state[ReducerNames.SBT]
   );
@@ -242,16 +240,15 @@ export function IndexPage() {
     >
       <div
         style={{ background: 'transparent' }}
-        className="isolate bg-white mx-auto max-w-7xl px-5 pt-10"
+        className="isolate bg-white mx-auto max-w-7xl px-5 md:pt-10"
       >
-        <Header />
         {isAdmin ? (
           <Tabs />
         ) : (
           <>
             {typeof activePageIndex !== 'number' ? (
               <>
-                <div className="mt-[70px] md:mt-[100px] flex flex-col gap-y-16 md:gap-y-32">
+                <div className="flex flex-col gap-y-16 md:gap-y-32">
                   <div className="flex flex-wrap gap-10">
                     <div className="flex-1 min-w-[300px]">
                       <h1 className="font-bold text-5xl">
@@ -341,12 +338,13 @@ export function IndexPage() {
                 <PrivacyComponent />
               </>
             ) : (
-              <IsSignedInLanding />
+              <GoogleCaptchaWrapper />
             )}
-            <Footer />
           </>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default IndexPage;

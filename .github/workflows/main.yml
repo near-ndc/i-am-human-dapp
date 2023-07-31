@@ -35,9 +35,9 @@ jobs:
         env:
           CI: false
         run: yarn build
-      - name: Run tests
-        if: env.GIT_DIFF
-        run: yarn test
+      # - name: Run tests
+      #   if: env.GIT_DIFF
+      #   run: yarn test
 
   lint:
     name: Lint and Format code

@@ -1,58 +1,80 @@
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
-import { IndexPage } from './pages/index';
-import { CommunityApplicationPage } from './pages/communtiyapplication';
-import { ScoreboardPage } from './pages/scoreboard';
-import { CommunitySBTPage } from './pages/communitySBT';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import IndexPage from './pages/index';
+import ScoreboardPage from './pages/Scoreboard';
+import CommunitySBTPage from './pages/CommunitySBT';
 import { URLs } from './utils/constants';
-import ProgressTracker from './components/common/progressTracker';
+import ProgressTracker from './components/common/ProgressTracker';
+import CustomHeader from './components/common/Header';
+import CustomFooter from './components/common/Footer';
+import ActivatePage from './pages/Activate';
 
-const RedirectComponent = () => {
-  return <Redirect to="/" />;
-};
-
-export function App({ isSignedIn }) {
+const Wrapper = ({ children }) => {
   return (
     <>
       <ProgressTracker />
-      <Router>
-        <Switch>
-          <Route exact path={URLs.APPLICATION}>
-            <CommunityApplicationPage isSignedIn={isSignedIn} />
-          </Route>
-          <Route exact path={URLs.SCOREBOARD}>
-            <ScoreboardPage isSignedIn={isSignedIn} />
-          </Route>
-          <Route exact path={URLs.SBTs}>
-            <CommunitySBTPage />
-          </Route>
-          <Route exact path={URLs.HOME}>
-            <IndexPage isSignedIn={isSignedIn} />
-          </Route>
-          <Route path="*">
-            <RedirectComponent />
-          </Route>
-        </Switch>
-      </Router>
+      <CustomHeader />
+      {children}
+      <CustomFooter />
+    </>
+  );
+};
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+export function App() {
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route
+            exact
+            path={URLs.SCOREBOARD}
+            element={
+              <Wrapper>
+                <ScoreboardPage />
+              </Wrapper>
+            }
+          />
+
+          <Route
+            exact
+            path={URLs.SBTs}
+            element={
+              <Wrapper>
+                <CommunitySBTPage />
+              </Wrapper>
+            }
+          />
+
+          <Route
+            exact
+            path={URLs.HOME}
+            element={
+              <Wrapper>
+                <IndexPage />
+              </Wrapper>
+            }
+          />
+
+          <Route
+            path="*"
+            element={
+              <Wrapper>
+                <IndexPage />
+              </Wrapper>
+            }
+          />
+          <Route
+            path={URLs.ACTIVATE}
+            element={
+              <Wrapper>
+                <ActivatePage />
+              </Wrapper>
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
 }
