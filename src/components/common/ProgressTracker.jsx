@@ -72,7 +72,7 @@ const ProgressTracker = () => {
             </h2>
           </div>
 
-          <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex justify-center gap-5">
+          <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex justify-center gap-5 items-center">
             <h4 className="text-yellow-400 font-bold">
               JOIN THE HUMANS OF NEAR
             </h4>
@@ -80,6 +80,17 @@ const ProgressTracker = () => {
               Unlock Elections, Governance, & Community Treasury with{' '}
               {ReadableNumber} Humans on NEAR
             </p>
+            <button
+              className="bg-yellow-300 rounded-2xl py-1.5 px-3"
+              onClick={() =>
+                window.open(
+                  'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
+                  '_blank'
+                )
+              }
+            >
+              Learn More
+            </button>
           </div>
         </>
       </div>
