@@ -27,29 +27,30 @@ const CustomHeader = () => {
   );
   const [admin] = useAdmin();
 
-  useEffect(() => {
-    wallet
-      .startUp()
-      .then((value) => {
-        dispatch(updateUserLogin(value));
-      })
-      .catch(() => {
-        dispatch(updateUserLogin(false));
-      });
-  });
-
   const signOut = () => {
     if (isUserLogin) {
       wallet.signOut();
       dispatch(removeAllTokens());
     } else {
-      wallet.signIn();
+      wallet
+        .signIn()
+        .then((value) => {
+          dispatch(updateUserLogin(value));
+        })
+        .catch(() => {
+          dispatch(updateUserLogin(false));
+        });
     }
   };
 
   const HomeMenu = ({ isDialog = false }) => {
     const isActive = (currentPage) =>
       window.location.href.indexOf(currentPage) !== -1 ? 'text-gradient' : '';
+
+    const commonFuction = () => {
+      window.scrollTo(0, 0);
+      setMobileMenuOpen(false);
+    };
 
     return (
       <div
@@ -64,7 +65,7 @@ const CustomHeader = () => {
           onClick={() => {
             dispatch(setActivePageIndex(null));
             navigate('/');
-            setMobileMenuOpen(false);
+            commonFuction();
           }}
           className={
             !isActive(URLs.SCOREBOARD) &&
@@ -80,7 +81,7 @@ const CustomHeader = () => {
         <div
           onClick={() => {
             navigate(URLs.SBTs);
-            setMobileMenuOpen(false);
+            commonFuction();
           }}
           className={isActive(URLs.SBTs)}
         >
@@ -89,7 +90,7 @@ const CustomHeader = () => {
         <div
           onClick={() => {
             navigate(URLs.ACTIVATE);
-            setMobileMenuOpen(false);
+            commonFuction();
           }}
           className={isActive(URLs.ACTIVATE)}
         >
