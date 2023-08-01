@@ -26,8 +26,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Setup on page load
 window.onload = async () => {
-  const isSignedIn = await wallet.startUp();
-
   root.render(
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary
@@ -36,11 +34,7 @@ window.onload = async () => {
         }
       >
         <ReduxProvider store={store}>
-          <App
-            isSignedIn={isSignedIn}
-            contractId={CONTRACT_ADDRESS}
-            wallet={wallet}
-          />
+          <App />
         </ReduxProvider>
       </ErrorBoundary>
     </RollbarProvider>

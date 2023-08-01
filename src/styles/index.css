@@ -52,21 +52,21 @@ html {
 
 @media (min-width: 2400px) and (max-width: 2750px) {
   .home_bg_image {
-    background-position: 60rem -7rem;
+    background-position: 60rem -25rem;
     background-size: 80rem 80rem;
   }
 }
 
 @media (min-width: 2750px) and (max-width: 3250px) {
   .home_bg_image {
-    background-position: 80rem -7rem;
+    background-position: 80rem -25rem;
     background-size: 80rem 80rem;
   }
 }
 
 @media (min-width: 3250px) {
   .home_bg_image {
-    background-position: 90rem -7rem;
+    background-position: 90rem -25rem;
     background-size: 80rem 80rem;
   }
 }

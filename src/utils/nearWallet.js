@@ -67,6 +67,16 @@ export class Wallet {
     this.network = getConfig().network_id;
   }
 
+  async updateLogInState() {
+    const isSignedIn = this.walletSelector.isSignedIn();
+    if (isSignedIn) {
+      this.wallet = await this.walletSelector.wallet();
+      this.accountId =
+        this.walletSelector.store.getState().accounts[0].accountId;
+    }
+    return isSignedIn;
+  }
+
   // To be called when the website loads
   async startUp() {
     this.walletSelector = await setupWalletSelector({
@@ -81,14 +91,7 @@ export class Wallet {
       ],
     });
 
-    const isSignedIn = this.walletSelector.isSignedIn();
-
-    if (isSignedIn) {
-      this.wallet = await this.walletSelector.wallet();
-      this.accountId =
-        this.walletSelector.store.getState().accounts[0].accountId;
-    }
-
+    const isSignedIn = await this.updateLogInState();
     return isSignedIn;
   }
 
@@ -99,13 +102,22 @@ export class Wallet {
   }
 
   // Sign-in method
-  signIn() {
+  async signIn() {
     const description = 'Please select a wallet to sign in.';
     const modal = setupModal(this.walletSelector, {
       contractId: this.createAccessKeyFor,
       description,
     });
     modal.show();
+    // to check for log in state when user is not redirected to other URL
+    return new Promise((resolve) => {
+      modal.on('onHide', async (event) => {
+        if (event.hideReason === 'wallet-navigation') {
+          const isSignedIn = await this.updateLogInState();
+          resolve(isSignedIn); // Resolve the promise when the sign-in process is complete
+        }
+      });
+    });
   }
 
   // Sign-out method
@@ -126,6 +138,9 @@ export class Wallet {
 
   // Make a read-only call to retrieve information from the network
   async viewMethod({ contractId, method, args = {} }) {
+    if (!this.walletSelector) {
+      await this.startUp();
+    }
     const { network } = this.walletSelector.options;
     const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
 
