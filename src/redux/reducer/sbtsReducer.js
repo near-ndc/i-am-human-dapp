@@ -53,6 +53,7 @@ export const sbtReducer = createSlice({
     error: null,
     tokenRemoveSuccess: false,
     continueLoop: false, // for transfer and burn
+    isUserHuman: false, // true if user has any SBT Token
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -76,6 +77,12 @@ export const sbtReducer = createSlice({
         default:
           break;
       }
+      state.isUserHuman =
+        state.fvToken ||
+        state.kycToken ||
+        state.ogToken ||
+        state.vibeToken ||
+        state.regenToken;
     },
     handleErrorMessage: (state, action) => {
       state.error = action.payload;

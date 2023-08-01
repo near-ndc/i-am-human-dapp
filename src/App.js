@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import IndexPage from './pages/index';
@@ -10,6 +10,9 @@ import ProgressTracker from './components/common/ProgressTracker';
 import CustomHeader from './components/common/Header';
 import CustomFooter from './components/common/Footer';
 import ActivatePage from './pages/Activate';
+import { wallet } from '.';
+import { useDispatch } from 'react-redux';
+import { updateUserLogin } from './redux/reducer/commonReducer';
 
 const Wrapper = ({ children }) => {
   return (
@@ -23,6 +26,18 @@ const Wrapper = ({ children }) => {
 };
 
 export function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    wallet
+      .startUp()
+      .then((value) => {
+        dispatch(updateUserLogin(value));
+      })
+      .catch(() => {
+        dispatch(updateUserLogin(false));
+      });
+  });
+
   return (
     <>
       <Router>

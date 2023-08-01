@@ -37,7 +37,7 @@ import { updateTrackerStatus } from '../redux/reducer/tracker';
 const URL = window.location;
 
 const IndexPage = () => {
-  const { fvToken, kycToken, ogToken } = useSelector(
+  const { fvToken, ogToken, isUserHuman } = useSelector(
     (state) => state[ReducerNames.SBT]
   );
   const { isUserLogin, isAdmin, activePageIndex } = useSelector(
@@ -249,7 +249,7 @@ const IndexPage = () => {
             {typeof activePageIndex !== 'number' ? (
               <>
                 <div className="flex flex-col gap-y-16 md:gap-y-32">
-                  <div className="flex flex-wrap gap-10">
+                  <div className="flex flex-wrap">
                     <div className="flex-1 min-w-[300px]">
                       <h1 className="font-bold text-5xl">
                         Get your Proof of Personhood with
@@ -290,9 +290,9 @@ const IndexPage = () => {
                           })}
                         </div>
                       </div>
-                      <div className="flex md:justify-start flex-wrap gap-x-10 gap-y-5">
+                      <div className="flex md:justify-start flex-wrap gap-x-5 gap-y-5">
                         {/* show get started only if no tokens are minted by user */}
-                        {!kycToken && !fvToken && !ogToken && (
+                        {!isUserHuman && (
                           <button
                             onClick={() => getStarted()}
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -300,7 +300,7 @@ const IndexPage = () => {
                             Get Started
                           </button>
                         )}
-                        {(kycToken || fvToken || ogToken) && (
+                        {isUserHuman && (
                           <button
                             onClick={() =>
                               window.open(
@@ -308,9 +308,17 @@ const IndexPage = () => {
                                 '_blank'
                               )
                             }
-                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 md:px-10 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
                             Join the NDC Community
+                          </button>
+                        )}
+                        {isUserHuman && !fvToken && (
+                          <button
+                            onClick={() => dispatch(setActivePageIndex(1))}
+                            className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                          >
+                            Get Your FV Token
                           </button>
                         )}
                         <button

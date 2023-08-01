@@ -81,7 +81,7 @@ const ProgressTracker = () => {
               {ReadableNumber} Humans on NEAR
             </p>
             <button
-              className="bg-yellow-300 rounded-2xl py-1.5 px-2 text-sm"
+              className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
               onClick={() =>
                 window.open(
                   'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
