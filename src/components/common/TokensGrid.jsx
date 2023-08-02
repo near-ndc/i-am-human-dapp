@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { ReducerNames } from '../../utils/constants';
+import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { Item, TokenDetails, ValidTokenComponent } from './TokenDetails';
 import FVSBTImage from '../../images/FvSBT.png';
 import KYCSBTImage from '../../images/KYCSBT.png';
@@ -42,7 +42,7 @@ const TokensGrid = () => {
         </Item>
       )}
       {vibeToken && (
-        <Item imageSrc={ProofOfVibeOGSBT}>
+        <Item imageSrc={ImageSrc.ProofOfVibe}>
           <ValidTokenComponent />
           <h2 className="font-bold text-3xl my-1 mb-5">
             My Vibe Soul Bound Token

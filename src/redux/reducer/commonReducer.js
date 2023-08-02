@@ -14,6 +14,7 @@ export const commonReducer = createSlice({
       state.isUserLogin = action.payload;
     },
     setActivePageIndex: (state, action) => {
+      console.log('index', action.payload);
       state.activePageIndex = action.payload;
     },
     setSuccessSBTPage: (state, action) => {

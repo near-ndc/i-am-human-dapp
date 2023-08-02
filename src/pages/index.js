@@ -131,7 +131,10 @@ const IndexPage = () => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
+    console.log('url state', URL_state);
+
     if (URL_state === succes_fractal_state && wallet?.accountId) {
+      console.log('insidee');
       dispatch(setActivePageIndex(2));
     }
     if (fvToken && localStorage.getItem(LSKeys.SHOW_SBT_PAGE)) {

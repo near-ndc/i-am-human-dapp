@@ -40,3 +40,8 @@ export const CommunityDataKeys = {
   COMMUNITY_NAME: 'community-name',
   COMMUNITY_VERTICAL: 'community-vertical',
 };
+
+export const ImageSrc = {
+  ProofOfVibe:
+    'https://bafybeibgjf5jqgmqgfcd2maih6n3juo3in5rblyuk3zhm4l3o6wysvippq.ipfs.nftstorage.link/',
+};

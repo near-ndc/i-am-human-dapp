@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
 import ImageTextBlock from '../components/common/ImageTextBlock';
+import { ImageSrc } from '../utils/constants';
 
 const CommunitySBTPage = () => {
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ const CommunitySBTPage = () => {
               onClick={() =>
                 window.open('https://www.proofofvibes.com/telegram', '_blank')
               }
-              imageSrc={ProofOfVibeOGSBT}
+              imageSrc={ImageSrc.ProofOfVibe}
               title="Proof of Vibe"
               description="This SBT is a unique badge earned by attending special events and passing vibe checks. It grants exclusive access to high-caliber gatherings, turning them into celebrations of our collective spirit."
             />
