@@ -1,8 +1,5 @@
 import React from 'react';
-import FVSBTImage from '../../images/FvSBT.png';
-import KYCSBTImage from '../../images/KYCSBT.png';
-import IVotedSBT from '../../images/I_voted_SBT.png';
-import OGSBT from '../../images/OGSBT.png';
+import { ImageSrc } from '../../utils/constants';
 
 const Landing = () => {
   return (
@@ -33,7 +30,7 @@ const Landing = () => {
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
           <img
-            src={FVSBTImage}
+            src={ImageSrc.FVSBT}
             className="object-fill rounded-lg md:w-2/3 badge"
           />
         </div>
@@ -76,7 +73,10 @@ const Landing = () => {
           </div>
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
-          <img src={OGSBT} className="object-fill rounded-lg md:w-2/3 badge" />
+          <img
+            src={ImageSrc.OGSBT}
+            className="object-fill rounded-lg md:w-2/3 badge"
+          />
         </div>
       </div>
       <div className="flex flex-wrap gap-10">
@@ -101,14 +101,14 @@ const Landing = () => {
                 '_blank'
               )
             }
-            className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
+            className="inline-flex rounded-lg border border-purple-500 text-purple-500 border-1 px-5 py-2 md:mt-5 text-base font-light text-black shadow-sm"
           >
             Learn More
           </button>
         </div>
         <div className="md:min-w-[400px] order-first md:order-last w-full md:w-1/3 flex justify-center md:justify-end">
           <img
-            src={IVotedSBT}
+            src={ImageSrc.IVotedSBT}
             className="object-cover rounded-lg md:w-2/3 badge"
           />
         </div>
@@ -138,7 +138,7 @@ const Landing = () => {
         </div>
         <div className="md:min-w-[400px] order-first w-full md:w-1/3 flex justify-center md:justify-start">
           <img
-            src={KYCSBTImage}
+            src={ImageSrc.KYCSBT}
             className="object-fill rounded-lg md:w-2/3 badge"
           />
         </div>
