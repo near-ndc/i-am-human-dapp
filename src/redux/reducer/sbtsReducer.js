@@ -59,9 +59,9 @@ export const sbtReducer = createSlice({
     updateTokens: (state, action) => {
       const { type, value } = action.payload;
       switch (type) {
-        // case TokenTypes.FV:
-        //   state.fvToken = value;
-        //   break;
+        case TokenTypes.FV:
+          state.fvToken = value;
+          break;
         case TokenTypes.KYC:
           state.kycToken = value;
           break;

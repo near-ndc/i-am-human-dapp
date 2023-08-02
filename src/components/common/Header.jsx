@@ -4,9 +4,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 import { wallet } from '../../index';
-import Logo from '../../images/ndc.png';
 import { useAdmin } from '../../utils/useAdmin';
-import { URLs } from '../../utils/constants';
+import { ImageSrc, URLs } from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllTokens } from '../../redux/reducer/sbtsReducer';
 import {
@@ -120,7 +119,7 @@ const CustomHeader = () => {
             className="-m-1.5 p-1.5 font-bold tracking-tight cursor-pointer"
           >
             <img
-              src={Logo}
+              src={ImageSrc.IAHLogo}
               onClick={() => {
                 dispatch(updateAdminLogin(false));
               }}
@@ -162,7 +161,7 @@ const CustomHeader = () => {
             <div className="flex">
               <a href="#" className="-m-1.5 p-1.5 font-bold tracking-tight">
                 <img
-                  src={Logo}
+                  src={ImageSrc.IAHLogo}
                   alt="logo"
                   className="h-[80px] w-[70px] mt-6 "
                 />
