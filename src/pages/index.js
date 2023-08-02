@@ -131,7 +131,12 @@ const IndexPage = () => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
-    console.log('url state', URL_state);
+    console.log(
+      'url state',
+      URL_state,
+      wallet.accountId,
+      URL_state === succes_fractal_state && wallet?.accountId
+    );
 
     if (URL_state === succes_fractal_state && wallet?.accountId) {
       console.log('insidee');
@@ -145,7 +150,7 @@ const IndexPage = () => {
     if (fvToken) {
       createFVEventLog();
     }
-  }, [fvToken]);
+  }, [fvToken, wallet.accountId]);
 
   useEffect(() => {
     if (ogToken) {
