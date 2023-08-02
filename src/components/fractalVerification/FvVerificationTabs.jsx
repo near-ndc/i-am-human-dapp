@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Logo from '../../images/bigLogo.png';
 import { CheckCircle } from '../../images/CheckCircle';
 import { Warning } from '../../images/Warning';
 import { wallet } from '../..';
@@ -10,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { insertUserData, log_event } from '../../utils/utilityFunctions';
 import ReactConfetti from 'react-confetti';
-import { ReducerNames } from '../../utils/constants';
+import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
 const FvVerificationTabs = ({ tabs, error }) => {
@@ -168,7 +167,7 @@ const FvVerificationTabs = ({ tabs, error }) => {
             <div className="col-span-2 pl-12">
               <p className="relative z-10">{tabs[activePageIndex].content}</p>
               <img
-                src={Logo}
+                src={ImageSrc.IAHLogoBG}
                 alt="logo"
                 className="absolute bottom-6 right-0 hidden lg:block z-0"
               />

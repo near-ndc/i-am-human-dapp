@@ -11,13 +11,12 @@ import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
 import { Warning } from '../../images/Warning';
-import FVSBTImage from '../../images/FvSBT.png';
 import Timer from '../common/Countdown';
 import { SuccesVerification } from './SuccessPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
-import { ReducerNames } from '../../utils/constants';
+import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
@@ -159,8 +158,8 @@ export const MintSBT = ({ setError, isError }) => {
         )}
       </div>
 
-      <div className="hidden md:block md:min-w-[250px] order-first md:order-last w-full md:w-1/3 flex justify-center">
-        <img src={FVSBTImage} className="object-fill" />
+      <div className="hidden md:block md:min-w-[250px] rounded-md overflow-hidden order-first md:order-last w-full md:w-1/3 flex justify-center">
+        <img src={ImageSrc.FVSBT} className="object-fill" />
       </div>
     </div>
   );

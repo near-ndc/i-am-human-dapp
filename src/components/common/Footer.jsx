@@ -1,9 +1,9 @@
-import Logo from '../../images/ndc.png';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import jsonp from 'jsonp';
 import { useNavigate } from 'react-router-dom';
+import { ImageSrc } from '../../utils/constants';
 
 const navigation = [
   {
@@ -110,7 +110,7 @@ const CustomFooter = () => {
           >
             <img
               className="object-fill object-center w-[100px] md:w-[40%]"
-              src={Logo}
+              src={ImageSrc.IAHLogo}
               alt="Company name"
             />
           </div>

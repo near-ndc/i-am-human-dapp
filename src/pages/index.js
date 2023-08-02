@@ -131,6 +131,7 @@ const IndexPage = () => {
     storeCommunityVerticalData();
     const { succes_fractal_state } = getConfig();
     const URL_state = new URLSearchParams(URL.search).get('state');
+
     if (URL_state === succes_fractal_state && wallet?.accountId) {
       dispatch(setActivePageIndex(2));
     }
@@ -142,7 +143,7 @@ const IndexPage = () => {
     if (fvToken) {
       createFVEventLog();
     }
-  }, [fvToken]);
+  }, [fvToken, wallet.accountId]);
 
   useEffect(() => {
     if (ogToken) {
@@ -318,7 +319,7 @@ const IndexPage = () => {
                             onClick={() => dispatch(setActivePageIndex(1))}
                             className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                           >
-                            Get Your FV Token
+                            Get Your FV SBT
                           </button>
                         )}
                         <button

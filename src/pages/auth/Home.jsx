@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import { wallet } from '../../index';
 import { getConfig } from '../../utils/config';
 import { toast } from 'react-toastify';
-import EmptyImage from '../../images/empty.png';
-import BgImage from '../../images/emptySBTBg.png';
 import { isNumber } from '../../utils/utilityFunctions';
-import { LSKeys, ReducerNames, TokenTypes } from '../../utils/constants';
+import {
+  ImageSrc,
+  LSKeys,
+  ReducerNames,
+  TokenTypes,
+} from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTokens } from '../../redux/reducer/sbtsReducer';
 import TokensGrid from '../../components/common/TokensGrid';
@@ -144,11 +147,11 @@ const Home = () => {
         {!isUserHuman ? (
           <div>
             <div
-              style={{ backgroundImage: `url(${BgImage})` }}
+              style={{ backgroundImage: `url(${ImageSrc.EmptyBG})` }}
               className="bg-center py-5"
             >
               <div className="flex justify-center">
-                <img src={EmptyImage} className="" />
+                <img src={ImageSrc.EmptyIcon} />
               </div>
               <div className="text-center">
                 <h2 className="text-xl font-bold"> No SBTs Available </h2>
