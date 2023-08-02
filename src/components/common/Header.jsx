@@ -16,6 +16,7 @@ import {
 import { ReducerNames } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { isNumber } from '../../utils/utilityFunctions';
+import { updateResponse } from '../../redux/reducer/oracleReducer';
 
 const CustomHeader = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const CustomHeader = () => {
 
     const commonFuction = () => {
       window.scrollTo(0, 0);
+      dispatch(updateResponse(null));
       setMobileMenuOpen(false);
     };
 
