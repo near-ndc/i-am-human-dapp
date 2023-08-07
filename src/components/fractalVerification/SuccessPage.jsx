@@ -54,11 +54,11 @@ export const SuccesVerification = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="p-3 flex flex-col gap-5 text-center justify-center">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl">
+                  <div className="p-16 flex flex-col gap-5 text-center justify-center">
                     <img
-                      width="100px"
-                      height="100px"
+                      width="60px"
+                      height="60px"
                       className="self-center"
                       src={ImageSrc.ELECTION_ICON}
                     />
@@ -79,8 +79,8 @@ export const SuccesVerification = () => {
                       <br />
                       <br />
                       Please make sure to read and understand the{' '}
-                      <Link text="Fair voting policy." link="" />, which
-                      outlines the responsibilities of each voter.
+                      <Link text="Fair voting policy" link="" />, which outlines
+                      the responsibilities of each voter.
                     </p>
                     <div className="flex gap-2 justify-center">
                       <OutlineButton

@@ -6,8 +6,8 @@ export const commonReducer = createSlice({
   initialState: {
     isUserLogin: false,
     isAdmin: false,
-    activePageIndex: null, // for verification screens
-    isSuccessSBTPage: false, // to show success page
+    activePageIndex: 2, // for verification screens
+    isSuccessSBTPage: true, // to show success page
     showConfetti: false,
   },
   reducers: {
