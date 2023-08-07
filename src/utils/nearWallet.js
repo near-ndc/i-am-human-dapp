@@ -49,7 +49,7 @@ const meteorWallet = setupMeteorWallet({
   iconUrl: meteorIconUrl,
 });
 
-const DEFAULT_TGAS = '60000000000000';
+const DEFAULT_TGAS = '90000000000000';
 const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector
