@@ -9,6 +9,7 @@ const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
   const [humansRegistered, setHumansRegistered] = useState(0);
   const { showTracker } = useSelector((state) => state[ReducerNames.PROGRESS]);
+  const { fvToken } = useSelector((state) => state[ReducerNames.SBT]);
 
   const fetchHumansRegistered = async () => {
     try {
@@ -71,26 +72,47 @@ const ProgressTracker = () => {
               JOIN {humansRegistered} HUMANS TO REACH {ReadableNumber} VOTERS
             </h2>
           </div>
-
-          <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex justify-center gap-5 items-center">
-            <h4 className="text-yellow-400 font-bold">
-              JOIN THE HUMANS OF NEAR
-            </h4>
-            <p className="text-gray-300">
-              Unlock Elections, Governance, & Community Treasury with{' '}
-              {ReadableNumber} Humans on NEAR
-            </p>
-            <button
-              className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
-              onClick={() =>
-                window.open(
-                  'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
-                  '_blank'
-                )
-              }
-            >
-              Learn More
-            </button>
+          <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600">
+            {fvToken ? (
+              <div className="flex justify-center gap-5 items-center">
+                <p className="text-yellow-400 ">
+                  Learn about how to protect integrity of the election and how
+                  to submit to the Whistleblower Bounty Program
+                </p>
+                <button
+                  className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
+                  onClick={() =>
+                    window.open(
+                      'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
+                      '_blank'
+                    )
+                  }
+                >
+                  Learn More
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center gap-5 items-center">
+                <h4 className="text-yellow-400 font-bold">
+                  JOIN THE HUMANS OF NEAR
+                </h4>
+                <p className="text-gray-300">
+                  Unlock Elections, Governance, & Community Treasury with{' '}
+                  {ReadableNumber} Humans on NEAR
+                </p>
+                <button
+                  className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
+                  onClick={() =>
+                    window.open(
+                      'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
+                      '_blank'
+                    )
+                  }
+                >
+                  Learn More
+                </button>
+              </div>
+            )}
           </div>
         </>
       </div>

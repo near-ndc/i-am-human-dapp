@@ -132,13 +132,16 @@ export const MintSBT = ({ setError, isError }) => {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col gap-4">
                     <h1 className="font-semibold text-2xl">
-                      We will be back in a bit.
+                      We will be back in a bit! We will be back in a bit.
                     </h1>
                     <p>
-                      This system is undergoing maintenance to ensure you get
-                      the best experience. Please check back later!
+                      We have been impacted by the Aug 2, 2023 NEAR mainnet
+                      upgrade which unfortunately contained a runtime error and
+                      caused unexpected contract behavior. The Pagoda protocol
+                      team is working on patching the mainnet. Please check back
+                      later!
                     </p>
-                    <p>Thank you for your understanding!</p>
+                    <p>Thank you for your patience!</p>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
