@@ -8,6 +8,7 @@ export const commonReducer = createSlice({
     isAdmin: false,
     activePageIndex: null, // for verification screens
     isSuccessSBTPage: false, // to show success page
+    showConfetti: false,
   },
   reducers: {
     updateUserLogin: (state, action) => {
@@ -22,6 +23,9 @@ export const commonReducer = createSlice({
     updateAdminLogin: (state, action) => {
       state.isAdmin = action.payload;
     },
+    updateShowConfetti: (state, action) => {
+      state.showConfetti = action.payload;
+    },
   },
 });
 
@@ -30,6 +34,7 @@ export const {
   setActivePageIndex,
   setSuccessSBTPage,
   updateAdminLogin,
+  updateShowConfetti,
 } = commonReducer.actions;
 
 export default commonReducer.reducer;
