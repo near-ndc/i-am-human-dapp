@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactConfetti from 'react-confetti';
 import { CircleWavyCheck } from '../../images/CircleWavyCheck';
 import TokensGrid from '../common/TokensGrid';
+import { OutlineButton, PrimaryButton } from '../common/Buttons';
+import { ImageSrc } from '../../utils/constants';
 
 export const SuccesVerification = () => {
   const [showConfetti, setShowConfetti] = useState(true);
@@ -14,6 +16,17 @@ export const SuccesVerification = () => {
       clearTimeout(timer);
     };
   }, []);
+
+  const Link = ({ link, text }) => {
+    return (
+      <span
+        onClick={() => window.open(link, '_blank')}
+        className="text-purple-600 cursor-pointer decoration-solid underline"
+      >
+        {text}
+      </span>
+    );
+  };
 
   return (
     <div className="w-full">
@@ -40,36 +53,41 @@ export const SuccesVerification = () => {
           </p>
           <TokensGrid />
         </div>
-        <div className="flex flex-col gap-2">
-          <h2 className="font-semibold text-lg">
+        <div className="flex flex-col gap-5 text-center">
+          <img
+            width="100px"
+            height="100px"
+            className="self-center"
+            src={ImageSrc.ELECTION_ICON}
+          />
+          <h2 className="font-semibold text-xl">
             Before you vote in the general election, learn about the
             Whistleblower Bounty Program.
           </h2>
           <p>
             The{' '}
-            <span
-              onClick={() => window.open('', '_blank')}
-              className="text-purple-300"
-            >
-              Whistleblower bounty program
-            </span>{' '}
+            <Link
+              text=" Whistleblower bounty program"
+              link="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
+            />{' '}
             offers up to 2,000 NEAR for whistleblowers who come forward to share
             instances of vote buying, account buying, election fraud, and other
-            violations of the{' '}
-            <span
-              onClick={() => window.open('', '_blank')}
-              className="text-purple-300"
-            >
-              Fair voting policy.
-            </span>
+            violations of the <Link text="Fair voting policy." link="" />
             <br />
-            Please make sure to read and understand the Fair voting policy,
-            which outlines the responsibilities of each voter. Cancel I
-            understand my responsibilities as a voter
+            <br />
+            Please make sure to read and understand the{' '}
+            <Link text="Fair voting policy." link="" />, which outlines the
+            responsibilities of each voter.
           </p>
           <div className="flex gap-2">
-            <button>Cancel</button>
-            <button>I understand my responsibilities as a voter</button>
+            <OutlineButton classes="border-purple-600 text-purple-600">
+              Cancel
+            </OutlineButton>
+            <PrimaryButton>
+              <p className="text-sm">
+                I understand my responsibilities as a voter
+              </p>
+            </PrimaryButton>
           </div>
         </div>
       </div>
