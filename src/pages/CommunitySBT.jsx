@@ -70,6 +70,10 @@ const CommunitySBTPage = () => {
               description="This SBT is a unique badge earned by attending special events and passing vibe checks. It grants exclusive access to high-caliber gatherings, turning them into celebrations of our collective spirit."
             />
             <ImageTextBlock
+              isAvailable={true}
+              onClick={() =>
+                window.open('https://www.proofofvibes.com/telegram', '_blank')
+              }
               imageSrc={ImageSrc.ProofOfKudos}
               title="Proof of Kudos"
               description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."

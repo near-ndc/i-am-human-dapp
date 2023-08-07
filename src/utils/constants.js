@@ -20,6 +20,7 @@ export const TokenTypes = {
   FV: 'FV',
   VIBE: 'Vibe',
   REGEN: 'Regen',
+  KUDOS: 'Kudos',
 };
 
 export const ReducerNames = {
