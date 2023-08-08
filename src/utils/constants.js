@@ -96,8 +96,14 @@ export const ImageSrc = {
     'https://bafkreialtxsodm5coxfkkec4ybakyghk7horpxnyuifg4la4ye6vjhlf64.ipfs.nftstorage.link/',
   CommunityFund:
     'https://bafkreicvwvjtybib7nodjus5ynomjasp3xskz2et5tkrx6k7t3h7dsq2za.ipfs.nftstorage.link/',
+  ELECTION_ICON:
+    'https://bafkreidrd4ci3p23e7zttaq5ukpzeddyzvfdm37x3xomju3rgeq77f2dba.ipfs.nftstorage.link/',
 };
 
 export const Links = {
   KUDOS_WIDGET: 'https://near.org/kudos.ndctools.near/widget/NDC.Kudos.Main',
+  WHISTLEBLOWER:
+    'https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0',
+  FAIR_VOTING_POLICY:
+    'https://bafkreifb4ahfglbq3knjtecqfvyhwb2nycozc3azn3gzanwzbe2xpynniu.ipfs.nftstorage.link/',
 };

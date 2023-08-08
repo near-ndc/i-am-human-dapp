@@ -10,10 +10,13 @@ import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { insertUserData, log_event } from '../../utils/utilityFunctions';
 import ReactConfetti from 'react-confetti';
 import { ImageSrc, ReducerNames } from '../../utils/constants';
-import { setActivePageIndex } from '../../redux/reducer/commonReducer';
+import {
+  setActivePageIndex,
+  updateShowConfetti,
+} from '../../redux/reducer/commonReducer';
 
 const FvVerificationTabs = ({ tabs, error }) => {
-  const { activePageIndex, isSuccessSBTPage } = useSelector(
+  const { activePageIndex, isSuccessSBTPage, showConfetti } = useSelector(
     (state) => state[ReducerNames.COMMON]
   );
   const dispatch = useDispatch();
@@ -23,7 +26,6 @@ const FvVerificationTabs = ({ tabs, error }) => {
     redirect_uri: '',
   });
   const [loading, setLoading] = useState(true);
-  const [showConfetti, setShowConfetti] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   async function checkIsUserVerified() {
@@ -92,16 +94,15 @@ const FvVerificationTabs = ({ tabs, error }) => {
   }, [executeRecaptcha]);
 
   useEffect(() => {
-    if (isSuccessSBTPage) {
-      setShowConfetti(true);
+    if (showConfetti) {
       let timer = setTimeout(() => {
-        setShowConfetti(false);
+        dispatch(updateShowConfetti(false));
       }, 5000);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [isSuccessSBTPage]);
+  }, [showConfetti]);
 
   return (
     <>

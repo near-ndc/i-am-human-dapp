@@ -135,10 +135,13 @@ export const MintSBT = ({ setError, isError }) => {
                       We will be back in a bit.
                     </h1>
                     <p>
-                      This system is undergoing maintenance to ensure you get
-                      the best experience. Please check back later!
+                      We have been impacted by the Aug 2, 2023 NEAR mainnet
+                      upgrade which unfortunately contained a runtime error and
+                      caused unexpected contract behavior. The Pagoda protocol
+                      team is working on patching the mainnet. Please check back
+                      later!
                     </p>
-                    <p>Thank you for your understanding!</p>
+                    <p>Thank you for your patience!</p>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
