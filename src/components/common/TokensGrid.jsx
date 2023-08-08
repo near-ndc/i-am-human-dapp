@@ -3,9 +3,8 @@ import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { Item, TokenDetails, ValidTokenComponent } from './TokenDetails';
 
 const TokensGrid = () => {
-  const { fvToken, kycToken, ogToken, vibeToken, regenToken } = useSelector(
-    (state) => state[ReducerNames.SBT]
-  );
+  const { fvToken, kycToken, ogToken, vibeToken, regenToken, kudosToken } =
+    useSelector((state) => state[ReducerNames.SBT]);
 
   return (
     <div className="flex flex-col gap-y-10 flex-wrap gap-5">
@@ -52,6 +51,15 @@ const TokensGrid = () => {
             My Regen Soul Bound Token
           </h2>
           <TokenDetails data={regenToken} />
+        </Item>
+      )}
+      {kudosToken && (
+        <Item imageSrc={ImageSrc.ProofOfKudos}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My Kudos Soul Bound Token
+          </h2>
+          <TokenDetails data={kudosToken} />
         </Item>
       )}
     </div>

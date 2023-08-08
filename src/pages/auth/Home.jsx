@@ -26,6 +26,7 @@ const Home = () => {
     og_contract,
     regen_issuer_contract,
     vibe_issuer_contract,
+    kudos_issuer_contract,
   } = getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
@@ -34,6 +35,7 @@ const Home = () => {
       fetchTokens();
       fetchRegenToken();
       fetchVibeToken();
+      fetchKudosToken();
     }
   }, [activePageIndex]);
 
@@ -105,6 +107,29 @@ const Home = () => {
       }
     } catch (error) {
       toast.error('An error occured while fetching Vibe SBT details');
+    }
+  };
+
+  const fetchKudosToken = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: kudos_issuer_contract,
+        },
+      });
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => Kudos token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.KUDOS, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Kudos SBT details');
     }
   };
 

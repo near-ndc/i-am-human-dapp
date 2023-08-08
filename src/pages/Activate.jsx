@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ImageTextBlock from '../components/common/ImageTextBlock';
 import { useDispatch } from 'react-redux';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
-import { ImageSrc } from '../utils/constants';
+import { ImageSrc, Links } from '../utils/constants';
 
 const ActivatePage = () => {
   const dispatch = useDispatch();
@@ -83,7 +83,8 @@ const ActivatePage = () => {
           />
           <ImageTextBlock
             imageSrc={ImageSrc.NDCKudos}
-            isAvailable={false}
+            onClick={() => window.open(Links.KUDOS_WIDGET, '_blank')}
+            isAvailable={true}
             title="NDC Kudos"
             description='The NDC Kudos platform aims to create a reputation point system where humans can give each other recognition known as "Kudos." With enough social proof, you can mint a "Proof of Kudos" Soul Bound Token to display your contribution and your reputation in the NEAR ecosystem.'
             buttonText="Give a Kudo"

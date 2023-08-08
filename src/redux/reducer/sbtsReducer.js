@@ -54,6 +54,7 @@ export const sbtReducer = createSlice({
     tokenRemoveSuccess: false,
     continueLoop: false, // for transfer and burn
     isUserHuman: false, // true if user has any SBT Token
+    kudosToken: null,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -74,6 +75,9 @@ export const sbtReducer = createSlice({
         case TokenTypes.REGEN:
           state.regenToken = value;
           break;
+        case TokenTypes.KUDOS:
+          state.kudosToken = value;
+          break;
         default:
           break;
       }
@@ -82,7 +86,8 @@ export const sbtReducer = createSlice({
         state.kycToken ||
         state.ogToken ||
         state.vibeToken ||
-        state.regenToken;
+        state.regenToken ||
+        state.kudosToken;
     },
     handleErrorMessage: (state, action) => {
       state.error = action.payload;
@@ -94,6 +99,7 @@ export const sbtReducer = createSlice({
       state.ogToken = null;
       state.vibeToken = null;
       state.regenToken = null;
+      state.kudosToken = null;
     },
     updateTokenRemoveStatus: (state, action) => {
       state.tokenRemoveSuccess = !state.tokenRemoveSuccess;

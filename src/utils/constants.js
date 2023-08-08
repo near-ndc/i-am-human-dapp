@@ -20,6 +20,7 @@ export const TokenTypes = {
   FV: 'FV',
   VIBE: 'Vibe',
   REGEN: 'Regen',
+  KUDOS: 'Kudos',
 };
 
 export const ReducerNames = {
@@ -97,4 +98,8 @@ export const ImageSrc = {
     'https://bafkreicvwvjtybib7nodjus5ynomjasp3xskz2et5tkrx6k7t3h7dsq2za.ipfs.nftstorage.link/',
   ELECTION_ICON:
     'https://bafkreidrd4ci3p23e7zttaq5ukpzeddyzvfdm37x3xomju3rgeq77f2dba.ipfs.nftstorage.link/',
+};
+
+export const Links = {
+  KUDOS_WIDGET: 'https://near.org/kudos.ndctools.near/widget/NDC.Kudos.Main',
 };
