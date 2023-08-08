@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
 import ImageTextBlock from '../components/common/ImageTextBlock';
-import { ImageSrc } from '../utils/constants';
+import { ImageSrc, Links } from '../utils/constants';
 
 const CommunitySBTPage = () => {
   const dispatch = useDispatch();
@@ -71,9 +71,7 @@ const CommunitySBTPage = () => {
             />
             <ImageTextBlock
               isAvailable={true}
-              onClick={() =>
-                window.open('https://www.proofofvibes.com/telegram', '_blank')
-              }
+              onClick={() => window.open(Links.KUDOS_WIDGET, '_blank')}
               imageSrc={ImageSrc.ProofOfKudos}
               title="Proof of Kudos"
               description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."
