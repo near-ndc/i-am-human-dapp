@@ -20,6 +20,7 @@ export function getConfig() {
         fractal_api: 'https://back.justfortestinc.site',
         fractal_link: 'https://app.fractal.id',
         fractal_client_id: '6l6ze953tTjsog6VjZaCsCJ8LgiL_UqySA-E2f3ljPw',
+        kudos_issuer_contract: 'kudos.ndctools.near',
         ...commonConfig,
       };
     case 'dev':
@@ -35,6 +36,7 @@ export function getConfig() {
         fractal_api: 'https://staging.justfortestinc.site',
         fractal_link: 'https://app.next.fractal.id',
         fractal_client_id: 'D6SgXZQdWYk0D8ILkIGpNK75ufFpxD0Mp9sHFb_2oM8',
+        kudos_issuer_contract: 'kudos-v1.gwg.testnet',
         // fractal_client_id: '2KdWlqCWoyMtfIHTEI60NgqDA015d0Uy2r5KieoZS3M', // for http://localhost:3000
         ...commonConfig,
       };

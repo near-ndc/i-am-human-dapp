@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { CircleSpinner } from 'react-spinners-kit';
 import { wallet } from '../..';
 import {
@@ -18,6 +18,7 @@ import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
+import { Dialog, Transition } from '@headlessui/react';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -102,64 +103,111 @@ export const MintSBT = ({ setError, isError }) => {
   return isSuccessSBTPage ? (
     <SuccesVerification />
   ) : (
-    <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center">
-      <div>
-        <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
-          <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-purple-400 shadow-[inset_0_0px_4px_#FFFFFF]">
-            <MintSVG styles="w-12 h-12 stroke-themeColor" />
+    <div>
+      <Transition.Root show={true} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => {}}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-40 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col gap-4">
+                    <h1 className="font-semibold text-2xl">
+                      We will be back in a bit.
+                    </h1>
+                    <p>
+                      We have been impacted by the Aug 2, 2023 NEAR mainnet
+                      upgrade which unfortunately contained a runtime error and
+                      caused unexpected contract behavior. The Pagoda protocol
+                      team is working on patching the mainnet. Please check back
+                      later!
+                    </p>
+                    <p>Thank you for your patience!</p>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-        </div>
-        <h2 className="text-4xl font-bold	my-4">
-          Mint Face Verification Soul Bound Token
-        </h2>
-        <p className="text-s mb-8 mr-8">
-          Congratulations! You're eligible to receive Soul Bound Tokens (SBTs)
-          that verify that you are a human.
-        </p>
-        {isError ? (
-          <>
-            <div className="flex mr-10">
+        </Dialog>
+      </Transition.Root>
+      <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center">
+        <div>
+          <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
+            <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-purple-400 shadow-[inset_0_0px_4px_#FFFFFF]">
+              <MintSVG styles="w-12 h-12 stroke-themeColor" />
+            </div>
+          </div>
+          <h2 className="text-4xl font-bold	my-4">
+            Mint Face Verification Soul Bound Token
+          </h2>
+          <p className="text-s mb-8 mr-8">
+            Congratulations! You're eligible to receive Soul Bound Tokens (SBTs)
+            that verify that you are a human.
+          </p>
+          {isError ? (
+            <>
+              <div className="flex mr-10">
+                <button
+                  onClick={() => tryAgain()}
+                  type="button"
+                  className="rounded-md bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                >
+                  {submit ? (
+                    <CircleSpinner size={20} />
+                  ) : (
+                    <p className="mx-auto min-w-max">Try Again</p>
+                  )}
+                </button>
+                <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
+                  <Warning />
+                  <p className="ml-2">{errorMessage}</p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex gap-y-5 md:gap-0 flex-wrap items-center">
               <button
-                onClick={() => tryAgain()}
+                onClick={mintSBT}
                 type="button"
-                className="rounded-md bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
               >
                 {submit ? (
                   <CircleSpinner size={20} />
                 ) : (
-                  <p className="mx-auto min-w-max">Try Again</p>
+                  <p className="mx-auto w-[fit-content]">Mint Your SBT</p>
                 )}
               </button>
-              <div className="rounded-md px-4 py-2 text-base font-medium text-red-500 shadow-sm bg-red-100 ml-3 flex">
-                <Warning />
-                <p className="ml-2">{errorMessage}</p>
+
+              <div className="flex items-center ml-4">
+                <p className="mr-1">Expire in</p>
+                <Timer delayResend="600" />
               </div>
             </div>
-          </>
-        ) : (
-          <div className="flex gap-y-5 md:gap-0 flex-wrap items-center">
-            <button
-              onClick={mintSBT}
-              type="button"
-              className="w-full md:w-max rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-            >
-              {submit ? (
-                <CircleSpinner size={20} />
-              ) : (
-                <p className="mx-auto w-[fit-content]">Mint Your SBT</p>
-              )}
-            </button>
+          )}
+        </div>
 
-            <div className="flex items-center ml-4">
-              <p className="mr-1">Expire in</p>
-              <Timer delayResend="600" />
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="hidden md:block md:min-w-[250px] rounded-md overflow-hidden order-first md:order-last w-full md:w-1/3 flex justify-center">
-        <img src={ImageSrc.FVSBT} className="object-fill" />
+        <div className="hidden md:block md:min-w-[250px] rounded-md overflow-hidden order-first md:order-last w-full md:w-1/3 flex justify-center">
+          <img src={ImageSrc.FVSBT} className="object-fill" />
+        </div>
       </div>
     </div>
   );

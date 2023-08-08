@@ -1,8 +1,15 @@
 import React from 'react';
 
-export const OutlineButton = ({ onClick, children, classes, disabled }) => {
+export const OutlineButton = ({
+  onClick,
+  children,
+  classes,
+  disabled,
+  ref,
+}) => {
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       className={
@@ -16,9 +23,16 @@ export const OutlineButton = ({ onClick, children, classes, disabled }) => {
   );
 };
 
-export const PrimaryButton = ({ onClick, children, classes, disabled }) => {
+export const PrimaryButton = ({
+  onClick,
+  children,
+  classes,
+  disabled,
+  ref,
+}) => {
   return (
     <button
+      ref={ref}
       onClick={onClick}
       disabled={disabled}
       className={
