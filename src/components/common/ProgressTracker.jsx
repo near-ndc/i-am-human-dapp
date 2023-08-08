@@ -3,7 +3,7 @@ import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 import { formatNumberWithComma } from '../../utils/utilityFunctions';
 import { useSelector } from 'react-redux';
-import { ReducerNames } from '../../utils/constants';
+import { Links, ReducerNames } from '../../utils/constants';
 
 const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
@@ -81,12 +81,7 @@ const ProgressTracker = () => {
                 </p>
                 <button
                   className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
-                  onClick={() =>
-                    window.open(
-                      'https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0',
-                      '_blank'
-                    )
-                  }
+                  onClick={() => window.open(Links.WHISTLEBLOWER, '_blank')}
                 >
                   Learn More
                 </button>

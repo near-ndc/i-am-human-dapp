@@ -102,4 +102,8 @@ export const ImageSrc = {
 
 export const Links = {
   KUDOS_WIDGET: 'https://near.org/kudos.ndctools.near/widget/NDC.Kudos.Main',
+  WHISTLEBLOWER:
+    'https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0',
+  FAIR_VOTING_POLICY:
+    'https://bafkreifb4ahfglbq3knjtecqfvyhwb2nycozc3azn3gzanwzbe2xpynniu.ipfs.nftstorage.link/',
 };

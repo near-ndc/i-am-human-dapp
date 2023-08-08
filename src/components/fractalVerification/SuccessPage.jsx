@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import { CircleWavyCheck } from '../../images/CircleWavyCheck';
 import TokensGrid from '../common/TokensGrid';
 import { OutlineButton, PrimaryButton } from '../common/Buttons';
-import { ImageSrc } from '../../utils/constants';
+import { ImageSrc, Links } from '../../utils/constants';
 import { Dialog, Transition } from '@headlessui/react';
 import { useDispatch } from 'react-redux';
 import { updateShowConfetti } from '../../redux/reducer/commonReducer';
@@ -27,10 +27,17 @@ export const SuccesVerification = () => {
     dispatch(updateShowConfetti(true));
   }
 
+  const cancelButtonRef = useRef(null);
+
   return (
     <div>
       <Transition.Root show={showModal} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={removeModal}>
+        <Dialog
+          initialFocus={cancelButtonRef}
+          as="div"
+          className="relative z-10"
+          onClose={setShowModal}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -70,26 +77,36 @@ export const SuccesVerification = () => {
                       The{' '}
                       <Link
                         text=" Whistleblower bounty program"
-                        link="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
+                        link={Links.WHISTLEBLOWER}
                       />{' '}
                       offers up to 2,000 NEAR for whistleblowers who come
                       forward to share instances of vote buying, account buying,
                       election fraud, and other violations of the{' '}
-                      <Link text="Fair voting policy." link="" />
+                      <Link
+                        text="Fair voting policy."
+                        link={Links.FAIR_VOTING_POLICY}
+                      />
                       <br />
                       <br />
                       Please make sure to read and understand the{' '}
-                      <Link text="Fair voting policy" link="" />, which outlines
-                      the responsibilities of each voter.
+                      <Link
+                        text="Fair voting policy"
+                        link={Links.FAIR_VOTING_POLICY}
+                      />
+                      , which outlines the responsibilities of each voter.
                     </p>
                     <div className="flex gap-2 justify-center">
                       <OutlineButton
+                        ref={cancelButtonRef}
                         onClick={removeModal}
                         classes="border-purple-600 text-purple-600"
                       >
                         Cancel
                       </OutlineButton>
-                      <PrimaryButton onClick={removeModal}>
+                      <PrimaryButton
+                        ref={cancelButtonRef}
+                        onClick={removeModal}
+                      >
                         <p className="text-sm">
                           I understand my responsibilities as a voter
                         </p>
