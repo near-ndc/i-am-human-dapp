@@ -6,21 +6,11 @@ import { ImageSrc, Links } from '../../utils/constants';
 import { Dialog, Transition } from '@headlessui/react';
 import { useDispatch } from 'react-redux';
 import { updateShowConfetti } from '../../redux/reducer/commonReducer';
+import { Link } from '../common/Link';
 
 export const SuccesVerification = () => {
   const [showModal, setShowModal] = useState(true);
   const dispatch = useDispatch();
-
-  const Link = ({ link, text }) => {
-    return (
-      <span
-        onClick={() => window.open(link, '_blank')}
-        className="text-purple-600 cursor-pointer decoration-solid underline"
-      >
-        {text}
-      </span>
-    );
-  };
 
   function removeModal() {
     setShowModal(false);
@@ -75,24 +65,21 @@ export const SuccesVerification = () => {
                     </h2>
                     <p>
                       The{' '}
-                      <Link
-                        text=" Whistleblower bounty program"
-                        link={Links.WHISTLEBLOWER}
-                      />{' '}
-                      offers up to 2,000 NEAR for whistleblowers who come
+                      <Link link={Links.WHISTLEBLOWER}>
+                        Whistleblower bounty program
+                      </Link>{' '}
+                      offers up to 2,500 NEAR for whistleblowers who come
                       forward to share instances of vote buying, account buying,
                       election fraud, and other violations of the{' '}
-                      <Link
-                        text="Fair voting policy."
-                        link={Links.FAIR_VOTING_POLICY}
-                      />
+                      <Link link={Links.FAIR_VOTING_POLICY}>
+                        Fair voting policy.
+                      </Link>
                       <br />
                       <br />
                       Please make sure to read and understand the{' '}
-                      <Link
-                        text="Fair voting policy"
-                        link={Links.FAIR_VOTING_POLICY}
-                      />
+                      <Link link={Links.FAIR_VOTING_POLICY}>
+                        Fair voting policy
+                      </Link>
                       , which outlines the responsibilities of each voter.
                     </p>
                     <div className="flex gap-2 justify-center">
