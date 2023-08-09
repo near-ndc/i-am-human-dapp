@@ -19,6 +19,7 @@ import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Dialog, Transition } from '@headlessui/react';
+import { Link } from '../common/Link';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -138,8 +139,12 @@ export const MintSBT = ({ setError, isError }) => {
                       We have been impacted by the Aug 2, 2023 NEAR mainnet
                       upgrade which unfortunately contained a runtime error and
                       caused unexpected contract behavior. The Pagoda protocol
-                      team is working on patching the mainnet. Please check back
-                      later!
+                      team is working on patching the mainnet. Please complete
+                      this form and we inform you when this is fixed by the
+                      Protocol team!{' '}
+                      <Link link="https://forms.gle/1SoT7d9924xXYTvA8">
+                        https://forms.gle/1SoT7d9924xXYTvA8
+                      </Link>
                     </p>
                     <p>Thank you for your patience!</p>
                   </div>
