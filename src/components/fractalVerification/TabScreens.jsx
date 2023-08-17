@@ -61,7 +61,7 @@ export const MintSBT = ({ setError, isError }) => {
       // fetch fees requirement from contract
       const fees = await wallet.viewMethod({
         contractId: fractal_contract,
-        method: 'get_required_sbt_mint_deposit',
+        method: 'required_sbt_mint_deposit',
         args: {
           is_verified_kyc: responseData?.kyc == 'approved', // get exact mint cost
         },
