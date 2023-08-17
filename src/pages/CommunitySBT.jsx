@@ -38,7 +38,7 @@ const CommunitySBTPage = () => {
               Bound Token to be minted.
             </h4>
           </div>
-          <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-16">
+          <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-10 md:my-16">
             <ImageTextBlock
               imageSrc={ImageSrc.OGSBT}
               isAvailable={true}
