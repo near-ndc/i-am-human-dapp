@@ -78,6 +78,42 @@ const CommunitySBTPage = () => {
             />
 
             <ImageTextBlock
+              imageSrc={ImageSrc.GWGCoreContributorSBT}
+              title="GWG Core Contributor"
+              description="This SBT shows off your invaluable contribution to the NDC Governance Working Group and unveils your pivotal role in shaping the fabric of governance and decentralization at NEAR."
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSdGsZnC1EL9mwgCkiL9FI45hqn8niXqS_sd_aSN6hR_YamYtw/viewform',
+                  '_blank'
+                )
+              }
+            />
+            <ImageTextBlock
+              imageSrc={ImageSrc.NDCContributor}
+              title="NDC Contributor"
+              description="This SBT proves that you are a contributor to the NEAR Digital Collective."
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSe5x4O8RMTzuQQtRAi9dSgABVSyjcF1jPz8vurxQNfhkLzwBg/viewform',
+                  '_blank'
+                )
+              }
+            />
+            <ImageTextBlock
+              imageSrc={ImageSrc.NDCChampion}
+              title="NDC Champion"
+              description="This SBT is proof of being a champion within the NEAR Digital Collective. Embrace its power and ignite a revolution of greatness!"
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLScKWL0fTZxm7obR4kQkm8ozPLaZ__BO8TI8l1Uj_cosgZ6D6A/viewform',
+                  '_blank'
+                )
+              }
+            />
+            <ImageTextBlock
               imageSrc={ImageSrc.CreativeSBT}
               title="Creative"
               description="This SBT is an electrifying testament to your creative genius within the esteemed Creative Constellation."
@@ -103,25 +139,11 @@ const CommunitySBTPage = () => {
               description="This SBT shows off your important contribution to the NDC Governance Working Group. Prepare to wield its power and shape the destiny of governance like never before."
             />
             <ImageTextBlock
-              imageSrc={ImageSrc.GWGCoreContributorSBT}
-              title="GWG Core Contributor"
-              description="This SBT shows off your invaluable contribution to the NDC Governance Working Group and unveils your pivotal role in shaping the fabric of governance and decentralization at NEAR."
-            />
-            <ImageTextBlock
-              imageSrc={ImageSrc.NDCContributor}
-              title="NDC Contributor"
-              description="This SBT proves that you are a contributor to the NEAR Digital Collective."
-            />
-            <ImageTextBlock
               imageSrc={ImageSrc.JuggernautSBT}
               title="Juggernaut"
               description="This SBT is the mark of a revered figurehead within NEAR, commanding admiration and leading the way to unparalleled greatness."
             />
-            <ImageTextBlock
-              imageSrc={ImageSrc.NDCChampion}
-              title="NDC Champion"
-              description="This SBT is proof of being a champion within the NEAR Digital Collective. Embrace its power and ignite a revolution of greatness!"
-            />
+
             <ImageTextBlock
               imageSrc={ImageSrc.GeniusSBT}
               title="Genius"
