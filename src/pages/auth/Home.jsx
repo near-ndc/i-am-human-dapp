@@ -56,6 +56,25 @@ const Home = () => {
           if (token.metadata.class === 1) {
             dispatch(updateTokens({ type: TokenTypes.OG, value: token }));
           }
+          // 2 = NDC_Contributor, 3 = GWG__Core_Contributor, 4 = NDC_Champion
+          if (token.metadata.class === 2) {
+            dispatch(
+              updateTokens({ type: TokenTypes.NDC_Contributor, value: token })
+            );
+          }
+          if (token.metadata.class === 3) {
+            dispatch(
+              updateTokens({
+                type: TokenTypes.GWG__Core_Contributor,
+                value: token,
+              })
+            );
+          }
+          if (token.metadata.class === 4) {
+            dispatch(
+              updateTokens({ type: TokenTypes.NDC_Champion, value: token })
+            );
+          }
         }
       }
     } catch (error) {

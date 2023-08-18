@@ -21,6 +21,9 @@ export const TokenTypes = {
   VIBE: 'Vibe',
   REGEN: 'Regen',
   KUDOS: 'Kudos',
+  NDC_Champion: 'NDC Champion',
+  NDC_Contributor: 'NDC Contributor',
+  GWG__Core_Contributor: 'GWG Core Contributor',
 };
 
 export const ReducerNames = {
