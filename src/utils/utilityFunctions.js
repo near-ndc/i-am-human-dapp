@@ -84,6 +84,5 @@ export const addIPAddr = async (visitorID) => {
   const body = {
     fingerprint_visitor_id: visitorID,
   };
-  // delete all rows with particular wallet id from events and users table
   await axios.post(`${api_link}/storeIP`, { table, body, match });
 };
