@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CircleSpinner } from 'react-spinners-kit';
 import { wallet } from '../..';
 import {
+  addIPAddr,
   hasTwoDots,
   insertUserData,
   log_event,
@@ -19,6 +20,7 @@ import { updateResponse } from '../../redux/reducer/oracleReducer';
 import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Link } from '../common/Link';
+import { fpPromise } from '../../utils/fingerprint';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -52,6 +54,12 @@ export const MintSBT = ({ setError, isError }) => {
   const { isSuccessSBTPage } = useSelector(
     (state) => state[ReducerNames.COMMON]
   );
+
+  useEffect(() => {
+    fpPromise
+      .then((fp) => fp.get())
+      .then((result) => addIPAddr(result.visitorId));
+  });
 
   const mintSBT = async () => {
     window.history.replaceState({}, '', window.location.origin);
