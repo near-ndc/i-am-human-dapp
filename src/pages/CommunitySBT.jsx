@@ -76,7 +76,6 @@ const CommunitySBTPage = () => {
               title="Proof of Kudos"
               description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."
             />
-
             <ImageTextBlock
               imageSrc={ImageSrc.GWGCoreContributorSBT}
               title="GWG Core Contributor"
@@ -114,6 +113,18 @@ const CommunitySBTPage = () => {
               }
             />
             <ImageTextBlock
+              imageSrc={ImageSrc.MOD}
+              title="Mod"
+              description="This SBT is your gateway to moderator greatness within the NEAR Digital Collective. Unleash its power of curation and influence."
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSfUD_pdp3I-X-z17ks2y2_pN9xEEIIBzQ_jJXRTYYj9zO2BTw/viewform',
+                  '_blank'
+                )
+              }
+            />
+            <ImageTextBlock
               imageSrc={ImageSrc.CreativeSBT}
               title="Creative"
               description="This SBT is an electrifying testament to your creative genius within the esteemed Creative Constellation."
@@ -128,11 +139,6 @@ const CommunitySBTPage = () => {
               title="Degen"
               description="This SBT unveils your mastery as a marketing powerhouse within the legendary Degen Constellation."
             />
-            <ImageTextBlock
-              imageSrc={ImageSrc.MOD}
-              title="Mod"
-              description="This SBT is your gateway to moderator greatness within the NEAR Digital Collective. Unleash its power of curation and influence."
-            />
             {/* don't need it for now */}
             {/* <ImageTextBlock
               imageSrc={ImageSrc.GWGContributorSBT}
@@ -144,7 +150,6 @@ const CommunitySBTPage = () => {
               title="Juggernaut"
               description="This SBT is the mark of a revered figurehead within NEAR, commanding admiration and leading the way to unparalleled greatness."
             />
-
             <ImageTextBlock
               imageSrc={ImageSrc.GeniusSBT}
               title="Genius"
