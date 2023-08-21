@@ -55,6 +55,9 @@ export const sbtReducer = createSlice({
     continueLoop: false, // for transfer and burn
     isUserHuman: false, // true if user has any SBT Token
     kudosToken: null,
+    ndcContributor: null,
+    ndcChampion: null,
+    gwgCoreContributor: null,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -78,6 +81,15 @@ export const sbtReducer = createSlice({
         case TokenTypes.KUDOS:
           state.kudosToken = value;
           break;
+        case TokenTypes.GWG__Core_Contributor:
+          state.gwgCoreContributor = value;
+          break;
+        case TokenTypes.NDC_Champion:
+          state.ndcChampion = value;
+          break;
+        case TokenTypes.NDC_Contributor:
+          state.ndcContributor = value;
+          break;
         default:
           break;
       }
@@ -87,7 +99,10 @@ export const sbtReducer = createSlice({
         state.ogToken ||
         state.vibeToken ||
         state.regenToken ||
-        state.kudosToken;
+        state.kudosToken ||
+        state.ndcChampion ||
+        state.ndcContributor ||
+        state.gwgCoreContributor;
     },
     handleErrorMessage: (state, action) => {
       state.error = action.payload;
@@ -100,6 +115,9 @@ export const sbtReducer = createSlice({
       state.vibeToken = null;
       state.regenToken = null;
       state.kudosToken = null;
+      state.gwgCoreContributor = null;
+      state.ndcChampion = null;
+      state.ndcContributor = null;
     },
     updateTokenRemoveStatus: (state, action) => {
       state.tokenRemoveSuccess = !state.tokenRemoveSuccess;

@@ -133,11 +133,12 @@ const CommunitySBTPage = () => {
               title="Mod"
               description="This SBT is your gateway to moderator greatness within the NEAR Digital Collective. Unleash its power of curation and influence."
             />
-            <ImageTextBlock
+            {/* don't need it for now */}
+            {/* <ImageTextBlock
               imageSrc={ImageSrc.GWGContributorSBT}
               title="GWG Contributor"
               description="This SBT shows off your important contribution to the NDC Governance Working Group. Prepare to wield its power and shape the destiny of governance like never before."
-            />
+            /> */}
             <ImageTextBlock
               imageSrc={ImageSrc.JuggernautSBT}
               title="Juggernaut"
