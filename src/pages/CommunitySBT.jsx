@@ -41,15 +41,9 @@ const CommunitySBTPage = () => {
           <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-10 md:my-16">
             <ImageTextBlock
               imageSrc={ImageSrc.OGSBT}
-              isAvailable={true}
               title="OG"
               description="The OG SBT represents your commitment and dedication to NEAR, highlighting your continuous presence and involvement in shaping the NEAR ecosystem."
-              onClick={() =>
-                window.open(
-                  'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
-                  '_blank'
-                )
-              }
+              buttonText="Closed"
             />
             <ImageTextBlock
               isAvailable={true}
