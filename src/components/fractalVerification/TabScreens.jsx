@@ -44,7 +44,7 @@ export const ConnectWallet = () => (
   </div>
 );
 
-const mintExtraCost = 2n * OneE21;
+const mintExtraCost = 2n * OneE21; // 2 miliNEAR more
 
 export const MintSBT = ({ setError, isError }) => {
   const { responseData } = useSelector((state) => state[ReducerNames.ORACLE]);
