@@ -6,8 +6,7 @@ import {
   insertUserData,
   log_event,
 } from '../../utils/utilityFunctions';
-import { getConfig } from '../../utils/config';
-import { OneE21 } from '../../utils/config';
+import { getConfig, OneE21 } from '../../utils/config';
 import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
