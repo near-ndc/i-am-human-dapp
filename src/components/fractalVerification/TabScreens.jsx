@@ -16,7 +16,7 @@ import { SuccesVerification } from './SuccessPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
-import { ImageSrc, ReducerNames } from '../../utils/constants';
+import { ImageSrc, OneE21, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Link } from '../common/Link';
 
@@ -44,6 +44,8 @@ export const ConnectWallet = () => (
   </div>
 );
 
+const mintExtraCost = 2n * OneE21; // 2 miliNEAR more
+
 export const MintSBT = ({ setError, isError }) => {
   const { responseData } = useSelector((state) => state[ReducerNames.ORACLE]);
   const [submit, setSubmit] = useState(null);
@@ -58,7 +60,6 @@ export const MintSBT = ({ setError, isError }) => {
     setSubmit(true);
     try {
       const { fractal_contract } = getConfig();
-      // fetch fees requirement from contract
       const fees = await wallet.viewMethod({
         contractId: fractal_contract,
         method: 'required_sbt_mint_deposit',
@@ -82,7 +83,7 @@ export const MintSBT = ({ setError, isError }) => {
           claim_b64: responseData.m,
           claim_sig: responseData.sig,
         },
-        deposit: BigInt(fees).toString(),
+        deposit: (BigInt(fees) + mintExtraCost).toString(),
       });
     } catch (e) {
       log_event({
