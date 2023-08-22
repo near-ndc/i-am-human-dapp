@@ -1,5 +1,5 @@
 // OneE18 is an amount of 1 microNEAR
-export const OneE18 = 1000000000000000000000n;
+export const OneE18 = 1_000_000_000_000_000_000n;
 // OneE21 is an amount of 1 miliNEAR
 export const OneE21 = OneE18 * 1000n;
 // OneE24 is an amount of 1 NEAR
