@@ -43,7 +43,13 @@ const CommunitySBTPage = () => {
               imageSrc={ImageSrc.OGSBT}
               title="OG"
               description="The OG SBT represents your commitment and dedication to NEAR, highlighting your continuous presence and involvement in shaping the NEAR ecosystem."
-              buttonText="Closed"
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
+                  '_blank'
+                )
+              }
             />
             <ImageTextBlock
               isAvailable={true}
