@@ -24,6 +24,7 @@ import {
   isNumber,
   log_event,
   convertToTimestamptz,
+  addIPAddr,
 } from '../utils/utilityFunctions';
 import { isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +34,7 @@ import {
 } from '../redux/reducer/commonReducer';
 import { revokeSBTs, soulTransfer } from '../redux/reducer/sbtsReducer';
 import { updateTrackerStatus } from '../redux/reducer/tracker';
+import { fpPromise } from '../utils/fingerprint';
 
 const URL = window.location;
 
@@ -88,7 +90,7 @@ const IndexPage = () => {
       log_event({
         event_log: `User successfully minted their FV SBT token: ${fvToken.token}`,
       });
-    } else if (data.length > 0 && !data[0]?.['fv_token_id']) {
+    } else if (data?.length > 0 && !data[0]?.['fv_token_id']) {
       // update data
       const userData = {
         fv_token_id: fvToken.token,
@@ -99,6 +101,12 @@ const IndexPage = () => {
       await supabase.update('users', userData, {
         wallet_identifier: wallet.accountId,
       });
+    }
+    if (data?.length > 0 && !data[0]?.['client_ip']) {
+      // add ip address
+      fpPromise
+        .then((fp) => fp.get())
+        .then((result) => addIPAddr(result.visitorId));
     }
   }
 

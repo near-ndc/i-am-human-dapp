@@ -84,5 +84,5 @@ export const addIPAddr = async (visitorID) => {
   const body = {
     fingerprint_visitor_id: visitorID,
   };
-  await axios.post(`${api_link}/storeIP`, { table, body, match });
+  await axios.post(`${api_link}/store-ip`, { table, body, match });
 };
