@@ -7,6 +7,7 @@ import {
   log_event,
 } from '../../utils/utilityFunctions';
 import { getConfig } from '../../utils/config';
+import { OneE21 } from '../../utils/config';
 import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
@@ -44,6 +45,8 @@ export const ConnectWallet = () => (
   </div>
 );
 
+const mintExtraCost = 2n * OneE21;
+
 export const MintSBT = ({ setError, isError }) => {
   const { responseData } = useSelector((state) => state[ReducerNames.ORACLE]);
   const [submit, setSubmit] = useState(null);
@@ -58,7 +61,6 @@ export const MintSBT = ({ setError, isError }) => {
     setSubmit(true);
     try {
       const { fractal_contract } = getConfig();
-      // fetch fees requirement from contract
       const fees = await wallet.viewMethod({
         contractId: fractal_contract,
         method: 'required_sbt_mint_deposit',
@@ -82,7 +84,7 @@ export const MintSBT = ({ setError, isError }) => {
           claim_b64: responseData.m,
           claim_sig: responseData.sig,
         },
-        deposit: BigInt(fees).toString(),
+        deposit: (BigInt(fees) + mintExtraCost).toString(),
       });
     } catch (e) {
       log_event({

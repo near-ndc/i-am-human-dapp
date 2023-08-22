@@ -1,3 +1,10 @@
+// OneE18 is an amount of 1 microNEAR
+export const OneE18 = 1000000000000000000000n;
+// OneE21 is an amount of 1 miliNEAR
+export const OneE21 = OneE18 * 1000n;
+// OneE24 is an amount of 1 NEAR
+export const OneE24 = OneE21 * 1000n;
+
 export const TWITTER_TEXT = process.env.REACT_APP_TWITTER_TEXT; // using env so that marketing team is able to change it frequently
 
 export const TWITTER_URL = `https://twitter.com/intent/tweet?text=${TWITTER_TEXT}`;
