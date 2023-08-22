@@ -3,8 +3,17 @@ import { ImageSrc, ReducerNames } from '../../utils/constants';
 import { Item, TokenDetails, ValidTokenComponent } from './TokenDetails';
 
 const TokensGrid = () => {
-  const { fvToken, kycToken, ogToken, vibeToken, regenToken, kudosToken } =
-    useSelector((state) => state[ReducerNames.SBT]);
+  const {
+    fvToken,
+    kycToken,
+    ogToken,
+    vibeToken,
+    regenToken,
+    kudosToken,
+    ndcContributor,
+    ndcChampion,
+    gwgCoreContributor,
+  } = useSelector((state) => state[ReducerNames.SBT]);
 
   return (
     <div className="flex flex-col gap-y-10 flex-wrap gap-5">
@@ -60,6 +69,33 @@ const TokensGrid = () => {
             My Kudos Soul Bound Token
           </h2>
           <TokenDetails data={kudosToken} />
+        </Item>
+      )}
+      {gwgCoreContributor && (
+        <Item imageSrc={ImageSrc.GWGCoreContributorSBT}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My GWG Core Contributor Soul Bound Token
+          </h2>
+          <TokenDetails data={gwgCoreContributor} />
+        </Item>
+      )}
+      {ndcChampion && (
+        <Item imageSrc={ImageSrc.NDCChampion}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My NDC Champion Soul Bound Token
+          </h2>
+          <TokenDetails data={ndcChampion} />
+        </Item>
+      )}
+      {ndcContributor && (
+        <Item imageSrc={ImageSrc.NDCContributor}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My NDC Contributor Soul Bound Token
+          </h2>
+          <TokenDetails data={ndcContributor} />
         </Item>
       )}
     </div>

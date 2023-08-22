@@ -41,15 +41,9 @@ const CommunitySBTPage = () => {
           <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-10 md:my-16">
             <ImageTextBlock
               imageSrc={ImageSrc.OGSBT}
-              isAvailable={true}
               title="OG"
               description="The OG SBT represents your commitment and dedication to NEAR, highlighting your continuous presence and involvement in shaping the NEAR ecosystem."
-              onClick={() =>
-                window.open(
-                  'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
-                  '_blank'
-                )
-              }
+              buttonText="Closed"
             />
             <ImageTextBlock
               isAvailable={true}
@@ -76,7 +70,6 @@ const CommunitySBTPage = () => {
               title="Proof of Kudos"
               description="This SBT is an electrifying badge bestowed upon individuals who have garnered immense praise, backed by overwhelming social proof."
             />
-
             <ImageTextBlock
               imageSrc={ImageSrc.GWGCoreContributorSBT}
               title="GWG Core Contributor"
@@ -114,6 +107,18 @@ const CommunitySBTPage = () => {
               }
             />
             <ImageTextBlock
+              imageSrc={ImageSrc.MOD}
+              title="Mod"
+              description="This SBT is your gateway to moderator greatness within the NEAR Digital Collective. Unleash its power of curation and influence."
+              isAvailable={true}
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSfUD_pdp3I-X-z17ks2y2_pN9xEEIIBzQ_jJXRTYYj9zO2BTw/viewform',
+                  '_blank'
+                )
+              }
+            />
+            <ImageTextBlock
               imageSrc={ImageSrc.CreativeSBT}
               title="Creative"
               description="This SBT is an electrifying testament to your creative genius within the esteemed Creative Constellation."
@@ -128,22 +133,17 @@ const CommunitySBTPage = () => {
               title="Degen"
               description="This SBT unveils your mastery as a marketing powerhouse within the legendary Degen Constellation."
             />
-            <ImageTextBlock
-              imageSrc={ImageSrc.MOD}
-              title="Mod"
-              description="This SBT is your gateway to moderator greatness within the NEAR Digital Collective. Unleash its power of curation and influence."
-            />
-            <ImageTextBlock
+            {/* don't need it for now */}
+            {/* <ImageTextBlock
               imageSrc={ImageSrc.GWGContributorSBT}
               title="GWG Contributor"
               description="This SBT shows off your important contribution to the NDC Governance Working Group. Prepare to wield its power and shape the destiny of governance like never before."
-            />
+            /> */}
             <ImageTextBlock
               imageSrc={ImageSrc.JuggernautSBT}
               title="Juggernaut"
               description="This SBT is the mark of a revered figurehead within NEAR, commanding admiration and leading the way to unparalleled greatness."
             />
-
             <ImageTextBlock
               imageSrc={ImageSrc.GeniusSBT}
               title="Genius"
