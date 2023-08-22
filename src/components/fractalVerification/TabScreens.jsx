@@ -6,7 +6,7 @@ import {
   insertUserData,
   log_event,
 } from '../../utils/utilityFunctions';
-import { getConfig, OneE21 } from '../../utils/config';
+import { getConfig } from '../../utils/config';
 import { WalletSVG } from '../../images/WalletSVG';
 import { FaceSVG } from '../../images/FaceSVG';
 import { MintSVG } from '../../images/MintSVG';
@@ -16,7 +16,7 @@ import { SuccesVerification } from './SuccessPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
-import { ImageSrc, ReducerNames } from '../../utils/constants';
+import { ImageSrc, OneE21, ReducerNames } from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Link } from '../common/Link';
 
