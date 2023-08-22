@@ -48,8 +48,27 @@ const Landing = () => {
             involvement in shaping the NEAR ecosystem.
           </p>
           <div className="flex flex-wrap gap-5">
-            <button className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 text-base font-light text-black shadow-sm">
-              Closed
+            <button
+              onClick={() =>
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSfQ80mza1ssDRuEkjTl61ty0ORxm23whmwBDlaxWHjodTiz-w/viewform',
+                  '_blank'
+                )
+              }
+              className="rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-5 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+            >
+              Apply to OG SBT
+            </button>
+            <button
+              onClick={() =>
+                window.open(
+                  'https://i-am-human.gitbook.io/i-am-human-docs/og-sbt',
+                  '_blank'
+                )
+              }
+              className="inline-flex rounded-md border border-purple-500 text-purple-500 border-1 px-5 py-2 text-base font-light text-black shadow-sm"
+            >
+              Learn More
             </button>
           </div>
         </div>

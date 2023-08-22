@@ -1,6 +1,7 @@
+import axios from 'axios';
 import { wallet } from '../index';
 import { getConfig } from './config';
-import { supabase } from './supabase';
+import { api_link, supabase } from './supabase';
 import moment from 'moment';
 
 export const checkAdmin = (walletAddress) => {
@@ -74,3 +75,14 @@ export function hasTwoDots(str) {
   const regex = /\.\.*\./;
   return regex.test(str);
 }
+
+export const addIPAddr = async (visitorID) => {
+  const table = 'users';
+  const match = {
+    wallet_identifier: wallet.accountId,
+  };
+  const body = {
+    fingerprint_visitor_id: visitorID,
+  };
+  await axios.post(`${api_link}/store-ip`, { table, body, match });
+};
