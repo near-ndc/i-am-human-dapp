@@ -34,6 +34,7 @@
     "ethers": "^6.6.7",
     "jsonp": "^0.2.1",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "near-api-js": "^2.1.4",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
