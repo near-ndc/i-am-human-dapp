@@ -115,5 +115,5 @@ export const Links = {
   WHISTLEBLOWER:
     'https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0',
   FAIR_VOTING_POLICY:
-    'https://bafkreifb4ahfglbq3knjtecqfvyhwb2nycozc3azn3gzanwzbe2xpynniu.ipfs.nftstorage.link/',
+    'https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/',
 };
