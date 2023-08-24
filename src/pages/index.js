@@ -102,12 +102,6 @@ const IndexPage = () => {
         wallet_identifier: wallet.accountId,
       });
     }
-    if (data?.length > 0 && !data[0]?.['client_ip']) {
-      // add ip address
-      fpPromise
-        .then((fp) => fp.get())
-        .then((result) => addIPAddr(result.visitorId));
-    }
   }
 
   async function createOGEventLog() {
@@ -152,6 +146,15 @@ const IndexPage = () => {
       createFVEventLog();
     }
   }, [fvToken, wallet.accountId]);
+
+  useEffect(() => {
+    // add ip address
+    if (isUserHuman) {
+      fpPromise
+        .then((fp) => fp.get())
+        .then((result) => addIPAddr(result.visitorId));
+    }
+  }, [isUserHuman]);
 
   useEffect(() => {
     if (ogToken) {
