@@ -5,6 +5,7 @@ export function getConfig() {
     succes_fractal_state: 'facescan',
     regen_issuer_contract: 'issuer.regens.near',
     vibe_issuer_contract: 'issuer.proofofvibes.near',
+    mods_issuer: 'gwg.sputnik-dao.near',
   };
   switch (environment) {
     case 'prod':

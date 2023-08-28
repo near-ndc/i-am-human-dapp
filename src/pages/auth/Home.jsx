@@ -27,6 +27,7 @@ const Home = () => {
     regen_issuer_contract,
     vibe_issuer_contract,
     kudos_issuer_contract,
+    mods_issuer,
   } = getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
@@ -36,6 +37,7 @@ const Home = () => {
       fetchRegenToken();
       fetchVibeToken();
       fetchKudosToken();
+      fetchModsToken();
     }
   }, [activePageIndex]);
 
@@ -103,6 +105,30 @@ const Home = () => {
       }
     } catch (error) {
       toast.error('An error occured while fetching Regen SBT details');
+    }
+  };
+
+  const fetchModsToken = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: mods_issuer,
+        },
+      });
+
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 5 => Mods token
+          if (token.metadata.class === 5) {
+            dispatch(updateTokens({ type: TokenTypes.MOD, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching Mods SBT details');
     }
   };
 

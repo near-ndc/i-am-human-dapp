@@ -31,6 +31,7 @@ export const TokenTypes = {
   NDC_Champion: 'NDC Champion',
   NDC_Contributor: 'NDC Contributor',
   GWG__Core_Contributor: 'GWG Core Contributor',
+  MOD: 'Mod',
 };
 
 export const ReducerNames = {
