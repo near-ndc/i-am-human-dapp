@@ -188,11 +188,11 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    if (isUserHuman) {
-      fetchVoterStatus();
-    }
-  }, [isUserHuman]);
+  // useEffect(() => {
+  //   if (isUserHuman) {
+  //     fetchVoterStatus();
+  //   }
+  // }, [isUserHuman]);
 
   const fetchVoterStatus = async () => {
     const data = await wallet.viewMethod({
@@ -263,7 +263,16 @@ const Home = () => {
             )}
           </div>
         </div>
-        <PrimaryButton>Complete Appeal</PrimaryButton>
+        <PrimaryButton
+          onClick={() =>
+            window.open(
+              'https://docs.google.com/forms/d/e/1FAIpQLSdQYxiUcxpiCDVKnN55Q7T2fnUPt0VjRdzo46qEkV7ub5mWFw/viewform',
+              '_blank'
+            )
+          }
+        >
+          Complete Appeal
+        </PrimaryButton>
       </div>
     );
   };
@@ -291,7 +300,16 @@ const Home = () => {
             )}
           </div>
         </div>
-        <PrimaryButton>Apply to Verify</PrimaryButton>
+        <PrimaryButton
+          onClick={() =>
+            window.open(
+              'https://docs.google.com/forms/d/e/1FAIpQLSfa3S6Qz1MdiJEXINMICv9O9oVD7LOdwiPmHI_4_gCLAhN0CA/viewform',
+              '_blank'
+            )
+          }
+        >
+          Apply to Verify
+        </PrimaryButton>
       </div>
     );
   };
@@ -310,12 +328,12 @@ const Home = () => {
   return (
     <div className="mb-20">
       {/* voter status */}
-      {isUserHuman && (
+      {/* {isUserHuman && (
         <div className="bg-gray-100 p-6 flex justify-between items-center rounded-lg mb-8 flex-wrap">
           <h1 className="font-semibold text-xl">Voter Status</h1>
           <VoterStatusTags />
         </div>
-      )}
+      )} */}
       <h1 className="text-center text-2xl font-semibold mb-10">
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
