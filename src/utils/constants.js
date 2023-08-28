@@ -117,3 +117,8 @@ export const Links = {
   FAIR_VOTING_POLICY:
     'https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/',
 };
+
+export const AccountFlag = {
+  Blacklisted: 'Blacklisted',
+  Verified: 'Verified',
+};
