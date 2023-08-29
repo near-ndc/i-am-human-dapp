@@ -17,7 +17,13 @@ import { SuccesVerification } from './SuccessPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
-import { ImageSrc, OneE21, ReducerNames } from '../../utils/constants';
+import {
+  IAHShutDownEndTime,
+  IAHShutDownStartTime,
+  ImageSrc,
+  OneE21,
+  ReducerNames,
+} from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Link } from '../common/Link';
 import { fpPromise } from '../../utils/fingerprint';
@@ -278,18 +284,19 @@ export const ScanFace = () => {
     }
   }, [responseData?.token]);
 
-  const electionStartDate = moment
-    .unix(process.env.REACT_APP_ELECTION_START_DATE)
-    .local();
-  const electionEndDate = moment
-    .unix(process.env.REACT_APP_ELECTION_END_DATE)
-    .local();
+  const userTimezone = moment.tz.guess();
+  const electionEndDate = IAHShutDownEndTime;
+  const electionStartDate = IAHShutDownStartTime;
 
   const formatString = 'MMMM D, HH:mm:ss [UTC]'; // Format string
 
   return (
     <div className="w-full">
-      {moment().isBetween(electionStartDate, electionEndDate) && (
+      {/* compare using the local dates */}
+      {moment().isBetween(
+        electionStartDate.clone().tz(userTimezone),
+        electionEndDate.clone().tz(userTimezone)
+      ) && (
         <Transition.Root show={true} as={Fragment}>
           <Dialog as="div" className="relative z-10" onClose={() => {}}>
             <Transition.Child
@@ -320,8 +327,9 @@ export const ScanFace = () => {
                       <p>
                         I-AM-HUMAN Voter Registration is paused during the NDC
                         Election between{' '}
-                        {moment(electionStartDate).format(formatString)} and{' '}
-                        {moment(electionEndDate).format(formatString)}.
+                        {moment(electionStartDate).utc().format(formatString)}{' '}
+                        and {moment(electionEndDate).utc().format(formatString)}
+                        .
                       </p>
                     </div>
                   </Dialog.Panel>
