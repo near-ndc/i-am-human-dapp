@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 // OneE18 is an amount of 1 microNEAR
 export const OneE18 = 1_000_000_000_000_000_000n;
 // OneE21 is an amount of 1 miliNEAR
@@ -123,3 +125,6 @@ export const AccountFlag = {
   Blacklisted: 'Blacklisted',
   Verified: 'Verified',
 };
+
+export const IAHShutDownStartTime = moment.unix(1693612799); // September 1 @ 23:59:59
+export const IAHShutDownEndTime = moment.unix(1695427199); // September 22 @ 23:59:59

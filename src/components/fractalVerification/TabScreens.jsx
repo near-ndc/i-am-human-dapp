@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { CircleSpinner } from 'react-spinners-kit';
 import { wallet } from '../..';
 import {
@@ -17,10 +17,18 @@ import { SuccesVerification } from './SuccessPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyUser } from '../../services/api';
 import { updateResponse } from '../../redux/reducer/oracleReducer';
-import { ImageSrc, OneE21, ReducerNames } from '../../utils/constants';
+import {
+  IAHShutDownEndTime,
+  IAHShutDownStartTime,
+  ImageSrc,
+  OneE21,
+  ReducerNames,
+} from '../../utils/constants';
 import { setActivePageIndex } from '../../redux/reducer/commonReducer';
 import { Link } from '../common/Link';
 import { fpPromise } from '../../utils/fingerprint';
+import { Dialog, Transition } from '@headlessui/react';
+import moment from 'moment-timezone';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please try again.';
 
@@ -276,8 +284,61 @@ export const ScanFace = () => {
     }
   }, [responseData?.token]);
 
+  const userTimezone = moment.tz.guess();
+  const electionEndDate = IAHShutDownEndTime;
+  const electionStartDate = IAHShutDownStartTime;
+
+  const formatString = 'MMMM D, HH:mm:ss [UTC]'; // Format string
+
   return (
     <div className="w-full">
+      {/* compare using the local dates */}
+      {moment().isBetween(
+        electionStartDate.clone().tz(userTimezone),
+        electionEndDate.clone().tz(userTimezone)
+      ) && (
+        <Transition.Root show={true} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={() => {}}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-40 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col gap-4">
+                      <p>
+                        I-AM-HUMAN Voter Registration is paused during the NDC
+                        Election between{' '}
+                        {moment(electionStartDate).utc().format(formatString)}{' '}
+                        and {moment(electionEndDate).utc().format(formatString)}
+                        .
+                      </p>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+      )}
       <div className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-purple-400">
         <div className="flex items-center justify-center w-full h-full rounded-full border-2 border-purple-500 bg-purple-200 shadow-[inset_0_0px_4px_#FFFFFF] shadow-purple-400">
           <FaceSVG styles="w-12 h-12 fill-purple-400 stroke-themeColor" />

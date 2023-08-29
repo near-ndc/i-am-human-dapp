@@ -3,7 +3,12 @@ import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 import { formatNumberWithComma } from '../../utils/utilityFunctions';
 import { useSelector } from 'react-redux';
-import { Links, ReducerNames } from '../../utils/constants';
+import {
+  IAHShutDownEndTime,
+  IAHShutDownStartTime,
+  Links,
+  ReducerNames,
+} from '../../utils/constants';
 import moment from 'moment-timezone';
 
 const ProgressTracker = () => {
@@ -11,6 +16,7 @@ const ProgressTracker = () => {
   const [humansRegistered, setHumansRegistered] = useState(0);
   const { showTracker } = useSelector((state) => state[ReducerNames.PROGRESS]);
   const { fvToken } = useSelector((state) => state[ReducerNames.SBT]);
+  const [electionStarted, setElectionStarted] = useState(false);
 
   const fetchHumansRegistered = async () => {
     try {
@@ -57,8 +63,6 @@ const ProgressTracker = () => {
 
   const ReadableNumber = formatNumberWithComma(ProgressMeterMax);
 
-  const futureDateUtc = moment.unix(1693612799); // September 1 @ 23:59:59
-
   // Get the user's local timezone
   const userTimezone = moment.tz.guess();
   const [countdown, setCountdown] = useState({
@@ -70,7 +74,10 @@ const ProgressTracker = () => {
 
   function updateCountdown() {
     const nowLocal = moment(); // Get the current local time
-    const futureDateLocal = futureDateUtc.clone().tz(userTimezone);
+    const timestamp = electionStarted
+      ? IAHShutDownEndTime
+      : IAHShutDownStartTime;
+    const futureDateLocal = timestamp.clone().tz(userTimezone);
 
     // Calculate the time remaining
     const countdownDuration = moment.duration(futureDateLocal.diff(nowLocal));
@@ -84,6 +91,10 @@ const ProgressTracker = () => {
   }
 
   useEffect(() => {
+    const isElectionStarted = moment().isSameOrAfter(
+      IAHShutDownStartTime.clone().tz(userTimezone)
+    );
+    setElectionStarted(isElectionStarted);
     updateCountdown();
 
     const interval = setInterval(updateCountdown, 1000);
@@ -160,7 +171,12 @@ const ProgressTracker = () => {
           style={{ backgroundColor: '#F29BC0' }}
           className="p-2 text-white font-semibold flex gap-x-8 justify-center items-center"
         >
-          <p>VOTER REGISTRATION ENDS</p>
+          <p>
+            {electionStarted
+              ? 'TIME REMAINING IN CURRENT ELECTION'
+              : 'VOTER REGISTRATION END'}
+            S
+          </p>
           <p className="text-lg flex gap-x-3 items-end">
             <NumberContainer number={countdown.days} text="D" />
             <NumberContainer number={countdown.hours} text="H" />
