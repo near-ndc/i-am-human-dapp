@@ -3,13 +3,21 @@ import { wallet } from '../..';
 import { getConfig } from '../../utils/config';
 import { formatNumberWithComma } from '../../utils/utilityFunctions';
 import { useSelector } from 'react-redux';
-import { Links, ReducerNames } from '../../utils/constants';
+import {
+  ElectionsStartTime,
+  IAHShutDownEndTime,
+  IAHShutDownStartTime,
+  Links,
+  ReducerNames,
+} from '../../utils/constants';
+import moment from 'moment-timezone';
 
 const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
   const [humansRegistered, setHumansRegistered] = useState(0);
   const { showTracker } = useSelector((state) => state[ReducerNames.PROGRESS]);
   const { fvToken } = useSelector((state) => state[ReducerNames.SBT]);
+  const [electionStarted, setElectionStarted] = useState(false);
 
   const fetchHumansRegistered = async () => {
     try {
@@ -55,6 +63,56 @@ const ProgressTracker = () => {
   }
 
   const ReadableNumber = formatNumberWithComma(ProgressMeterMax);
+
+  // Get the user's local timezone
+  const userTimezone = moment.tz.guess();
+  const [countdown, setCountdown] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  function updateCountdown() {
+    const nowLocal = moment(); // Get the current local time
+    const timestamp = electionStarted
+      ? IAHShutDownEndTime
+      : IAHShutDownStartTime;
+    const futureDateLocal = timestamp.clone().tz(userTimezone);
+
+    // Calculate the time remaining
+    const countdownDuration = moment.duration(futureDateLocal.diff(nowLocal));
+
+    setCountdown({
+      days: countdownDuration.days(),
+      hours: countdownDuration.hours(),
+      minutes: countdownDuration.minutes(),
+      seconds: countdownDuration.seconds(),
+    });
+  }
+
+  useEffect(() => {
+    const isElectionStarted = moment().isSameOrAfter(
+      ElectionsStartTime.clone().tz(userTimezone)
+    );
+    setElectionStarted(isElectionStarted);
+    updateCountdown();
+
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const NumberContainer = ({ number, text }) => {
+    return (
+      <span className="flex gap-x-0.5 items-end">
+        <p style={{ color: '#FDE047' }} className="text-3xl">
+          {number}
+        </p>
+        <p className="text-xl font-normal">{text}</p>
+      </span>
+    );
+  };
 
   if (showTracker) {
     return (
@@ -110,6 +168,26 @@ const ProgressTracker = () => {
             )}
           </div>
         </>
+        {/* to not show any countdown from 1 sept to 7 sept */}
+        {!electionStarted && countdown.days === 0 ? null : (
+          <div
+            style={{ backgroundColor: '#F29BC0' }}
+            className="p-2 text-white font-semibold flex gap-x-8 justify-center items-center"
+          >
+            <p>
+              {electionStarted
+                ? 'TIME REMAINING IN CURRENT ELECTION'
+                : 'VOTER REGISTRATION END'}
+              S
+            </p>
+            <p className="text-lg flex gap-x-3 items-end">
+              <NumberContainer number={countdown.days} text="D" />
+              <NumberContainer number={countdown.hours} text="H" />
+              <NumberContainer number={countdown.minutes} text="M" />
+              <NumberContainer number={countdown.seconds} text="S" />
+            </p>
+          </div>
+        )}
       </div>
     );
   } else return null;

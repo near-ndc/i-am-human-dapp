@@ -157,3 +157,7 @@ html {
   width: 5rem !important;
   height: 5rem !important;
 }
+
+.bg-icon-white svg {
+  fill: white !important;
+}

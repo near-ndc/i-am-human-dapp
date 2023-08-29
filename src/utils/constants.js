@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 // OneE18 is an amount of 1 microNEAR
 export const OneE18 = 1_000_000_000_000_000_000n;
 // OneE21 is an amount of 1 miliNEAR
@@ -31,6 +33,7 @@ export const TokenTypes = {
   NDC_Champion: 'NDC Champion',
   NDC_Contributor: 'NDC Contributor',
   GWG__Core_Contributor: 'GWG Core Contributor',
+  MOD: 'Mod',
 };
 
 export const ReducerNames = {
@@ -117,3 +120,12 @@ export const Links = {
   FAIR_VOTING_POLICY:
     'https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/',
 };
+
+export const AccountFlag = {
+  Blacklisted: 'Blacklisted',
+  Verified: 'Verified',
+};
+
+export const IAHShutDownStartTime = moment.unix(1693612799); // September 1 @ 23:59:59
+export const IAHShutDownEndTime = moment.unix(1695427199); // September 22 @ 23:59:59
+export const ElectionsStartTime = moment.unix(1694131200); // September 8 @ 00:00:00

@@ -58,6 +58,7 @@ export const sbtReducer = createSlice({
     ndcContributor: null,
     ndcChampion: null,
     gwgCoreContributor: null,
+    modToken: null,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -90,6 +91,9 @@ export const sbtReducer = createSlice({
         case TokenTypes.NDC_Contributor:
           state.ndcContributor = value;
           break;
+        case TokenTypes.MOD:
+          state.modToken = value;
+          break;
         default:
           break;
       }
@@ -102,7 +106,8 @@ export const sbtReducer = createSlice({
         state.kudosToken ||
         state.ndcChampion ||
         state.ndcContributor ||
-        state.gwgCoreContributor;
+        state.gwgCoreContributor ||
+        state.modToken;
     },
     handleErrorMessage: (state, action) => {
       state.error = action.payload;
@@ -118,6 +123,7 @@ export const sbtReducer = createSlice({
       state.gwgCoreContributor = null;
       state.ndcChampion = null;
       state.ndcContributor = null;
+      state.modToken = null;
     },
     updateTokenRemoveStatus: (state, action) => {
       state.tokenRemoveSuccess = !state.tokenRemoveSuccess;
