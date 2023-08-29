@@ -128,3 +128,4 @@ export const AccountFlag = {
 
 export const IAHShutDownStartTime = moment.unix(1693612799); // September 1 @ 23:59:59
 export const IAHShutDownEndTime = moment.unix(1695427199); // September 22 @ 23:59:59
+export const ElectionsStartTime = moment.unix(1694131200); // September 8 @ 00:00:00

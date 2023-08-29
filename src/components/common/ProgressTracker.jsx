@@ -4,6 +4,7 @@ import { getConfig } from '../../utils/config';
 import { formatNumberWithComma } from '../../utils/utilityFunctions';
 import { useSelector } from 'react-redux';
 import {
+  ElectionsStartTime,
   IAHShutDownEndTime,
   IAHShutDownStartTime,
   Links,
@@ -92,7 +93,7 @@ const ProgressTracker = () => {
 
   useEffect(() => {
     const isElectionStarted = moment().isSameOrAfter(
-      IAHShutDownStartTime.clone().tz(userTimezone)
+      ElectionsStartTime.clone().tz(userTimezone)
     );
     setElectionStarted(isElectionStarted);
     updateCountdown();
@@ -167,23 +168,26 @@ const ProgressTracker = () => {
             )}
           </div>
         </>
-        <div
-          style={{ backgroundColor: '#F29BC0' }}
-          className="p-2 text-white font-semibold flex gap-x-8 justify-center items-center"
-        >
-          <p>
-            {electionStarted
-              ? 'TIME REMAINING IN CURRENT ELECTION'
-              : 'VOTER REGISTRATION END'}
-            S
-          </p>
-          <p className="text-lg flex gap-x-3 items-end">
-            <NumberContainer number={countdown.days} text="D" />
-            <NumberContainer number={countdown.hours} text="H" />
-            <NumberContainer number={countdown.minutes} text="M" />
-            <NumberContainer number={countdown.seconds} text="S" />
-          </p>
-        </div>
+        {/* to not show any countdown from 1 sept to 7 sept */}
+        {!electionStarted && countdown.days === 0 ? null : (
+          <div
+            style={{ backgroundColor: '#F29BC0' }}
+            className="p-2 text-white font-semibold flex gap-x-8 justify-center items-center"
+          >
+            <p>
+              {electionStarted
+                ? 'TIME REMAINING IN CURRENT ELECTION'
+                : 'VOTER REGISTRATION END'}
+              S
+            </p>
+            <p className="text-lg flex gap-x-3 items-end">
+              <NumberContainer number={countdown.days} text="D" />
+              <NumberContainer number={countdown.hours} text="H" />
+              <NumberContainer number={countdown.minutes} text="M" />
+              <NumberContainer number={countdown.seconds} text="S" />
+            </p>
+          </div>
+        )}
       </div>
     );
   } else return null;
