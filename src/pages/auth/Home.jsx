@@ -329,7 +329,7 @@ const Home = () => {
         <PrimaryButton
           onClick={() =>
             window.open(
-              'https://docs.google.com/forms/d/e/1FAIpQLSfa3S6Qz1MdiJEXINMICv9O9oVD7LOdwiPmHI_4_gCLAhN0CA/viewform',
+              'https://airtable.com/appgHJzUuw1Kb2GJV/shrCdvjmWMzwaMEj8',
               '_blank'
             )
           }
