@@ -171,7 +171,9 @@ const ProgressTracker = () => {
         {/* to not show any countdown from 1 sept to 7 sept */}
         {!electionStarted &&
         countdown.days === 0 &&
-        countdown.hours === 0 ? null : (
+        countdown.hours === 0 &&
+        countdown.minutes === 0 &&
+        countdown.seconds === 0 ? null : (
           <div
             style={{ backgroundColor: '#F29BC0' }}
             className="p-2 text-white font-semibold flex gap-x-8 justify-center items-center"
