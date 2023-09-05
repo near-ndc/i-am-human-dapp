@@ -214,11 +214,11 @@ const Home = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (isUserHuman) {
-  //     fetchVoterStatus();
-  //   }
-  // }, [isUserHuman]);
+  useEffect(() => {
+    if (isUserHuman) {
+      fetchVoterStatus();
+    }
+  }, [isUserHuman]);
 
   const fetchVoterStatus = async () => {
     const data = await wallet.viewMethod({
@@ -354,12 +354,12 @@ const Home = () => {
   return (
     <div className="mb-20">
       {/* voter status */}
-      {/* {isUserHuman && (
+      {isUserHuman && (
         <div className="bg-gray-100 p-6 flex justify-between items-center rounded-lg mb-8 flex-wrap">
           <h1 className="font-semibold text-xl">Voter Status</h1>
           <VoterStatusTags />
         </div>
-      )} */}
+      )}
       <h1 className="text-center text-2xl font-semibold mb-10">
         My I-AM-HUMAN Soul Bound Tokens
       </h1>
