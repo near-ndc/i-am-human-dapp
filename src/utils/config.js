@@ -6,7 +6,7 @@ export function getConfig() {
     regen_issuer_contract: 'issuer.regens.near',
     vibe_issuer_contract: 'issuer.proofofvibes.near',
     mods_issuer: 'gwg.sputnik-dao.near',
-    election_contract: '',
+    election_contract: 'elections.ndc-gwg.near',
   };
   switch (environment) {
     case 'prod':
@@ -14,8 +14,6 @@ export function getConfig() {
         network_id: 'mainnet',
         app_contract: 'registry.i-am-human.near',
         og_contract: 'community.i-am-human.near',
-        // gooddollar_contract: 'gooddollar-v1.i-am-human.near',
-        // fractal_contract: 'fractal-1.i-am-human.testnet',
         fractal_contract: 'fractal.i-am-human.near',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
         api_link: 'https://api-ophc7vkxsq-uc.a.run.app',
@@ -30,9 +28,8 @@ export function getConfig() {
         network_id: 'testnet',
         app_contract: 'registry-1.i-am-human.testnet',
         og_contract: 'community-v1.i-am-human.testnet',
-        // gooddollar_contract: 'gooddollar-v1.i-am-human.testnet',
         // fractal_contract: 'fractal-1.i-am-human.testnet', // for DEV ENV
-        fractal_contract: 'i-am-human-staging.testnet', // REMOVE AFTER TESTING
+        fractal_contract: 'i-am-human-staging.testnet',
         new_sbt_contract: 'sbt1.i-am-human.testnet',
         api_link: 'https://dev-ophc7vkxsq-uc.a.run.app',
         fractal_api: 'https://staging.justfortestinc.site',
