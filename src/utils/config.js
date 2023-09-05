@@ -6,6 +6,7 @@ export function getConfig() {
     regen_issuer_contract: 'issuer.regens.near',
     vibe_issuer_contract: 'issuer.proofofvibes.near',
     mods_issuer: 'gwg.sputnik-dao.near',
+    election_contract: '',
   };
   switch (environment) {
     case 'prod':
