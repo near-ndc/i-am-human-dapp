@@ -31,6 +31,7 @@ const Home = () => {
     vibe_issuer_contract,
     kudos_issuer_contract,
     mods_issuer,
+    election_contract,
   } = getConfig();
   useEffect(() => {
     // fetching only when logged in (without steps) state active
@@ -41,6 +42,7 @@ const Home = () => {
       fetchVibeToken();
       fetchKudosToken();
       fetchModsToken();
+      fetchIVotedToken();
     }
   }, [activePageIndex]);
 
@@ -111,6 +113,30 @@ const Home = () => {
       }
     } catch (error) {
       toast.error('An error occured while fetching Regen SBT details');
+    }
+  };
+
+  const fetchIVotedToken = async () => {
+    try {
+      const data = await wallet.viewMethod({
+        contractId: app_contract,
+        method: 'sbt_tokens_by_owner',
+        args: {
+          account: wallet.accountId,
+          issuer: election_contract,
+        },
+      });
+
+      if (data?.[0]?.[1]) {
+        for (const token of data[0][1]) {
+          // if class = 1 => I voted token
+          if (token.metadata.class === 1) {
+            dispatch(updateTokens({ type: TokenTypes.I_VOTED, value: token }));
+          }
+        }
+      }
+    } catch (error) {
+      toast.error('An error occured while fetching I Voted SBT details');
     }
   };
 

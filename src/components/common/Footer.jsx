@@ -14,12 +14,12 @@ const navigation = [
         href: 'https://i-am-human.gitbook.io/i-am-human-docs/',
       },
       {
-        name: 'Product Feedback',
-        href: 'https://near-digital-collective.canny.io/bugs-and-feature-requests',
-      },
-      {
         name: 'Bug Report',
         href: 'https://github.com/near-ndc/i-am-human-dapp/issues',
+      },
+      {
+        name: 'Privacy Policy',
+        href: 'https://bafkreihetkp3rm5m2rbvfmadnsa3mzvcwcd3puvkabzli62y2gj5fearzy.ipfs.nftstorage.link/',
       },
     ],
   },
