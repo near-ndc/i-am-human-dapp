@@ -34,6 +34,7 @@ export const TokenTypes = {
   NDC_Contributor: 'NDC Contributor',
   GWG__Core_Contributor: 'GWG Core Contributor',
   MOD: 'Mod',
+  I_VOTED: 'I Voted',
 };
 
 export const ReducerNames = {
