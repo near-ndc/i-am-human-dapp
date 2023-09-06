@@ -14,6 +14,7 @@ const TokensGrid = () => {
     ndcChampion,
     gwgCoreContributor,
     modToken,
+    iVotedToken,
   } = useSelector((state) => state[ReducerNames.SBT]);
 
   return (
@@ -106,6 +107,15 @@ const TokensGrid = () => {
             My Mod Soul Bound Token
           </h2>
           <TokenDetails data={modToken} />
+        </Item>
+      )}
+      {iVotedToken && (
+        <Item imageSrc={ImageSrc.IVotedSBT}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My I Voted Soul Bound Token
+          </h2>
+          <TokenDetails data={iVotedToken} />
         </Item>
       )}
     </div>
