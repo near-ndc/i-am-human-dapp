@@ -77,9 +77,11 @@ const ActivatePage = () => {
           />
           <ImageTextBlock
             imageSrc={ImageSrc.NDCLogo}
-            isAvailable={false}
+            isAvailable={true}
+            onClick={() => window.open(Links.ELECTIONS, '_blank')}
             title="NEAR General Election"
             description="The NDC is launching the inaugural ecosystem wide General Election to enable decentralized governance on-chain. #Vote in the September 8th General Election and mint your “I Voted” reputation Soul Bound Token!"
+            buttonText="Vote Now"
           />
           <ImageTextBlock
             imageSrc={ImageSrc.NDCKudos}

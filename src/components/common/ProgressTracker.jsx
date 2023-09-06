@@ -126,8 +126,14 @@ const ProgressTracker = () => {
                 clipPath: `polygon(0 0, 100% 0, calc(100% - ${getClipPercentage()}%) 100%, 0% 100%)`,
               }}
             ></div>
-            <h2 className="relative flex h-full justify-center items-center z-10 font-bold">
+            <h2 className="px-1 md:px-0 relative flex gap-3 h-full justify-center items-center z-10 font-bold">
               JOIN {humansRegistered} HUMANS TO REACH {ReadableNumber} VOTERS
+              <button
+                className="text-xs md:text-sm rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-1 md:px-3 py-1 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 "
+                onClick={() => window.open(Links.ELECTIONS, '_blank')}
+              >
+                Vote Now
+              </button>
             </h2>
           </div>
           <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600">
