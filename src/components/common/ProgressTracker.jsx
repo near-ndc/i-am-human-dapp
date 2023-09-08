@@ -76,8 +76,8 @@ const ProgressTracker = () => {
   function updateCountdown() {
     const nowLocal = moment(); // Get the current local time
     const timestamp = electionStarted
-      ? IAHShutDownEndTime
-      : IAHShutDownStartTime;
+      ? IAHShutDownStartTime
+      : IAHShutDownEndTime;
     const futureDateLocal = timestamp.clone().tz(userTimezone);
 
     // Calculate the time remaining
