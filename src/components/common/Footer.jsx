@@ -19,7 +19,7 @@ const navigation = [
       },
       {
         name: 'Privacy Policy',
-        href: 'https://bafkreihetkp3rm5m2rbvfmadnsa3mzvcwcd3puvkabzli62y2gj5fearzy.ipfs.nftstorage.link/',
+        href: 'https://bafkreibobhs7q4cgysbpimaxc5lt74bukvqgwf65kd7qes4uru5wqzrr5i.ipfs.nftstorage.link/',
       },
     ],
   },
