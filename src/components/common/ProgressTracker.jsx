@@ -118,7 +118,7 @@ const ProgressTracker = () => {
     return (
       <div className="text-center text-md">
         <>
-          <div className="bg-purple-400 h-[45px] md:h-[40px] relative">
+          {/* <div className="bg-purple-400 h-[45px] md:h-[40px] relative">
             <div
               className="bg-yellow-400 absolute left-0 top-0 h-full"
               style={{
@@ -135,7 +135,7 @@ const ProgressTracker = () => {
                 Vote Now
               </button>
             </h2>
-          </div>
+          </div> */}
           <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600">
             {fvToken ? (
               <div className="flex justify-center gap-5 items-center">
@@ -161,14 +161,9 @@ const ProgressTracker = () => {
                 </p>
                 <button
                   className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
-                  onClick={() =>
-                    window.open(
-                      'https://pages.near.org/blog/ndc-v1-governance-elections-faq/',
-                      '_blank'
-                    )
-                  }
+                  onClick={() => window.open(Links.ELECTIONS, '_blank')}
                 >
-                  Learn More
+                  Vote Now
                 </button>
               </div>
             )}
