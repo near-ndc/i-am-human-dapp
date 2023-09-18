@@ -39,6 +39,14 @@ const ActivatePage = () => {
           <ImageTextBlock
             imageSrc={ImageSrc.NDCLogo}
             isAvailable={true}
+            onClick={() => window.open(Links.ELECTIONS, '_blank')}
+            title="NEAR General Election"
+            description="The NDC is launching the inaugural ecosystem wide General Election to enable decentralized governance on-chain. #Vote in the September 8th General Election and mint your “I Voted” reputation Soul Bound Token!"
+            buttonText="Vote Now"
+          />
+          <ImageTextBlock
+            imageSrc={ImageSrc.NDCLogo}
+            isAvailable={true}
             title="NDC Nomination"
             description="Are you a dedicated OG member of the NEAR community? Nominate yourself for a seat in the NDC General Election. Realize your vision to grow the NEAR ecosystem. Verified humans, comment and upvote on your favorite candidates."
             onClick={() =>
@@ -75,14 +83,7 @@ const ActivatePage = () => {
               )
             }
           />
-          <ImageTextBlock
-            imageSrc={ImageSrc.NDCLogo}
-            isAvailable={true}
-            onClick={() => window.open(Links.ELECTIONS, '_blank')}
-            title="NEAR General Election"
-            description="The NDC is launching the inaugural ecosystem wide General Election to enable decentralized governance on-chain. #Vote in the September 8th General Election and mint your “I Voted” reputation Soul Bound Token!"
-            buttonText="Vote Now"
-          />
+
           <ImageTextBlock
             imageSrc={ImageSrc.NDCKudos}
             onClick={() => window.open(Links.KUDOS_WIDGET, '_blank')}
