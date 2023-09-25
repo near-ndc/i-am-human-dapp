@@ -38,24 +38,15 @@ const ActivatePage = () => {
         <div className="grid grid-cols-1 gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3 my-10 md:my-16">
           <ImageTextBlock
             imageSrc={ImageSrc.NDCLogo}
-            isAvailable={true}
-            onClick={() => window.open(Links.ELECTIONS, '_blank')}
             title="NEAR General Election"
             description="The NDC is launching the inaugural ecosystem wide General Election to enable decentralized governance on-chain. #Vote in the September 8th General Election and mint your “I Voted” reputation Soul Bound Token!"
-            buttonText="Vote Now"
+            buttonText="Closed"
           />
           <ImageTextBlock
             imageSrc={ImageSrc.NDCLogo}
-            isAvailable={true}
             title="NDC Nomination"
             description="Are you a dedicated OG member of the NEAR community? Nominate yourself for a seat in the NDC General Election. Realize your vision to grow the NEAR ecosystem. Verified humans, comment and upvote on your favorite candidates."
-            onClick={() =>
-              window.open(
-                'https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Page',
-                '_blank'
-              )
-            }
-            buttonText="Participate Now"
+            buttonText="Closed"
           />
           <ImageTextBlock
             imageSrc={ImageSrc.NDCPoll}
@@ -83,7 +74,6 @@ const ActivatePage = () => {
               )
             }
           />
-
           <ImageTextBlock
             imageSrc={ImageSrc.NDCKudos}
             onClick={() => window.open(Links.KUDOS_WIDGET, '_blank')}
@@ -101,6 +91,12 @@ const ActivatePage = () => {
               window.open('https://t.me/+NjNy-5yl_KllNmYx', '_blank')
             }
             buttonText="See you IRL"
+          />
+          <ImageTextBlock
+            imageSrc={ImageSrc.Astra}
+            title="Astra++"
+            description="Astra++ is a comprehensive suite of DAO tooling that makes possible for any DAO to easily self-manage and grow its membership, and filling a void left by AstroDAO."
+            buttonText="Coming Soon"
           />
           <ImageTextBlock
             imageSrc={ImageSrc.CommunityFund}
