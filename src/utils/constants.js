@@ -112,6 +112,8 @@ export const ImageSrc = {
     'https://bafkreicvwvjtybib7nodjus5ynomjasp3xskz2et5tkrx6k7t3h7dsq2za.ipfs.nftstorage.link/',
   ELECTION_ICON:
     'https://bafkreidrd4ci3p23e7zttaq5ukpzeddyzvfdm37x3xomju3rgeq77f2dba.ipfs.nftstorage.link/',
+  Astra:
+    'https://bafkreig2uojfxnf4bto6wuzaylec7wjmo4lznv6nz42fpas2bb4wuueehe.ipfs.nftstorage.link/',
 };
 
 export const Links = {
@@ -128,7 +130,3 @@ export const AccountFlag = {
   Blacklisted: 'Blacklisted',
   Verified: 'Verified',
 };
-
-export const IAHShutDownStartTime = moment.unix(1693612799); // September 1 @ 23:59:59
-export const IAHShutDownEndTime = moment.unix(1695427199); // September 22 @ 23:59:59
-export const ElectionsStartTime = moment.unix(1694131200); // September 8 @ 00:00:00
