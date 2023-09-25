@@ -112,7 +112,8 @@ export const ImageSrc = {
     'https://bafkreicvwvjtybib7nodjus5ynomjasp3xskz2et5tkrx6k7t3h7dsq2za.ipfs.nftstorage.link/',
   ELECTION_ICON:
     'https://bafkreidrd4ci3p23e7zttaq5ukpzeddyzvfdm37x3xomju3rgeq77f2dba.ipfs.nftstorage.link/',
-  Astra: '',
+  Astra:
+    'https://bafkreig2uojfxnf4bto6wuzaylec7wjmo4lznv6nz42fpas2bb4wuueehe.ipfs.nftstorage.link/',
 };
 
 export const Links = {
