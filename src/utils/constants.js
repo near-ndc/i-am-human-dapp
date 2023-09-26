@@ -124,6 +124,9 @@ export const Links = {
     'https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/',
   ELECTIONS:
     'https://near.org/election.ndctools.near/widget/NDC.Elections.Main',
+  NOMINATIONS:
+    'https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Page',
+  ASTRA: 'https://near.org/astraplusplus.ndctools.near/widget/home?page=daos',
 };
 
 export const AccountFlag = {
