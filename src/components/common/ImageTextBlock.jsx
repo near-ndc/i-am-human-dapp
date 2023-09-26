@@ -24,7 +24,10 @@ const ImageTextBlock = ({
               <p className="text-sm">{buttonText ?? 'Apply Now'}</p>
             </PrimaryButton>
           ) : (
-            <OutlineButton classes="cursor-auto">
+            <OutlineButton
+              classes={!onClick && 'cursor-auto'}
+              onClick={onClick}
+            >
               <p className="text-sm">{buttonText ?? 'Coming Soon'}</p>
             </OutlineButton>
           )}
