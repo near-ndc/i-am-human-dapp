@@ -98,8 +98,9 @@ const ActivatePage = () => {
             imageSrc={ImageSrc.Astra}
             title="Astra++"
             description="Astra++ is a comprehensive suite of DAO tooling that makes possible for any DAO to easily self-manage and grow its membership, and filling a void left by AstroDAO."
-            buttonText="Coming Soon"
+            buttonText="See More"
             onClick={() => window.open(Links.ASTRA, '_blank')}
+            isAvailable={true}
           />
           <ImageTextBlock
             imageSrc={ImageSrc.CommunityFund}
