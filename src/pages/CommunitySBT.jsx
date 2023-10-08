@@ -120,6 +120,13 @@ const CommunitySBTPage = () => {
               }
             />
             <ImageTextBlock
+              imageSrc={ImageSrc.IVotedSBT}
+              title="I VOTED SBT"
+              description="Celebrate your participation in the inaugural NDC election. It is important to mint this SBT to show off your voting record, to vote on future referendums, and much more."
+              isAvailable={true}
+              onClick={() => window.open(Links.ELECTIONS, '_blank')}
+            />
+            <ImageTextBlock
               imageSrc={ImageSrc.CreativeSBT}
               title="Creative"
               description="This SBT is an electrifying testament to your creative genius within the esteemed Creative Constellation."
@@ -149,11 +156,6 @@ const CommunitySBTPage = () => {
               imageSrc={ImageSrc.GeniusSBT}
               title="Genius"
               description="This SBT is a testament to your genius and visionary prowess, propelling the NEAR ecosystem to new heights with brilliant ideas. Unleash its power and shape the future like never before!"
-            />
-            <ImageTextBlock
-              imageSrc={ImageSrc.IVotedSBT}
-              title="I VOTED SBT"
-              description="Celebrate your participation in the inaugural NDC election. It is important to mint this SBT to show off your voting record, to vote on future referendums, and much more."
             />
           </div>
         </div>
