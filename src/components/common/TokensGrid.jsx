@@ -15,6 +15,9 @@ const TokensGrid = () => {
     gwgCoreContributor,
     modToken,
     iVotedToken,
+    coaToken,
+    homToken,
+    tcToken,
   } = useSelector((state) => state[ReducerNames.SBT]);
 
   return (
@@ -116,6 +119,33 @@ const TokensGrid = () => {
             My I Voted Soul Bound Token
           </h2>
           <TokenDetails data={iVotedToken} />
+        </Item>
+      )}
+      {coaToken && (
+        <Item imageSrc={ImageSrc.CoA}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My Council of Advisor Soul Bound Token
+          </h2>
+          <TokenDetails data={coaToken} />
+        </Item>
+      )}
+      {homToken && (
+        <Item imageSrc={ImageSrc.HoM}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My House of Merit Soul Bound Token
+          </h2>
+          <TokenDetails data={homToken} />
+        </Item>
+      )}
+      {tcToken && (
+        <Item imageSrc={ImageSrc.TC}>
+          <ValidTokenComponent />
+          <h2 className="font-bold text-3xl my-1 mb-5">
+            My Transparency Commission Soul Bound Token
+          </h2>
+          <TokenDetails data={tcToken} />
         </Item>
       )}
     </div>

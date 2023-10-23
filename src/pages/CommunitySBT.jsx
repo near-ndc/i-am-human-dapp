@@ -127,6 +127,22 @@ const CommunitySBTPage = () => {
               onClick={() => window.open(Links.ELECTIONS, '_blank')}
             />
             <ImageTextBlock
+              imageSrc={ImageSrc.HoM}
+              title="House of Merit"
+              description=""
+            />
+            <ImageTextBlock
+              imageSrc={ImageSrc.CoA}
+              title="Council of Advisors"
+              description=""
+            />
+            <ImageTextBlock
+              imageSrc={ImageSrc.TC}
+              title="Transparency Commission"
+              description=""
+            />
+
+            <ImageTextBlock
               imageSrc={ImageSrc.CreativeSBT}
               title="Creative"
               description="This SBT is an electrifying testament to your creative genius within the esteemed Creative Constellation."
