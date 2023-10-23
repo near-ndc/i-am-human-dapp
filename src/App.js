@@ -17,7 +17,7 @@ import { updateUserLogin } from './redux/reducer/commonReducer';
 const Wrapper = ({ children }) => {
   return (
     <>
-      <ProgressTracker />
+      {/* <ProgressTracker /> */}
       <CustomHeader />
       {children}
       <CustomFooter />

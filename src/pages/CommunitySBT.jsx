@@ -129,17 +129,23 @@ const CommunitySBTPage = () => {
             <ImageTextBlock
               imageSrc={ImageSrc.HoM}
               title="House of Merit"
-              description=""
+              description="As a member of the inaugural HoM, you hold the responsibility of managing the treasury and directing capital deployment to foster the growth of the ecosystem."
+              isAvailable={true}
+              buttonText="Minted"
             />
             <ImageTextBlock
               imageSrc={ImageSrc.CoA}
               title="Council of Advisors"
-              description=""
+              description="As a member of the inaugural CoA, you hold the power of vetoing proposals from the HoM and guiding the deployment of the Community Treasury."
+              isAvailable={true}
+              buttonText="Minted"
             />
             <ImageTextBlock
               imageSrc={ImageSrc.TC}
               title="Transparency Commission"
-              description=""
+              description="As a member of the inaugural TC, you are in charge of keeping behavior of elected officials clean and making sure cartels do not form in the ecosystem."
+              isAvailable={true}
+              buttonText="Minted"
             />
 
             <ImageTextBlock
