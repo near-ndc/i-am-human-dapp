@@ -9,7 +9,6 @@ const ProgressTracker = () => {
   const ProgressMeterMax = process.env.REACT_APP_PROGRESS_METER_MAX ?? 3000;
   const [humansRegistered, setHumansRegistered] = useState(0);
   const { showTracker } = useSelector((state) => state[ReducerNames.PROGRESS]);
-  const { fvToken } = useSelector((state) => state[ReducerNames.SBT]);
 
   const fetchHumansRegistered = async () => {
     try {
@@ -60,7 +59,7 @@ const ProgressTracker = () => {
     return (
       <div className="text-center text-md">
         <>
-          {/* <div className="bg-purple-400 h-[45px] md:h-[40px] relative">
+          <div className="bg-purple-400 h-[45px] md:h-[40px] relative">
             <div
               className="bg-yellow-400 absolute left-0 top-0 h-full"
               style={{
@@ -69,46 +68,8 @@ const ProgressTracker = () => {
               }}
             ></div>
             <h2 className="px-1 md:px-0 relative flex gap-3 h-full justify-center items-center z-10 font-bold">
-              JOIN {humansRegistered} HUMANS TO REACH {ReadableNumber} VOTERS
-              <button
-                className="text-xs md:text-sm rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-1 md:px-3 py-1 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 "
-                onClick={() => window.open(Links.ELECTIONS, '_blank')}
-              >
-                Vote Now
-              </button>
+              JOIN {humansRegistered} HUMANS TO REACH {ReadableNumber} HUMANS
             </h2>
-          </div> */}
-          <div className="p-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600">
-            {fvToken ? (
-              <div className="flex justify-center gap-5 items-center">
-                <p className="text-yellow-400 ">
-                  Learn about how to protect integrity of the election and how
-                  to submit to the Whistleblower Bounty Program
-                </p>
-                <button
-                  className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
-                  onClick={() => window.open(Links.WHISTLEBLOWER, '_blank')}
-                >
-                  Learn More
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center gap-5 items-center">
-                <h4 className="text-yellow-400 font-bold">
-                  JOIN THE HUMANS OF NEAR
-                </h4>
-                <p className="text-gray-300">
-                  Unlock Elections, Governance, & Community Treasury with{' '}
-                  {ReadableNumber} Humans on NEAR
-                </p>
-                <button
-                  className="bg-yellow-300 rounded-lg py-1.5 px-2 text-sm"
-                  onClick={() => window.open(Links.ELECTIONS, '_blank')}
-                >
-                  Vote Now
-                </button>
-              </div>
-            )}
           </div>
         </>
       </div>
