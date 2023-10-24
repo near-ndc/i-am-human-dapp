@@ -17,7 +17,8 @@ import { updateUserLogin } from './redux/reducer/commonReducer';
 const Wrapper = ({ children }) => {
   return (
     <>
-      <ProgressTracker />
+      {/* commenting for right now -> IAH FV minting is at hault */}
+      {/* <ProgressTracker /> */}
       <CustomHeader />
       {children}
       <CustomFooter />

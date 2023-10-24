@@ -35,6 +35,9 @@ export const TokenTypes = {
   GWG__Core_Contributor: 'GWG Core Contributor',
   MOD: 'Mod',
   I_VOTED: 'I Voted',
+  CoA: 'CoA',
+  HoM: 'HoM',
+  TC: 'TC',
 };
 
 export const ReducerNames = {
@@ -114,6 +117,9 @@ export const ImageSrc = {
     'https://bafkreidrd4ci3p23e7zttaq5ukpzeddyzvfdm37x3xomju3rgeq77f2dba.ipfs.nftstorage.link/',
   Astra:
     'https://bafkreig2uojfxnf4bto6wuzaylec7wjmo4lznv6nz42fpas2bb4wuueehe.ipfs.nftstorage.link/',
+  HoM: 'https://bafybeifwzgubzysrir7pcnrkstxsgtxferm2qesu3hduasuaucwnn7enyu.ipfs.nftstorage.link/',
+  CoA: 'https://bafybeidw2rljcg3okollcnycryk2zc6zk3ykbygzattagdpjbagqp4cebm.ipfs.nftstorage.link/',
+  TC: 'https://bafybeid5xdhn6zx3s5htfuvzlueeyxgylejevnumlbxjfxc7a6g27bhr7u.ipfs.nftstorage.link/',
 };
 
 export const Links = {

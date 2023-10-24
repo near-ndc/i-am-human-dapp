@@ -60,6 +60,9 @@ export const sbtReducer = createSlice({
     gwgCoreContributor: null,
     modToken: null,
     iVotedToken: null,
+    coaToken: null,
+    homToken: null,
+    tcToken: null,
   },
   reducers: {
     updateTokens: (state, action) => {
@@ -98,6 +101,15 @@ export const sbtReducer = createSlice({
         case TokenTypes.I_VOTED:
           state.iVotedToken = value;
           break;
+        case TokenTypes.CoA:
+          state.coaToken = value;
+          break;
+        case TokenTypes.HoM:
+          state.homToken = value;
+          break;
+        case TokenTypes.TC:
+          state.tcToken = value;
+          break;
         default:
           break;
       }
@@ -112,7 +124,10 @@ export const sbtReducer = createSlice({
         state.ndcContributor ||
         state.gwgCoreContributor ||
         state.modToken ||
-        state.iVotedToken;
+        state.iVotedToken ||
+        state.coaToken ||
+        state.homToken ||
+        state.tcToken;
     },
     handleErrorMessage: (state, action) => {
       state.error = action.payload;
@@ -130,6 +145,9 @@ export const sbtReducer = createSlice({
       state.ndcContributor = null;
       state.modToken = null;
       state.iVotedToken = null;
+      state.tcToken = null;
+      state.coaToken = null;
+      state.homToken = null;
     },
     updateTokenRemoveStatus: (state, action) => {
       state.tokenRemoveSuccess = !state.tokenRemoveSuccess;

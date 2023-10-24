@@ -42,7 +42,7 @@ const Home = () => {
       fetchVibeToken();
       fetchKudosToken();
       fetchModsToken();
-      fetchIVotedToken();
+      fetchElectionsToken();
     }
   }, [activePageIndex]);
 
@@ -116,7 +116,7 @@ const Home = () => {
     }
   };
 
-  const fetchIVotedToken = async () => {
+  const fetchElectionsToken = async () => {
     try {
       const data = await wallet.viewMethod({
         contractId: app_contract,
@@ -133,10 +133,22 @@ const Home = () => {
           if (token.metadata.class === 1) {
             dispatch(updateTokens({ type: TokenTypes.I_VOTED, value: token }));
           }
+          // class2=HoM
+          if (token.metadata.class === 2) {
+            dispatch(updateTokens({ type: TokenTypes.HoM, value: token }));
+          }
+          // class3=CoA
+          if (token.metadata.class === 3) {
+            dispatch(updateTokens({ type: TokenTypes.CoA, value: token }));
+          }
+          // class4=TC
+          if (token.metadata.class === 4) {
+            dispatch(updateTokens({ type: TokenTypes.TC, value: token }));
+          }
         }
       }
     } catch (error) {
-      toast.error('An error occured while fetching I Voted SBT details');
+      toast.error('An error occured while fetching election token details');
     }
   };
 
