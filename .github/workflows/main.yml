@@ -8,8 +8,14 @@ on:
   merge_group:
     types: [checks_requested]
 
+# Cancel superseded PR checks; keep every non-PR invocation independent.
+concurrency:
+  group: main.yml-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
+    timeout-minutes: 60
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
@@ -40,6 +46,7 @@ jobs:
       #   run: yarn test
 
   lint:
+    timeout-minutes: 60
     name: Lint and Format code
     runs-on: ubuntu-latest
     steps:
